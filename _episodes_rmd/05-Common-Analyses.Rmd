@@ -1,6 +1,6 @@
 ---
 source: Rmd
-title: "05 - Common Analyses"
+title: "Common Analyses"
 teaching: 10
 exercises: 2
 questions:
@@ -18,5 +18,15 @@ source("../bin/chunk-options.R")
 knitr_fig_path("05-")
 ```
 
-## First Heading
+## Normalization (log and more specialized) 
+
+## Dimensionality reduction (UMAP, tSNE, etc) 
+
+## Clustering 
+
+## Annotating cell types (+ automated options e.g. SingleR) 
+
+## Finding marker genes 
+
+## Discussion of data visualization, sample of common plots
 

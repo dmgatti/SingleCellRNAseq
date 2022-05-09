@@ -1,6 +1,6 @@
 ---
 source: Rmd
-title: "06 - Biology Driven Analyses"
+title: "Biology Driven Analyses"
 teaching: 10
 exercises: 2
 questions:
@@ -18,5 +18,16 @@ source("../bin/chunk-options.R")
 knitr_fig_path("06-")
 ```
 
-## First Heading
+## Differential expression 
+
+## Differences in cell composition 
+
+## Cell-cell communication 
+
+## Pseudotime 
+
+## TF activity analysis (e.g. SCENIC) 
+
+## Gene ontology-like enrichment 
+
 

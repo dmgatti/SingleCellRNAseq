@@ -1,6 +1,6 @@
 ---
 source: Rmd
-title: "03 - Overview of scRNA-seq Data"
+title: "Overview of scRNA-seq Data"
 teaching: 10
 exercises: 2
 questions:
@@ -18,5 +18,12 @@ source("../bin/chunk-options.R")
 knitr_fig_path("03-")
 ```
 
-## First Heading
+## What files are delivered? Details of FASTQ, etc. 
+
+## Typical pre-processing pipeline -- 10X CellRanger 
+
+## Intro to two major single cell ecosystems: 
+
+* R/Seurat : major focus of this workshop. Biggest strength is straightforward vignettes and ease of visualization/exploration 
+* Python/scanpy
 

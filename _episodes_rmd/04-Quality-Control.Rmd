@@ -1,6 +1,6 @@
 ---
 source: Rmd
-title: "04 - Quality Control"
+title: "Quality Control"
 teaching: 10
 exercises: 2
 questions:
@@ -18,5 +18,12 @@ source("../bin/chunk-options.R")
 knitr_fig_path("04-")
 ```
 
-## First Heading
+## Typical filters for cell quality - %MT, ribosomal, number UMI, number genes 
 
+## Differences between tissues and datatypes (single cell vs single nucleus, etc) 
+
+## Cell cycle assignment 
+
+## Doublet detection 
+
+## Batch correction

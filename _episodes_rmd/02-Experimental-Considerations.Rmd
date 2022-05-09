@@ -1,6 +1,6 @@
 ---
 source: Rmd
-title: "02 - Experimental Considerations"
+title: "Experimental Considerations"
 teaching: 10
 exercises: 2
 questions:
@@ -18,5 +18,13 @@ source("../bin/chunk-options.R")
 knitr_fig_path("02-")
 ```
 
-## First Heading
+## Biological replication 
+
+## Pooling options 
+
+## Different data modalities (cell vs nuclei, RNA vs ATAC, etc) 
+
+## Brief overview of choices available from 10X for how to run samples
+
+
 

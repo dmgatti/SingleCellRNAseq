@@ -1,6 +1,6 @@
 ---
 source: Rmd
-title: "07 - Future Directions"
+title: "Future Directions"
 teaching: 10
 exercises: 2
 questions:
@@ -18,5 +18,12 @@ source("../bin/chunk-options.R")
 knitr_fig_path("08-")
 ```
 
-## First Heading
+## RNA-Seq + ATAC 
+
+## CITE-Seq 
+
+## Spatial transcriptomics 
+
+## Immune repertoire profiling 
+
 
