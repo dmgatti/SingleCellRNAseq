@@ -1,0 +1,22 @@
+---
+source: Rmd
+title: "07 - Future Directions"
+teaching: 10
+exercises: 2
+questions:
+- "How do I design a single cell RNAseq experiment?"
+objectives:
+- "Explain how to use RMarkdown with the new lesson template."
+- "Demonstrate how to include pieces of code, figures, and challenges."
+keypoints:
+- "Edit the .Rmd files not the .md files"
+- "Run `make serve` to knit documents and preview lesson website locally"
+---
+
+```{r, include=FALSE}
+source("../bin/chunk-options.R")
+knitr_fig_path("08-")
+```
+
+## First Heading
+
