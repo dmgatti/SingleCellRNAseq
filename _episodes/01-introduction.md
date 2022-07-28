@@ -14,6 +14,16 @@ keypoints:
 
 ## Brief overview of technology 
 
+Single cell RNA-sequencing (scRNAseq) is a method of quantifying transcript expression levels in individual cells. scRNAseq involves separating cells and introducing them into a microfluidic system which performs the chemistry on each cell indiviudally.
+
+The steps in the process are:
+
+1.  Cell isolation: 
+    * If the cells are part of a tissue, the cells are disaggretaged using collagenase or other reagents. If the cells are in culture or suspension, they may be used as is.
+2. Cell suspension:
+    * Using a microfluidic system, each cell is suspended in a nanoliter-size water droplet along with a barcoded primer bead. The cells are kept separate from each other in an oil/water emulsion.
+3. Cell lysis and transcript capture:
+    * The cells are lysed in the droplet 
 
 ## Compare and contrast with bulk RNA-Seq 
 

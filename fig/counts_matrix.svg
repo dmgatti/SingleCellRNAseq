@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   sodipodi:docname="counts_matrix.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.877186"
+     inkscape:cx="286.86556"
+     inkscape:cy="168.86979"
+     inkscape:window-width="2560"
+     inkscape:window-height="1506"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible;"
+       id="Arrow2Send"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Send"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.3) rotate(180) translate(-2.3,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round;"
+         id="path246429" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow1Send"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Send"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.2) rotate(180) translate(6,0)"
+         style="fill-rule:evenodd;fill:context-stroke;stroke:context-stroke;stroke-width:1.0pt;"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path246411" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow2Lend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(1.1) rotate(180) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round;"
+         id="path246417" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow1Lend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.8) rotate(180) translate(12.5,0)"
+         style="fill-rule:evenodd;fill:context-stroke;stroke:context-stroke;stroke-width:1.0pt;"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path246399" />
+    </marker>
+    <rect
+       x="83.635826"
+       y="-225.33729"
+       width="633.9276"
+       height="89.495661"
+       id="rect208549" />
+    <rect
+       x="-155.55198"
+       y="14.383231"
+       width="210.95406"
+       height="476.24477"
+       id="rect163399" />
+    <rect
+       x="49.542241"
+       y="-196.57083"
+       width="221.60831"
+       height="741.5355"
+       id="rect70567" />
+    <rect
+       x="86.299388"
+       y="57.532925"
+       width="722.89055"
+       height="386.74911"
+       id="rect4939" />
+    <rect
+       x="83.635826"
+       y="-225.3373"
+       width="633.92761"
+       height="89.495659"
+       id="rect208549-9" />
+    <marker
+       style="overflow:visible"
+       id="Arrow2Send-4"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Send"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.3,0,0,-0.3,0.69,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.625;stroke-linejoin:round"
+         id="path246429-5" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text4937"
+       style="font-style:normal;font-weight:normal;font-size:21.3333px;line-height:1.25;font-family:sans-serif;white-space:pre;fill:#000000;fill-opacity:1;stroke:none;shape-inside:url(#rect4939)"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\counts_matrix.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         x="86.298828"
+         y="76.996219"
+         id="tspan247819"><tspan
+           style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
+           id="tspan247817">0  0  0  3  0  0  0  0  2  0  0  1  0  0  0  0  5  .  .
+</tspan></tspan><tspan
+         x="86.298828"
+         y="104.14397"
+         id="tspan247823"><tspan
+           style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
+           id="tspan247821">0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  .  .
+</tspan></tspan><tspan
+         x="86.298828"
+         y="131.29172"
+         id="tspan247827"><tspan
+           style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
+           id="tspan247825">0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  .  .
+</tspan></tspan><tspan
+         x="86.298828"
+         y="158.43947"
+         id="tspan247831"><tspan
+           style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
+           id="tspan247829">0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  .  .
+</tspan></tspan><tspan
+         x="86.298828"
+         y="185.58722"
+         id="tspan247835"><tspan
+           style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
+           id="tspan247833">9 11 10 14  8  6  7  7 19 12  9  8 12 10  9  7  6  .  .
+</tspan></tspan><tspan
+         x="86.298828"
+         y="212.73497"
+         id="tspan247839"><tspan
+           style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
+           id="tspan247837">0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  .  .
+</tspan></tspan><tspan
+         x="86.298828"
+         y="239.88272"
+         id="tspan247843"><tspan
+           style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
+           id="tspan247841">0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  .  .
+</tspan></tspan><tspan
+         x="86.298828"
+         y="267.03048"
+         id="tspan247847"><tspan
+           style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
+           id="tspan247845">1  0  0  3  0  0  0  0  2  0  0  0  0  0  0  1  0  .  .
+</tspan></tspan><tspan
+         x="86.298828"
+         y="294.17823"
+         id="tspan247851"><tspan
+           style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
+           id="tspan247849">0  0  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0  .  .
+</tspan></tspan><tspan
+         x="86.298828"
+         y="321.32596"
+         id="tspan247855"><tspan
+           style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
+           id="tspan247853">0  0  0  0  0  0  0  0  0  0  0  0  0  0  2  0  0  .  .
+</tspan></tspan><tspan
+         x="86.298828"
+         y="348.4737"
+         id="tspan247859"><tspan
+           style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
+           id="tspan247857">0  0  0  0  0  0  0  1  0  0  0  0  0  0  0  0  0  .  .
+</tspan></tspan><tspan
+         x="86.298828"
+         y="375.62143"
+         id="tspan247863"><tspan
+           style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
+           id="tspan247861">.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .
+</tspan></tspan><tspan
+         x="86.298828"
+         y="402.76917"
+         id="tspan247867"><tspan
+           style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
+           id="tspan247865">.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .
+</tspan></tspan><tspan
+         x="86.298828"
+         y="429.9169"
+         id="tspan247871"><tspan
+           style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
+           id="tspan247869">.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="-30.726398"
+       y="130.23483"
+       id="text20283"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\counts_matrix.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         sodipodi:role="line"
+         id="tspan20281"
+         style="stroke-width:0.264583"
+         x="-30.726398"
+         y="130.23483" /></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0,-0.26458333,0.26458333,0,72.086378,25.567824)"
+       id="text70565"
+       style="font-style:normal;font-weight:normal;font-size:16px;line-height:2.4;font-family:sans-serif;text-align:end;white-space:pre;shape-inside:url(#rect70567);fill:#000000;fill-opacity:1;stroke:none"
+       x="27.421875"
+       y="0"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\counts_matrix.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         x="49.542969"
+         y="-172.77303"
+         id="tspan247875"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247873">TCTCCGATCCGCAAAT </tspan></tspan><tspan
+         x="49.542969"
+         y="-134.37303"
+         id="tspan247879"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247877">TCTACATGTCCGATCG </tspan></tspan><tspan
+         x="49.542969"
+         y="-95.973031"
+         id="tspan247883"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247881">CAAGCTAGTGAACTAA </tspan></tspan><tspan
+         x="49.542969"
+         y="-57.57303"
+         id="tspan247887"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247885">CCGATGGAGCTCTGTA
+</tspan></tspan><tspan
+         x="49.542969"
+         y="-19.173028"
+         id="tspan247891"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247889">TGGAGAGCATCTAACG
+</tspan></tspan><tspan
+         x="49.542969"
+         y="19.226973"
+         id="tspan247895"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247893">CGTTCTGTCTGAACGT </tspan></tspan><tspan
+         x="49.542969"
+         y="57.626975"
+         id="tspan247899"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247897">GGGTCTGAGACTTCAC </tspan></tspan><tspan
+         x="49.542969"
+         y="96.026976"
+         id="tspan247903"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247901">GCATCTCAGATGGTAT
+</tspan></tspan><tspan
+         x="49.542969"
+         y="134.42698"
+         id="tspan247907"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247905">GGGTCTGTCCCTAGGG </tspan></tspan><tspan
+         x="49.542969"
+         y="172.82698"
+         id="tspan247911"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247909">ACACGCGAGCGAGTCA </tspan></tspan><tspan
+         x="49.542969"
+         y="211.22697"
+         id="tspan247915"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247913">GAAGCCCCACTAGTAC </tspan></tspan><tspan
+         x="49.542969"
+         y="249.62697"
+         id="tspan247919"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247917">TCAGGATTCGACAGCC
+</tspan></tspan><tspan
+         x="49.542969"
+         y="288.02696"
+         id="tspan247923"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247921">ATCCATTAGGTGGTTG </tspan></tspan><tspan
+         x="49.542969"
+         y="326.42696"
+         id="tspan247927"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247925">CTAACTTCAAGTATAG </tspan></tspan><tspan
+         x="49.542969"
+         y="364.82695"
+         id="tspan247931"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247929">CATCAAGCATCGATGT </tspan></tspan><tspan
+         x="49.542969"
+         y="403.22694"
+         id="tspan247935"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247933">GTAGCTAAGCAACTTC
+</tspan></tspan><tspan
+         x="49.542969"
+         y="441.62694"
+         id="tspan247939"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247937">GAGCTGCCAAATGGCG
+</tspan></tspan><tspan
+         x="49.542969"
+         y="480.02693"
+         id="tspan247943"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247941">               ...
+</tspan></tspan><tspan
+         x="49.542969"
+         y="518.42692"
+         id="tspan247947"><tspan
+           style="text-align:start;text-anchor:start"
+           id="tspan247945">               ... </tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,2.2551486,12.121424)"
+       id="text163397"
+       style="font-style:normal;font-weight:normal;font-size:21.3333px;line-height:1.26;font-family:sans-serif;white-space:pre;shape-inside:url(#rect163399);fill:#000000;fill-opacity:1;stroke:none"
+       x="171.81223"
+       y="0"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\counts_matrix.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         x="5.4961726"
+         y="33.952495"
+         id="tspan247951"><tspan
+           style="text-align:end;text-anchor:end"
+           id="tspan247949">Xkr4
+</tspan></tspan><tspan
+         x="13.71491"
+         y="60.832454"
+         id="tspan247955"><tspan
+           style="text-align:end;text-anchor:end"
+           id="tspan247953">Rp1
+</tspan></tspan><tspan
+         x="-11.670467"
+         y="87.712413"
+         id="tspan247959"><tspan
+           style="text-align:end;text-anchor:end"
+           id="tspan247957">Sox17
+</tspan></tspan><tspan
+         x="-17.951707"
+         y="114.59237"
+         id="tspan247963"><tspan
+           style="text-align:end;text-anchor:end"
+           id="tspan247961">Mrpl15
+</tspan></tspan><tspan
+         x="-13.472547"
+         y="141.47233"
+         id="tspan247967"><tspan
+           style="text-align:end;text-anchor:end"
+           id="tspan247965">Lypla1
+</tspan></tspan><tspan
+         x="-5.6496432"
+         y="168.35229"
+         id="tspan247971"><tspan
+           style="text-align:end;text-anchor:end"
+           id="tspan247969">Tcea1
+</tspan></tspan><tspan
+         x="-10.962135"
+         y="195.23225"
+         id="tspan247975"><tspan
+           style="text-align:end;text-anchor:end"
+           id="tspan247973">Rgs20
+</tspan></tspan><tspan
+         x="-41.42042"
+         y="222.11221"
+         id="tspan247979"><tspan
+           style="text-align:end;text-anchor:end"
+           id="tspan247977"> Atp6v1h
+</tspan></tspan><tspan
+         x="-9.972553"
+         y="248.99217"
+         id="tspan247983"><tspan
+           style="text-align:end;text-anchor:end"
+           id="tspan247981">Oprk1
+</tspan></tspan><tspan
+         x="-27.264192"
+         y="275.87211"
+         id="tspan247987"><tspan
+           style="text-align:end;text-anchor:end"
+           id="tspan247985">Npbwr1
+</tspan></tspan><tspan
+         x="-22.076701"
+         y="302.75206"
+         id="tspan247991"><tspan
+           style="text-align:end;text-anchor:end"
+           id="tspan247989">Rb1cc1
+</tspan></tspan><tspan
+         x="9.6211661"
+         y="329.632"
+         id="tspan247995"><tspan
+           style="text-align:end;text-anchor:end"
+           id="tspan247993">...   
+</tspan></tspan><tspan
+         x="9.6211661"
+         y="356.51194"
+         id="tspan247999"><tspan
+           style="text-align:end;text-anchor:end"
+           id="tspan247997">...   
+</tspan></tspan><tspan
+         x="9.6211661"
+         y="383.39189"
+         id="tspan248003"><tspan
+           style="text-align:end;text-anchor:end"
+           id="tspan248001">...    </tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-0.42284036,11.83953)"
+       id="text208547"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect208549);fill:#000000;fill-opacity:1;stroke:none"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\counts_matrix.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         x="83.636719"
+         y="-188.84468"
+         id="tspan248005">Barcodes</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0,-0.26458333,0.26458333,0,38.955558,72.964112)"
+       id="text208547-6"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect208549-9);fill:#000000;fill-opacity:1;stroke:none"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\counts_matrix.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         x="83.636719"
+         y="-188.84468"
+         id="tspan248007">Genes</tspan></text>
+    <path
+       style="fill:none;stroke:#808080;stroke-width:2.665;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Send);stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 73.71517,-41.156461 H 211.13829"
+       id="path216157"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\counts_matrix.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#808080;stroke-width:2.665;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Send-4)"
+       d="m -14.294518,55.825734 -0.179049,53.841426"
+       id="path216157-6"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\counts_matrix.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <rect
+       style="fill:none;fill-opacity:0.5;stroke:#808080;stroke-width:0.352778;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect247112"
+       width="194.64752"
+       height="105.56914"
+       x="20.296339"
+       y="14.094679"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\counts_matrix.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+  </g>
+</svg>
