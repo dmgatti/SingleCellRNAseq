@@ -25,14 +25,24 @@ data_dir = file.path(base_dir, 'data')
 
 ## What files are delivered? Details of FASTQ, etc.
 
+* One FASTQ file per cell (???).
 
 
 ## Typical pre-processing pipeline -- 10X CellRanger 
 
+* Aligned by CellRanger (???).
+* Produces gene counts matrix for each cell.
 
 ## Intro to two major single cell ecosystems: 
 
-* R/Seurat : major focus of this workshop. Biggest strength is straightforward vignettes and ease of visualization/exploration 
+At the time that this workshop was created, there were two major software packages designed for use in scRNA-seq:
+
+* R/Seurat : Focus of this workshop. Biggest strength is straightforward vignettes and ease of visualization/exploration. 
+    * [Seurat](https://www.nature.com/articles/nbt.3192) was released in 2015 by the [Regev lab](https://biology.mit.edu/profile/aviv-regev/).
+    * The first author, Rahul Satija, now has a faculty position and has maintained and improved Seurat.
+    * Currently at [version 4](https://www.cell.com/cell/fulltext/S0092-8674(21)00583-3).
+    * Source code available on [Github](https://www.github.com/satijalab/seurat).
+
 * Python/scanpy
 
 ## Reading in CellRanger Data
@@ -61,11 +71,11 @@ Open a file browser and look in the `mouseStSt25pct` directory and you should se
 > > ## Solution to Challenge 1
 > >
 > > 1). `file.size(file.path(data_dir, 'mouseStSt25pct', 'barcodes.tsv.gz'))`
-> >     584346
+> >     584346 bytes
 > >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'features.tsv.gz'))`
-> >     113733
+> >     113733 bytes
 > >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'matrix.mtx.gz'))`
-> >     603248953
+> >     603248953 bytes
 > >     'matrix.mtx.gz' is the largest file.   
 > {: .solution}
 {: .challenge}
@@ -124,19 +134,44 @@ counts[1:10, 1:20]
 
 We can see the gene symbols in rows along the left. The barcodes are not shown to make the values easier to read. Each of the periods represents a zero. The '1' values represent a single read for a gene in one cell.
 
-Although `counts` looks like a matrix and you can use many matrix functions on it, `counts` is actually a different type of object. In scRNASeq, the read depth in each cell is quite low. So you many only get counts for a small number of genes in each cell. The `counts` matrix has `r nrow(counts)` rows and `r ncol(counts)`, and includes `r nrow(counts) * ncol(counts)` entries. However, most of these entries are zeros because every gene is not detected in every cell. It would be wasteful to store all of these zeros in memory. It would also make it difficult to store all of the data in memory. So `counts` is a 'sparse matrix', which only stores the positions of non-zero values in memory.
+Although `counts` looks like a matrix and you can use many matrix functions on it, `counts` is actually a different type of object. In scRNASeq, the read depth in each cell is quite low. So you many only get counts for a small number of genes in each cell. The `counts` matrix has `r nrow(counts)` rows and `r ncol(counts)`, and includes `r nrow(counts) * ncol(counts)` entries. However, most of these entries (`r sum(counts == 0) / exp(log(nrow(counts)) + log(ncol(counts))) * 100`%) are zeros because every gene is not detected in every cell. It would be wasteful to store all of these zeros in memory. It would also make it difficult to store all of the data in memory. So `counts` is a 'sparse matrix', which only stores the positions of non-zero values in memory.
 
-Let's look at small portion of `counts`. We will create a tile plot indicating which values are non-zero for the first 100 cells and genes in rows 400 to 600.
+Look at the structure of the `counts` matrix using [str](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/str). 
+
+```{r counts_class}
+str(counts)
+```
+
+We can see that the formal class name is a "dgCMatrix". There are two long vectors of integers which encode the positions of non-zero values. The gene names and cell barcodes are stored in character vectors and the non-zero values are an integer vector. This class saves space by not allocating memory to store all of the zero values.
+
+Let's look at small portion of `counts`. We will create a tile plot indicating which values are non-zero for the first 100 cells and genes in rows 400 to 600. For historical reasons, R plots the rows along the X-axis and columns along the Y-axis. We will transpose the matrix so that genes are on the Y-axis, which reflects the way in which we normally look at this matrix.
 
 ```{r counts_image,fig.height=4}
 image(1:100, 400:600, t(as.matrix(counts[400:600,1:100]) > 0), xlab = 'Cells', ylab = 'Genes')
 ```
 
-In the plot above, red indicates non-zero values and yellow indicates zero values. As you can see, most of the matrix consists of zeros and hence is called 'sparse'.
+In the tile plot above, each row represents one gene and each column represents one cell. Red indicates non-zero values and yellow indicates zero values.  As you can see, most of the matrix consists of zeros (yellow tiles) and hence is called 'sparse'. You can also see that some genes are expressed in most cells, indicated by the horiozntal red lines, and that some genes are expressed in very few cells.
 
-What proportion of genes have zero counts in each sample? To answer this question, we will get the mean of the number of zeros in the first 10,000 cells. We will no
+What proportion of genes have zero counts in all samples? To answer this question, we will get the mean of the number of zeros in the first 10,000 cells. We will no
 
-```{r}
-hist(colMeans(counts[,1:10000] == 0))
+```{r gene_sums}
+gene_sums = data.frame(gene_id = rownames(counts),
+                       sums    = rowSums(counts))
+sum(gene_sums$sums == 0)
 ```
+
+We can see that `r sum(sums == 0)` (`r mean(sums == 0)`%) genes have no reads associated with them. In the next lesson, we will remove genes that have no counts in any cells.
+
+Next, let's look at the number of counts in each cell.
+
+```{r cell_counts}
+hist(colSums(counts))
+```
+
+The range of counts covers several orders of magnitude, from `r min(colSums(counts))` to `r max(colSums(counts))`. 
+
+TBD: What do we say here? How does scRNAseq handle coverage?
+
+
+
 
