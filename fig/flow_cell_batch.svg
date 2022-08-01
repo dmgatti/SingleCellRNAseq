@@ -24,8 +24,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="1.3273709"
-     inkscape:cx="5.6502669"
-     inkscape:cy="995.95371"
+     inkscape:cx="5.650267"
+     inkscape:cy="995.95373"
      inkscape:window-width="2560"
      inkscape:window-height="1506"
      inkscape:window-x="-11"
@@ -148,9 +148,9 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:#900000;fill-opacity:0.48770493;stroke:none;stroke-width:0.528621;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#900000;fill-opacity:0.99180329;stroke:none;stroke-width:0.528621;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect19284-0"
-       width="124.03317"
+       width="124.033"
        height="25.458744"
        x="28.948528"
        y="187.62132"
@@ -158,7 +158,7 @@
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <rect
-       style="fill:#90481b;fill-opacity:0.51229507;stroke:none;stroke-width:0.528621;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#90481b;fill-opacity:0.98360658;stroke:none;stroke-width:0.528621;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect19284-0-6"
        width="124.03317"
        height="25.458744"
@@ -168,7 +168,7 @@
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <rect
-       style="fill:#37008a;fill-opacity:0.50409836;stroke:none;stroke-width:0.528621;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#37008a;fill-opacity:1;stroke:none;stroke-width:0.528621;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect19284-0-2"
        width="124.03317"
        height="25.458744"
@@ -178,7 +178,7 @@
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <rect
-       style="fill:#a912e3;fill-opacity:0.52459013;stroke:none;stroke-width:0.528621;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#a912e3;fill-opacity:1;stroke:none;stroke-width:0.528621;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect19284-0-9"
        width="124.03317"
        height="25.458744"
@@ -188,7 +188,7 @@
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <rect
-       style="fill:#a912e3;fill-opacity:0.48770493;stroke:none;stroke-width:0.529167;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#a912e3;fill-opacity:1;stroke:none;stroke-width:0.529167;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect19284-6"
        width="31.008293"
        height="102.04547"
@@ -198,7 +198,7 @@
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <rect
-       style="fill:#37008a;fill-opacity:0.49590164;stroke:none;stroke-width:0.529167;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#37008a;fill-opacity:1;stroke:none;stroke-width:0.529167;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect19284-7"
        width="31.008293"
        height="102.04547"
@@ -208,7 +208,7 @@
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <rect
-       style="fill:#90481b;fill-opacity:0.52868855;stroke:none;stroke-width:0.529167;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#90481b;fill-opacity:1;stroke:none;stroke-width:0.529167;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect19284-5"
        width="31.008293"
        height="102.04547"
@@ -218,9 +218,9 @@
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <rect
-       style="fill:#900000;fill-opacity:0.52868855;stroke:none;stroke-width:0.529167;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#900000;fill-opacity:1;stroke:none;stroke-width:0.529167;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect19284"
-       width="31.008293"
+       width="31.007999"
        height="102.04547"
        x="-128.72644"
        y="187.83009"
@@ -269,7 +269,7 @@
        inkscape:export-ydpi="300"><tspan
          x="181.19238"
          y="23.174853"
-         id="tspan49637">1</tspan></text>
+         id="tspan1719">1</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,-133.63163,178.64978)"
@@ -282,7 +282,7 @@
        inkscape:export-ydpi="300"><tspan
          x="181.19238"
          y="23.174853"
-         id="tspan49639">2</tspan></text>
+         id="tspan1721">2</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,-102.34144,178.64978)"
@@ -295,7 +295,7 @@
        inkscape:export-ydpi="300"><tspan
          x="181.19238"
          y="23.174853"
-         id="tspan49641">3</tspan></text>
+         id="tspan1723">3</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,-69.923673,178.64978)"
@@ -308,7 +308,7 @@
        inkscape:export-ydpi="300"><tspan
          x="181.19238"
          y="23.174853"
-         id="tspan49643">4</tspan></text>
+         id="tspan1725">4</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,-184.99142,134.33708)"
@@ -321,15 +321,15 @@
        inkscape:export-ydpi="300"><tspan
          x="317.03223"
          y="37.557666"
-         id="tspan49645">Poor Design:
+         id="tspan1727">Poor Design:
 </tspan><tspan
          x="255.54785"
          y="87.557666"
-         id="tspan49647">Tissue Confounded
+         id="tspan1729">Tissue Confounded
 </tspan><tspan
          x="348.74121"
          y="137.55767"
-         id="tspan49649">with Lane</tspan></text>
+         id="tspan1731">with Lane</tspan></text>
     <rect
        style="fill:none;fill-opacity:0.5;stroke:#808080;stroke-width:0.529167;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect31-76"
@@ -382,7 +382,7 @@
        inkscape:export-ydpi="300"><tspan
          x="181.19238"
          y="23.174853"
-         id="tspan49651">1</tspan></text>
+         id="tspan1733">1</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,24.043345,178.44102)"
@@ -395,7 +395,7 @@
        inkscape:export-ydpi="300"><tspan
          x="181.19238"
          y="23.174853"
-         id="tspan49653">2</tspan></text>
+         id="tspan1735">2</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,55.333531,178.44102)"
@@ -408,7 +408,7 @@
        inkscape:export-ydpi="300"><tspan
          x="181.19238"
          y="23.174853"
-         id="tspan49655">3</tspan></text>
+         id="tspan1737">3</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,87.751292,178.44102)"
@@ -421,7 +421,7 @@
        inkscape:export-ydpi="300"><tspan
          x="181.19238"
          y="23.174853"
-         id="tspan49657">4</tspan></text>
+         id="tspan1739">4</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,-17.74193,133.79702)"
@@ -434,14 +434,14 @@
        inkscape:export-ydpi="300"><tspan
          x="273.93262"
          y="37.557666"
-         id="tspan49659">Good Design:
+         id="tspan1741">Good Design:
 </tspan><tspan
          x="257.8584"
          y="87.557666"
-         id="tspan49661">Tissues divided </tspan><tspan
+         id="tspan1743">Tissues divided </tspan><tspan
          x="281.53027"
          y="137.55767"
-         id="tspan49663">across Lanes</tspan></text>
+         id="tspan1745">across Lanes</tspan></text>
     <rect
        style="fill:none;fill-opacity:0.5;stroke:#808080;stroke-width:0.529167;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect31"
@@ -462,7 +462,7 @@
        inkscape:export-ydpi="300"><tspan
          x="578.19922"
          y="745.61235"
-         id="tspan49665">Heart</tspan></text>
+         id="tspan1747">Heart</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,2.0559499,31.831887)"
@@ -473,7 +473,7 @@
        inkscape:export-ydpi="300"><tspan
          x="578.19922"
          y="745.61235"
-         id="tspan49667">Liver</tspan></text>
+         id="tspan1749">Liver</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,2.0559499,57.246317)"
@@ -484,7 +484,7 @@
        inkscape:export-ydpi="300"><tspan
          x="578.19922"
          y="745.61235"
-         id="tspan49669">Kidney</tspan></text>
+         id="tspan1751">Kidney</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,2.3549433,83.557726)"
@@ -495,7 +495,7 @@
        inkscape:export-ydpi="300"><tspan
          x="578.19922"
          y="745.61235"
-         id="tspan49671">Spleen</tspan></text>
+         id="tspan1753">Spleen</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0,-0.26458333,0.26458333,0,-308.29841,497.82775)"
@@ -508,7 +508,7 @@
        inkscape:export-ydpi="300"><tspan
          x="667.01758"
          y="745.61235"
-         id="tspan49673">Heart</tspan></text>
+         id="tspan1755">Heart</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0,-0.26458333,0.26458333,0,-277.22818,498.08779)"
@@ -521,9 +521,9 @@
        inkscape:export-ydpi="300"><tspan
          x="680.29883"
          y="745.61235"
-         id="tspan49677"><tspan
+         id="tspan1759"><tspan
            style="text-align:end;text-anchor:end"
-           id="tspan49675">Liver</tspan></tspan></text>
+           id="tspan1757">Liver</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0,-0.26458333,0.26458333,0,-246.73087,497.58947)"
@@ -536,9 +536,9 @@
        inkscape:export-ydpi="300"><tspan
          x="641.33398"
          y="745.61235"
-         id="tspan49681"><tspan
+         id="tspan1763"><tspan
            style="text-align:end;text-anchor:end"
-           id="tspan49679">Kidney</tspan></tspan></text>
+           id="tspan1761">Kidney</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0,-0.26458333,0.26458333,0,-215.03759,497.09115)"
@@ -551,8 +551,8 @@
        inkscape:export-ydpi="300"><tspan
          x="641.54883"
          y="745.61235"
-         id="tspan49685"><tspan
+         id="tspan1767"><tspan
            style="text-align:end;text-anchor:end"
-           id="tspan49683">Spleen</tspan></tspan></text>
+           id="tspan1765">Spleen</tspan></tspan></text>
   </g>
 </svg>
