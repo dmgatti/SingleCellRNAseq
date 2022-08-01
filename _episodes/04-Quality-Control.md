@@ -17,6 +17,11 @@ keypoints:
 
 
 
+## Issues in scRNA-seq
+
+* false negatives
+* higher errors for low-copy transcripts
+
 ## Typical filters for cell quality - %MT, ribosomal, number UMI, number genes 
 
 ## Differences between tissues and datatypes (single cell vs single nucleus, etc) 

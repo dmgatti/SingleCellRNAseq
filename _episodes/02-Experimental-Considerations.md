@@ -21,6 +21,21 @@ keypoints:
 
 ## Pooling options 
 
+### Avoid Confounding Batch with Experimental Variables
+
+When designing an experiment, it is tempting to lay samples out in some order that is easy to remember. If you are performing a dose-response experiment, you might order your samples from the lowest dose to the highest dose. If you are assaying transcript levels in different tissues, you might sort the samples by tissue. However, if you maintain this order, you risk confounding RNA-seq batches with your experimental batches. This is called "confounding" and it makes it impossible to statistically disentangle the batch effect from your experimental question.
+
+Let's look at an example. Suppose that you have analyzed cells from kidney, liver, speen, and heart. In the lab, you would process each tissue type independently because each tissue is distinct. If you maintain the tissues separately as you perform library preparation and sequencing, you will be unable to determine whether the differences that you observe are due to tissue differences or RNA-seq batch differences. 
+
+In order to reduce the effect of batch structure on your experiment is it crucial to employ **randomization**. This involves randomizing tissues across library preparation and sequencing batches. The figure below shows examples of poor and good batch design. In the left panel, the library from each tissue is placed in a separate flow cell. This means that, if there are differences between flow cells, there will be no way to distinguish or correct these differences. On the right, we show the recommended flow cell design. The library from each tissue should be distributed evenly across each flow cell. The reads for each tissue can be combined from each flow cell using the cell barcodes after sequencing.
+
+![Batch Confounding](../fig/flow_cell_batch.png)
+
+
+
+
+
+
 ## Different data modalities (cell vs nuclei, RNA vs ATAC, etc) 
 
 ## Brief overview of choices available from 10X for how to run samples

@@ -6,11 +6,13 @@ exercises: 2
 questions:
 - "What does single cell RNAseq data look like?"
 objectives:
-- "Explain how to use RMarkdown with the new lesson template."
-- "Demonstrate how to include pieces of code, figures, and challenges."
+- "Understand the types of files provided by CellRanger."
+- "Understand the structure of files provided by CellRanger."
+- "Describe a sparse matrix and explain why it is useful."
+- "Read in a feature-barcode matrix using Seurat."
 keypoints:
-- "Edit the .Rmd files not the .md files"
-- "Run `make serve` to knit documents and preview lesson website locally"
+- "CellRanger produces a feature-barcode matrix that can be read in using Seurat."
+- "The feature-barcode matrix is stored as a sparse matrix with features in rows and cells in columns."
 ---
 
 ```{r, include=FALSE}
@@ -42,10 +44,17 @@ At the time that this workshop was created, there were two major software packag
     * The first author, Rahul Satija, now has a faculty position and has maintained and improved Seurat.
     * Currently at [version 4](https://www.cell.com/cell/fulltext/S0092-8674(21)00583-3).
     * Source code available on [Github](https://www.github.com/satijalab/seurat).
+    * Seurat v1: Infers cellular localization by integrating scRNA-seq with *in situ* hybridization.
+    * Seurat v2: Integrates multiple scRNA-seq data sets using shared correlation structure.
+    * Seurat v3: Integrates data from multiple technologies, i.e. scRNA-seq, scATAC-seq, proteomics, *in situ* hybridization.
+    * Seurat v4: Integrative multimodal analysis and mapping of user data sets to cell identity reference database.
 
 * Python/scanpy
+    * TBD: Expand on this.
 
 ## Reading in CellRanger Data
+
+[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) software which analyzes Chromium single cell data to align reads, generates feature-barcode matrices, and performs other downstream analyses. CellRanger is provided by 10X Genomics. In this workshop, we will read in the feature-barcode matrix produced by CellRanger and will perform the downstream analysis using Seurat.
 
 ### Liver Atlas
 
@@ -134,7 +143,7 @@ counts[1:10, 1:20]
 
 We can see the gene symbols in rows along the left. The barcodes are not shown to make the values easier to read. Each of the periods represents a zero. The '1' values represent a single read for a gene in one cell.
 
-Although `counts` looks like a matrix and you can use many matrix functions on it, `counts` is actually a different type of object. In scRNASeq, the read depth in each cell is quite low. So you many only get counts for a small number of genes in each cell. The `counts` matrix has `r nrow(counts)` rows and `r ncol(counts)`, and includes `r nrow(counts) * ncol(counts)` entries. However, most of these entries (`r sum(counts == 0) / exp(log(nrow(counts)) + log(ncol(counts))) * 100`%) are zeros because every gene is not detected in every cell. It would be wasteful to store all of these zeros in memory. It would also make it difficult to store all of the data in memory. So `counts` is a 'sparse matrix', which only stores the positions of non-zero values in memory.
+Although `counts` looks like a matrix and you can use many matrix functions on it, `counts` is actually a different type of object. In scRNASeq, the read depth in each cell is quite low. So you many only get counts for a small number of genes in each cell. The `counts` matrix has `r nrow(counts)` rows and `r ncol(counts)`, and includes `r exp(log(nrow(counts)) + log(ncol(counts)))` entries. However, most of these entries (`r sum(counts == 0) / exp(log(nrow(counts)) + log(ncol(counts))) * 100`%) are zeros because every gene is not detected in every cell. It would be wasteful to store all of these zeros in memory. It would also make it difficult to store all of the data in memory. So `counts` is a 'sparse matrix', which only stores the positions of non-zero values in memory.
 
 Look at the structure of the `counts` matrix using [str](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/str). 
 
@@ -160,7 +169,7 @@ gene_sums = data.frame(gene_id = rownames(counts),
 sum(gene_sums$sums == 0)
 ```
 
-We can see that `r sum(sums == 0)` (`r mean(sums == 0)`%) genes have no reads associated with them. In the next lesson, we will remove genes that have no counts in any cells.
+We can see that `r sum(gene_sums$sums == 0)` (`r mean(gene_sums$sums == 0)`%) genes have no reads associated with them. In the next lesson, we will remove genes that have no counts in any cells.
 
 Next, let's look at the number of counts in each cell.
 

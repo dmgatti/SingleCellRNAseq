@@ -8,21 +8,291 @@ exercises: 2
 questions:
 - "What does single cell RNAseq data look like?"
 objectives:
-- "Explain how to use RMarkdown with the new lesson template."
-- "Demonstrate how to include pieces of code, figures, and challenges."
+- "Understand the types of files provided by CellRanger."
+- "Understand the structure of files provided by CellRanger."
+- "Describe a sparse matrix and explain why it is useful."
+- "Read in a feature-barcode matrix using Seurat."
 keypoints:
-- "Edit the .Rmd files not the .md files"
-- "Run `make serve` to knit documents and preview lesson website locally"
+- "CellRanger produces a feature-barcode matrix that can be read in using Seurat."
+- "The feature-barcode matrix is stored as a sparse matrix with features in rows and cells in columns."
 ---
 
 
 
-## What files are delivered? Details of FASTQ, etc. 
+## What files are delivered? Details of FASTQ, etc.
+
+* One FASTQ file per cell (???).
+
 
 ## Typical pre-processing pipeline -- 10X CellRanger 
 
+* Aligned by CellRanger (???).
+* Produces gene counts matrix for each cell.
+
 ## Intro to two major single cell ecosystems: 
 
-* R/Seurat : major focus of this workshop. Biggest strength is straightforward vignettes and ease of visualization/exploration 
+At the time that this workshop was created, there were two major software packages designed for use in scRNA-seq:
+
+* R/Seurat : Focus of this workshop. Biggest strength is straightforward vignettes and ease of visualization/exploration. 
+    * [Seurat](https://www.nature.com/articles/nbt.3192) was released in 2015 by the [Regev lab](https://biology.mit.edu/profile/aviv-regev/).
+    * The first author, Rahul Satija, now has a faculty position and has maintained and improved Seurat.
+    * Currently at [version 4](https://www.cell.com/cell/fulltext/S0092-8674(21)00583-3).
+    * Source code available on [Github](https://www.github.com/satijalab/seurat).
+    * Seurat v1: Infers cellular localization by integrating scRNA-seq with *in situ* hybridization.
+    * Seurat v2: Integrates multiple scRNA-seq data sets using shared correlation structure.
+    * Seurat v3: Integrates data from multiple technologies, i.e. scRNA-seq, scATAC-seq, proteomics, *in situ* hybridization.
+    * Seurat v4: Integrative multimodal analysis and mapping of user data sets to cell identity reference database.
+
 * Python/scanpy
+    * TBD: Expand on this.
+
+## Reading in CellRanger Data
+
+[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) software which analyzes Chromium single cell data to align reads, generates feature-barcode matrices, and performs other downstream analyses. CellRanger is provided by 10X Genomics. In this workshop, we will read in the feature-barcode matrix produced by CellRanger and will perform the downstream analysis using Seurat.
+
+### Liver Atlas
+
+In this lesson, we will read in a subset of data from the [Liver Atlas](https://livercellatlas.org/index.php), which is described in their [Cell paper](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1). Briefly, the authors performed scRNASeq on liver cells from mice and humans, identified cell types, clustered them, and made the data publicly available. We have subsampled this data to contain 25% of the cells in the original analysis to reduce memory usage and speed up the analysis time for this workshop.
+
+We will be working with a subset of the mouse liver data. Before the workshop, you should have downloaded the data from <NEED TO FILL THIS IN> and placed it in your `data` directory. Go to the [Setup](../setup) page for instuctions on how to download the data files.
+
+> TBD: Not sure where to host the files. Box requires a complex authentication process that I don't want to put the users through. Maybe we put the data on figshare?
+
+Open a file browser and look in the `mouseStSt25pct` directory and you should see three files. Each file ends with 'gz', which indicates that it has been compressed (or 'zipped') using [gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; the software that we use will uncompress the files as it reads them in. The files are:
+
+* matrix.mtx.gz: Two-dimensional matrix containing the counts for each gene in each cell.
+    * Genes are in rows and cells are in columns.
+    * This file is in a special sparse matrix format which reduces memory usage.
+* barcodes.tsv.gz: DNA barcodes for each cell. Used as column names in counts matrix.
+* features.tsv.gz: Gene symbols for each gene. Used as row names in counts matrix.
+
+![Counts Matrix](../fig/counts_matrix.png)
+
+> ## Challenge 1
+> 1). R has a function called [file.size](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/file.info). Look at the help for this function and get the size of each of the files in the `mouseStSt25pct` directory.  Which one is the largest?  
+>
+> > ## Solution to Challenge 1
+> >
+> > 1). `file.size(file.path(data_dir, 'mouseStSt25pct', 'barcodes.tsv.gz'))`
+> >     584346 bytes
+> >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'features.tsv.gz'))`
+> >     113733 bytes
+> >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'matrix.mtx.gz'))`
+> >     603248953 bytes
+> >     'matrix.mtx.gz' is the largest file.   
+> {: .solution}
+{: .challenge}
+
+In order to read these files into memory, we will use the [Seurat::Read10X()](https://satijalab.org/seurat/reference/read10x) function. This function searches for the three files mentioned above in the directory that you pass in. Once it verifies that all three files are present, it reads them in to create a counts matrix with genes in rows and cells in columns.
+
+We will use the `gene.column = 1` argument to tell Seurat to use the first column in 'features.tsv.gz' as the gene identifier.
+
+Run the following command. This may take up to 3 minutes to complete.
+
+
+~~~
+counts = Seurat::Read10X(file.path(data_dir, 'mouseStSt25pct'), gene.column = 1)
+~~~
+{: .language-r}
+
+`counts` now contains the sequencing read counts for each gene and cell.
+
+How many rows and columns are there in `counts`?
+
+
+~~~
+dim(counts)
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 31053 92947
+~~~
+{: .output}
+
+In the `counts` matrix, genes are in rows and cells are in columns. Let's look at the first few gene names.
+
+
+~~~
+head(rownames(counts), n = 10)
+~~~
+{: .language-r}
+
+
+
+~~~
+ [1] "Xkr4"    "Gm1992"  "Gm37381" "Rp1"     "Sox17"   "Gm37323" "Mrpl15" 
+ [8] "Lypla1"  "Gm37988" "Tcea1"  
+~~~
+{: .output}
+
+As you can see, the gene names are gene symbols. There is some risk that these may not be unique. Let's check whether any of the gene symbols are duplicated. We will sum the number of duplicated gene symbols.
+
+
+~~~
+sum(duplicated(rownames(counts)))
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 0
+~~~
+{: .output}
+
+The sum equals zero, so there are no duplicated gene symbols, which is good.
+
+Let's look at the cell identifiers in the column names.
+
+
+~~~
+head(colnames(counts), n = 10)
+~~~
+{: .language-r}
+
+
+
+~~~
+ [1] "TCTCCGATCCGCAAAT-18" "TCTACATGTCCGATCG-19" "CAAGCTAGTGAACTAA-18"
+ [4] "CCGATGGAGCTCTGTA-4"  "TGGAGAGCATCTAACG-24" "CGTTCTGTCTGAACGT-4" 
+ [7] "GGGTCTGAGACTTCAC-18" "GCATCTCAGATGGTAT-19" "GGGTCTGTCCCTAGGG-16"
+[10] "ACACGCGAGCGAGTCA-18"
+~~~
+{: .output}
+
+Each of these barcodes identifies one cell. They should all be unique. Once again, let's verify this.
+
+
+~~~
+sum(duplicated(colnames(counts)))
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 0
+~~~
+{: .output}
+
+The sum of duplicated values equals zero, so all of the barcodes are unique.
+
+Next, let's look at the values in `counts`.
+
+
+~~~
+counts[1:10, 1:20]
+~~~
+{: .language-r}
+
+
+
+~~~
+10 x 20 sparse Matrix of class "dgCMatrix"
+~~~
+{: .output}
+
+
+
+~~~
+   [[ suppressing 20 column names 'TCTCCGATCCGCAAAT-18', 'TCTACATGTCCGATCG-19', 'CAAGCTAGTGAACTAA-18' ... ]]
+~~~
+{: .output}
+
+
+
+~~~
+                                               
+Xkr4    . . . . . . . . . . . . . . . . . . . .
+Gm1992  . . . . . . . . . . . . . . . . . . . .
+Gm37381 . . . . . . . . . . . . . . . . . . . .
+Rp1     . . . . . . . . . . . . . . . . . . . .
+Sox17   . . . . . . . . . . . . . . . . . . . .
+Gm37323 . . . . . . . . . . . . . . . . . . . .
+Mrpl15  . . . . . . . . 2 . . . . . . . . . . .
+Lypla1  . . . . . 1 . . . . . . . . . . . . . .
+Gm37988 . . . . . . . . . . . . . . . . . . . .
+Tcea1   . . . . . . . . . . . . . . . . 1 . . .
+~~~
+{: .output}
+
+We can see the gene symbols in rows along the left. The barcodes are not shown to make the values easier to read. Each of the periods represents a zero. The '1' values represent a single read for a gene in one cell.
+
+Although `counts` looks like a matrix and you can use many matrix functions on it, `counts` is actually a different type of object. In scRNASeq, the read depth in each cell is quite low. So you many only get counts for a small number of genes in each cell. The `counts` matrix has 31053 rows and 92947, and includes 2.8862832 &times; 10<sup>9</sup> entries. However, most of these entries (93.3200148%) are zeros because every gene is not detected in every cell. It would be wasteful to store all of these zeros in memory. It would also make it difficult to store all of the data in memory. So `counts` is a 'sparse matrix', which only stores the positions of non-zero values in memory.
+
+Look at the structure of the `counts` matrix using [str](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/str). 
+
+
+~~~
+str(counts)
+~~~
+{: .language-r}
+
+
+
+~~~
+Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
+  ..@ i       : int [1:192803289] 12 15 37 50 61 93 177 228 273 310 ...
+  ..@ p       : int [1:92948] 0 1159 2414 3265 4278 5624 6718 7782 9402 10872 ...
+  ..@ Dim     : int [1:2] 31053 92947
+  ..@ Dimnames:List of 2
+  .. ..$ : chr [1:31053] "Xkr4" "Gm1992" "Gm37381" "Rp1" ...
+  .. ..$ : chr [1:92947] "TCTCCGATCCGCAAAT-18" "TCTACATGTCCGATCG-19" "CAAGCTAGTGAACTAA-18" "CCGATGGAGCTCTGTA-4" ...
+  ..@ x       : num [1:192803289] 2 1 1 1 8 2 1 1 1 1 ...
+  ..@ factors : list()
+~~~
+{: .output}
+
+We can see that the formal class name is a "dgCMatrix". There are two long vectors of integers which encode the positions of non-zero values. The gene names and cell barcodes are stored in character vectors and the non-zero values are an integer vector. This class saves space by not allocating memory to store all of the zero values.
+
+Let's look at small portion of `counts`. We will create a tile plot indicating which values are non-zero for the first 100 cells and genes in rows 400 to 600. For historical reasons, R plots the rows along the X-axis and columns along the Y-axis. We will transpose the matrix so that genes are on the Y-axis, which reflects the way in which we normally look at this matrix.
+
+
+~~~
+image(1:100, 400:600, t(as.matrix(counts[400:600,1:100]) > 0), xlab = 'Cells', ylab = 'Genes')
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-03-counts_image-1.png" title="plot of chunk counts_image" alt="plot of chunk counts_image" width="612" style="display: block; margin: auto;" />
+
+In the tile plot above, each row represents one gene and each column represents one cell. Red indicates non-zero values and yellow indicates zero values.  As you can see, most of the matrix consists of zeros (yellow tiles) and hence is called 'sparse'. You can also see that some genes are expressed in most cells, indicated by the horiozntal red lines, and that some genes are expressed in very few cells.
+
+What proportion of genes have zero counts in all samples? To answer this question, we will get the mean of the number of zeros in the first 10,000 cells. We will no
+
+
+~~~
+gene_sums = data.frame(gene_id = rownames(counts),
+                       sums    = rowSums(counts))
+sum(gene_sums$sums == 0)
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] 5258
+~~~
+{: .output}
+
+We can see that 5258 (0.1693234%) genes have no reads associated with them. In the next lesson, we will remove genes that have no counts in any cells.
+
+Next, let's look at the number of counts in each cell.
+
+
+~~~
+hist(colSums(counts))
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-03-cell_counts-1.png" title="plot of chunk cell_counts" alt="plot of chunk cell_counts" width="612" style="display: block; margin: auto;" />
+
+The range of counts covers several orders of magnitude, from 500 to 9.7546 &times; 10<sup>4</sup>. 
+
+TBD: What do we say here? How does scRNAseq handle coverage?
+
+
+
 
