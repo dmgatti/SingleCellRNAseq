@@ -27,7 +27,7 @@ keypoints:
 ## Typical pre-processing pipeline -- 10X CellRanger 
 
 * Aligned by CellRanger (???).
-* Produces gene counts matrix for each cell.
+* Produces gene counts for each cell.
 
 ## Intro to two major single cell ecosystems: 
 
@@ -56,7 +56,7 @@ In this lesson, we will read in a subset of data from the [Liver Atlas](https://
 
 We will be working with a subset of the mouse liver data. Before the workshop, you should have downloaded the data from <NEED TO FILL THIS IN> and placed it in your `data` directory. Go to the [Setup](../setup) page for instuctions on how to download the data files.
 
-> TBD: Not sure where to host the files. Box requires a complex authentication process that I don't want to put the users through. Maybe we put the data on figshare?
+> TBD: Not sure where to host the files. Box requires a complex authentication process that I don't want to put the users through. Github has 100 MB file size limit. Looking into a cloud bucket, which we would need to pay monthly fees for. Maybe we put the data on figshare?
 
 Open a file browser and look in the `mouseStSt25pct` directory and you should see three files. Each file ends with 'gz', which indicates that it has been compressed (or 'zipped') using [gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; the software that we use will uncompress the files as it reads them in. The files are:
 
@@ -73,15 +73,17 @@ Open a file browser and look in the `mouseStSt25pct` directory and you should se
 >
 > > ## Solution to Challenge 1
 > >
-> > 1). `file.size(file.path(data_dir, 'mouseStSt25pct', 'barcodes.tsv.gz'))`
-> >     584346 bytes
-> >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'features.tsv.gz'))`
-> >     113733 bytes
-> >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'matrix.mtx.gz'))`
-> >     603248953 bytes
-> >     'matrix.mtx.gz' is the largest file.   
+> > 1). `file.size(file.path(data_dir, 'mouseStSt25pct', 'barcodes.tsv.gz'))`  
+> >     584346 bytes  
+> >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'features.tsv.gz'))`  
+> >     113733 bytes  
+> >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'matrix.mtx.gz'))`  
+> >     603248953 bytes  
+> >     'matrix.mtx.gz' is the largest file.     
 > {: .solution}
 {: .challenge}
+
+### Reading a CellRanger Feature-Barcode Matrix using Seurat
 
 In order to read these files into memory, we will use the [Seurat::Read10X()](https://satijalab.org/seurat/reference/read10x) function. This function searches for the three files mentioned above in the directory that you pass in. Once it verifies that all three files are present, it reads them in to create a counts matrix with genes in rows and cells in columns.
 
@@ -108,7 +110,7 @@ dim(counts)
 
 
 ~~~
-[1] 31053 92947
+[1] 31053 83614
 ~~~
 {: .output}
 
@@ -156,10 +158,10 @@ head(colnames(counts), n = 10)
 
 
 ~~~
- [1] "TCTCCGATCCGCAAAT-18" "TCTACATGTCCGATCG-19" "CAAGCTAGTGAACTAA-18"
- [4] "CCGATGGAGCTCTGTA-4"  "TGGAGAGCATCTAACG-24" "CGTTCTGTCTGAACGT-4" 
- [7] "GGGTCTGAGACTTCAC-18" "GCATCTCAGATGGTAT-19" "GGGTCTGTCCCTAGGG-16"
-[10] "ACACGCGAGCGAGTCA-18"
+ [1] "AGTCATGAGTACCATC-4"  "AAAGTCCCATACAGCT-21" "TGAATGCAGCCTTTCC-18"
+ [4] "CCCTCTCCATACTGTG-10" "ATCCACCTCAGCGACC-1"  "CCTCCTCTCATCGCCT-18"
+ [7] "CAAAGAAGTGTGGTCC-14" "TTGTTTGTCGCAGTTA-4"  "GAAGTAAAGTCTACCA-16"
+[10] "TGAGGTTAGAAAGTCT-26"
 ~~~
 {: .output}
 
@@ -198,7 +200,7 @@ counts[1:10, 1:20]
 
 
 ~~~
-   [[ suppressing 20 column names 'TCTCCGATCCGCAAAT-18', 'TCTACATGTCCGATCG-19', 'CAAGCTAGTGAACTAA-18' ... ]]
+   [[ suppressing 20 column names 'AGTCATGAGTACCATC-4', 'AAAGTCCCATACAGCT-21', 'TGAATGCAGCCTTTCC-18' ... ]]
 ~~~
 {: .output}
 
@@ -212,16 +214,16 @@ Gm37381 . . . . . . . . . . . . . . . . . . . .
 Rp1     . . . . . . . . . . . . . . . . . . . .
 Sox17   . . . . . . . . . . . . . . . . . . . .
 Gm37323 . . . . . . . . . . . . . . . . . . . .
-Mrpl15  . . . . . . . . 2 . . . . . . . . . . .
-Lypla1  . . . . . 1 . . . . . . . . . . . . . .
+Mrpl15  1 . . . . . . . . . . . . . . . . . . 1
+Lypla1  . . . . . . . . 1 . . . . . . . . . . .
 Gm37988 . . . . . . . . . . . . . . . . . . . .
-Tcea1   . . . . . . . . . . . . . . . . 1 . . .
+Tcea1   . 1 . . . . 1 1 2 . 1 . . 1 . 1 . . . .
 ~~~
 {: .output}
 
 We can see the gene symbols in rows along the left. The barcodes are not shown to make the values easier to read. Each of the periods represents a zero. The '1' values represent a single read for a gene in one cell.
 
-Although `counts` looks like a matrix and you can use many matrix functions on it, `counts` is actually a different type of object. In scRNASeq, the read depth in each cell is quite low. So you many only get counts for a small number of genes in each cell. The `counts` matrix has 31053 rows and 92947, and includes 2.8862832 &times; 10<sup>9</sup> entries. However, most of these entries (93.3200148%) are zeros because every gene is not detected in every cell. It would be wasteful to store all of these zeros in memory. It would also make it difficult to store all of the data in memory. So `counts` is a 'sparse matrix', which only stores the positions of non-zero values in memory.
+Although `counts` looks like a matrix and you can use many matrix functions on it, `counts` is actually a different type of object. In scRNASeq, the read depth in each cell is quite low. So you many only get counts for a small number of genes in each cell. The `counts` matrix has 31053 rows and 83614, and includes 2.5964655 &times; 10<sup>9</sup> entries. However, most of these entries (93.4513405%) are zeros because every gene is not detected in every cell. It would be wasteful to store all of these zeros in memory. It would also make it difficult to store all of the data in memory. So `counts` is a 'sparse matrix', which only stores the positions of non-zero values in memory.
 
 Look at the structure of the `counts` matrix using [str](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/str). 
 
@@ -235,13 +237,13 @@ str(counts)
 
 ~~~
 Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
-  ..@ i       : int [1:192803289] 12 15 37 50 61 93 177 228 273 310 ...
-  ..@ p       : int [1:92948] 0 1159 2414 3265 4278 5624 6718 7782 9402 10872 ...
-  ..@ Dim     : int [1:2] 31053 92947
+  ..@ i       : int [1:170033687] 6 30 36 61 67 69 115 151 172 211 ...
+  ..@ p       : int [1:83615] 0 1176 2507 3639 4696 5103 6287 7824 8763 10489 ...
+  ..@ Dim     : int [1:2] 31053 83614
   ..@ Dimnames:List of 2
   .. ..$ : chr [1:31053] "Xkr4" "Gm1992" "Gm37381" "Rp1" ...
-  .. ..$ : chr [1:92947] "TCTCCGATCCGCAAAT-18" "TCTACATGTCCGATCG-19" "CAAGCTAGTGAACTAA-18" "CCGATGGAGCTCTGTA-4" ...
-  ..@ x       : num [1:192803289] 2 1 1 1 8 2 1 1 1 1 ...
+  .. ..$ : chr [1:83614] "AGTCATGAGTACCATC-4" "AAAGTCCCATACAGCT-21" "TGAATGCAGCCTTTCC-18" "CCCTCTCCATACTGTG-10" ...
+  ..@ x       : num [1:170033687] 1 1 1 9 1 1 1 1 1 2 ...
   ..@ factors : list()
 ~~~
 {: .output}
@@ -273,11 +275,11 @@ sum(gene_sums$sums == 0)
 
 
 ~~~
-[1] 5258
+[1] 7830
 ~~~
 {: .output}
 
-We can see that 5258 (0.1693234%) genes have no reads associated with them. In the next lesson, we will remove genes that have no counts in any cells.
+We can see that 7830 (0.2521496%) genes have no reads associated with them. In the next lesson, we will remove genes that have no counts in any cells.
 
 Next, let's look at the number of counts in each cell.
 
@@ -289,10 +291,245 @@ hist(colSums(counts))
 
 <img src="../fig/rmd-03-cell_counts-1.png" title="plot of chunk cell_counts" alt="plot of chunk cell_counts" width="612" style="display: block; margin: auto;" />
 
-The range of counts covers several orders of magnitude, from 500 to 9.7546 &times; 10<sup>4</sup>. 
+The range of counts covers several orders of magnitude, from 500 to 5.5356 &times; 10<sup>4</sup>. 
 
 TBD: What do we say here? How does scRNAseq handle coverage?
 
+### Sample Metadata
+
+Sample metadata refers to information about your samples that is not the "data", i.e. the gene counts. This might include information such as sex, tissue, or treatment. In the case of the liver atlas data, the authors provided a metadata file for thier samples.
+
+The sample metadata file is a comma-separated variable (CSV) file, We will read it in using the readr [read_csv](https://readr.tidyverse.org/reference/read_delim.html) function.
+
+> TBD: Use a metadata file that does NOT have cell identities & UMAP coordinates here? Then reveal the full one later.
 
 
+~~~
+metadata = read_csv('../data/mouseStSt25pct/annot_metadata.csv')
+~~~
+{: .language-r}
+
+
+
+~~~
+Rows: 83614 Columns: 8
+-- Column specification ------------------------------------------------------------------------------------------------
+Delimiter: ","
+chr (5): annot, sample, cell, digest, typeSample
+dbl (3): UMAP_1, UMAP_2, cluster
+
+i Use `spec()` to retrieve the full column specification for this data.
+i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+~~~
+{: .output}
+
+Let's look at the top of the metadata.
+
+
+~~~
+head(metadata)
+~~~
+{: .language-r}
+
+
+
+~~~
+# A tibble: 6 x 8
+  UMAP_1 UMAP_2 cluster annot   sample cell                digest typeSample
+   <dbl>  <dbl>   <dbl> <chr>   <chr>  <chr>               <chr>  <chr>     
+1  -3.75  -7.46      10 B cells CS53   AGTCATGAGTACCATC-4  inVivo scRnaSeq  
+2  -4.74  -7.69      10 B cells CS138  AAAGTCCCATACAGCT-21 inVivo citeSeq   
+3  -3.93  -7.95      10 B cells CS115  TGAATGCAGCCTTTCC-18 inVivo citeSeq   
+4  -5.68  -7.27      10 B cells CS93   CCCTCTCCATACTGTG-10 inVivo citeSeq   
+5  -3.73  -8.47      10 B cells CISE12 ATCCACCTCAGCGACC-1  exVivo citeSeq   
+6  -4.45  -7.17      10 B cells CS115  CCTCCTCTCATCGCCT-18 inVivo citeSeq   
+~~~
+{: .output}
+
+In the table above, you can see that there are four columns:
+
+1. sample: mouse identifier from which cell was derived;
+1. cell: the DNA barcode used to identify the cell;
+1. digest: either "inVivo" or "exVivo". whether the cells were harvested *in vivo* or *ex vivo*,
+1. typeSample: either "scRnaSeq" or "citeSeq". The type of library preparation protocol, either single cell RNA-seq or [cite-seq](https://cite-seq.com/).
+
+We're going to explore the data using a series of Challenges. You will be asked to look at the contents of some of the columns to see how the data is distributed.
+
+
+
+How many mice were used to generate this data? How many cells were obtained from each mouse?
+
+
+~~~
+count(metadata, sample)
+~~~
+{: .language-r}
+
+
+
+~~~
+# A tibble: 34 x 2
+   sample      n
+   <chr>   <int>
+ 1 ARE1     2099
+ 2 ARE6     2510
+ 3 ARE7     2590
+ 4 ARE8     2841
+ 5 CISE12   1969
+ 6 Ciseq13  1555
+ 7 CS114    1716
+ 8 CS115    3484
+ 9 CS136    2152
+10 CS137    1458
+# ... with 24 more rows
+# i Use `print(n = ...)` to see more rows
+~~~
+{: .output}
+
+> ## Challenge 2
+> How many mice were used to produce this data? The "sample" column contains the mouse identifier for each cell.  
+>
+> > ## Solution to Challenge 2
+> >
+> > count(metadata, sample) %>% summarize(total = n())     
+> {: .solution}
+{: .challenge}
+
+
+> ## Challenge 3
+> There were two digests, inVivo and exVivo. How many cells are there from each mouse in each digestion? 
+>
+> > ## Solution to Challenge 3
+> >
+> > count(metadata, sample, digest)  
+> > From this, we can see that each mouse was used for only one type of digestion, either inVivo or exVivo.
+> {: .solution}
+{: .challenge}
+
+
+> ## Challenge 4
+> There were also two types of library preparation, indicated by the "typeSample" column. How many cells were derived from each digestion and library preparation protocol?
+>
+> > ## Solution to Challenge 4
+> >
+> > count(metadata, digest, typeSample)  
+> > From this, we can see that ther are between 15 and 25 thousand cells in each class.
+> {: .solution}
+{: .challenge}
+
+> TBD: Use a treemap to look at the proportion of samples from each digest/protocol? It's not required, but could be fun.
+
+## Split Data into *in vivo* and *ex vivo* Sets
+
+In this workshop, we will attempt to reproduce the results of the [Liver Atlas](https://livercellatlas.org/index.php) using Seurat. We will analyze the *in vivo* data together and you will analyze the *ex vivo* data during Challenges.
+
+We will split the counts and metadata into *in vivo* and *ex vivo* sets.
+
+
+~~~
+meta_iv = filter(metadata, digest == 'inVivo')
+meta_ev = filter(metadata, digest == 'exVivo')
+
+counts_iv = counts[,meta_iv$cell]
+counts_ev = counts[,meta_ev$cell]
+~~~
+{: .language-r}
+
+Once you have run the code above, delete the original counts and metadata to reduce your memory footprint.
+
+
+~~~
+rm(counts, metadata)
+gc()
+~~~
+{: .language-r}
+
+
+
+~~~
+            used   (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells   3490911  186.5    6530578   348.8    5118885   273.4
+Vcells 261973763 1998.8 1906560180 14545.9 2382766655 18179.1
+~~~
+{: .output}
+
+
+
+### Session Info
+
+
+~~~
+sessionInfo()
+~~~
+{: .language-r}
+
+
+
+~~~
+R version 4.1.2 (2021-11-01)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19042)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] sp_1.5-0           SeuratObject_4.1.0 Seurat_4.1.1       forcats_0.5.1     
+ [5] stringr_1.4.0      dplyr_1.0.9        purrr_0.3.4        readr_2.1.2       
+ [9] tidyr_1.2.0        tibble_3.1.7       ggplot2_3.3.6      tidyverse_1.3.2   
+[13] knitr_1.39        
+
+loaded via a namespace (and not attached):
+  [1] googledrive_2.0.0     Rtsne_0.16            colorspace_2.0-3     
+  [4] deldir_1.0-6          ellipsis_0.3.2        ggridges_0.5.3       
+  [7] fs_1.5.2              spatstat.data_2.2-0   leiden_0.4.2         
+ [10] listenv_0.8.0         bit64_4.0.5           ggrepel_0.9.1        
+ [13] fansi_1.0.3           lubridate_1.8.0       xml2_1.3.3           
+ [16] codetools_0.2-18      splines_4.1.2         polyclip_1.10-0      
+ [19] jsonlite_1.8.0        broom_1.0.0           ica_1.0-3            
+ [22] cluster_2.1.3         dbplyr_2.2.1          png_0.1-7            
+ [25] rgeos_0.5-9           uwot_0.1.11           spatstat.sparse_2.1-1
+ [28] sctransform_0.3.3     shiny_1.7.2           compiler_4.1.2       
+ [31] httr_1.4.3            backports_1.4.1       lazyeval_0.2.2       
+ [34] assertthat_0.2.1      Matrix_1.4-1          fastmap_1.1.0        
+ [37] gargle_1.2.0          cli_3.3.0             later_1.3.0          
+ [40] htmltools_0.5.2       tools_4.1.2           igraph_1.3.2         
+ [43] gtable_0.3.0          glue_1.6.2            reshape2_1.4.4       
+ [46] RANN_2.6.1            Rcpp_1.0.9            scattermore_0.8      
+ [49] cellranger_1.1.0      vctrs_0.4.1           nlme_3.1-158         
+ [52] progressr_0.10.1      lmtest_0.9-40         spatstat.random_2.2-0
+ [55] xfun_0.31             globals_0.15.1        rvest_1.0.2          
+ [58] mime_0.12             miniUI_0.1.1.1        lifecycle_1.0.1      
+ [61] irlba_2.3.5           goftest_1.2-3         googlesheets4_1.0.0  
+ [64] future_1.27.0         MASS_7.3-57           zoo_1.8-10           
+ [67] scales_1.2.0          vroom_1.5.7           spatstat.core_2.4-4  
+ [70] spatstat.utils_2.3-1  hms_1.1.1             promises_1.2.0.1     
+ [73] parallel_4.1.2        RColorBrewer_1.1-3    gridExtra_2.3        
+ [76] reticulate_1.25       pbapply_1.5-0         rpart_4.1.16         
+ [79] stringi_1.7.6         highr_0.9             rlang_1.0.3          
+ [82] pkgconfig_2.0.3       matrixStats_0.62.0    evaluate_0.15        
+ [85] lattice_0.20-45       tensor_1.5            ROCR_1.0-11          
+ [88] htmlwidgets_1.5.4     patchwork_1.1.1       bit_4.0.4            
+ [91] cowplot_1.1.1         tidyselect_1.1.2      parallelly_1.32.1    
+ [94] RcppAnnoy_0.0.19      plyr_1.8.7            magrittr_2.0.3       
+ [97] R6_2.5.1              generics_0.1.3        DBI_1.1.3            
+[100] mgcv_1.8-40           pillar_1.8.0          haven_2.5.0          
+[103] withr_2.5.0           fitdistrplus_1.1-8    abind_1.4-5          
+[106] survival_3.3-1        future.apply_1.9.0    modelr_0.1.8         
+[109] crayon_1.5.1          KernSmooth_2.23-20    utf8_1.2.2           
+[112] spatstat.geom_2.4-0   plotly_4.10.0         tzdb_0.3.0           
+[115] grid_4.1.2            readxl_1.4.0          data.table_1.14.2    
+[118] reprex_2.0.1          digest_0.6.29         xtable_1.8-4         
+[121] httpuv_1.6.5          munsell_0.5.0         viridisLite_0.4.0    
+~~~
+{: .output}
 

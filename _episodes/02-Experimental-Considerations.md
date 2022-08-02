@@ -8,8 +8,10 @@ exercises: 2
 questions:
 - "How do I design a single cell RNAseq experiment?"
 objectives:
-- "Explain how to use RMarkdown with the new lesson template."
-- "Demonstrate how to include pieces of code, figures, and challenges."
+- "Understand the importance of biological replication for reproducibility and rigor."
+- "Understand the differences between pooling methods and select between them."
+- "Understand why confounding experimental batch with the variable of interest makes it impossible to disentangle the two."
+- "Understand the different data modalities in single-cell sequencing and be able to select a modality to answer an experimental question."
 keypoints:
 - "Edit the .Rmd files not the .md files"
 - "Run `make serve` to knit documents and preview lesson website locally"
@@ -17,9 +19,13 @@ keypoints:
 
 
 
-## Biological replication 
+## Biological replication  
 
-## Pooling options 
+
+
+## Pooling options  
+
+
 
 ### Avoid Confounding Batch with Experimental Variables
 
@@ -32,13 +38,49 @@ In order to reduce the effect of batch structure on your experiment is it crucia
 ![Batch Confounding](../fig/flow_cell_batch.png)
 
 
-
-
-
-
 ## Different data modalities (cell vs nuclei, RNA vs ATAC, etc) 
+
 
 ## Brief overview of choices available from 10X for how to run samples
 
+> ## Recommended Reading
+>
+> - Review(s) with best-practices or advice on experimental design?
+>
+{: .checklist }
+
+### Session Info
 
 
+~~~
+sessionInfo()
+~~~
+{: .language-r}
+
+
+
+~~~
+R version 4.1.2 (2021-11-01)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19042)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] knitr_1.39
+
+loaded via a namespace (and not attached):
+[1] compiler_4.1.2 magrittr_2.0.3 tools_4.1.2    stringi_1.7.6  stringr_1.4.0 
+[6] xfun_0.31      evaluate_0.15 
+~~~
+{: .output}

@@ -19,10 +19,10 @@ keypoints:
 source("../bin/chunk-options.R")
 knitr_fig_path("03-")
 
+library(tidyverse)
 library(Seurat)
 
-base_dir = 'C:/Users/c-dgatti/Documents/classes/JAX/scRNAseq/SingleCellRNAseq'
-data_dir = file.path(base_dir, 'data')
+data_dir = '../data'
 ```
 
 ## What files are delivered? Details of FASTQ, etc.
@@ -33,7 +33,7 @@ data_dir = file.path(base_dir, 'data')
 ## Typical pre-processing pipeline -- 10X CellRanger 
 
 * Aligned by CellRanger (???).
-* Produces gene counts matrix for each cell.
+* Produces gene counts for each cell.
 
 ## Intro to two major single cell ecosystems: 
 
@@ -62,7 +62,7 @@ In this lesson, we will read in a subset of data from the [Liver Atlas](https://
 
 We will be working with a subset of the mouse liver data. Before the workshop, you should have downloaded the data from <NEED TO FILL THIS IN> and placed it in your `data` directory. Go to the [Setup](../setup) page for instuctions on how to download the data files.
 
-> TBD: Not sure where to host the files. Box requires a complex authentication process that I don't want to put the users through. Maybe we put the data on figshare?
+> TBD: Not sure where to host the files. Box requires a complex authentication process that I don't want to put the users through. Github has 100 MB file size limit. Looking into a cloud bucket, which we would need to pay monthly fees for. Maybe we put the data on figshare?
 
 Open a file browser and look in the `mouseStSt25pct` directory and you should see three files. Each file ends with 'gz', which indicates that it has been compressed (or 'zipped') using [gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; the software that we use will uncompress the files as it reads them in. The files are:
 
@@ -79,15 +79,17 @@ Open a file browser and look in the `mouseStSt25pct` directory and you should se
 >
 > > ## Solution to Challenge 1
 > >
-> > 1). `file.size(file.path(data_dir, 'mouseStSt25pct', 'barcodes.tsv.gz'))`
-> >     584346 bytes
-> >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'features.tsv.gz'))`
-> >     113733 bytes
-> >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'matrix.mtx.gz'))`
-> >     603248953 bytes
-> >     'matrix.mtx.gz' is the largest file.   
+> > 1). `file.size(file.path(data_dir, 'mouseStSt25pct', 'barcodes.tsv.gz'))`  
+> >     584346 bytes  
+> >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'features.tsv.gz'))`  
+> >     113733 bytes  
+> >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'matrix.mtx.gz'))`  
+> >     603248953 bytes  
+> >     'matrix.mtx.gz' is the largest file.     
 > {: .solution}
 {: .challenge}
+
+### Reading a CellRanger Feature-Barcode Matrix using Seurat
 
 In order to read these files into memory, we will use the [Seurat::Read10X()](https://satijalab.org/seurat/reference/read10x) function. This function searches for the three files mentioned above in the directory that you pass in. Once it verifies that all three files are present, it reads them in to create a counts matrix with genes in rows and cells in columns.
 
@@ -155,7 +157,7 @@ We can see that the formal class name is a "dgCMatrix". There are two long vecto
 
 Let's look at small portion of `counts`. We will create a tile plot indicating which values are non-zero for the first 100 cells and genes in rows 400 to 600. For historical reasons, R plots the rows along the X-axis and columns along the Y-axis. We will transpose the matrix so that genes are on the Y-axis, which reflects the way in which we normally look at this matrix.
 
-```{r counts_image,fig.height=4}
+```{r counts_image,fig.height=6}
 image(1:100, 400:600, t(as.matrix(counts[400:600,1:100]) > 0), xlab = 'Cells', ylab = 'Genes')
 ```
 
@@ -181,6 +183,100 @@ The range of counts covers several orders of magnitude, from `r min(colSums(coun
 
 TBD: What do we say here? How does scRNAseq handle coverage?
 
+### Sample Metadata
+
+Sample metadata refers to information about your samples that is not the "data", i.e. the gene counts. This might include information such as sex, tissue, or treatment. In the case of the liver atlas data, the authors provided a metadata file for thier samples.
+
+The sample metadata file is a comma-separated variable (CSV) file, We will read it in using the readr [read_csv](https://readr.tidyverse.org/reference/read_delim.html) function.
+
+> TBD: Use a metadata file that does NOT have cell identities & UMAP coordinates here? Then reveal the full one later.
+
+```{r read_metadata}
+metadata = read_csv('../data/mouseStSt25pct/annot_metadata.csv')
+```
+
+Let's look at the top of the metadata.
+
+```{r head_metadata}
+head(metadata)
+```
+
+In the table above, you can see that there are four columns:
+
+1. sample: mouse identifier from which cell was derived;
+1. cell: the DNA barcode used to identify the cell;
+1. digest: either "inVivo" or "exVivo". whether the cells were harvested *in vivo* or *ex vivo*,
+1. typeSample: either "scRnaSeq" or "citeSeq". The type of library preparation protocol, either single cell RNA-seq or [cite-seq](https://cite-seq.com/).
+
+We're going to explore the data using a series of Challenges. You will be asked to look at the contents of some of the columns to see how the data is distributed.
 
 
+
+How many mice were used to generate this data? How many cells were obtained from each mouse?
+
+```{r count_sample}
+count(metadata, sample)
+```
+
+> ## Challenge 2
+> How many mice were used to produce this data? The "sample" column contains the mouse identifier for each cell.  
+>
+> > ## Solution to Challenge 2
+> >
+> > count(metadata, sample) %>% summarize(total = n())     
+> {: .solution}
+{: .challenge}
+
+
+> ## Challenge 3
+> There were two digests, inVivo and exVivo. How many cells are there from each mouse in each digestion? 
+>
+> > ## Solution to Challenge 3
+> >
+> > count(metadata, sample, digest)  
+> > From this, we can see that each mouse was used for only one type of digestion, either inVivo or exVivo.
+> {: .solution}
+{: .challenge}
+
+
+> ## Challenge 4
+> There were also two types of library preparation, indicated by the "typeSample" column. How many cells were derived from each digestion and library preparation protocol?
+>
+> > ## Solution to Challenge 4
+> >
+> > count(metadata, digest, typeSample)  
+> > From this, we can see that ther are between 15 and 25 thousand cells in each class.
+> {: .solution}
+{: .challenge}
+
+> TBD: Use a treemap to look at the proportion of samples from each digest/protocol? It's not required, but could be fun.
+
+## Split Data into *in vivo* and *ex vivo* Sets
+
+In this workshop, we will attempt to reproduce the results of the [Liver Atlas](https://livercellatlas.org/index.php) using Seurat. We will analyze the *in vivo* data together and you will analyze the *ex vivo* data during Challenges.
+
+We will split the counts and metadata into *in vivo* and *ex vivo* sets.
+
+```{r split_data}
+meta_iv = filter(metadata, digest == 'inVivo')
+meta_ev = filter(metadata, digest == 'exVivo')
+
+counts_iv = counts[,meta_iv$cell]
+counts_ev = counts[,meta_ev$cell]
+```
+
+Once you have run the code above, delete the original counts and metadata to reduce your memory footprint.
+
+```{r rm_full_data}
+rm(counts, metadata)
+gc()
+```
+
+
+
+### Session Info
+
+```{r session_info}
+sessionInfo()
+```
 

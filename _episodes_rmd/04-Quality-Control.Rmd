@@ -16,6 +16,7 @@ keypoints:
 ```{r, include=FALSE}
 source("../bin/chunk-options.R")
 knitr_fig_path("04-")
+library(Seurat)
 ```
 
 ## Issues in scRNA-seq
@@ -23,7 +24,45 @@ knitr_fig_path("04-")
 * false negatives
 * higher errors for low-copy transcripts
 
+## Creating a Seurat Object
+
+In order to use Seurat, we must take the sample metadata and gene counts and create a [Seurat Object](https://rdrr.io/cran/SeuratObject/man/Seurat-class.html). This is a data structure which organizes the data and metadata and will store aspects of the analysis as we progress through the workshop.
+
+Below, we will create a Seurat object for the *in vivo* liver data. We must first convert the cell metadata into a data.frame and place the barcodes in rownames. The we will pass the counts and metadata into the [CreateSeuratObject](https://search.r-project.org/CRAN/refmans/SeuratObject/html/CreateSeuratObject.html) function to create the Seurat object.
+
+```{r create_seurat_obj}
+meta_iv = as.data.frame(meta_iv) %>%
+            column_to_rownames('cell')
+liver_iv = CreateSeuratObject(counts    = counts_iv, 
+                              project   = 'liver: in vivo',
+                              meta.data = meta_iv)
+```
+
+
+
 ## Typical filters for cell quality - %MT, ribosomal, number UMI, number genes 
+
+```{r pct_mito}
+liver_iv <- liver_iv %>% 
+              PercentageFeatureSet(pattern = "^mt-", col.name = "percent.mt")
+```
+
+```{r mito_by_cell_type}
+liver_iv[[c('annot', 'percent.mt')]] %>% 
+    ggplot(aes(annot, percent.mt + 0.01)) +
+      geom_boxplot() +
+      scale_y_log10() +
+      coord_flip()
+```
+
+> TBD: not sure where this goes. We'll break it up and explain each step once we know where to put it.
+
+```{r seurat2, message=FALSE}
+liver_iv <- NormalizeData(liver_iv, normalization.method = "LogNormalize") %>% 
+            FindVariableFeatures(nfeatures = 2000) %>% 
+            ScaleData(vars.to.regress = c("percent.mt", "nCount_RNA")) %>%
+            RunPCA(verbose = FALSE, npcs = 100)
+```
 
 ## Differences between tissues and datatypes (single cell vs single nucleus, etc) 
 
@@ -32,3 +71,19 @@ knitr_fig_path("04-")
 ## Doublet detection 
 
 ## Batch correction
+
+> ## Challenge 1
+> Create a Seurat object for the *ex vivo* data. We would suggest that you name the object 'counts_ev' so that you can follow upcoming Challenges.
+>
+> > ## Solution to Challenge 1
+> > meta_ev = as.data.frame(meta_ev) %>%
+> >             column_to_rownames('cell')
+> > liver_ev = CreateSeuratObject(counts_ev, project = 'liver: ex vivo',
+> >                               meta.data = meta_ev)
+> >      
+> {: .solution}
+{: .challenge}
+
+
+> TBD: Between scRNAseq & citeSeq?
+

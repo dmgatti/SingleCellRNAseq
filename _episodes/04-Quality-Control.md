@@ -22,6 +22,44 @@ keypoints:
 * false negatives
 * higher errors for low-copy transcripts
 
+## Creating a Seurat Object
+
+In order to use Seurat, we must take the sample metadata and gene counts and create a [Seurat Object](https://rdrr.io/cran/SeuratObject/man/Seurat-class.html). This is a data structure which organizes the data and metadata and will store aspects of the analysis as we progress through the workshop.
+
+Below, we will create a Seurat object for the *in vivo* liver data. We must first convert the cell metadata into a data.frame and place the barcodes in rownames. The we will pass the counts and metadata into the [CreateSeuratObject](https://search.r-project.org/CRAN/refmans/SeuratObject/html/CreateSeuratObject.html) function to create the Seurat object.
+
+
+~~~
+meta_iv = as.data.frame(meta_iv) %>%
+            column_to_rownames('cell')
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in as.data.frame(meta_iv) %>% column_to_rownames("cell"): could not find function "%>%"
+~~~
+{: .error}
+
+
+
+~~~
+liver_iv = CreateSeuratObject(counts    = counts_iv, 
+                              project   = 'liver: in vivo',
+                              meta.data = meta_iv)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in CreateSeuratObject(counts = counts_iv, project = "liver: in vivo", : object 'counts_iv' not found
+~~~
+{: .error}
+
+
+
 ## Typical filters for cell quality - %MT, ribosomal, number UMI, number genes 
 
 ## Differences between tissues and datatypes (single cell vs single nucleus, etc) 
@@ -31,3 +69,19 @@ keypoints:
 ## Doublet detection 
 
 ## Batch correction
+
+> ## Challenge 1
+> Create a Seurat object for the *ex vivo* data. We would suggest that you name the object 'counts_ev' so that you can follow upcoming Challenges.
+>
+> > ## Solution to Challenge 1
+> > meta_ev = as.data.frame(meta_ev) %>%
+> >             column_to_rownames('cell')
+> > liver_ev = CreateSeuratObject(counts_ev, project = 'liver: ex vivo',
+> >                               meta.data = meta_ev)
+> >      
+> {: .solution}
+{: .challenge}
+
+
+> TBD: Between scRNAseq & citeSeq?
+
