@@ -1,0 +1,27 @@
+bootstrap: docker
+from: satijalab/seurat
+
+%post
+
+set -eu pipefail
+
+# Ubuntu updates (R uses Ubuntu)
+apt-get update
+apt-get upgrade -y
+apt-get autoremove -y
+apt-get autoclean -y
+
+apt-get install libcurl4-openssl-dev libxml2-dev libssh-dev x11-apps -y
+
+# Libraries
+R --slave -e "install.packages(c('here', 'assertthat', 'tidyverse'))"
+
+%runscript
+
+R --no-save
+
+%labels
+
+NAME Single-cell RNAseq class
+AUTHOR Daniel Gatti
+
