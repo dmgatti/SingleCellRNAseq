@@ -19,9 +19,56 @@ keypoints:
 
 ## Normalization (log and more specialized) 
 
+
+~~~
+liver_iv <- NormalizeData(liver_iv, normalization.method = "LogNormalize") %>% 
+            FindVariableFeatures(nfeatures = 2000) %>% 
+            ScaleData(vars.to.regress = c("percent.mt", "nCount_RNA")) %>%
+            RunPCA(verbose = FALSE, npcs = 100)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in NormalizeData(liver_iv, normalization.method = "LogNormalize") %>% : could not find function "%>%"
+~~~
+{: .error}
+
 ## Dimensionality reduction (UMAP, tSNE, etc) 
 
 ## Clustering 
+
+
+~~~
+ElbowPlot(liver_iv, ndims = 100) + geom_vline(xintercept = 27)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in Stdev(object = object, reduction = reduction): object 'liver_iv' not found
+~~~
+{: .error}
+
+
+
+~~~
+num_pc <- 27
+liver <- FindNeighbors(liver_iv, reduction = 'pca', 
+                       dims = 1:num_pc, verbose = FALSE) %>%
+           FindClusters(verbose = FALSE, resolution = 0.8) %>%
+           RunUMAP(reduction = 'pca', dims = 1:num_pc, verbose = FALSE)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in FindNeighbors(liver_iv, reduction = "pca", dims = 1:num_pc, verbose = FALSE) %>% : could not find function "%>%"
+~~~
+{: .error}
 
 ## Annotating cell types (+ automated options e.g. SingleR) 
 

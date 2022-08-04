@@ -48,13 +48,13 @@ At the time that this workshop was created, there were two major software packag
 
 ## Reading in CellRanger Data
 
-[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) software which analyzes Chromium single cell data to align reads, generates feature-barcode matrices, and performs other downstream analyses. CellRanger is provided by 10X Genomics. In this workshop, we will read in the feature-barcode matrix produced by CellRanger and will perform the downstream analysis using Seurat.
+[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) software which analyzes Chromium single cell data to align reads, generates feature-bar code matrices, and performs other downstream analyses. CellRanger is provided by 10X Genomics. In this workshop, we will read in the feature-bar code matrix produced by CellRanger and will perform the downstream analysis using Seurat.
 
 ### Liver Atlas
 
-In this lesson, we will read in a subset of data from the [Liver Atlas](https://livercellatlas.org/index.php), which is described in their [Cell paper](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1). Briefly, the authors performed scRNASeq on liver cells from mice and humans, identified cell types, clustered them, and made the data publicly available. We have subsampled this data to contain 25% of the cells in the original analysis to reduce memory usage and speed up the analysis time for this workshop.
+In this lesson, we will read in a subset of data from the [Liver Atlas](https://livercellatlas.org/index.php), which is described in their [Cell paper](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1). Briefly, the authors performed scRNASeq on liver cells from mice and humans, identified cell types, clustered them, and made the data publicly available. We have sub-sampled this data to contain 25% of the cells in the original analysis to reduce memory usage and speed up the analysis time for this workshop.
 
-We will be working with a subset of the mouse liver data. Before the workshop, you should have downloaded the data from <NEED TO FILL THIS IN> and placed it in your `data` directory. Go to the [Setup](../setup) page for instuctions on how to download the data files.
+We will be working with a subset of the mouse liver data. Before the workshop, you should have downloaded the data from <NEED TO FILL THIS IN> and placed it in your `data` directory. Go to the [Setup](../setup) page for instructions on how to download the data files.
 
 > TBD: Not sure where to host the files. Box requires a complex authentication process that I don't want to put the users through. Github has 100 MB file size limit. Looking into a cloud bucket, which we would need to pay monthly fees for. Maybe we put the data on figshare?
 
@@ -110,7 +110,7 @@ dim(counts)
 
 
 ~~~
-[1] 31053 83614
+[1] 31053 67202
 ~~~
 {: .output}
 
@@ -158,10 +158,10 @@ head(colnames(counts), n = 10)
 
 
 ~~~
- [1] "AGTCATGAGTACCATC-4"  "AAAGTCCCATACAGCT-21" "TGAATGCAGCCTTTCC-18"
- [4] "CCCTCTCCATACTGTG-10" "ATCCACCTCAGCGACC-1"  "CCTCCTCTCATCGCCT-18"
- [7] "CAAAGAAGTGTGGTCC-14" "TTGTTTGTCGCAGTTA-4"  "GAAGTAAAGTCTACCA-16"
-[10] "TGAGGTTAGAAAGTCT-26"
+ [1] "AAGAACAGTATGGAAT-4"  "CCTATCGGTGGAGGTT-24" "GGAGATGGTCTAGATC-16"
+ [4] "GCCAAATAGTGTTAGA-1"  "ACTCTCGGTCTAATCG-10" "GTGTGCGGTGGGTATG-1" 
+ [7] "ACTATGGTCCGAGATT-16" "TTACAGGGTCGGTACC-21" "GTGCATACACAGACTT-1" 
+[10] "TGTGAGTTCGTTATCT-16"
 ~~~
 {: .output}
 
@@ -200,7 +200,7 @@ counts[1:10, 1:20]
 
 
 ~~~
-   [[ suppressing 20 column names 'AGTCATGAGTACCATC-4', 'AAAGTCCCATACAGCT-21', 'TGAATGCAGCCTTTCC-18' ... ]]
+   [[ suppressing 20 column names 'AAGAACAGTATGGAAT-4', 'CCTATCGGTGGAGGTT-24', 'GGAGATGGTCTAGATC-16' ... ]]
 ~~~
 {: .output}
 
@@ -214,16 +214,16 @@ Gm37381 . . . . . . . . . . . . . . . . . . . .
 Rp1     . . . . . . . . . . . . . . . . . . . .
 Sox17   . . . . . . . . . . . . . . . . . . . .
 Gm37323 . . . . . . . . . . . . . . . . . . . .
-Mrpl15  1 . . . . . . . . . . . . . . . . . . 1
-Lypla1  . . . . . . . . 1 . . . . . . . . . . .
+Mrpl15  . . 1 . . . . . . . 1 . 3 . . . . . . .
+Lypla1  . 1 1 . . . . . . . . . . . . . . . . .
 Gm37988 . . . . . . . . . . . . . . . . . . . .
-Tcea1   . 1 . . . . 1 1 2 . 1 . . 1 . 1 . . . .
+Tcea1   . . . . . . . . . . . . . . . . . 1 . .
 ~~~
 {: .output}
 
 We can see the gene symbols in rows along the left. The barcodes are not shown to make the values easier to read. Each of the periods represents a zero. The '1' values represent a single read for a gene in one cell.
 
-Although `counts` looks like a matrix and you can use many matrix functions on it, `counts` is actually a different type of object. In scRNASeq, the read depth in each cell is quite low. So you many only get counts for a small number of genes in each cell. The `counts` matrix has 31053 rows and 83614, and includes 2.5964655 &times; 10<sup>9</sup> entries. However, most of these entries (93.4513405%) are zeros because every gene is not detected in every cell. It would be wasteful to store all of these zeros in memory. It would also make it difficult to store all of the data in memory. So `counts` is a 'sparse matrix', which only stores the positions of non-zero values in memory.
+Although `counts` looks like a matrix and you can use many matrix functions on it, `counts` is actually a different type of object. In scRNASeq, the read depth in each cell is quite low. So you many only get counts for a small number of genes in each cell. The `counts` matrix has 31053 rows and 67202, and includes 2.0868237 &times; 10<sup>9</sup> entries. However, most of these entries (93.4422454%) are zeros because every gene is not detected in every cell. It would be wasteful to store all of these zeros in memory. It would also make it difficult to store all of the data in memory. So `counts` is a 'sparse matrix', which only stores the positions of non-zero values in memory.
 
 Look at the structure of the `counts` matrix using [str](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/str). 
 
@@ -237,13 +237,13 @@ str(counts)
 
 ~~~
 Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
-  ..@ i       : int [1:170033687] 6 30 36 61 67 69 115 151 172 211 ...
-  ..@ p       : int [1:83615] 0 1176 2507 3639 4696 5103 6287 7824 8763 10489 ...
-  ..@ Dim     : int [1:2] 31053 83614
+  ..@ i       : int [1:136848778] 36 37 61 66 141 151 171 186 198 206 ...
+  ..@ p       : int [1:67203] 0 1035 2528 4241 5012 5906 6297 8079 9322 9823 ...
+  ..@ Dim     : int [1:2] 31053 67202
   ..@ Dimnames:List of 2
   .. ..$ : chr [1:31053] "Xkr4" "Gm1992" "Gm37381" "Rp1" ...
-  .. ..$ : chr [1:83614] "AGTCATGAGTACCATC-4" "AAAGTCCCATACAGCT-21" "TGAATGCAGCCTTTCC-18" "CCCTCTCCATACTGTG-10" ...
-  ..@ x       : num [1:170033687] 1 1 1 9 1 1 1 1 1 2 ...
+  .. ..$ : chr [1:67202] "AAGAACAGTATGGAAT-4" "CCTATCGGTGGAGGTT-24" "GGAGATGGTCTAGATC-16" "GCCAAATAGTGTTAGA-1" ...
+  ..@ x       : num [1:136848778] 2 1 7 1 1 1 1 1 1 1 ...
   ..@ factors : list()
 ~~~
 {: .output}
@@ -260,7 +260,7 @@ image(1:100, 400:600, t(as.matrix(counts[400:600,1:100]) > 0), xlab = 'Cells', y
 
 <img src="../fig/rmd-03-counts_image-1.png" title="plot of chunk counts_image" alt="plot of chunk counts_image" width="612" style="display: block; margin: auto;" />
 
-In the tile plot above, each row represents one gene and each column represents one cell. Red indicates non-zero values and yellow indicates zero values.  As you can see, most of the matrix consists of zeros (yellow tiles) and hence is called 'sparse'. You can also see that some genes are expressed in most cells, indicated by the horiozntal red lines, and that some genes are expressed in very few cells.
+In the tile plot above, each row represents one gene and each column represents one cell. Red indicates non-zero values and yellow indicates zero values.  As you can see, most of the matrix consists of zeros (yellow tiles) and hence is called 'sparse'. You can also see that some genes are expressed in most cells, indicated by the horizontal red lines, and that some genes are expressed in very few cells.
 
 What proportion of genes have zero counts in all samples? To answer this question, we will get the mean of the number of zeros in the first 10,000 cells. We will no
 
@@ -275,11 +275,11 @@ sum(gene_sums$sums == 0)
 
 
 ~~~
-[1] 7830
+[1] 6192
 ~~~
 {: .output}
 
-We can see that 7830 (0.2521496%) genes have no reads associated with them. In the next lesson, we will remove genes that have no counts in any cells.
+We can see that 6192 (0.199401%) genes have no reads associated with them. In the next lesson, we will remove genes that have no counts in any cells.
 
 Next, let's look at the number of counts in each cell.
 
@@ -291,13 +291,13 @@ hist(colSums(counts))
 
 <img src="../fig/rmd-03-cell_counts-1.png" title="plot of chunk cell_counts" alt="plot of chunk cell_counts" width="612" style="display: block; margin: auto;" />
 
-The range of counts covers several orders of magnitude, from 500 to 5.5356 &times; 10<sup>4</sup>. 
+The range of counts covers several orders of magnitude, from 500 to 2.89876 &times; 10<sup>5</sup>. 
 
 TBD: What do we say here? How does scRNAseq handle coverage?
 
 ### Sample Metadata
 
-Sample metadata refers to information about your samples that is not the "data", i.e. the gene counts. This might include information such as sex, tissue, or treatment. In the case of the liver atlas data, the authors provided a metadata file for thier samples.
+Sample metadata refers to information about your samples that is not the "data", i.e. the gene counts. This might include information such as sex, tissue, or treatment. In the case of the liver atlas data, the authors provided a metadata file for their samples.
 
 The sample metadata file is a comma-separated variable (CSV) file, We will read it in using the readr [read_csv](https://readr.tidyverse.org/reference/read_delim.html) function.
 
@@ -312,7 +312,7 @@ metadata = read_csv('../data/mouseStSt25pct/annot_metadata.csv')
 
 
 ~~~
-Rows: 83614 Columns: 8
+Rows: 67202 Columns: 8
 -- Column specification ------------------------------------------------------------------------------------------------
 Delimiter: ","
 chr (5): annot, sample, cell, digest, typeSample
@@ -337,24 +337,23 @@ head(metadata)
 # A tibble: 6 x 8
   UMAP_1 UMAP_2 cluster annot   sample cell                digest typeSample
    <dbl>  <dbl>   <dbl> <chr>   <chr>  <chr>               <chr>  <chr>     
-1  -3.75  -7.46      10 B cells CS53   AGTCATGAGTACCATC-4  inVivo scRnaSeq  
-2  -4.74  -7.69      10 B cells CS138  AAAGTCCCATACAGCT-21 inVivo citeSeq   
-3  -3.93  -7.95      10 B cells CS115  TGAATGCAGCCTTTCC-18 inVivo citeSeq   
-4  -5.68  -7.27      10 B cells CS93   CCCTCTCCATACTGTG-10 inVivo citeSeq   
-5  -3.73  -8.47      10 B cells CISE12 ATCCACCTCAGCGACC-1  exVivo citeSeq   
-6  -4.45  -7.17      10 B cells CS115  CCTCCTCTCATCGCCT-18 inVivo citeSeq   
+1  -4.45  -8.35      10 B cells CS53   AAGAACAGTATGGAAT-4  inVivo scRnaSeq  
+2  -5.35  -8.27      10 B cells CS141  CCTATCGGTGGAGGTT-24 exVivo citeSeq   
+3  -5.18  -8.50      10 B cells CS99   GGAGATGGTCTAGATC-16 exVivo scRnaSeq  
+4  -4.11  -6.83      10 B cells CISE12 GCCAAATAGTGTTAGA-1  exVivo citeSeq   
+5  -5.77  -7.23      10 B cells CS93   ACTCTCGGTCTAATCG-10 inVivo citeSeq   
+6  -3.95  -8.25      10 B cells CISE12 GTGTGCGGTGGGTATG-1  exVivo citeSeq   
 ~~~
 {: .output}
 
 In the table above, you can see that there are four columns:
 
 1. sample: mouse identifier from which cell was derived;
-1. cell: the DNA barcode used to identify the cell;
+1. cell: the DNA bar code used to identify the cell;
 1. digest: either "inVivo" or "exVivo". whether the cells were harvested *in vivo* or *ex vivo*,
 1. typeSample: either "scRnaSeq" or "citeSeq". The type of library preparation protocol, either single cell RNA-seq or [cite-seq](https://cite-seq.com/).
 
 We're going to explore the data using a series of Challenges. You will be asked to look at the contents of some of the columns to see how the data is distributed.
-
 
 
 How many mice were used to generate this data? How many cells were obtained from each mouse?
@@ -368,20 +367,20 @@ count(metadata, sample)
 
 
 ~~~
-# A tibble: 34 x 2
+# A tibble: 35 x 2
    sample      n
    <chr>   <int>
- 1 ARE1     2099
- 2 ARE6     2510
- 3 ARE7     2590
- 4 ARE8     2841
- 5 CISE12   1969
- 6 Ciseq13  1555
- 7 CS114    1716
- 8 CS115    3484
- 9 CS136    2152
-10 CS137    1458
-# ... with 24 more rows
+ 1 ARE1     1076
+ 2 ARE6     1239
+ 3 ARE7     1300
+ 4 ARE8     1465
+ 5 CISE12    943
+ 6 Ciseq13   795
+ 7 CS114     879
+ 8 CS115    1743
+ 9 CS136    1058
+10 CS137     733
+# ... with 25 more rows
 # i Use `print(n = ...)` to see more rows
 ~~~
 {: .output}
@@ -447,13 +446,21 @@ gc()
 
 
 ~~~
-            used   (Mb) gc trigger    (Mb)   max used    (Mb)
-Ncells   3490911  186.5    6530578   348.8    5118885   273.4
-Vcells 261973763 1998.8 1906560180 14545.9 2382766655 18179.1
+            used   (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells   3449038  184.2    6530531  348.8    5109750   272.9
+Vcells 133974047 1022.2 1271665924 9702.1 1560351389 11904.6
 ~~~
 {: .output}
 
+### Save Data for Next Lesson
 
+We will use the *in vivo* and *ex vivo* in the next lesson. Save it now and we will load it at the beginning of the next lesson. We will use R's [save](https://stat.ethz.ch/R-manual/R-devel/library/base/html/save.html) command to save the objects in compressed, binary format. The `save` command is useful when you want to save multiple objects in one file.
+
+
+~~~
+save(counts_iv, counts_ev, meta_iv, meta_ev, file = file.path(data_dir, 'lesson03.Rdata'))
+~~~
+{: .language-r}
 
 ### Session Info
 

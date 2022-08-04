@@ -17,34 +17,145 @@ keypoints:
 
 
 
-## Issues in scRNA-seq
-
-* false negatives
-* higher errors for low-copy transcripts
-
-## Creating a Seurat Object
-
-In order to use Seurat, we must take the sample metadata and gene counts and create a [Seurat Object](https://rdrr.io/cran/SeuratObject/man/Seurat-class.html). This is a data structure which organizes the data and metadata and will store aspects of the analysis as we progress through the workshop.
-
-Below, we will create a Seurat object for the *in vivo* liver data. We must first convert the cell metadata into a data.frame and place the barcodes in rownames. The we will pass the counts and metadata into the [CreateSeuratObject](https://search.r-project.org/CRAN/refmans/SeuratObject/html/CreateSeuratObject.html) function to create the Seurat object.
+## Load in Data from Previous Lesson
 
 
 ~~~
-meta_iv = as.data.frame(meta_iv) %>%
-            column_to_rownames('cell')
+load(file.path(data_dir, 'lesson03.Rdata'))
+~~~
+{: .language-r}
+
+## Issues in scRNA-seq
+
+There are many technical reasons why cells produced by an scRNA-seq protocol might not be of high quality. The goal of the quality control step is to assure that only single, live cells are included in the final data set. Failure to do this may adversely impact cell type identification, clustering, and interpretation of the data. 
+
+Some technical issues that may arise include:
+
+1. What happens to make mitochondrial expression higher?
+1. Why do we check for ribosomal gene content?
+1. What is UMI, what happens to make it bad, and why to we check UMI?
+1. What happens to make gene counts low in a cell and how do we use gene counts per cell to fix it?
+
+## Creating a Seurat Object
+
+### Filtering Genes by Counts
+
+As mentioned in an earlier lesson, the counts matrix is sparse and may contain rows (genes) or columns (cells) with low overall counts. In the case of genes, we may wish to exclude genes with zeros counts in most cells. Let's see how many genes have zeros counts across all cells. Note that the [Matrix package](https://cran.r-project.org/web/packages/Matrix/index.html) has a special implementation fo [rowSums](https://rdrr.io/rforge/Matrix/man/colSums.html) which works with sparse matrices.
+
+
+~~~
+gene_counts = rowSums(counts_iv, na.rm = TRUE)
+sum(gene_counts == 0)
 ~~~
 {: .language-r}
 
 
 
 ~~~
-Error in as.data.frame(meta_iv) %>% column_to_rownames("cell"): could not find function "%>%"
+[1] 9875
 ~~~
-{: .error}
+{: .output}
 
+Of the 31053 genes, 9875 have zero counts across all cells. These genes do not inform us about the mean, variance, or covariance of any of the other genes and we could remove them before proceeding with that analysis.
 
 
 ~~~
+counts_iv = counts_iv[gene_counts > 0,]
+~~~
+{: .language-r}
+
+This leaves 21178 genes in the counts matrix.
+
+We could also set some other threshold for filtering genes. Perhaps we should look at the number of genes that have different numbers of counts. We will use a histogram to look at the distribution of overall gene counts. Note that, since we just resized the counts matrix, we need to recalculate the gene_counts.
+
+We will count the number of cells in which each gene was detected. Because `counts_iv` is a sparse matrix, we have to be careful not to perform operations that would convert the entire matrix into a non-sparse matrix. This might happen if we wrote code like:
+
+```{}
+gene_counts = rowSums(counts_iv > 0)
+```
+
+The expression `counts_iv > 0` would create a logical matrix that takes up much more memory than the sparse matrix. Instead, we should use [apply](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/apply) to sum the genes with non-zero counts in each column.
+
+
+~~~
+gene_counts = apply(counts_iv, 1, function(z) { sum(z > 0, na.rm = TRUE) })
+hist(gene_counts, breaks = 1000, las = 1, xlab = 'Number of Cells with Counts > 0', ylab = 'Number of Genes')
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-04-gene_count_hist-1.png" title="plot of chunk gene_count_hist" alt="plot of chunk gene_count_hist" width="612" style="display: block; margin: auto;" />
+
+As you can see, there is a broad range of the number of cells that express each gene and this makes the plot difficult to interpret. Some genes are detected in all cells while others are detected in only one cell. Let's zoom in on the part with lower gene counts.
+
+
+~~~
+hist(gene_counts, breaks = 0:max(gene_counts), freq = TRUE, xlim = c(0, 100), las = 1, xlab = 'Number of Cells with Counts > 0', ylab = 'Number of Genes')
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-04-gene_count_hist_2-1.png" title="plot of chunk gene_count_hist_2" alt="plot of chunk gene_count_hist_2" width="612" style="display: block; margin: auto;" />
+
+In the plot above, we can see that there are about 1,500 genes that were detected in only one cell, and about 800 detected in two cells, etc.
+
+Rather than looking at the number of genes detected in each cell, it may be useful to look at the number of genes that would remain if we filtered the genes by the number of cells in which they were detected.  We will obtain the gene counts in each histogram bin, calculate the cumulative sum, and subtract this from the total number of genes.
+
+> TBD: The above paragraph feels really wordy and complicated. Revisit and revise.
+
+
+~~~
+h = hist(gene_counts, breaks = 0:max(gene_counts), plot = FALSE)
+y = length(gene_counts) - cumsum(c(0, h$counts))
+plot(h$breaks, y, type = 'l', las = 1, xlim = c(0, 1000),
+     xlab = 'Number of Cells with Counts > 0', ylab = 'Number of Genes')
+abline(v = 100, lty = 2, col = 'red')
+abline(h = y[101], lty = 2, col = 'red')
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-04-reverse_cdf_gene_counts-1.png" title="plot of chunk reverse_cdf_gene_counts" alt="plot of chunk reverse_cdf_gene_counts" width="612" style="display: block; margin: auto;" />
+
+In the plot above, we can see that we would retain about 21,000 genes if we kept all genes. We would retain about 13,500 genes if we filtered to retain genes detected in 100 or more cells.
+
+> ## Challenge 1
+> What total count threshold would you choose to filter genes? You may want to remake the plot above to include more cells on the X-axis. Remember that there are 23931 cells.
+>
+> > ## Solution to Challenge 1
+> >
+> > **TBD: Need Dan S. to provide rationale. **
+> {: .solution}
+{: .challenge}
+
+### Filtering Cells by Counts
+
+Next we will look at the number of genes expressed in each cell. If the cell processing does not go well, the total number of reads in a cell may be low, which leads to lower gene counts. Filtering out these cells is a quality control step that should improve your final results.
+
+Again, we will use the [apply](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/apply) function to count the number of genes detected in each cell.
+
+
+~~~
+cell_counts = apply(counts_iv, 2, function(z) { sum(z > 0) })
+hist(cell_counts, breaks = 1000, las = 1, xlab = 'Number of Genes with Counts > 0', 
+     ylab = 'Number of Cells')
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-04-sum_cell_counts-1.png" title="plot of chunk sum_cell_counts" alt="plot of chunk sum_cell_counts" width="612" style="display: block; margin: auto;" />
+
+> TBD: Can you have too many genes expressed? Are those doublets? 
+
+
+### Creating the Seurat Object
+
+In order to use Seurat, we must take the sample metadata and gene counts and create a [Seurat Object](https://rdrr.io/cran/SeuratObject/man/Seurat-class.html). This is a data structure which organizes the data and metadata and will store aspects of the analysis as we progress through the workshop.
+
+Below, we will create a Seurat object for the *in vivo* liver data. We must first convert the cell metadata into a data.frame and place the bar codes in rownames. The we will pass the counts and metadata into the [CreateSeuratObject](https://search.r-project.org/CRAN/refmans/SeuratObject/html/CreateSeuratObject.html) function to create the Seurat object. 
+
+In the section above, we examined the counts across genes and cells and proposed filtering by different threshold.  The CreateSeuratObject function contains two arguments, 'min.cells' and 'min.features', that allow us to filter the genes and cells by counts.
+
+
+~~~
+meta_iv = as.data.frame(meta_iv) %>%
+            column_to_rownames('cell')
 liver_iv = CreateSeuratObject(counts    = counts_iv, 
                               project   = 'liver: in vivo',
                               meta.data = meta_iv)
@@ -53,14 +164,60 @@ liver_iv = CreateSeuratObject(counts    = counts_iv,
 
 
 
-~~~
-Error in CreateSeuratObject(counts = counts_iv, project = "liver: in vivo", : object 'counts_iv' not found
-~~~
-{: .error}
-
-
-
 ## Typical filters for cell quality - %MT, ribosomal, number UMI, number genes 
+
+> Briefly review filters and reasons for them.
+
+### Filtering by Mitochondrial Gene Content
+
+During apoptosis, the cell membrane may break and release transcripts into the surrounding media. However, the mitochondrial transcripts will remain inside of the mitochondria. This will lead to an apparent, but spurious, increase in mitochondrial gene expression. As a result, we use the percentage of mitochondrial-encoded reads to filter out cells that were not healthy during sample processing. 
+
+> TBD: Mention that different cell types may have different levels of mitochondrial RNA content and how we handle this.
+
+
+~~~
+liver_iv <- liver_iv %>% 
+              PercentageFeatureSet(pattern = "^mt-", col.name = "percent.mt")
+~~~
+{: .language-r}
+
+
+~~~
+liver_iv[[c('annot', 'percent.mt')]] %>% 
+    ggplot(aes(annot, percent.mt + 0.01)) +
+      geom_boxplot() +
+      scale_y_log10() +
+      coord_flip()
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-04-mito_by_cell_type-1.png" title="plot of chunk mito_by_cell_type" alt="plot of chunk mito_by_cell_type" width="612" style="display: block; margin: auto;" />
+
+
+### Filtering Cells by Ribosomal Transcript Content
+
+
+
+### Filtering Cells by UMI
+
+> Define what UMI is. (Do we need a glossary?)
+
+
+
+### Filtering Cells by Total Gene Counts
+
+
+
+
+> ## Challenge 1
+> List three technical issues that can lead to poor scRNA-seq data quality and which filters we use to detect each one. 
+>
+> > ## Solution to Challenge 1
+> >
+> > 1 ). Cells may enter apoptosis during the disassociation protocol, which is indicated by high mitochondrial gene expression (why?).  
+> > 2 ). Etc. etc. 
+> {: .solution}
+{: .challenge}
 
 ## Differences between tissues and datatypes (single cell vs single nucleus, etc) 
 
@@ -85,3 +242,90 @@ Error in CreateSeuratObject(counts = counts_iv, project = "liver: in vivo", : ob
 
 > TBD: Between scRNAseq & citeSeq?
 
+### Save Data for Next Lesson
+
+We will use the Seurat object in the next lesson. Save it now and we will load it at the beginning of the next lesson. We will use R's [saveRDS](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html) command to save the Seurat object in compressed, binary format. The `saveRDS` function is useful when you want to save one object in compressed, binary format.
+
+
+~~~
+saveRDS(liver_iv, file = file.path(data_dir, 'lesson04.Rdata'))
+~~~
+{: .language-r}
+
+### Session Info
+
+
+~~~
+sessionInfo()
+~~~
+{: .language-r}
+
+
+
+~~~
+R version 4.1.2 (2021-11-01)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19042)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] sp_1.5-0           SeuratObject_4.1.0 Seurat_4.1.1       forcats_0.5.1     
+ [5] stringr_1.4.0      dplyr_1.0.9        purrr_0.3.4        readr_2.1.2       
+ [9] tidyr_1.2.0        tibble_3.1.7       ggplot2_3.3.6      tidyverse_1.3.2   
+[13] knitr_1.39        
+
+loaded via a namespace (and not attached):
+  [1] googledrive_2.0.0     Rtsne_0.16            colorspace_2.0-3     
+  [4] deldir_1.0-6          ellipsis_0.3.2        ggridges_0.5.3       
+  [7] fs_1.5.2              spatstat.data_2.2-0   farver_2.1.1         
+ [10] leiden_0.4.2          listenv_0.8.0         ggrepel_0.9.1        
+ [13] fansi_1.0.3           lubridate_1.8.0       xml2_1.3.3           
+ [16] codetools_0.2-18      splines_4.1.2         polyclip_1.10-0      
+ [19] jsonlite_1.8.0        broom_1.0.0           ica_1.0-3            
+ [22] cluster_2.1.3         dbplyr_2.2.1          png_0.1-7            
+ [25] rgeos_0.5-9           uwot_0.1.11           spatstat.sparse_2.1-1
+ [28] sctransform_0.3.3     shiny_1.7.2           compiler_4.1.2       
+ [31] httr_1.4.3            backports_1.4.1       lazyeval_0.2.2       
+ [34] assertthat_0.2.1      Matrix_1.4-1          fastmap_1.1.0        
+ [37] gargle_1.2.0          cli_3.3.0             later_1.3.0          
+ [40] htmltools_0.5.2       tools_4.1.2           igraph_1.3.2         
+ [43] gtable_0.3.0          glue_1.6.2            reshape2_1.4.4       
+ [46] RANN_2.6.1            Rcpp_1.0.9            scattermore_0.8      
+ [49] cellranger_1.1.0      vctrs_0.4.1           nlme_3.1-158         
+ [52] progressr_0.10.1      lmtest_0.9-40         spatstat.random_2.2-0
+ [55] xfun_0.31             globals_0.15.1        rvest_1.0.2          
+ [58] mime_0.12             miniUI_0.1.1.1        lifecycle_1.0.1      
+ [61] irlba_2.3.5           goftest_1.2-3         googlesheets4_1.0.0  
+ [64] future_1.27.0         MASS_7.3-57           zoo_1.8-10           
+ [67] scales_1.2.0          spatstat.core_2.4-4   spatstat.utils_2.3-1 
+ [70] hms_1.1.1             promises_1.2.0.1      parallel_4.1.2       
+ [73] RColorBrewer_1.1-3    gridExtra_2.3         reticulate_1.25      
+ [76] pbapply_1.5-0         rpart_4.1.16          stringi_1.7.6        
+ [79] highr_0.9             rlang_1.0.3           pkgconfig_2.0.3      
+ [82] matrixStats_0.62.0    evaluate_0.15         lattice_0.20-45      
+ [85] tensor_1.5            ROCR_1.0-11           htmlwidgets_1.5.4    
+ [88] patchwork_1.1.1       cowplot_1.1.1         tidyselect_1.1.2     
+ [91] parallelly_1.32.1     RcppAnnoy_0.0.19      plyr_1.8.7           
+ [94] magrittr_2.0.3        R6_2.5.1              generics_0.1.3       
+ [97] DBI_1.1.3             mgcv_1.8-40           pillar_1.8.0         
+[100] haven_2.5.0           withr_2.5.0           fitdistrplus_1.1-8   
+[103] abind_1.4-5           survival_3.3-1        future.apply_1.9.0   
+[106] modelr_0.1.8          crayon_1.5.1          KernSmooth_2.23-20   
+[109] utf8_1.2.2            spatstat.geom_2.4-0   plotly_4.10.0        
+[112] tzdb_0.3.0            grid_4.1.2            readxl_1.4.0         
+[115] data.table_1.14.2     reprex_2.0.1          digest_0.6.29        
+[118] xtable_1.8-4          httpuv_1.6.5          munsell_0.5.0        
+[121] viridisLite_0.4.0    
+~~~
+{: .output}

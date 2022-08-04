@@ -16,13 +16,31 @@ keypoints:
 ```{r, include=FALSE}
 source("../bin/chunk-options.R")
 knitr_fig_path("05-")
+
+library(Seurat)
 ```
 
 ## Normalization (log and more specialized) 
 
+```{r seurat2, message=FALSE}
+liver_iv <- NormalizeData(liver_iv, normalization.method = "LogNormalize") %>% 
+            FindVariableFeatures(nfeatures = 2000) %>% 
+            ScaleData(vars.to.regress = c("percent.mt", "nCount_RNA")) %>%
+            RunPCA(verbose = FALSE, npcs = 100)
+```
+
 ## Dimensionality reduction (UMAP, tSNE, etc) 
 
 ## Clustering 
+
+```{r seurat3, message=FALSE}
+ElbowPlot(liver_iv, ndims = 100) + geom_vline(xintercept = 27)
+num_pc <- 27
+liver <- FindNeighbors(liver_iv, reduction = 'pca', 
+                       dims = 1:num_pc, verbose = FALSE) %>%
+           FindClusters(verbose = FALSE, resolution = 0.8) %>%
+           RunUMAP(reduction = 'pca', dims = 1:num_pc, verbose = FALSE)
+```
 
 ## Annotating cell types (+ automated options e.g. SingleR) 
 

@@ -54,13 +54,13 @@ At the time that this workshop was created, there were two major software packag
 
 ## Reading in CellRanger Data
 
-[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) software which analyzes Chromium single cell data to align reads, generates feature-barcode matrices, and performs other downstream analyses. CellRanger is provided by 10X Genomics. In this workshop, we will read in the feature-barcode matrix produced by CellRanger and will perform the downstream analysis using Seurat.
+[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) software which analyzes Chromium single cell data to align reads, generates feature-bar code matrices, and performs other downstream analyses. CellRanger is provided by 10X Genomics. In this workshop, we will read in the feature-bar code matrix produced by CellRanger and will perform the downstream analysis using Seurat.
 
 ### Liver Atlas
 
-In this lesson, we will read in a subset of data from the [Liver Atlas](https://livercellatlas.org/index.php), which is described in their [Cell paper](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1). Briefly, the authors performed scRNASeq on liver cells from mice and humans, identified cell types, clustered them, and made the data publicly available. We have subsampled this data to contain 25% of the cells in the original analysis to reduce memory usage and speed up the analysis time for this workshop.
+In this lesson, we will read in a subset of data from the [Liver Atlas](https://livercellatlas.org/index.php), which is described in their [Cell paper](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1). Briefly, the authors performed scRNASeq on liver cells from mice and humans, identified cell types, clustered them, and made the data publicly available. We have sub-sampled this data to contain 25% of the cells in the original analysis to reduce memory usage and speed up the analysis time for this workshop.
 
-We will be working with a subset of the mouse liver data. Before the workshop, you should have downloaded the data from <NEED TO FILL THIS IN> and placed it in your `data` directory. Go to the [Setup](../setup) page for instuctions on how to download the data files.
+We will be working with a subset of the mouse liver data. Before the workshop, you should have downloaded the data from <NEED TO FILL THIS IN> and placed it in your `data` directory. Go to the [Setup](../setup) page for instructions on how to download the data files.
 
 > TBD: Not sure where to host the files. Box requires a complex authentication process that I don't want to put the users through. Github has 100 MB file size limit. Looking into a cloud bucket, which we would need to pay monthly fees for. Maybe we put the data on figshare?
 
@@ -161,7 +161,7 @@ Let's look at small portion of `counts`. We will create a tile plot indicating w
 image(1:100, 400:600, t(as.matrix(counts[400:600,1:100]) > 0), xlab = 'Cells', ylab = 'Genes')
 ```
 
-In the tile plot above, each row represents one gene and each column represents one cell. Red indicates non-zero values and yellow indicates zero values.  As you can see, most of the matrix consists of zeros (yellow tiles) and hence is called 'sparse'. You can also see that some genes are expressed in most cells, indicated by the horiozntal red lines, and that some genes are expressed in very few cells.
+In the tile plot above, each row represents one gene and each column represents one cell. Red indicates non-zero values and yellow indicates zero values.  As you can see, most of the matrix consists of zeros (yellow tiles) and hence is called 'sparse'. You can also see that some genes are expressed in most cells, indicated by the horizontal red lines, and that some genes are expressed in very few cells.
 
 What proportion of genes have zero counts in all samples? To answer this question, we will get the mean of the number of zeros in the first 10,000 cells. We will no
 
@@ -185,7 +185,7 @@ TBD: What do we say here? How does scRNAseq handle coverage?
 
 ### Sample Metadata
 
-Sample metadata refers to information about your samples that is not the "data", i.e. the gene counts. This might include information such as sex, tissue, or treatment. In the case of the liver atlas data, the authors provided a metadata file for thier samples.
+Sample metadata refers to information about your samples that is not the "data", i.e. the gene counts. This might include information such as sex, tissue, or treatment. In the case of the liver atlas data, the authors provided a metadata file for their samples.
 
 The sample metadata file is a comma-separated variable (CSV) file, We will read it in using the readr [read_csv](https://readr.tidyverse.org/reference/read_delim.html) function.
 
@@ -204,12 +204,11 @@ head(metadata)
 In the table above, you can see that there are four columns:
 
 1. sample: mouse identifier from which cell was derived;
-1. cell: the DNA barcode used to identify the cell;
+1. cell: the DNA bar code used to identify the cell;
 1. digest: either "inVivo" or "exVivo". whether the cells were harvested *in vivo* or *ex vivo*,
 1. typeSample: either "scRnaSeq" or "citeSeq". The type of library preparation protocol, either single cell RNA-seq or [cite-seq](https://cite-seq.com/).
 
 We're going to explore the data using a series of Challenges. You will be asked to look at the contents of some of the columns to see how the data is distributed.
-
 
 
 How many mice were used to generate this data? How many cells were obtained from each mouse?
@@ -272,7 +271,13 @@ rm(counts, metadata)
 gc()
 ```
 
+### Save Data for Next Lesson
 
+We will use the *in vivo* and *ex vivo* in the next lesson. Save it now and we will load it at the beginning of the next lesson. We will use R's [save](https://stat.ethz.ch/R-manual/R-devel/library/base/html/save.html) command to save the objects in compressed, binary format. The `save` command is useful when you want to save multiple objects in one file.
+
+```{r save_data}
+save(counts_iv, counts_ev, meta_iv, meta_ev, file = file.path(data_dir, 'lesson03.Rdata'))
+```
 
 ### Session Info
 
