@@ -27,8 +27,7 @@ data_dir = '../data'
 
 ## What files are delivered? Details of FASTQ, etc.
 
-* One FASTQ file per cell (???).
-
+> TBD: DAS to fill in.
 
 ## Typical pre-processing pipeline -- 10X CellRanger 
 
@@ -58,13 +57,13 @@ At the time that this workshop was created, there were two major software packag
 
 ### Liver Atlas
 
-In this lesson, we will read in a subset of data from the [Liver Atlas](https://livercellatlas.org/index.php), which is described in their [Cell paper](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1). Briefly, the authors performed scRNASeq on liver cells from mice and humans, identified cell types, clustered them, and made the data publicly available. We have sub-sampled this data to contain 25% of the cells in the original analysis to reduce memory usage and speed up the analysis time for this workshop.
+In this lesson, we will read in a subset of data from the [Liver Atlas](https://livercellatlas.org/index.php), which is described in their [Cell paper](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1). Briefly, the authors performed scRNASeq on liver cells from mice and humans, identified cell types, clustered them, and made the data publicly available. We split the data into two sets, one to use in the lesson and one for the challenges. We have also sub-sampled each subset to contain 75% of the cells to reduce memory usage and speed up the analysis time for this workshop.
 
 We will be working with a subset of the mouse liver data. Before the workshop, you should have downloaded the data from <NEED TO FILL THIS IN> and placed it in your `data` directory. Go to the [Setup](../setup) page for instructions on how to download the data files.
 
-> TBD: Not sure where to host the files. Box requires a complex authentication process that I don't want to put the users through. Github has 100 MB file size limit. Looking into a cloud bucket, which we would need to pay monthly fees for. Maybe we put the data on figshare?
+> TBD: Not sure where to host the files. Maybe on Box with a public link. Can't figure out how to grab using RCurl yet.
 
-Open a file browser and look in the `mouseStSt25pct` directory and you should see three files. Each file ends with 'gz', which indicates that it has been compressed (or 'zipped') using [gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; the software that we use will uncompress the files as it reads them in. The files are:
+Open a file browser and look in the `mouseStSt_scrnaseq_75pct` directory and you should see three files. Each file ends with 'gz', which indicates that it has been compressed (or 'zipped') using [gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; the software that we use will uncompress the files as it reads them in. The files are:
 
 * matrix.mtx.gz: Two-dimensional matrix containing the counts for each gene in each cell.
     * Genes are in rows and cells are in columns.
@@ -75,15 +74,15 @@ Open a file browser and look in the `mouseStSt25pct` directory and you should se
 ![Counts Matrix](../fig/counts_matrix.png)
 
 > ## Challenge 1
-> 1). R has a function called [file.size](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/file.info). Look at the help for this function and get the size of each of the files in the `mouseStSt25pct` directory.  Which one is the largest?  
+> 1). R has a function called [file.size](https://stat.ethz.ch/R-manual/R-devel/library/base/html/file.info.html). Look at the help for this function and get the size of each of the files in the `mouseStSt_scrnaseq_75pct` directory.  Which one is the largest?  
 >
 > > ## Solution to Challenge 1
 > >
-> > 1). `file.size(file.path(data_dir, 'mouseStSt25pct', 'barcodes.tsv.gz'))`  
+> > 1). `file.size(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'barcodes.tsv.gz'))`  
 > >     584346 bytes  
-> >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'features.tsv.gz'))`  
+> >     `file.size(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'features.tsv.gz'))`  
 > >     113733 bytes  
-> >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'matrix.mtx.gz'))`  
+> >     `file.size(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'matrix.mtx.gz'))`  
 > >     603248953 bytes  
 > >     'matrix.mtx.gz' is the largest file.     
 > {: .solution}
@@ -98,7 +97,7 @@ We will use the `gene.column = 1` argument to tell Seurat to use the first colum
 Run the following command. This may take up to 3 minutes to complete.
 
 ```{r read_counts}
-counts = Seurat::Read10X(file.path(data_dir, 'mouseStSt25pct'), gene.column = 1)
+counts = Seurat::Read10X(file.path(data_dir, 'mouseStSt_scrnaseq_75pct'), gene.column = 1)
 ```
 
 `counts` now contains the sequencing read counts for each gene and cell.
@@ -147,7 +146,7 @@ We can see the gene symbols in rows along the left. The barcodes are not shown t
 
 Although `counts` looks like a matrix and you can use many matrix functions on it, `counts` is actually a different type of object. In scRNASeq, the read depth in each cell is quite low. So you many only get counts for a small number of genes in each cell. The `counts` matrix has `r nrow(counts)` rows and `r ncol(counts)`, and includes `r exp(log(nrow(counts)) + log(ncol(counts)))` entries. However, most of these entries (`r sum(counts == 0) / exp(log(nrow(counts)) + log(ncol(counts))) * 100`%) are zeros because every gene is not detected in every cell. It would be wasteful to store all of these zeros in memory. It would also make it difficult to store all of the data in memory. So `counts` is a 'sparse matrix', which only stores the positions of non-zero values in memory.
 
-Look at the structure of the `counts` matrix using [str](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/str). 
+Look at the structure of the `counts` matrix using [str](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/str.html). 
 
 ```{r counts_class}
 str(counts)
@@ -192,7 +191,7 @@ The sample metadata file is a comma-separated variable (CSV) file, We will read 
 > TBD: Use a metadata file that does NOT have cell identities & UMAP coordinates here? Then reveal the full one later.
 
 ```{r read_metadata}
-metadata = read_csv('../data/mouseStSt25pct/annot_metadata.csv')
+metadata = read_csv(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'annot_metadata.csv'))
 ```
 
 Let's look at the top of the metadata.
@@ -206,16 +205,9 @@ In the table above, you can see that there are four columns:
 1. sample: mouse identifier from which cell was derived;
 1. cell: the DNA bar code used to identify the cell;
 1. digest: either "inVivo" or "exVivo". whether the cells were harvested *in vivo* or *ex vivo*,
-1. typeSample: either "scRnaSeq" or "citeSeq". The type of library preparation protocol, either single cell RNA-seq or [cite-seq](https://cite-seq.com/).
+1. typeSample: either "scRnaSeq" or "nucSeq". The type of library preparation protocol, either single cell RNA-seq or nuclear sequencing.
 
 We're going to explore the data using a series of Challenges. You will be asked to look at the contents of some of the columns to see how the data is distributed.
-
-
-How many mice were used to generate this data? How many cells were obtained from each mouse?
-
-```{r count_sample}
-count(metadata, sample)
-```
 
 > ## Challenge 2
 > How many mice were used to produce this data? The "sample" column contains the mouse identifier for each cell.  
@@ -244,40 +236,37 @@ count(metadata, sample)
 > > ## Solution to Challenge 4
 > >
 > > count(metadata, digest, typeSample)  
-> > From this, we can see that ther are between 15 and 25 thousand cells in each class.
+> > From this, we can see that ther are between 15 and 75 thousand cells in each class.
 > {: .solution}
 {: .challenge}
 
 > TBD: Use a treemap to look at the proportion of samples from each digest/protocol? It's not required, but could be fun.
 
-## Split Data into *in vivo* and *ex vivo* Sets
-
-In this workshop, we will attempt to reproduce the results of the [Liver Atlas](https://livercellatlas.org/index.php) using Seurat. We will analyze the *in vivo* data together and you will analyze the *ex vivo* data during Challenges.
-
-We will split the counts and metadata into *in vivo* and *ex vivo* sets.
-
-```{r split_data}
-meta_iv = filter(metadata, digest == 'inVivo')
-meta_ev = filter(metadata, digest == 'exVivo')
-
-counts_iv = counts[,meta_iv$cell]
-counts_ev = counts[,meta_ev$cell]
-```
-
-Once you have run the code above, delete the original counts and metadata to reduce your memory footprint.
-
-```{r rm_full_data}
-rm(counts, metadata)
-gc()
-```
+In this workshop, we will attempt to reproduce the results of the [Liver Atlas](https://livercellatlas.org/index.php) using Seurat. We will analyze the *scRNASeq* and *nucSeq* data together and you will analyze the *citeSeq* data during Challenges.
 
 ### Save Data for Next Lesson
 
 We will use the *in vivo* and *ex vivo* in the next lesson. Save it now and we will load it at the beginning of the next lesson. We will use R's [save](https://stat.ethz.ch/R-manual/R-devel/library/base/html/save.html) command to save the objects in compressed, binary format. The `save` command is useful when you want to save multiple objects in one file.
 
 ```{r save_data}
-save(counts_iv, counts_ev, meta_iv, meta_ev, file = file.path(data_dir, 'lesson03.Rdata'))
+save(counts, metadata, file = file.path(data_dir, 'lesson03.Rdata'))
 ```
+
+> ## Challenge 5
+> In the lesson above, you read in the scRNASeq and nucSeq data. There is another dataset which was created using "citeSeq" in the `mouseStSt_citeseq_75pct` directory. Delete the `counts` and `metadata` objects from your environment. Then read in the counts and metadata from the `mouseStSt_citeseq_75pct` directory and save them to a file called 'lesson03_challenge.Rdata'.
+>
+> > ## Solution to Challenge 5
+> >
+> > `# Remove exising counts and metadata.`  
+> > `rm(counts, metadata)`
+> > `# Read in new counts.`  
+> > `counts = Seurat::Read10X(file.path(data_dir, 'mouseStSt_citeseq_75pct'), gene.column = 1)`  
+> > `# Read in new metadata.`  
+> > `metadata = read_csv(file.path(data_dir, 'mouseStSt_citeseq_75pct', 'annot_metadata.csv'))`  
+> > `# Save data for next lesson.`  
+> > `save(counts, metadata, file = file.path(data_dir, 'lesson03_challenge.Rdata'))`  
+> {: .solution}
+{: .challenge}
 
 ### Session Info
 
