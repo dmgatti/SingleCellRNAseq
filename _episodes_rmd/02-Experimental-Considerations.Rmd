@@ -7,7 +7,7 @@ questions:
 - "How do I design a single cell RNAseq experiment?"
 objectives:
 - "Understand the importance of biological replication for reproducibility and rigor."
-- "Understand the differences between pooling methods and select between them."
+- "Understand the differences between pooling methods and choose between them."
 - "Understand why confounding experimental batch with the variable of interest makes it impossible to disentangle the two."
 - "Understand the different data modalities in single-cell sequencing and be able to select a modality to answer an experimental question."
 keypoints:
@@ -22,11 +22,11 @@ knitr_fig_path("02-")
 
 ## Biological replication  
 
-
+> TBD: DAS to fill in.
 
 ## Pooling options  
 
-
+> TBD: DAS to fill in.
 
 ### Avoid Confounding Batch with Experimental Variables
 
@@ -41,8 +41,11 @@ In order to reduce the effect of batch structure on your experiment is it crucia
 
 ## Different data modalities (cell vs nuclei, RNA vs ATAC, etc) 
 
+> TBD: DAS to fill in.
 
 ## Brief overview of choices available from 10X for how to run samples
+
+> TBD: DAS to fill in.
 
 > ## Recommended Reading
 >

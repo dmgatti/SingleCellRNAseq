@@ -17,24 +17,92 @@ keypoints:
 
 
 
-## Normalization (log and more specialized) 
+## Read Data from Previous Lesson
 
 
 ~~~
-liver_iv <- NormalizeData(liver_iv, normalization.method = "LogNormalize") %>% 
-            FindVariableFeatures(nfeatures = 2000) %>% 
-            ScaleData(vars.to.regress = c("percent.mt", "nCount_RNA")) %>%
-            RunPCA(verbose = FALSE, npcs = 100)
+liver_iv = readRDS(file.path(data_dir, 'lesson04.rds'))
 ~~~
 {: .language-r}
 
 
 
 ~~~
-Error in NormalizeData(liver_iv, normalization.method = "LogNormalize") %>% : could not find function "%>%"
+Warning in gzfile(file, "rb"): cannot open compressed file '../data/
+lesson04.rds', probable reason 'No such file or directory'
+~~~
+{: .warning}
+
+
+
+~~~
+Error in gzfile(file, "rb"): cannot open the connection
 ~~~
 {: .error}
 
+
+## Normalization (log and more specialized) 
+
+> TBD: How do we show a histogram of the unnormalized and normalized values?
+
+The count data is usually log-normally distributed. Many statistical methods work best when the data is normally distributed. 
+
+
+~~~
+liver_iv <- liver_iv %>%
+              NormalizeData(normalization.method = "LogNormalize")
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in NormalizeData(., normalization.method = "LogNormalize"): object 'liver_iv' not found
+~~~
+{: .error}
+
+
+~~~
+liver_iv <- liver_iv %>% 
+              FindVariableFeatures(nfeatures = 2000)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in FindVariableFeatures(., nfeatures = 2000): object 'liver_iv' not found
+~~~
+{: .error}
+
+
+
+~~~
+liver_iv <- liver_iv %>%
+              ScaleData(vars.to.regress = c("percent.mt", "nCount_RNA"))
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in ScaleData(., vars.to.regress = c("percent.mt", "nCount_RNA")): object 'liver_iv' not found
+~~~
+{: .error}
+
+
+~~~
+liver_iv <- liver_iv %>%
+              RunPCA(verbose = FALSE, npcs = 100)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in RunPCA(., verbose = FALSE, npcs = 100): object 'liver_iv' not found
+~~~
+{: .error}
 ## Dimensionality reduction (UMAP, tSNE, etc) 
 
 ## Clustering 
@@ -66,7 +134,7 @@ liver <- FindNeighbors(liver_iv, reduction = 'pca',
 
 
 ~~~
-Error in FindNeighbors(liver_iv, reduction = "pca", dims = 1:num_pc, verbose = FALSE) %>% : could not find function "%>%"
+Error in FindNeighbors(liver_iv, reduction = "pca", dims = 1:num_pc, verbose = FALSE): object 'liver_iv' not found
 ~~~
 {: .error}
 

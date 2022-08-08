@@ -17,7 +17,7 @@ keypoints:
 
 
 
-## Load in Data from Previous Lesson
+## Read Data from Previous Lesson
 
 
 ~~~
@@ -44,7 +44,7 @@ As mentioned in an earlier lesson, the counts matrix is sparse and may contain r
 
 
 ~~~
-gene_counts = rowSums(counts_iv, na.rm = TRUE)
+gene_counts = rowSums(counts, na.rm = TRUE)
 sum(gene_counts == 0)
 ~~~
 {: .language-r}
@@ -52,50 +52,52 @@ sum(gene_counts == 0)
 
 
 ~~~
-[1] 9875
+[1] 4618
 ~~~
 {: .output}
 
-Of the 31053 genes, 9875 have zero counts across all cells. These genes do not inform us about the mean, variance, or covariance of any of the other genes and we could remove them before proceeding with that analysis.
+Of the 31053 genes, 4618 have zero counts across all cells. These genes do not inform us about the mean, variance, or covariance of any of the other genes and we could remove them before proceeding with that analysis.
 
 
 ~~~
-counts_iv = counts_iv[gene_counts > 0,]
+counts = counts[gene_counts > 0,]
 ~~~
 {: .language-r}
 
-This leaves 21178 genes in the counts matrix.
+This leaves 26435 genes in the counts matrix.
 
 We could also set some other threshold for filtering genes. Perhaps we should look at the number of genes that have different numbers of counts. We will use a histogram to look at the distribution of overall gene counts. Note that, since we just resized the counts matrix, we need to recalculate the gene_counts.
 
-We will count the number of cells in which each gene was detected. Because `counts_iv` is a sparse matrix, we have to be careful not to perform operations that would convert the entire matrix into a non-sparse matrix. This might happen if we wrote code like:
+We will count the number of cells in which each gene was detected. Because `counts` is a sparse matrix, we have to be careful not to perform operations that would convert the entire matrix into a non-sparse matrix. This might happen if we wrote code like:
 
 ```{}
-gene_counts = rowSums(counts_iv > 0)
+gene_counts = rowSums(counts > 0)
 ```
 
-The expression `counts_iv > 0` would create a logical matrix that takes up much more memory than the sparse matrix. Instead, we should use [apply](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/apply) to sum the genes with non-zero counts in each column.
+The expression `counts > 0` would create a logical matrix that takes up much more memory than the sparse matrix. We might be tempted to try `rowSums(counts == 0)`, but this would also result in a non-sparse matrix because most of the values would be `TRUE`. However, if we evaluate `rowSums(counts != 0)`, then most of the values would be `FALSE`, which can be stored as 0 and so the matrix would still be sparse.
 
 
 ~~~
-gene_counts = apply(counts_iv, 1, function(z) { sum(z > 0, na.rm = TRUE) })
-hist(gene_counts, breaks = 1000, las = 1, xlab = 'Number of Cells with Counts > 0', ylab = 'Number of Genes')
+gene_counts = rowSums(counts != 0)
+hist(gene_counts, breaks = 1000, las = 1, xlab = 'Number of Cells with Counts > 0', 
+     ylab = 'Number of Genes')
 ~~~
 {: .language-r}
 
 <img src="../fig/rmd-04-gene_count_hist-1.png" title="plot of chunk gene_count_hist" alt="plot of chunk gene_count_hist" width="612" style="display: block; margin: auto;" />
 
-As you can see, there is a broad range of the number of cells that express each gene and this makes the plot difficult to interpret. Some genes are detected in all cells while others are detected in only one cell. Let's zoom in on the part with lower gene counts.
+As you can see, there is a broad range of the number of cells that express each gene and this makes it difficult to interpret the plot. Some genes are detected in all cells while others are detected in only one cell. Let's zoom in on the part with lower gene counts.
 
 
 ~~~
-hist(gene_counts, breaks = 0:max(gene_counts), freq = TRUE, xlim = c(0, 100), las = 1, xlab = 'Number of Cells with Counts > 0', ylab = 'Number of Genes')
+hist(gene_counts, breaks = -1:max(gene_counts), freq = TRUE, xlim = c(0, 100), las = 1, 
+     xlab = 'Number of Cells with Counts > 0', ylab = 'Number of Genes')
 ~~~
 {: .language-r}
 
 <img src="../fig/rmd-04-gene_count_hist_2-1.png" title="plot of chunk gene_count_hist_2" alt="plot of chunk gene_count_hist_2" width="612" style="display: block; margin: auto;" />
 
-In the plot above, we can see that there are about 1,500 genes that were detected in only one cell, and about 800 detected in two cells, etc.
+In the plot above, we can see that there are 0 genes that were detected in only zero cells, 1186 genes detected in one cell, etc.
 
 Rather than looking at the number of genes detected in each cell, it may be useful to look at the number of genes that would remain if we filtered the genes by the number of cells in which they were detected.  We will obtain the gene counts in each histogram bin, calculate the cumulative sum, and subtract this from the total number of genes.
 
@@ -103,7 +105,7 @@ Rather than looking at the number of genes detected in each cell, it may be usef
 
 
 ~~~
-h = hist(gene_counts, breaks = 0:max(gene_counts), plot = FALSE)
+h = hist(gene_counts, breaks = -1:max(gene_counts), plot = FALSE)
 y = length(gene_counts) - cumsum(c(0, h$counts))
 plot(h$breaks, y, type = 'l', las = 1, xlim = c(0, 1000),
      xlab = 'Number of Cells with Counts > 0', ylab = 'Number of Genes')
@@ -114,14 +116,14 @@ abline(h = y[101], lty = 2, col = 'red')
 
 <img src="../fig/rmd-04-reverse_cdf_gene_counts-1.png" title="plot of chunk reverse_cdf_gene_counts" alt="plot of chunk reverse_cdf_gene_counts" width="612" style="display: block; margin: auto;" />
 
-In the plot above, we can see that we would retain about 21,000 genes if we kept all genes. We would retain about 13,500 genes if we filtered to retain genes detected in 100 or more cells.
+In the plot above, we can see that we would retain about 21,000 genes if we kept all genes. We would retain 1.7351 &times; 10<sup>4</sup> genes if we filtered to retain genes detected in 100 or more cells.
 
 > ## Challenge 1
-> What total count threshold would you choose to filter genes? You may want to remake the plot above to include more cells on the X-axis. Remember that there are 23931 cells.
+> What total count threshold would you choose to filter genes? You may want to remake the plot above to include more cells on the X-axis. Remember that there are 109232 cells.
 >
 > > ## Solution to Challenge 1
 > >
-> > **TBD: Need Dan S. to provide rationale. **
+> > **TBD: Need DAS. to provide rationale. **
 > {: .solution}
 {: .challenge}
 
@@ -129,11 +131,11 @@ In the plot above, we can see that we would retain about 21,000 genes if we kept
 
 Next we will look at the number of genes expressed in each cell. If the cell processing does not go well, the total number of reads in a cell may be low, which leads to lower gene counts. Filtering out these cells is a quality control step that should improve your final results.
 
-Again, we will use the [apply](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/apply) function to count the number of genes detected in each cell.
+Again, we will use perform calculations on `counts != 0` because that is a sparse matrix.
 
 
 ~~~
-cell_counts = apply(counts_iv, 2, function(z) { sum(z > 0) })
+cell_counts = colSums(counts != 0)
 hist(cell_counts, breaks = 1000, las = 1, xlab = 'Number of Genes with Counts > 0', 
      ylab = 'Number of Cells')
 ~~~
@@ -143,25 +145,27 @@ hist(cell_counts, breaks = 1000, las = 1, xlab = 'Number of Genes with Counts > 
 
 > TBD: Can you have too many genes expressed? Are those doublets? 
 
-
 ### Creating the Seurat Object
 
 In order to use Seurat, we must take the sample metadata and gene counts and create a [Seurat Object](https://rdrr.io/cran/SeuratObject/man/Seurat-class.html). This is a data structure which organizes the data and metadata and will store aspects of the analysis as we progress through the workshop.
 
-Below, we will create a Seurat object for the *in vivo* liver data. We must first convert the cell metadata into a data.frame and place the bar codes in rownames. The we will pass the counts and metadata into the [CreateSeuratObject](https://search.r-project.org/CRAN/refmans/SeuratObject/html/CreateSeuratObject.html) function to create the Seurat object. 
+Below, we will create a Seurat object for the liver data. We must first convert the cell metadata into a data.frame and place the bar codes in rownames. The we will pass the counts and metadata into the [CreateSeuratObject](https://search.r-project.org/CRAN/refmans/SeuratObject/html/CreateSeuratObject.html) function to create the Seurat object. 
 
 In the section above, we examined the counts across genes and cells and proposed filtering by different threshold.  The CreateSeuratObject function contains two arguments, 'min.cells' and 'min.features', that allow us to filter the genes and cells by counts.
 
+> TBD: DAS to provide rationale and values for cell and feature filtering. Also, do we want to do it here or follow the Seurat tutorial and do it after creating the object?
+
 
 ~~~
-meta_iv = as.data.frame(meta_iv) %>%
-            column_to_rownames('cell')
-liver_iv = CreateSeuratObject(counts    = counts_iv, 
-                              project   = 'liver: in vivo',
-                              meta.data = meta_iv)
+metadata = as.data.frame(metadata) %>%
+              column_to_rownames('cell')
+liver = CreateSeuratObject(counts       = counts, 
+                           project      = 'liver: sc & nuc RNAseq',
+                           meta.data    = metadata,
+                           min.cells    = 100,
+                           min.features = 100)
 ~~~
 {: .language-r}
-
 
 
 ## Typical filters for cell quality - %MT, ribosomal, number UMI, number genes 
@@ -176,14 +180,27 @@ During apoptosis, the cell membrane may break and release transcripts into the s
 
 
 ~~~
-liver_iv <- liver_iv %>% 
+liver <- liver %>% 
               PercentageFeatureSet(pattern = "^mt-", col.name = "percent.mt")
 ~~~
 {: .language-r}
 
+> TBD: Seurat uses a 5% threshold for MT content.
+
 
 ~~~
-liver_iv[[c('annot', 'percent.mt')]] %>% 
+VlnPlot(liver, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-04-seurat_counts_plots-1.png" title="plot of chunk seurat_counts_plots" alt="plot of chunk seurat_counts_plots" width="612" style="display: block; margin: auto;" />
+
+
+> TBD: I made the plot below to see if there are mitochondrial expression differences by annotated cell type. The students won't have this file at this stage of the analysis. But how do we discuss these differences? Since we're looking for high values, it may not be too important.
+
+
+~~~
+liver[[c('annot', 'percent.mt')]] %>% 
     ggplot(aes(annot, percent.mt + 0.01)) +
       geom_boxplot() +
       scale_y_log10() +
@@ -192,6 +209,14 @@ liver_iv[[c('annot', 'percent.mt')]] %>%
 {: .language-r}
 
 <img src="../fig/rmd-04-mito_by_cell_type-1.png" title="plot of chunk mito_by_cell_type" alt="plot of chunk mito_by_cell_type" width="612" style="display: block; margin: auto;" />
+
+> TBD: What threshold do we use? And provide rationale.
+
+
+~~~
+liver <- subset(liver, subset = percent.mt < 15)
+~~~
+{: .language-r}
 
 
 ### Filtering Cells by Ribosomal Transcript Content
@@ -206,41 +231,36 @@ liver_iv[[c('annot', 'percent.mt')]] %>%
 
 ### Filtering Cells by Total Gene Counts
 
+> TBD: Didn't we do this when we created the Seurat object?
 
 
 
-> ## Challenge 1
+
+> ## Challenge 2
 > List three technical issues that can lead to poor scRNA-seq data quality and which filters we use to detect each one. 
 >
-> > ## Solution to Challenge 1
+> > ## Solution to Challenge 2
 > >
 > > 1 ). Cells may enter apoptosis during the disassociation protocol, which is indicated by high mitochondrial gene expression (why?).  
-> > 2 ). Etc. etc. 
+> > 2 ). Etc. etc. DAS to help fill in.
 > {: .solution}
 {: .challenge}
 
 ## Differences between tissues and datatypes (single cell vs single nucleus, etc) 
 
+> TBD: DAS to fill in.
+
 ## Cell cycle assignment 
+
+> TBD: DAS to fill in.
 
 ## Doublet detection 
 
+> TBD: DAS to fill in.
+
 ## Batch correction
 
-> ## Challenge 1
-> Create a Seurat object for the *ex vivo* data. We would suggest that you name the object 'counts_ev' so that you can follow upcoming Challenges.
->
-> > ## Solution to Challenge 1
-> > meta_ev = as.data.frame(meta_ev) %>%
-> >             column_to_rownames('cell')
-> > liver_ev = CreateSeuratObject(counts_ev, project = 'liver: ex vivo',
-> >                               meta.data = meta_ev)
-> >      
-> {: .solution}
-{: .challenge}
-
-
-> TBD: Between scRNAseq & citeSeq?
+> TBD: We will correct between in vivo, ex vivo, & nuc seq. Students will correct between in vivo & ex vivo.
 
 ### Save Data for Next Lesson
 
@@ -248,9 +268,47 @@ We will use the Seurat object in the next lesson. Save it now and we will load i
 
 
 ~~~
-saveRDS(liver_iv, file = file.path(data_dir, 'lesson04.Rdata'))
+saveRDS(liver, file = file.path(data_dir, 'lesson04.Rdata'))
 ~~~
 {: .language-r}
+
+> ## Challenge 3
+> Delete the existing counts and metadata objects. Read in the  *citeSeq* data that you saved at the end of Lesson 03 (lesson03_challenge.Rdata) and create a Seurat object called 'liver_2'. Use the same cell and feature filters that were used to create the Seurat object above.
+>
+> > ## Solution to Challenge 3  
+> > `# Remove the existing counts and metadata.`  
+> > `rm(counts, metadata)`  
+> > `# Read in citeseq counts & metadata.`  
+> > `load(file = file.path(data_dir, 'lesson03_challenge.Rdata'))`  
+> > `# Create Seurat object.`  
+> > `metadata = as.data.frame(metadata) %>%`  
+> > `             column_to_rownames('cell')`  
+> > `liver_2 = CreateSeuratObject(count        = counts, `  
+> > `                             project      = 'liver: citeSeq',`  
+> > `                             meta.data    = metadata,`  
+> > `                             min.cells    = 100,`  
+> > `                             min.features = 100)`  
+> {: .solution}
+{: .challenge}
+
+> ## Challenge 4
+> Estimate the proportion of mitochondrial genes. Create plots of the proportion of features, cells, and mitochondrial genes. Filter the Seurat object by mitochon.
+>
+> > ## Solution to Challenge 4  
+> > `liver_2 = liver_2 %>%`  
+> > `            PercentageFeatureSet(pattern = "^mt-", col.name = "percent.mt")`  
+> > `VlnPlot(liver_2, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)`  
+> > `liver_2 = subset(liver_2, subset = percent.mt < 10)`  
+> {: .solution}
+{: .challenge}
+
+> ## Challenge 5
+> TBD: Do more of the steps above.
+>
+> > ## Solution to Challenge 5   
+> >      
+> {: .solution}
+{: .challenge}
 
 ### Session Info
 
@@ -304,7 +362,7 @@ loaded via a namespace (and not attached):
  [46] RANN_2.6.1            Rcpp_1.0.9            scattermore_0.8      
  [49] cellranger_1.1.0      vctrs_0.4.1           nlme_3.1-158         
  [52] progressr_0.10.1      lmtest_0.9-40         spatstat.random_2.2-0
- [55] xfun_0.31             globals_0.15.1        rvest_1.0.2          
+ [55] xfun_0.31             globals_0.16.0        rvest_1.0.2          
  [58] mime_0.12             miniUI_0.1.1.1        lifecycle_1.0.1      
  [61] irlba_2.3.5           goftest_1.2-3         googlesheets4_1.0.0  
  [64] future_1.27.0         MASS_7.3-57           zoo_1.8-10           
@@ -314,18 +372,18 @@ loaded via a namespace (and not attached):
  [76] pbapply_1.5-0         rpart_4.1.16          stringi_1.7.6        
  [79] highr_0.9             rlang_1.0.3           pkgconfig_2.0.3      
  [82] matrixStats_0.62.0    evaluate_0.15         lattice_0.20-45      
- [85] tensor_1.5            ROCR_1.0-11           htmlwidgets_1.5.4    
- [88] patchwork_1.1.1       cowplot_1.1.1         tidyselect_1.1.2     
- [91] parallelly_1.32.1     RcppAnnoy_0.0.19      plyr_1.8.7           
- [94] magrittr_2.0.3        R6_2.5.1              generics_0.1.3       
- [97] DBI_1.1.3             mgcv_1.8-40           pillar_1.8.0         
-[100] haven_2.5.0           withr_2.5.0           fitdistrplus_1.1-8   
-[103] abind_1.4-5           survival_3.3-1        future.apply_1.9.0   
-[106] modelr_0.1.8          crayon_1.5.1          KernSmooth_2.23-20   
-[109] utf8_1.2.2            spatstat.geom_2.4-0   plotly_4.10.0        
-[112] tzdb_0.3.0            grid_4.1.2            readxl_1.4.0         
-[115] data.table_1.14.2     reprex_2.0.1          digest_0.6.29        
-[118] xtable_1.8-4          httpuv_1.6.5          munsell_0.5.0        
-[121] viridisLite_0.4.0    
+ [85] tensor_1.5            ROCR_1.0-11           labeling_0.4.2       
+ [88] htmlwidgets_1.5.4     patchwork_1.1.1       cowplot_1.1.1        
+ [91] tidyselect_1.1.2      parallelly_1.32.1     RcppAnnoy_0.0.19     
+ [94] plyr_1.8.7            magrittr_2.0.3        R6_2.5.1             
+ [97] generics_0.1.3        DBI_1.1.3             mgcv_1.8-40          
+[100] pillar_1.8.0          haven_2.5.0           withr_2.5.0          
+[103] fitdistrplus_1.1-8    abind_1.4-5           survival_3.3-1       
+[106] future.apply_1.9.0    modelr_0.1.8          crayon_1.5.1         
+[109] KernSmooth_2.23-20    utf8_1.2.2            spatstat.geom_2.4-0  
+[112] plotly_4.10.0         tzdb_0.3.0            grid_4.1.2           
+[115] readxl_1.4.0          data.table_1.14.2     reprex_2.0.1         
+[118] digest_0.6.29         xtable_1.8-4          httpuv_1.6.5         
+[121] munsell_0.5.0         viridisLite_0.4.0    
 ~~~
 {: .output}

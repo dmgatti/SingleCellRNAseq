@@ -21,8 +21,7 @@ keypoints:
 
 ## What files are delivered? Details of FASTQ, etc.
 
-* One FASTQ file per cell (???).
-
+> TBD: DAS to fill in.
 
 ## Typical pre-processing pipeline -- 10X CellRanger 
 
@@ -52,13 +51,13 @@ At the time that this workshop was created, there were two major software packag
 
 ### Liver Atlas
 
-In this lesson, we will read in a subset of data from the [Liver Atlas](https://livercellatlas.org/index.php), which is described in their [Cell paper](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1). Briefly, the authors performed scRNASeq on liver cells from mice and humans, identified cell types, clustered them, and made the data publicly available. We have sub-sampled this data to contain 25% of the cells in the original analysis to reduce memory usage and speed up the analysis time for this workshop.
+In this lesson, we will read in a subset of data from the [Liver Atlas](https://livercellatlas.org/index.php), which is described in their [Cell paper](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1). Briefly, the authors performed scRNASeq on liver cells from mice and humans, identified cell types, clustered them, and made the data publicly available. We split the data into two sets, one to use in the lesson and one for the challenges. We have also sub-sampled each subset to contain 75% of the cells to reduce memory usage and speed up the analysis time for this workshop.
 
 We will be working with a subset of the mouse liver data. Before the workshop, you should have downloaded the data from <NEED TO FILL THIS IN> and placed it in your `data` directory. Go to the [Setup](../setup) page for instructions on how to download the data files.
 
-> TBD: Not sure where to host the files. Box requires a complex authentication process that I don't want to put the users through. Github has 100 MB file size limit. Looking into a cloud bucket, which we would need to pay monthly fees for. Maybe we put the data on figshare?
+> TBD: Not sure where to host the files. Maybe on Box with a public link. Can't figure out how to grab using RCurl yet.
 
-Open a file browser and look in the `mouseStSt25pct` directory and you should see three files. Each file ends with 'gz', which indicates that it has been compressed (or 'zipped') using [gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; the software that we use will uncompress the files as it reads them in. The files are:
+Open a file browser and look in the `mouseStSt_scrnaseq_75pct` directory and you should see three files. Each file ends with 'gz', which indicates that it has been compressed (or 'zipped') using [gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; the software that we use will uncompress the files as it reads them in. The files are:
 
 * matrix.mtx.gz: Two-dimensional matrix containing the counts for each gene in each cell.
     * Genes are in rows and cells are in columns.
@@ -69,15 +68,15 @@ Open a file browser and look in the `mouseStSt25pct` directory and you should se
 ![Counts Matrix](../fig/counts_matrix.png)
 
 > ## Challenge 1
-> 1). R has a function called [file.size](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/file.info). Look at the help for this function and get the size of each of the files in the `mouseStSt25pct` directory.  Which one is the largest?  
+> 1). R has a function called [file.size](https://stat.ethz.ch/R-manual/R-devel/library/base/html/file.info.html). Look at the help for this function and get the size of each of the files in the `mouseStSt_scrnaseq_75pct` directory.  Which one is the largest?  
 >
 > > ## Solution to Challenge 1
 > >
-> > 1). `file.size(file.path(data_dir, 'mouseStSt25pct', 'barcodes.tsv.gz'))`  
+> > 1). `file.size(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'barcodes.tsv.gz'))`  
 > >     584346 bytes  
-> >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'features.tsv.gz'))`  
+> >     `file.size(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'features.tsv.gz'))`  
 > >     113733 bytes  
-> >     `file.size(file.path(data_dir, 'mouseStSt25pct', 'matrix.mtx.gz'))`  
+> >     `file.size(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'matrix.mtx.gz'))`  
 > >     603248953 bytes  
 > >     'matrix.mtx.gz' is the largest file.     
 > {: .solution}
@@ -93,7 +92,7 @@ Run the following command. This may take up to 3 minutes to complete.
 
 
 ~~~
-counts = Seurat::Read10X(file.path(data_dir, 'mouseStSt25pct'), gene.column = 1)
+counts = Seurat::Read10X(file.path(data_dir, 'mouseStSt_scrnaseq_75pct'), gene.column = 1)
 ~~~
 {: .language-r}
 
@@ -110,7 +109,7 @@ dim(counts)
 
 
 ~~~
-[1] 31053 67202
+[1]  31053 109232
 ~~~
 {: .output}
 
@@ -158,10 +157,10 @@ head(colnames(counts), n = 10)
 
 
 ~~~
- [1] "AAGAACAGTATGGAAT-4"  "CCTATCGGTGGAGGTT-24" "GGAGATGGTCTAGATC-16"
- [4] "GCCAAATAGTGTTAGA-1"  "ACTCTCGGTCTAATCG-10" "GTGTGCGGTGGGTATG-1" 
- [7] "ACTATGGTCCGAGATT-16" "TTACAGGGTCGGTACC-21" "GTGCATACACAGACTT-1" 
-[10] "TGTGAGTTCGTTATCT-16"
+ [1] "GCACGGTTCAGCGGAA-16" "GATTTCTAGCAAACAT-6"  "TCTTTGAAGGACGCTA-4" 
+ [4] "GACCGTGCATGGGATG-4"  "TTGGGATGTGGATTTC-14" "TCAGTGATCCCATAAG-4" 
+ [7] "AGGTCATTCATGAAAG-8"  "CGAAGGAAGGGCGAAG-4"  "GTAGTACCAATAACCC-8" 
+[10] "ACGATCAGTCTGATCA-8" 
 ~~~
 {: .output}
 
@@ -200,7 +199,7 @@ counts[1:10, 1:20]
 
 
 ~~~
-   [[ suppressing 20 column names 'AAGAACAGTATGGAAT-4', 'CCTATCGGTGGAGGTT-24', 'GGAGATGGTCTAGATC-16' ... ]]
+   [[ suppressing 20 column names 'GCACGGTTCAGCGGAA-16', 'GATTTCTAGCAAACAT-6', 'TCTTTGAAGGACGCTA-4' ... ]]
 ~~~
 {: .output}
 
@@ -214,18 +213,18 @@ Gm37381 . . . . . . . . . . . . . . . . . . . .
 Rp1     . . . . . . . . . . . . . . . . . . . .
 Sox17   . . . . . . . . . . . . . . . . . . . .
 Gm37323 . . . . . . . . . . . . . . . . . . . .
-Mrpl15  . . 1 . . . . . . . 1 . 3 . . . . . . .
-Lypla1  . 1 1 . . . . . . . . . . . . . . . . .
+Mrpl15  . . . . . . . . 1 . . . . . . . . . . .
+Lypla1  . . . . . . . . . . 1 . 1 . . . . . . .
 Gm37988 . . . . . . . . . . . . . . . . . . . .
-Tcea1   . . . . . . . . . . . . . . . . . 1 . .
+Tcea1   1 . . . 1 . . 2 . 1 . . . . . 1 . . . 2
 ~~~
 {: .output}
 
 We can see the gene symbols in rows along the left. The barcodes are not shown to make the values easier to read. Each of the periods represents a zero. The '1' values represent a single read for a gene in one cell.
 
-Although `counts` looks like a matrix and you can use many matrix functions on it, `counts` is actually a different type of object. In scRNASeq, the read depth in each cell is quite low. So you many only get counts for a small number of genes in each cell. The `counts` matrix has 31053 rows and 67202, and includes 2.0868237 &times; 10<sup>9</sup> entries. However, most of these entries (93.4422454%) are zeros because every gene is not detected in every cell. It would be wasteful to store all of these zeros in memory. It would also make it difficult to store all of the data in memory. So `counts` is a 'sparse matrix', which only stores the positions of non-zero values in memory.
+Although `counts` looks like a matrix and you can use many matrix functions on it, `counts` is actually a different type of object. In scRNASeq, the read depth in each cell is quite low. So you many only get counts for a small number of genes in each cell. The `counts` matrix has 31053 rows and 109232, and includes 3.3919813 &times; 10<sup>9</sup> entries. However, most of these entries (92.7049724%) are zeros because every gene is not detected in every cell. It would be wasteful to store all of these zeros in memory. It would also make it difficult to store all of the data in memory. So `counts` is a 'sparse matrix', which only stores the positions of non-zero values in memory.
 
-Look at the structure of the `counts` matrix using [str](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/str). 
+Look at the structure of the `counts` matrix using [str](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/str.html). 
 
 
 ~~~
@@ -237,13 +236,13 @@ str(counts)
 
 ~~~
 Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
-  ..@ i       : int [1:136848778] 36 37 61 66 141 151 171 186 198 206 ...
-  ..@ p       : int [1:67203] 0 1035 2528 4241 5012 5906 6297 8079 9322 9823 ...
-  ..@ Dim     : int [1:2] 31053 67202
+  ..@ i       : int [1:247445971] 9 19 28 36 37 38 50 61 112 128 ...
+  ..@ p       : int [1:109233] 0 1431 2532 3573 4239 5467 6424 8212 9482 10696 ...
+  ..@ Dim     : int [1:2] 31053 109232
   ..@ Dimnames:List of 2
   .. ..$ : chr [1:31053] "Xkr4" "Gm1992" "Gm37381" "Rp1" ...
-  .. ..$ : chr [1:67202] "AAGAACAGTATGGAAT-4" "CCTATCGGTGGAGGTT-24" "GGAGATGGTCTAGATC-16" "GCCAAATAGTGTTAGA-1" ...
-  ..@ x       : num [1:136848778] 2 1 7 1 1 1 1 1 1 1 ...
+  .. ..$ : chr [1:109232] "GCACGGTTCAGCGGAA-16" "GATTTCTAGCAAACAT-6" "TCTTTGAAGGACGCTA-4" "GACCGTGCATGGGATG-4" ...
+  ..@ x       : num [1:247445971] 1 1 2 2 2 2 1 6 1 1 ...
   ..@ factors : list()
 ~~~
 {: .output}
@@ -275,11 +274,11 @@ sum(gene_sums$sums == 0)
 
 
 ~~~
-[1] 6192
+[1] 4618
 ~~~
 {: .output}
 
-We can see that 6192 (0.199401%) genes have no reads associated with them. In the next lesson, we will remove genes that have no counts in any cells.
+We can see that 4618 (0.1487135%) genes have no reads associated with them. In the next lesson, we will remove genes that have no counts in any cells.
 
 Next, let's look at the number of counts in each cell.
 
@@ -291,7 +290,7 @@ hist(colSums(counts))
 
 <img src="../fig/rmd-03-cell_counts-1.png" title="plot of chunk cell_counts" alt="plot of chunk cell_counts" width="612" style="display: block; margin: auto;" />
 
-The range of counts covers several orders of magnitude, from 500 to 2.89876 &times; 10<sup>5</sup>. 
+The range of counts covers several orders of magnitude, from 500 to 2.73151 &times; 10<sup>5</sup>. 
 
 TBD: What do we say here? How does scRNAseq handle coverage?
 
@@ -305,14 +304,14 @@ The sample metadata file is a comma-separated variable (CSV) file, We will read 
 
 
 ~~~
-metadata = read_csv('../data/mouseStSt25pct/annot_metadata.csv')
+metadata = read_csv(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'annot_metadata.csv'))
 ~~~
 {: .language-r}
 
 
 
 ~~~
-Rows: 67202 Columns: 8
+Rows: 109232 Columns: 8
 -- Column specification ------------------------------------------------------------------------------------------------
 Delimiter: ","
 chr (5): annot, sample, cell, digest, typeSample
@@ -337,12 +336,12 @@ head(metadata)
 # A tibble: 6 x 8
   UMAP_1 UMAP_2 cluster annot   sample cell                digest typeSample
    <dbl>  <dbl>   <dbl> <chr>   <chr>  <chr>               <chr>  <chr>     
-1  -4.45  -8.35      10 B cells CS53   AAGAACAGTATGGAAT-4  inVivo scRnaSeq  
-2  -5.35  -8.27      10 B cells CS141  CCTATCGGTGGAGGTT-24 exVivo citeSeq   
-3  -5.18  -8.50      10 B cells CS99   GGAGATGGTCTAGATC-16 exVivo scRnaSeq  
-4  -4.11  -6.83      10 B cells CISE12 GCCAAATAGTGTTAGA-1  exVivo citeSeq   
-5  -5.77  -7.23      10 B cells CS93   ACTCTCGGTCTAATCG-10 inVivo citeSeq   
-6  -3.95  -8.25      10 B cells CISE12 GTGTGCGGTGGGTATG-1  exVivo citeSeq   
+1  -4.60  -7.03      10 B cells CS99   GCACGGTTCAGCGGAA-16 exVivo scRnaSeq  
+2  -5.77  -7.14      10 B cells CS89   GATTTCTAGCAAACAT-6  inVivo scRnaSeq  
+3  -4.77  -8.28      10 B cells CS53   TCTTTGAAGGACGCTA-4  inVivo scRnaSeq  
+4  -5.52  -7.24      10 B cells CS53   GACCGTGCATGGGATG-4  inVivo scRnaSeq  
+5  -5.66  -7.31      10 B cells CS97   TTGGGATGTGGATTTC-14 inVivo scRnaSeq  
+6  -3.85  -7.60      10 B cells CS53   TCAGTGATCCCATAAG-4  inVivo scRnaSeq  
 ~~~
 {: .output}
 
@@ -351,39 +350,9 @@ In the table above, you can see that there are four columns:
 1. sample: mouse identifier from which cell was derived;
 1. cell: the DNA bar code used to identify the cell;
 1. digest: either "inVivo" or "exVivo". whether the cells were harvested *in vivo* or *ex vivo*,
-1. typeSample: either "scRnaSeq" or "citeSeq". The type of library preparation protocol, either single cell RNA-seq or [cite-seq](https://cite-seq.com/).
+1. typeSample: either "scRnaSeq" or "nucSeq". The type of library preparation protocol, either single cell RNA-seq or nuclear sequencing.
 
 We're going to explore the data using a series of Challenges. You will be asked to look at the contents of some of the columns to see how the data is distributed.
-
-
-How many mice were used to generate this data? How many cells were obtained from each mouse?
-
-
-~~~
-count(metadata, sample)
-~~~
-{: .language-r}
-
-
-
-~~~
-# A tibble: 35 x 2
-   sample      n
-   <chr>   <int>
- 1 ARE1     1076
- 2 ARE6     1239
- 3 ARE7     1300
- 4 ARE8     1465
- 5 CISE12    943
- 6 Ciseq13   795
- 7 CS114     879
- 8 CS115    1743
- 9 CS136    1058
-10 CS137     733
-# ... with 25 more rows
-# i Use `print(n = ...)` to see more rows
-~~~
-{: .output}
 
 > ## Challenge 2
 > How many mice were used to produce this data? The "sample" column contains the mouse identifier for each cell.  
@@ -412,45 +381,13 @@ count(metadata, sample)
 > > ## Solution to Challenge 4
 > >
 > > count(metadata, digest, typeSample)  
-> > From this, we can see that ther are between 15 and 25 thousand cells in each class.
+> > From this, we can see that ther are between 15 and 75 thousand cells in each class.
 > {: .solution}
 {: .challenge}
 
 > TBD: Use a treemap to look at the proportion of samples from each digest/protocol? It's not required, but could be fun.
 
-## Split Data into *in vivo* and *ex vivo* Sets
-
-In this workshop, we will attempt to reproduce the results of the [Liver Atlas](https://livercellatlas.org/index.php) using Seurat. We will analyze the *in vivo* data together and you will analyze the *ex vivo* data during Challenges.
-
-We will split the counts and metadata into *in vivo* and *ex vivo* sets.
-
-
-~~~
-meta_iv = filter(metadata, digest == 'inVivo')
-meta_ev = filter(metadata, digest == 'exVivo')
-
-counts_iv = counts[,meta_iv$cell]
-counts_ev = counts[,meta_ev$cell]
-~~~
-{: .language-r}
-
-Once you have run the code above, delete the original counts and metadata to reduce your memory footprint.
-
-
-~~~
-rm(counts, metadata)
-gc()
-~~~
-{: .language-r}
-
-
-
-~~~
-            used   (Mb) gc trigger   (Mb)   max used    (Mb)
-Ncells   3449038  184.2    6530531  348.8    5109750   272.9
-Vcells 133974047 1022.2 1271665924 9702.1 1560351389 11904.6
-~~~
-{: .output}
+In this workshop, we will attempt to reproduce the results of the [Liver Atlas](https://livercellatlas.org/index.php) using Seurat. We will analyze the *scRNASeq* and *nucSeq* data together and you will analyze the *citeSeq* data during Challenges.
 
 ### Save Data for Next Lesson
 
@@ -458,9 +395,25 @@ We will use the *in vivo* and *ex vivo* in the next lesson. Save it now and we w
 
 
 ~~~
-save(counts_iv, counts_ev, meta_iv, meta_ev, file = file.path(data_dir, 'lesson03.Rdata'))
+save(counts, metadata, file = file.path(data_dir, 'lesson03.Rdata'))
 ~~~
 {: .language-r}
+
+> ## Challenge 5
+> In the lesson above, you read in the scRNASeq and nucSeq data. There is another dataset which was created using "citeSeq" in the `mouseStSt_citeseq_75pct` directory. Delete the `counts` and `metadata` objects from your environment. Then read in the counts and metadata from the `mouseStSt_citeseq_75pct` directory and save them to a file called 'lesson03_challenge.Rdata'.
+>
+> > ## Solution to Challenge 5
+> >
+> > `# Remove exising counts and metadata.`  
+> > `rm(counts, metadata)`
+> > `# Read in new counts.`  
+> > `counts = Seurat::Read10X(file.path(data_dir, 'mouseStSt_citeseq_75pct'), gene.column = 1)`  
+> > `# Read in new metadata.`  
+> > `metadata = read_csv(file.path(data_dir, 'mouseStSt_citeseq_75pct', 'annot_metadata.csv'))`  
+> > `# Save data for next lesson.`  
+> > `save(counts, metadata, file = file.path(data_dir, 'lesson03_challenge.Rdata'))`  
+> {: .solution}
+{: .challenge}
 
 ### Session Info
 
@@ -514,7 +467,7 @@ loaded via a namespace (and not attached):
  [46] RANN_2.6.1            Rcpp_1.0.9            scattermore_0.8      
  [49] cellranger_1.1.0      vctrs_0.4.1           nlme_3.1-158         
  [52] progressr_0.10.1      lmtest_0.9-40         spatstat.random_2.2-0
- [55] xfun_0.31             globals_0.15.1        rvest_1.0.2          
+ [55] xfun_0.31             globals_0.16.0        rvest_1.0.2          
  [58] mime_0.12             miniUI_0.1.1.1        lifecycle_1.0.1      
  [61] irlba_2.3.5           goftest_1.2-3         googlesheets4_1.0.0  
  [64] future_1.27.0         MASS_7.3-57           zoo_1.8-10           

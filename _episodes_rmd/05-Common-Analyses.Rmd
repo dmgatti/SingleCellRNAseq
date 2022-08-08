@@ -17,18 +17,45 @@ keypoints:
 source("../bin/chunk-options.R")
 knitr_fig_path("05-")
 
+library(tidyverse)
 library(Seurat)
+
+data_dir = '../data'
 ```
+
+## Read Data from Previous Lesson
+
+```{r load_data}
+liver_iv = readRDS(file.path(data_dir, 'lesson04.rds'))
+```
+
 
 ## Normalization (log and more specialized) 
 
-```{r seurat2, message=FALSE}
-liver_iv <- NormalizeData(liver_iv, normalization.method = "LogNormalize") %>% 
-            FindVariableFeatures(nfeatures = 2000) %>% 
-            ScaleData(vars.to.regress = c("percent.mt", "nCount_RNA")) %>%
-            RunPCA(verbose = FALSE, npcs = 100)
+> TBD: How do we show a histogram of the unnormalized and normalized values?
+
+The count data is usually log-normally distributed. Many statistical methods work best when the data is normally distributed. 
+
+```{r normalization, message=FALSE}
+liver_iv <- liver_iv %>%
+              NormalizeData(normalization.method = "LogNormalize")
 ```
 
+```{r var_features, message=FALSE}
+liver_iv <- liver_iv %>% 
+              FindVariableFeatures(nfeatures = 2000)
+```
+
+
+```{r scaling, message=FALSE}
+liver_iv <- liver_iv %>%
+              ScaleData(vars.to.regress = c("percent.mt", "nCount_RNA"))
+```
+
+```{r PCA, message=FALSE}
+liver_iv <- liver_iv %>%
+              RunPCA(verbose = FALSE, npcs = 100)
+```
 ## Dimensionality reduction (UMAP, tSNE, etc) 
 
 ## Clustering 
