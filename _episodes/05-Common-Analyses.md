@@ -21,27 +21,14 @@ keypoints:
 
 
 ~~~
-liver_iv = readRDS(file.path(data_dir, 'lesson04.rds'))
+liver = readRDS(file.path(data_dir, 'lesson04.rds'))
 ~~~
 {: .language-r}
 
 
-
-~~~
-Warning in gzfile(file, "rb"): cannot open compressed file '../data/
-lesson04.rds', probable reason 'No such file or directory'
-~~~
-{: .warning}
-
-
-
-~~~
-Error in gzfile(file, "rb"): cannot open the connection
-~~~
-{: .error}
-
-
 ## Normalization (log and more specialized) 
+
+### Log Normalization
 
 > TBD: How do we show a histogram of the unnormalized and normalized values?
 
@@ -49,82 +36,56 @@ The count data is usually log-normally distributed. Many statistical methods wor
 
 
 ~~~
-liver_iv <- liver_iv %>%
+liver <- liver %>%
               NormalizeData(normalization.method = "LogNormalize")
 ~~~
 {: .language-r}
 
+### Finding Variable Features
 
 
 ~~~
-Error in NormalizeData(., normalization.method = "LogNormalize"): object 'liver_iv' not found
-~~~
-{: .error}
-
-
-~~~
-liver_iv <- liver_iv %>% 
+liver <- liver %>% 
               FindVariableFeatures(nfeatures = 2000)
 ~~~
 {: .language-r}
 
+### Scale Data
 
 
 ~~~
-Error in FindVariableFeatures(., nfeatures = 2000): object 'liver_iv' not found
-~~~
-{: .error}
-
-
-
-~~~
-liver_iv <- liver_iv %>%
+liver <- liver %>%
               ScaleData(vars.to.regress = c("percent.mt", "nCount_RNA"))
 ~~~
 {: .language-r}
 
+### Principal Component Analysis
 
 
 ~~~
-Error in ScaleData(., vars.to.regress = c("percent.mt", "nCount_RNA")): object 'liver_iv' not found
-~~~
-{: .error}
-
-
-~~~
-liver_iv <- liver_iv %>%
+liver <- liver %>%
               RunPCA(verbose = FALSE, npcs = 100)
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in RunPCA(., verbose = FALSE, npcs = 100): object 'liver_iv' not found
-~~~
-{: .error}
 ## Dimensionality reduction (UMAP, tSNE, etc) 
+
+> Uniform Manifold Approximation and Projection (UMAP) [van der Maaten & Hinton, 2008](https://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf).
+> t-Distributed Stochastic Neighbor Embedding (t-SNE) [McUnnes et al](https://arxiv.org/abs/1802.03426) 
 
 ## Clustering 
 
 
 ~~~
-ElbowPlot(liver_iv, ndims = 100) + geom_vline(xintercept = 27)
+ElbowPlot(liver, ndims = 100) + geom_vline(xintercept = 27)
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in Stdev(object = object, reduction = reduction): object 'liver_iv' not found
-~~~
-{: .error}
-
-
+<img src="../fig/rmd-05-seurat3-1.png" title="plot of chunk seurat3" alt="plot of chunk seurat3" width="612" style="display: block; margin: auto;" />
 
 ~~~
 num_pc <- 27
-liver <- FindNeighbors(liver_iv, reduction = 'pca', 
+liver <- FindNeighbors(liver, reduction = 'pca', 
                        dims = 1:num_pc, verbose = FALSE) %>%
            FindClusters(verbose = FALSE, resolution = 0.8) %>%
            RunUMAP(reduction = 'pca', dims = 1:num_pc, verbose = FALSE)
@@ -134,9 +95,11 @@ liver <- FindNeighbors(liver_iv, reduction = 'pca',
 
 
 ~~~
-Error in FindNeighbors(liver_iv, reduction = "pca", dims = 1:num_pc, verbose = FALSE): object 'liver_iv' not found
+Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric
+To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'
+This message will be shown once per session
 ~~~
-{: .error}
+{: .warning}
 
 ## Annotating cell types (+ automated options e.g. SingleR) 
 

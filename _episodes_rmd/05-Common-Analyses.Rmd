@@ -26,44 +26,55 @@ data_dir = '../data'
 ## Read Data from Previous Lesson
 
 ```{r load_data}
-liver_iv = readRDS(file.path(data_dir, 'lesson04.rds'))
+liver = readRDS(file.path(data_dir, 'lesson04.rds'))
 ```
 
 
 ## Normalization (log and more specialized) 
+
+### Log Normalization
 
 > TBD: How do we show a histogram of the unnormalized and normalized values?
 
 The count data is usually log-normally distributed. Many statistical methods work best when the data is normally distributed. 
 
 ```{r normalization, message=FALSE}
-liver_iv <- liver_iv %>%
+liver <- liver %>%
               NormalizeData(normalization.method = "LogNormalize")
 ```
 
+### Finding Variable Features
+
 ```{r var_features, message=FALSE}
-liver_iv <- liver_iv %>% 
+liver <- liver %>% 
               FindVariableFeatures(nfeatures = 2000)
 ```
 
+### Scale Data
 
 ```{r scaling, message=FALSE}
-liver_iv <- liver_iv %>%
+liver <- liver %>%
               ScaleData(vars.to.regress = c("percent.mt", "nCount_RNA"))
 ```
 
+### Principal Component Analysis
+
 ```{r PCA, message=FALSE}
-liver_iv <- liver_iv %>%
+liver <- liver %>%
               RunPCA(verbose = FALSE, npcs = 100)
 ```
+
 ## Dimensionality reduction (UMAP, tSNE, etc) 
+
+> Uniform Manifold Approximation and Projection (UMAP) [van der Maaten & Hinton, 2008](https://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf).
+> t-Distributed Stochastic Neighbor Embedding (t-SNE) [McUnnes et al](https://arxiv.org/abs/1802.03426) 
 
 ## Clustering 
 
 ```{r seurat3, message=FALSE}
-ElbowPlot(liver_iv, ndims = 100) + geom_vline(xintercept = 27)
+ElbowPlot(liver, ndims = 100) + geom_vline(xintercept = 27)
 num_pc <- 27
-liver <- FindNeighbors(liver_iv, reduction = 'pca', 
+liver <- FindNeighbors(liver, reduction = 'pca', 
                        dims = 1:num_pc, verbose = FALSE) %>%
            FindClusters(verbose = FALSE, resolution = 0.8) %>%
            RunUMAP(reduction = 'pca', dims = 1:num_pc, verbose = FALSE)

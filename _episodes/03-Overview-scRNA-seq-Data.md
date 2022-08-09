@@ -22,6 +22,7 @@ keypoints:
 ## What files are delivered? Details of FASTQ, etc.
 
 > TBD: DAS to fill in.
+> Maybe we explain briefly what was done in CellRanger to produce the gene x bar code matrix that we start with.
 
 ## Typical pre-processing pipeline -- 10X CellRanger 
 

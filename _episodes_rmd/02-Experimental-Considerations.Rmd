@@ -4,15 +4,16 @@ title: "Experimental Considerations"
 teaching: 10
 exercises: 2
 questions:
-- "How do I design a single cell RNAseq experiment?"
+- "How do I design a rigorous and reproducible single cell RNAseq experiment?"
 objectives:
-- "Understand the importance of biological replication for reproducibility and rigor."
+- "Understand the importance of biological replication for rigor and reproducibility."
 - "Understand the differences between pooling methods and choose between them."
 - "Understand why confounding experimental batch with the variable of interest makes it impossible to disentangle the two."
 - "Understand the different data modalities in single-cell sequencing and be able to select a modality to answer an experimental question."
 keypoints:
-- "Edit the .Rmd files not the .md files"
-- "Run `make serve` to knit documents and preview lesson website locally"
+- "Due to the increased variance in single-cell data sets, a well-powered study with adequate biological replication is essential for rigor & reproducibility."
+- "Do not confound experimental batch with any technical aspect of the experiment, i.e. sample pooling or flow cell assignment."
+- "Different experimental questions can be investigated using different single-cell sequencing modalities."
 ---
 
 ```{r, include=FALSE}
@@ -20,9 +21,18 @@ source("../bin/chunk-options.R")
 knitr_fig_path("02-")
 ```
 
+> TBD: I think that we need some cursory overview of an scRNA-seq protocol. 
+> 1. Isolate cells into single-cell suspension,
+> 2. Assess cell viability & filter dead cells,
+> 3. Bar code cells,
+> 4. Generate cDNA,
+> 5. Library generation.
+> Maybe something about the pros and cons of single cell, or difference between single-cell & bulk RNAseq.
+
 ## Biological replication  
 
 > TBD: DAS to fill in.
+> TBD: Is there a way to do power analyses for scRNA-seq? For number of cell types? For DE genes?
 
 ## Pooling options  
 
@@ -43,7 +53,18 @@ In order to reduce the effect of batch structure on your experiment is it crucia
 
 > TBD: DAS to fill in.
 
+> ## Challenge 1
+> TBD: Can we propose an experimental question that naturally leads to choosing one of the modalities?
+>
+> > ## Solution to Challenge 1
+> >
+> >    
+> {: .solution}
+{: .challenge}
+
 ## Brief overview of choices available from 10X for how to run samples
+
+> TBD: Discuss full-transcript vs 3' sequencing here?
 
 > TBD: DAS to fill in.
 

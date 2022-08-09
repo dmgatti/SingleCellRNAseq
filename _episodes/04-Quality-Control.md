@@ -153,7 +153,7 @@ Below, we will create a Seurat object for the liver data. We must first convert 
 
 In the section above, we examined the counts across genes and cells and proposed filtering by different threshold.  The CreateSeuratObject function contains two arguments, 'min.cells' and 'min.features', that allow us to filter the genes and cells by counts.
 
-> TBD: DAS to provide rationale and values for cell and feature filtering. Also, do we want to do it here or follow the Seurat tutorial and do it after creating the object?
+> TBD: DAS to provide rationale and values for cell and feature filtering. Also, do we want to do it here or follow the Seurat tutorial and do it after creating the object? It seems like a good idea to look at the plots before filtering. But maybe there is some basic filtering that makes sense.
 
 
 ~~~
@@ -226,6 +226,7 @@ liver <- subset(liver, subset = percent.mt < 15)
 ### Filtering Cells by UMI
 
 > Define what UMI is. (Do we need a glossary?)
+> Where do we get these from? Are they in the cell bar code?
 
 
 
@@ -261,6 +262,7 @@ liver <- subset(liver, subset = percent.mt < 15)
 ## Batch correction
 
 > TBD: We will correct between in vivo, ex vivo, & nuc seq. Students will correct between in vivo & ex vivo.
+> The Seurat v2 paper (Butler et al, 2018) claims to have a batch normalization method that beats ComBat & limma. Do we use that?
 
 ### Save Data for Next Lesson
 
@@ -268,7 +270,7 @@ We will use the Seurat object in the next lesson. Save it now and we will load i
 
 
 ~~~
-saveRDS(liver, file = file.path(data_dir, 'lesson04.Rdata'))
+saveRDS(liver, file = file.path(data_dir, 'lesson04.rds'))
 ~~~
 {: .language-r}
 
