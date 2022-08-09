@@ -37,7 +37,7 @@ data_dir = '../data'
 
 ## Intro to two major single cell ecosystems: 
 
-At the time that this workshop was created, there were two major software packages designed for use in scRNA-seq:
+At the time that this workshop was created, there were many different software packages designed for analyzing scRNA-seq data in a variety of scenarios. The two scRNA-seq software "ecosystems" that were most widely in use were:
 
 * R/Seurat : Focus of this workshop. Biggest strength is straightforward vignettes and ease of visualization/exploration. 
     * [Seurat](https://www.nature.com/articles/nbt.3192) was released in 2015 by the [Regev lab](https://biology.mit.edu/profile/aviv-regev/).
