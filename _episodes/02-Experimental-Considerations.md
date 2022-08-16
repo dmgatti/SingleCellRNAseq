@@ -104,7 +104,7 @@ other attached packages:
 [1] knitr_1.39
 
 loaded via a namespace (and not attached):
-[1] compiler_4.1.2 magrittr_2.0.3 tools_4.1.2    stringi_1.7.6  stringr_1.4.0 
-[6] xfun_0.31      evaluate_0.15 
+[1] compiler_4.1.2 magrittr_2.0.3 tools_4.1.2    stringi_1.7.8  stringr_1.4.0 
+[6] xfun_0.32      evaluate_0.16 
 ~~~
 {: .output}

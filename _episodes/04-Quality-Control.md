@@ -342,7 +342,7 @@ attached base packages:
 other attached packages:
  [1] sp_1.5-0           SeuratObject_4.1.0 Seurat_4.1.1       forcats_0.5.1     
  [5] stringr_1.4.0      dplyr_1.0.9        purrr_0.3.4        readr_2.1.2       
- [9] tidyr_1.2.0        tibble_3.1.7       ggplot2_3.3.6      tidyverse_1.3.2   
+ [9] tidyr_1.2.0        tibble_3.1.8       ggplot2_3.3.6      tidyverse_1.3.2   
 [13] knitr_1.39        
 
 loaded via a namespace (and not attached):
@@ -354,26 +354,26 @@ loaded via a namespace (and not attached):
  [16] codetools_0.2-18      splines_4.1.2         polyclip_1.10-0      
  [19] jsonlite_1.8.0        broom_1.0.0           ica_1.0-3            
  [22] cluster_2.1.3         dbplyr_2.2.1          png_0.1-7            
- [25] rgeos_0.5-9           uwot_0.1.11           spatstat.sparse_2.1-1
+ [25] rgeos_0.5-9           uwot_0.1.13           spatstat.sparse_2.1-1
  [28] sctransform_0.3.3     shiny_1.7.2           compiler_4.1.2       
  [31] httr_1.4.3            backports_1.4.1       lazyeval_0.2.2       
  [34] assertthat_0.2.1      Matrix_1.4-1          fastmap_1.1.0        
  [37] gargle_1.2.0          cli_3.3.0             later_1.3.0          
- [40] htmltools_0.5.2       tools_4.1.2           igraph_1.3.2         
+ [40] htmltools_0.5.3       tools_4.1.2           igraph_1.3.4         
  [43] gtable_0.3.0          glue_1.6.2            reshape2_1.4.4       
  [46] RANN_2.6.1            Rcpp_1.0.9            scattermore_0.8      
  [49] cellranger_1.1.0      vctrs_0.4.1           nlme_3.1-158         
  [52] progressr_0.10.1      lmtest_0.9-40         spatstat.random_2.2-0
- [55] xfun_0.31             globals_0.16.0        rvest_1.0.2          
+ [55] xfun_0.32             globals_0.16.0        rvest_1.0.2          
  [58] mime_0.12             miniUI_0.1.1.1        lifecycle_1.0.1      
- [61] irlba_2.3.5           goftest_1.2-3         googlesheets4_1.0.0  
+ [61] irlba_2.3.5           goftest_1.2-3         googlesheets4_1.0.1  
  [64] future_1.27.0         MASS_7.3-57           zoo_1.8-10           
  [67] scales_1.2.0          spatstat.core_2.4-4   spatstat.utils_2.3-1 
  [70] hms_1.1.1             promises_1.2.0.1      parallel_4.1.2       
  [73] RColorBrewer_1.1-3    gridExtra_2.3         reticulate_1.25      
- [76] pbapply_1.5-0         rpart_4.1.16          stringi_1.7.6        
- [79] highr_0.9             rlang_1.0.3           pkgconfig_2.0.3      
- [82] matrixStats_0.62.0    evaluate_0.15         lattice_0.20-45      
+ [76] pbapply_1.5-0         rpart_4.1.16          stringi_1.7.8        
+ [79] highr_0.9             rlang_1.0.4           pkgconfig_2.0.3      
+ [82] matrixStats_0.62.0    evaluate_0.16         lattice_0.20-45      
  [85] tensor_1.5            ROCR_1.0-11           labeling_0.4.2       
  [88] htmlwidgets_1.5.4     patchwork_1.1.1       cowplot_1.1.1        
  [91] tidyselect_1.1.2      parallelly_1.32.1     RcppAnnoy_0.0.19     
