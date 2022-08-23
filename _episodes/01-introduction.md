@@ -22,21 +22,32 @@ The steps in the process are:
     * If the cells are part of a tissue, the cells are disaggretaged using collagenase or other reagents. If the cells are in culture or suspension, they may be used as is.
 2. Cell suspension:
     * Using a microfluidic system, each cell is suspended in a nanoliter-size water droplet along with a barcoded primer bead. The cells are kept separate from each other in an oil/water emulsion.
-3. Cell lysis and transcript capture:
+3. Assess cell viability.
+4. Cell lysis and transcript capture:
     * The cells are lysed in the droplet 
+5. Bar code cells.
+6. Generate cDNA.
+7. Library generation. Maybe something about the pros and cons of single cell, or difference between single-cell & bulk RNAseq.
 
 ## Compare and contrast with bulk RNA-Seq 
 
 - tissues are heterogeneous mixtures of diverse cell types.
 - bulk RNA-seq measures average gene expression across diverse cell types.
 - may be difficult to tell whether gene expression or cell populations are changing.
+- Bulk RNA-seq allows for higher sequencing coverage for each gene.
+- Bulk RNA-seq allows for better isoform detection due to the higher coverage & 3' bias in scRNA-seq.
+- Genes without poly-A tail may not be detected in scRNA-seq. 
+
+> TBD: An exercise about selecting between bulk vs sc RNA-seq??? Several scenarios with disease/tissue and ask students to select bulk vs scRNA-seq.
 
 ## What is scRNA-Seq useful for? 
 
-- devleopmental studies.
-- hematopoeisis.
+- developmental studies & cellular trajectory.
 - detailed tissue atlas.
 - tumor clonality.
+- cell-type specific transcriptional responses (e.g. T-cell response to infection)
+- changes in cell state (i.e. homeostasis vs. response state)
+- determining cell-types & cellular responses in immunology.
 
 ## Emphasize focus of this course: 10X Genomics, mouse
 
