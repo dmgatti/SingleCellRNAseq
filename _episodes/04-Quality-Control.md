@@ -3,16 +3,18 @@
 # Instead, please edit 04-Quality-Control.md in _episodes_rmd/
 source: Rmd
 title: "Quality Control"
-teaching: 10
-exercises: 2
+teaching: 30
+exercises: 10
 questions:
-- "How do I deterimine if my single cell RNAseq experiment data is good?"
+- "How do I deterimine if my single cell RNA-seq experiment data is good?"
+- "What are the common quality control metrics that I should check in my scRNA-seq data?"
 objectives:
-- "Explain how to use RMarkdown with the new lesson template."
-- "Demonstrate how to include pieces of code, figures, and challenges."
+- "Critically examine scRNA-seq data to identify potential technical issues."
+- "Apply filters to remove cells that may not provide high quality data."
+- "Understand the implications of different filtering steps on the data."
 keypoints:
-- "Edit the .Rmd files not the .md files"
-- "Run `make serve` to knit documents and preview lesson website locally"
+- "?????"
+- "?????"
 ---
 
 
@@ -27,16 +29,14 @@ load(file.path(data_dir, 'lesson03.Rdata'))
 
 ## Issues in scRNA-seq
 
-There are many technical reasons why cells produced by an scRNA-seq protocol might not be of high quality. The goal of the quality control step is to assure that only single, live cells are included in the final data set. Failure to do this may adversely impact cell type identification, clustering, and interpretation of the data. 
+There are many technical reasons why cells produced by an scRNA-seq protocol might not be of high quality. The goal of the quality control steps are to assure that only single, live cells are included in the final data set. Failure to do this may adversely impact cell type identification, clustering, and interpretation of the data. 
 
-Some technical issues that may arise include:
+Some technical questions that you might ask include:
 
 1. What happens to make mitochondrial expression higher?
 1. Why do we check for ribosomal gene content?
 1. What is UMI, what happens to make it bad, and why to we check UMI?
 1. What happens to make gene counts low in a cell and how do we use gene counts per cell to fix it?
-
-## Creating a Seurat Object
 
 ### Filtering Genes by Counts
 
@@ -56,7 +56,7 @@ sum(gene_counts == 0)
 ~~~
 {: .output}
 
-Of the 31053 genes, 4618 have zero counts across all cells. These genes do not inform us about the mean, variance, or covariance of any of the other genes and we could remove them before proceeding with that analysis.
+Of the 31053 genes, 4618 have zero counts across all cells. These genes do not inform us about the mean, variance, or covariance of any of the other genes and we could remove them before proceeding with further analysis.
 
 
 ~~~
@@ -74,52 +74,72 @@ We will count the number of cells in which each gene was detected. Because `coun
 gene_counts = rowSums(counts > 0)
 ```
 
-The expression `counts > 0` would create a logical matrix that takes up much more memory than the sparse matrix. We might be tempted to try `rowSums(counts == 0)`, but this would also result in a non-sparse matrix because most of the values would be `TRUE`. However, if we evaluate `rowSums(counts != 0)`, then most of the values would be `FALSE`, which can be stored as 0 and so the matrix would still be sparse.
+The expression `counts > 0` would create a logical matrix that takes up much more memory than the sparse matrix. We might be tempted to try `rowSums(counts == 0)`, but this would also result in a non-sparse matrix because most of the values would be `TRUE`. However, if we evaluate `rowSums(counts != 0)`, then most of the values would be `FALSE`, which can be stored as 0 and so the matrix would still be sparse. The `Matrix` package has an implementation of 'rowSums()' that is efficient, but you may have to specify that you want to used the `Matrix` version of 'rowSums()' explicitly.
 
 
 ~~~
-gene_counts = rowSums(counts != 0)
-hist(gene_counts, breaks = 1000, las = 1, xlab = 'Number of Cells with Counts > 0', 
-     ylab = 'Number of Genes')
+gene_counts = Matrix::rowSums(counts > 0)
+hist(gene_counts, breaks = 1000, las = 1, xlab = 'Number of Cells in which Gene was Detected', 
+     ylab = 'Number of Genes', main = 'Histogram of Number of Cells in which Gene was Detected')
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-gene_count_hist-1.png" title="plot of chunk gene_count_hist" alt="plot of chunk gene_count_hist" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-04-gene_count_hist-1.png" alt="plot of chunk gene_count_hist" width="612" style="display: block; margin: auto;" />
 
-As you can see, there is a broad range of the number of cells that express each gene and this makes it difficult to interpret the plot. Some genes are detected in all cells while others are detected in only one cell. Let's zoom in on the part with lower gene counts.
+As you can see, the number of cells in which each gene is detected spans several orders of magnitude and this makes it difficult to interpret the plot. Some genes are detected in all cells while others are detected in only one cell. Let's zoom in on the part with lower gene counts.
 
 
 ~~~
 hist(gene_counts, breaks = -1:max(gene_counts), freq = TRUE, xlim = c(0, 100), las = 1, 
-     xlab = 'Number of Cells with Counts > 0', ylab = 'Number of Genes')
+     xlab = 'Number of Cells in which Gene was Detected', 
+     ylab = 'Number of Genes', main = 'Histogram of Number of Cells in which Gene was Detected')
+text(2, 1180, labels = paste(sum(gene_counts == 1), 'genes were detected in only one cell'), adj = c(0, 0.5))
+text(3,  800, labels = paste(sum(gene_counts == 2), 'genes were detected in two cells'),     adj = c(0, 0.5))
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-gene_count_hist_2-1.png" title="plot of chunk gene_count_hist_2" alt="plot of chunk gene_count_hist_2" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-04-gene_count_hist_2-1.png" alt="plot of chunk gene_count_hist_2" width="612" style="display: block; margin: auto;" />
 
-In the plot above, we can see that there are 0 genes that were detected in only zero cells, 1186 genes detected in one cell, etc.
+In the plot above, we can see that there are 1186 genes that were detected in only one cell, 783 genes detected in two cells, etc.
 
-Rather than looking at the number of genes detected in each cell, it may be useful to look at the number of genes that would remain if we filtered the genes by the number of cells in which they were detected.  We will obtain the gene counts in each histogram bin, calculate the cumulative sum, and subtract this from the total number of genes.
+Selecting the number of cells in which a gene must be detected can be tricky. If you retain all genes, you may consume more computational resources and add noise to your analysis. If you discard too many genes, you may miss rare but important cells types.
 
-> TBD: The above paragraph feels really wordy and complicated. Revisit and revise.
+Consider this example: You have a total of 10,000 cells in your scRNA-seq results. There is a rare cell population consisting of 100 cells that expresses 20 genes which are not expressed in any other cell type. If you only retain genes that are detected in more than 100 cells, you will miss this cell population.
+
+
+> TDB: How many cells do I need to see a gene in for it to be informative? Discuss effects of a gene detected in 100 cells vs gene detected in 1000 cells. What are the effects of retaining too many genes?
+
+> TBD: Can we use a plot like the one below to help explain the issues?
 
 
 ~~~
-h = hist(gene_counts, breaks = -1:max(gene_counts), plot = FALSE)
-y = length(gene_counts) - cumsum(c(0, h$counts))
-plot(h$breaks, y, type = 'l', las = 1, xlim = c(0, 1000),
-     xlab = 'Number of Cells with Counts > 0', ylab = 'Number of Genes')
-abline(v = 100, lty = 2, col = 'red')
-abline(h = y[101], lty = 2, col = 'red')
+ngenes = 100
+ncells = 100
+tmp = matrix(rbinom(ngenes * ncells, 1, prob = 5e-2), ngenes, ncells,
+             dimnames = list(paste0('gene', 1:ngenes), paste0('cell', 1:ncells)))
+tmp[1:10, 1:10]   = 1
+tmp[11:50, 11:50] = 1
+tmp[51:100,51:100]  = 1
+heatmap(tmp, breaks = c(-0.5, 0.5, 10), col = c('white', 'black'))
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-reverse_cdf_gene_counts-1.png" title="plot of chunk reverse_cdf_gene_counts" alt="plot of chunk reverse_cdf_gene_counts" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-04-unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2" width="612" style="display: block; margin: auto;" />
 
-In the plot above, we can see that we would retain about 21,000 genes if we kept all genes. We would retain 1.7351 &times; 10<sup>4</sup> genes if we filtered to retain genes detected in 100 or more cells.
+
 
 > ## Challenge 1
 > What total count threshold would you choose to filter genes? You may want to remake the plot above to include more cells on the X-axis. Remember that there are 109232 cells.
+>
+> > ## Solution to Challenge 1
+> >
+> > **TBD: Need DAS. to provide rationale. **
+> {: .solution}
+{: .challenge}
+
+
+> ## Challenge 2
+> How would filtering genes too strictly affect your results? How would this affect your ability to discriminate between cell types? 
 >
 > > ## Solution to Challenge 1
 > >
@@ -131,17 +151,17 @@ In the plot above, we can see that we would retain about 21,000 genes if we kept
 
 Next we will look at the number of genes expressed in each cell. If the cell processing does not go well, the total number of reads in a cell may be low, which leads to lower gene counts. Filtering out these cells is a quality control step that should improve your final results.
 
-Again, we will use perform calculations on `counts != 0` because that is a sparse matrix.
+We will explicitly use the `Matrix` package's implementation of 'colSums()'.
 
 
 ~~~
-cell_counts = colSums(counts != 0)
+cell_counts = Matrix::colSums(counts > 0)
 hist(cell_counts, breaks = 1000, las = 1, xlab = 'Number of Genes with Counts > 0', 
      ylab = 'Number of Cells')
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-sum_cell_counts-1.png" title="plot of chunk sum_cell_counts" alt="plot of chunk sum_cell_counts" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-04-sum_cell_counts-1.png" alt="plot of chunk sum_cell_counts" width="612" style="display: block; margin: auto;" />
 
 > TBD: Can you have too many genes expressed? Are those doublets? 
 
@@ -193,7 +213,7 @@ VlnPlot(liver, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-seurat_counts_plots-1.png" title="plot of chunk seurat_counts_plots" alt="plot of chunk seurat_counts_plots" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-04-seurat_counts_plots-1.png" alt="plot of chunk seurat_counts_plots" width="612" style="display: block; margin: auto;" />
 
 
 > TBD: I made the plot below to see if there are mitochondrial expression differences by annotated cell type. The students won't have this file at this stage of the analysis. But how do we discuss these differences? Since we're looking for high values, it may not be too important.
@@ -208,7 +228,7 @@ liver[[c('annot', 'percent.mt')]] %>%
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-mito_by_cell_type-1.png" title="plot of chunk mito_by_cell_type" alt="plot of chunk mito_by_cell_type" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-04-mito_by_cell_type-1.png" alt="plot of chunk mito_by_cell_type" width="612" style="display: block; margin: auto;" />
 
 > TBD: What threshold do we use? And provide rationale.
 
@@ -340,10 +360,10 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] sp_1.5-0           SeuratObject_4.1.0 Seurat_4.1.1       forcats_0.5.1     
- [5] stringr_1.4.0      dplyr_1.0.9        purrr_0.3.4        readr_2.1.2       
- [9] tidyr_1.2.0        tibble_3.1.8       ggplot2_3.3.6      tidyverse_1.3.2   
-[13] knitr_1.39        
+ [1] sp_1.5-0           SeuratObject_4.1.1 Seurat_4.1.1       Matrix_1.4-1      
+ [5] forcats_0.5.2      stringr_1.4.1      dplyr_1.0.9        purrr_0.3.4       
+ [9] readr_2.1.2        tidyr_1.2.0        tibble_3.1.8       ggplot2_3.3.6     
+[13] tidyverse_1.3.2    knitr_1.40        
 
 loaded via a namespace (and not attached):
   [1] googledrive_2.0.0     Rtsne_0.16            colorspace_2.0-3     
@@ -352,40 +372,40 @@ loaded via a namespace (and not attached):
  [10] leiden_0.4.2          listenv_0.8.0         ggrepel_0.9.1        
  [13] fansi_1.0.3           lubridate_1.8.0       xml2_1.3.3           
  [16] codetools_0.2-18      splines_4.1.2         polyclip_1.10-0      
- [19] jsonlite_1.8.0        broom_1.0.0           ica_1.0-3            
+ [19] jsonlite_1.8.0        broom_1.0.1           ica_1.0-3            
  [22] cluster_2.1.3         dbplyr_2.2.1          png_0.1-7            
- [25] rgeos_0.5-9           uwot_0.1.13           spatstat.sparse_2.1-1
- [28] sctransform_0.3.3     shiny_1.7.2           compiler_4.1.2       
- [31] httr_1.4.3            backports_1.4.1       lazyeval_0.2.2       
- [34] assertthat_0.2.1      Matrix_1.4-1          fastmap_1.1.0        
- [37] gargle_1.2.0          cli_3.3.0             later_1.3.0          
- [40] htmltools_0.5.3       tools_4.1.2           igraph_1.3.4         
- [43] gtable_0.3.0          glue_1.6.2            reshape2_1.4.4       
- [46] RANN_2.6.1            Rcpp_1.0.9            scattermore_0.8      
- [49] cellranger_1.1.0      vctrs_0.4.1           nlme_3.1-158         
- [52] progressr_0.10.1      lmtest_0.9-40         spatstat.random_2.2-0
- [55] xfun_0.32             globals_0.16.0        rvest_1.0.2          
- [58] mime_0.12             miniUI_0.1.1.1        lifecycle_1.0.1      
- [61] irlba_2.3.5           goftest_1.2-3         googlesheets4_1.0.1  
- [64] future_1.27.0         MASS_7.3-57           zoo_1.8-10           
- [67] scales_1.2.0          spatstat.core_2.4-4   spatstat.utils_2.3-1 
- [70] hms_1.1.1             promises_1.2.0.1      parallel_4.1.2       
- [73] RColorBrewer_1.1-3    gridExtra_2.3         reticulate_1.25      
- [76] pbapply_1.5-0         rpart_4.1.16          stringi_1.7.8        
- [79] highr_0.9             rlang_1.0.4           pkgconfig_2.0.3      
- [82] matrixStats_0.62.0    evaluate_0.16         lattice_0.20-45      
- [85] tensor_1.5            ROCR_1.0-11           labeling_0.4.2       
- [88] htmlwidgets_1.5.4     patchwork_1.1.1       cowplot_1.1.1        
- [91] tidyselect_1.1.2      parallelly_1.32.1     RcppAnnoy_0.0.19     
- [94] plyr_1.8.7            magrittr_2.0.3        R6_2.5.1             
- [97] generics_0.1.3        DBI_1.1.3             mgcv_1.8-40          
-[100] pillar_1.8.0          haven_2.5.0           withr_2.5.0          
-[103] fitdistrplus_1.1-8    abind_1.4-5           survival_3.3-1       
-[106] future.apply_1.9.0    modelr_0.1.8          crayon_1.5.1         
-[109] KernSmooth_2.23-20    utf8_1.2.2            spatstat.geom_2.4-0  
-[112] plotly_4.10.0         tzdb_0.3.0            grid_4.1.2           
-[115] readxl_1.4.0          data.table_1.14.2     reprex_2.0.1         
-[118] digest_0.6.29         xtable_1.8-4          httpuv_1.6.5         
-[121] munsell_0.5.0         viridisLite_0.4.0    
+ [25] rgeos_0.5-9           uwot_0.1.14           spatstat.sparse_2.1-1
+ [28] sctransform_0.3.4     shiny_1.7.2           compiler_4.1.2       
+ [31] httr_1.4.4            backports_1.4.1       lazyeval_0.2.2       
+ [34] assertthat_0.2.1      fastmap_1.1.0         gargle_1.2.0         
+ [37] cli_3.3.0             later_1.3.0           htmltools_0.5.3      
+ [40] tools_4.1.2           igraph_1.3.4          gtable_0.3.0         
+ [43] glue_1.6.2            reshape2_1.4.4        RANN_2.6.1           
+ [46] Rcpp_1.0.9            scattermore_0.8       cellranger_1.1.0     
+ [49] vctrs_0.4.1           nlme_3.1-158          progressr_0.10.1     
+ [52] lmtest_0.9-40         spatstat.random_2.2-0 xfun_0.32            
+ [55] globals_0.16.1        rvest_1.0.3           mime_0.12            
+ [58] miniUI_0.1.1.1        lifecycle_1.0.1       irlba_2.3.5          
+ [61] goftest_1.2-3         googlesheets4_1.0.1   future_1.27.0        
+ [64] MASS_7.3-57           zoo_1.8-10            scales_1.2.1         
+ [67] spatstat.core_2.4-4   spatstat.utils_2.3-1  hms_1.1.2            
+ [70] promises_1.2.0.1      parallel_4.1.2        RColorBrewer_1.1-3   
+ [73] gridExtra_2.3         reticulate_1.25       pbapply_1.5-0        
+ [76] rpart_4.1.16          stringi_1.7.8         highr_0.9            
+ [79] rlang_1.0.4           pkgconfig_2.0.3       matrixStats_0.62.0   
+ [82] evaluate_0.16         lattice_0.20-45       tensor_1.5           
+ [85] ROCR_1.0-11           labeling_0.4.2        htmlwidgets_1.5.4    
+ [88] patchwork_1.1.2       cowplot_1.1.1         tidyselect_1.1.2     
+ [91] parallelly_1.32.1     RcppAnnoy_0.0.19      plyr_1.8.7           
+ [94] magrittr_2.0.3        R6_2.5.1              generics_0.1.3       
+ [97] DBI_1.1.3             mgcv_1.8-40           pillar_1.8.1         
+[100] haven_2.5.0           withr_2.5.0           fitdistrplus_1.1-8   
+[103] abind_1.4-5           survival_3.3-1        future.apply_1.9.0   
+[106] modelr_0.1.9          crayon_1.5.1          KernSmooth_2.23-20   
+[109] utf8_1.2.2            spatstat.geom_2.4-0   plotly_4.10.0        
+[112] tzdb_0.3.0            grid_4.1.2            readxl_1.4.0         
+[115] data.table_1.14.2     reprex_2.0.2          digest_0.6.29        
+[118] xtable_1.8-4          httpuv_1.6.5          munsell_0.5.0        
+[121] viridisLite_0.4.1    
 ~~~
 {: .output}

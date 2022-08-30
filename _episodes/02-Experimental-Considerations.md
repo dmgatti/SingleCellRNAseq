@@ -20,14 +20,6 @@ keypoints:
 
 
 
-> TBD: I think that we need some cursory overview of an scRNA-seq protocol. 
-> 1. Isolate cells into single-cell suspension,
-> 2. Assess cell viability & filter dead cells,
-> 3. Bar code cells,
-> 4. Generate cDNA,
-> 5. Library generation.
-> Maybe something about the pros and cons of single cell, or difference between single-cell & bulk RNAseq.
-
 ## Biological replication  
 
 > TBD: DAS to fill in.
@@ -36,6 +28,11 @@ keypoints:
 ## Pooling options  
 
 > TBD: DAS to fill in.
+
+1. Genetic demultiplexing: Mix cells from different strains in same tube and use genotyping information to demultiplex cells.
+2. Cell-hashing: use barcode-carrying antibody that binds to universal cell surface marker.
+
+> How to decide on sequencing depth in experiment?
 
 ### Avoid Confounding Batch with Experimental Variables
 
@@ -51,6 +48,11 @@ In order to reduce the effect of batch structure on your experiment is it crucia
 ## Different data modalities (cell vs nuclei, RNA vs ATAC, etc) 
 
 > TBD: DAS to fill in.
+
+* RNA-seq
+* ATAC-seq
+* Immune repertoire seq: clonality of adaptive immunne cells.
+* cite-seq: cell surface protein.
 
 > ## Challenge 1
 > TBD: Can we propose an experimental question that naturally leads to choosing one of the modalities?
@@ -101,10 +103,10 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] knitr_1.39
+[1] knitr_1.40
 
 loaded via a namespace (and not attached):
-[1] compiler_4.1.2 magrittr_2.0.3 tools_4.1.2    stringi_1.7.8  stringr_1.4.0 
+[1] compiler_4.1.2 magrittr_2.0.3 tools_4.1.2    stringi_1.7.8  stringr_1.4.1 
 [6] xfun_0.32      evaluate_0.16 
 ~~~
 {: .output}
