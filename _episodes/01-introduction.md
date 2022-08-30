@@ -12,46 +12,56 @@ keypoints:
 - "First key point. Brief Answer to questions. (FIXME)"
 ---
 
-## Brief overview of technology 
+## Brief overview of single cell transcriptomics technology 
 
-Single cell RNA-sequencing (scRNAseq) is a method of quantifying transcript expression levels in individual cells. scRNAseq involves separating cells and introducing them into a microfluidic system which performs the chemistry on each cell indiviudally.
+Single cell RNA-sequencing (scRNA-Seq) is a method of quantifying transcript expression levels in individual cells. scRNA-Seq technology can take on many different forms and this area of research is rapidly evolving. In 2022, the most widely used systems for performing scRNA-Seq involve separating cells and introducing them into a microfluidic system which performs the chemistry on each cell individually.
 
 The steps in the process are:
 
 1.  Cell isolation: 
-    * If the cells are part of a tissue, the cells are disaggretaged using collagenase or other reagents. If the cells are in culture or suspension, they may be used as is.
-2. Cell suspension:
-    * Using a microfluidic system, each cell is suspended in a nanoliter-size water droplet along with a barcoded primer bead. The cells are kept separate from each other in an oil/water emulsion.
-3. Assess cell viability.
-4. Cell lysis and transcript capture:
-    * The cells are lysed in the droplet 
-5. Bar code cells.
-6. Generate cDNA.
-7. Library generation. Maybe something about the pros and cons of single cell, or difference between single-cell & bulk RNAseq.
+    * If the cells are part of a tissue, the cells are disaggregated using collagenase or other reagents. The specifics of this protocol can vary greatly due to differences between tissues that are biological in nature. If the cells are in culture or suspension, they may be used as is.
+2. Assess cell viability.
+    * If scRNA-Seq is being performed on fresh tissue, the cells are usually checked for viability. We want "happy" cells loaded into the machine. We might hope for >90% viable and set a minimum threshold of >70%, although these numbers can vary depending on the experiment.
+3. Cell suspension:
+    * Using a microfluidic system, each cell is suspended in a nanoliter-size droplet along with a barcoded primer bead. The cells are kept separate from each other in an oil/water emulsion.
+4. Cell lysis, generating cDNA:
+    * The cells are lysed in each droplet. Each cell was already encapsulated with a barcoded primer bead which has a primer specific to that cell. Often a poly-d(T) primer is used to prime the poly(A) tail of mRNA. 
+7. Library generation:
+    * [DAS check this] Oil-water emulsion is "de-emulsified". Amplify cDNA and add correct primers for Illuina sequencing. Sequence on any old Illumina machine. Sequencing should be paired-end, one read contains cell and molecule barcodes, other read contains the bit of transcript that was captured.
 
-## Compare and contrast with bulk RNA-Seq 
+## Comparing and contrasting scRNA-Seq with bulk RNA-Seq 
 
-- tissues are heterogeneous mixtures of diverse cell types.
-- bulk RNA-seq measures average gene expression across diverse cell types.
-- may be difficult to tell whether gene expression or cell populations are changing.
-- Bulk RNA-seq allows for higher sequencing coverage for each gene.
-- Bulk RNA-seq allows for better isoform detection due to the higher coverage & 3' bias in scRNA-seq.
-- Genes without poly-A tail may not be detected in scRNA-seq. 
+Bulk RNA-Seq and single cell RNA-Seq are related in that they both assess transcription levels by sequencing short reads, but these two technologies have a variety of differences. Neither technology is always better. The approach that one might use should depend upon the information one hopes to gather.
+
+Consider the following points when assessing the differences between the technologies and choosing which to utilize for your own experiment:
+ * Tissues are heterogeneous mixtures of diverse cell types. Bulk RNA-Seq data consists of average measures of transcripts expressed across many different cell types, while scRNA-Seq data is cell-type resolved.
+ * Bulk RNA-Seq data may obscure the processes of changes in gene expression or tissue cell composition.
+ * Bulk RNA-Seq allows for much higher sequencing coverage for each gene.
+ * Bulk RNA-Seq allows for better isoform detection due to the higher sequencing depth and relatively uniform coverage across transcripts (vs. a typical 3' bias in scRNA-Seq).
+ * Genes without poly-A tail (e.g. some noncoding RNAs) might not be detected in scRNA-Seq, but can be reliably assessed using bulk RNA-Seq.
 
 > TBD: An exercise about selecting between bulk vs sc RNA-seq??? Several scenarios with disease/tissue and ask students to select bulk vs scRNA-seq.
+> Aging and Cdkn2a -- bulk
+> PBMCs -- single cell
+> Very heterogeneous tissue -- single cell
+> Differentiation of ESCs to another cell type -- single cell
+> New non-model species -- bulk
+> Studying miRNAs -- bulk
+> eQTL mapping -- both! 
 
 ## What is scRNA-Seq useful for? 
 
-- developmental studies & cellular trajectory.
-- detailed tissue atlas.
-- tumor clonality.
-- cell-type specific transcriptional responses (e.g. T-cell response to infection)
-- changes in cell state (i.e. homeostasis vs. response state)
-- determining cell-types & cellular responses in immunology.
+Single cell RNA-Seq is a new technology and its uses are limited only by your imagination! A few examples of problems that have been addressed using scRNA-Seq include:
+ * developmental studies & studies of cellular trajectories.
+ * detailed tissue atlases.
+ * characterization of tumor clonality.
+ * definition of cell-type specific transcriptional responses (e.g. T-cell response to infection)
+ * profiling of changes in cell state (i.e. homeostasis vs. response state)
+ * a variety of different types of CRISPR screens
 
 ## Emphasize focus of this course: 10X Genomics, mouse
 
-While there are several commercially available scRNA-seq technologies, this course will focus on data generated by the 10X Genomics platform. We will also focus on a mouse data set and note that most of the techniques that you will learn in this workshop apply to other species as well.  
+While there are several commercially available scRNA-seq technologies, this course will focus on data generated by the 10X Genomics platform. This technology is widely used at JAX, and it is flexible, reliable, and relatively cost-efficient. We will focus on a mouse data set, although most of the techniques that you will learn in this workshop apply equally well to other species.  
 
 {% include links.md %}
 
