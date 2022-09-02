@@ -81,7 +81,7 @@ ElbowPlot(liver, ndims = 100) + geom_vline(xintercept = 27)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-05-seurat3-1.png" title="plot of chunk seurat3" alt="plot of chunk seurat3" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-05-seurat3-1.png" alt="plot of chunk seurat3" width="612" style="display: block; margin: auto;" />
 
 ~~~
 num_pc <- 27
