@@ -40,14 +40,45 @@ Consider the following points when assessing the differences between the technol
  * Bulk RNA-Seq allows for better isoform detection due to the higher sequencing depth and relatively uniform coverage across transcripts (vs. a typical 3' bias in scRNA-Seq).
  * Genes without poly-A tail (e.g. some noncoding RNAs) might not be detected in scRNA-Seq, but can be reliably assessed using bulk RNA-Seq.
 
-> TBD: An exercise about selecting between bulk vs sc RNA-seq??? Several scenarios with disease/tissue and ask students to select bulk vs scRNA-seq.
-> Aging and Cdkn2a -- bulk
-> PBMCs -- single cell
-> Very heterogeneous tissue -- single cell
-> Differentiation of ESCs to another cell type -- single cell
-> New non-model species -- bulk
-> Studying miRNAs -- bulk
-> eQTL mapping -- both! 
+> ## Challeng
+> For each of these scenarios, choose between using bulk RNA-Seq and scRNA-Seq to address your problem.
+>
+> Differentiation of embryonic stem cells to another cell type
+> > ## Solution
+> > You would likely find single cell RNA-Seq most powerful in this situation since the cells are differentiating along a continuous transcriptional gradient.
+> {: .solution}
+> 
+> Aging and Cdkn2a
+> > ## Solution
+> > bulk
+> {: .solution}
+> 
+> PBMCs -- 
+> > ## Solution
+> > single cell
+> {: .solution}
+> 
+> New non-model species
+> > ## Solution
+> > bulk
+> {: .solution}
+> 
+> Studying miRNAs
+> > ## Solution
+> > bulk
+> {: .solution}
+> 
+> Very heterogeneous tissue
+> > ## Solution
+> > You would likely find single cell RNA-Seq most powerful in this situation since ...
+> {: .solution}
+> 
+> eQTL mapping
+> > ## Solution
+> > probably bulk, but both could be informative!
+> {: .solution}
+{: .challenge}
+
 
 ## What is scRNA-Seq useful for? 
 
