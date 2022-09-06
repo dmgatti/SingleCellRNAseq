@@ -7,11 +7,11 @@ questions:
 - "How do I design a rigorous and reproducible single cell RNAseq experiment?"
 objectives:
 - "Understand the importance of biological replication for rigor and reproducibility."
-- "Understand the differences between pooling methods and choose between them."
+- "Understand how one could pool biological specimens for scRNA-Seq."
 - "Understand why confounding experimental batch with the variable of interest makes it impossible to disentangle the two."
 - "Understand the different data modalities in single-cell sequencing and be able to select a modality to answer an experimental question."
 keypoints:
-- "Due to the increased variance in single-cell data sets, a well-powered study with adequate biological replication is essential for rigor & reproducibility."
+- "Due to the high variance in single-cell data sets, a well-powered study with adequate biological replication is essential for rigor & reproducibility."
 - "Do not confound experimental batch with any technical aspect of the experiment, i.e. sample pooling or flow cell assignment."
 - "Different experimental questions can be investigated using different single-cell sequencing modalities."
 ---
@@ -48,12 +48,14 @@ In order to reduce the effect of batch structure on your experiment is it crucia
 
 ## Different data modalities (cell vs nuclei, RNA vs ATAC, etc) 
 
-> TBD: DAS to fill in.
+There are several different modalities by which one can gather data on the molecular properties of single cells. 10X Genomics currently offers the following reliable assays:
 
-* RNA-seq
-* ATAC-seq
-* Immune repertoire seq: clonality of adaptive immunne cells.
-* cite-seq: cell surface protein.
+* RNA-seq - assess gene expression in single cells
+* ATAC-seq - assess chromatin accessibility in single cells
+* "Multiome" - RNA + ATAC in the same single cells
+* Immune repertoire profiling - assess clonality and antigen specificity of adaptive immune cells (B and T cells)
+* CITE-Seq - assess cell surface protein levels
+* Spatial transcriptomics/proteomics - assess gene expression and/or protein abundance with near-single cell resolution
 
 > ## Challenge 1
 > TBD: Can we propose an experimental question that naturally leads to choosing one of the modalities?
