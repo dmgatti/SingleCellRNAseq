@@ -31,6 +31,9 @@ The steps in droplet scRNA-Seq are:
 7. Library generation:
     * [DAS check this] Oil-water emulsion is "de-emulsified". Amplify cDNA and add correct primers for Illuina sequencing. Sequence on any old Illumina machine. Sequencing should be paired-end, one read contains cell and molecule barcodes, other read contains the bit of transcript that was captured.
 
+![Single Cell Library Prep](../fig/single_cell_library_prep.png)
+> DMG: May need to make our own figure.
+
 ## Comparing and contrasting scRNA-Seq with bulk RNA-Seq 
 
 Bulk RNA-Seq and single cell RNA-Seq are related in that they both assess transcription levels by sequencing short reads, but these two technologies have a variety of differences. Neither technology is always better. The approach that one might use should depend upon the information one hopes to gather.
@@ -42,7 +45,11 @@ Consider the following points when assessing the differences between the technol
  * Bulk RNA-Seq allows for better isoform detection due to the higher sequencing depth and relatively uniform coverage across transcripts (vs. a typical 3' bias in scRNA-Seq).
  * Genes without poly-A tail (e.g. some noncoding RNAs) might not be detected in scRNA-Seq, but can be reliably assessed using bulk RNA-Seq.
 
-> ## Challeng
+![Single Cell vs. Bulk RNA-seq](../fig/singlecell-vs-bulk-image.png)
+https://www.10xgenomics.com/blog/single-cell-rna-seq-an-introductory-overview-and-tools-for-getting-started
+> DMG: May need to make our own figure.
+
+> ## Challenge
 > For each of these scenarios, choose between using bulk RNA-Seq and scRNA-Seq to address your problem.
 >
 > Differentiation of embryonic stem cells to another cell type
@@ -50,34 +57,34 @@ Consider the following points when assessing the differences between the technol
 > > You would likely find single cell RNA-Seq most powerful in this situation since the cells are differentiating along a continuous transcriptional gradient.
 > {: .solution}
 > 
-> Aging and Cdkn2a
+> Aging and *Cdkn2a*
 > > ## Solution
-> > bulk
+> > Since you are interested in the expression of a single gene (*Cdkn2a*), bulk RNA-seq may be a better choice because of the greater sequencing depth and the potenial to identify isoforms.
 > {: .solution}
 > 
 > PBMCs -- 
 > > ## Solution
-> > single cell
+> > Since you may be interested in the expression of specific cell types, single cell RNA-seq may be a better choice because you will be able to quantify cell proportions and cell-specific gene expression.
 > {: .solution}
 > 
 > New non-model species
 > > ## Solution
-> > bulk
+> > Non-model organsms may not have a well-developed reference genome and transcript annotation. Thus, you may need to use tools which perform de-novo transcript assembly and then align your reads to that custom transcriptome. De-novo transcript assembly requires greater sequencing depth, which single-cell RNA-seq may not provide. So we would recommend using bulk RNA-seq in this situation.
 > {: .solution}
 > 
 > Studying miRNAs
 > > ## Solution
-> > bulk
+> > MicroRNAs are not currently assayed by most scRNA-seq technologies. So bulk RNA-seq, with an enrichment for small RNAs, would be the better choice here.
 > {: .solution}
 > 
 > Very heterogeneous tissue
 > > ## Solution
-> > You would likely find single cell RNA-Seq most powerful in this situation since ...
+> > You would likely find single cell RNA-Seq most powerful in this situation because different cell types may have different transcript levels. This would be difficult to detect using bulk RNA-seq because you would not be able to distinguish between differences in transcript expression versus cell type abundance.
 > {: .solution}
 > 
 > eQTL mapping
 > > ## Solution
-> > probably bulk, but both could be informative!
+> > You may want good estimates of transcript abundance in your tissue of interest, so bulkd RNA-seq may be a good choice here. However, you may be able to aggregate scRNA-seq expression for each cell type and perform eQTL mapping. So both could be informative!
 > {: .solution}
 {: .challenge}
 
