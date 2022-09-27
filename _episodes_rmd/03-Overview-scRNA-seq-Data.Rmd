@@ -22,7 +22,7 @@ knitr_fig_path("03-")
 library(tidyverse)
 library(Seurat)
 
-data_dir = '../data'
+data_dir <- '../data'
 ```
 
 ## What files are delivered? Details of FASTQ, etc.
@@ -102,12 +102,12 @@ Open a file browser and look in the `mouseStSt_scrnaseq_75pct` directory and you
 
 In order to read these files into memory, we will use the [Seurat::Read10X()](https://satijalab.org/seurat/reference/read10x) function. This function searches for the three files mentioned above in the directory that you pass in. Once it verifies that all three files are present, it reads them in to create a counts matrix with genes in rows and cells in columns.
 
-We will use the `gene.column = 1` argument to tell Seurat to use the first column in 'features.tsv.gz' as the gene identifier.
+We will use the `gene.column <- 1` argument to tell Seurat to use the first column in 'features.tsv.gz' as the gene identifier.
 
 Run the following command. This may take up to 3 minutes to complete.
 
 ```{r read_counts}
-counts = Seurat::Read10X(file.path(data_dir, 'mouseStSt_scrnaseq_75pct'), gene.column = 1)
+counts <- Seurat::Read10X(file.path(data_dir, 'mouseStSt_scrnaseq_75pct'), gene.column = 1)
 ```
 
 `counts` now contains the sequencing read counts for each gene and cell.
@@ -175,8 +175,8 @@ In the tile plot above, each row represents one gene and each column represents 
 What proportion of genes have zero counts in all samples? To answer this question, we will get the mean of the number of zeros in the first 10,000 cells. We will no
 
 ```{r gene_sums}
-gene_sums = data.frame(gene_id = rownames(counts),
-                       sums    = rowSums(counts))
+gene_sums <- data.frame(gene_id = rownames(counts),
+                        sums    = rowSums(counts))
 sum(gene_sums$sums == 0)
 ```
 
@@ -201,7 +201,7 @@ The sample metadata file is a comma-separated variable (CSV) file, We will read 
 > TBD: Use a metadata file that does NOT have cell identities & UMAP coordinates here? Then reveal the full one later.
 
 ```{r read_metadata}
-metadata = read_csv(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'annot_metadata.csv'))
+metadata <- read_csv(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'annot_metadata.csv'))
 ```
 
 Let's look at the top of the metadata.
@@ -224,7 +224,7 @@ We're going to explore the data using a series of Challenges. You will be asked 
 >
 > > ## Solution to Challenge 2
 > >
-> > count(metadata, sample) %>% summarize(total = n())     
+> > count(metadata, sample) %>% summarize(total <- n())     
 > {: .solution}
 {: .challenge}
 
@@ -259,7 +259,7 @@ In this workshop, we will attempt to reproduce the results of the [Liver Atlas](
 We will use the *in vivo* and *ex vivo* in the next lesson. Save it now and we will load it at the beginning of the next lesson. We will use R's [save](https://stat.ethz.ch/R-manual/R-devel/library/base/html/save.html) command to save the objects in compressed, binary format. The `save` command is useful when you want to save multiple objects in one file.
 
 ```{r save_data}
-save(counts, metadata, file = file.path(data_dir, 'lesson03.Rdata'))
+save(counts, metadata, file <- file.path(data_dir, 'lesson03.Rdata'))
 ```
 
 > ## Challenge 5
@@ -270,11 +270,11 @@ save(counts, metadata, file = file.path(data_dir, 'lesson03.Rdata'))
 > > `# Remove exising counts and metadata.`  
 > > `rm(counts, metadata)`
 > > `# Read in new counts.`  
-> > `counts = Seurat::Read10X(file.path(data_dir, 'mouseStSt_citeseq_75pct'), gene.column = 1)`  
+> > `counts <- Seurat::Read10X(file.path(data_dir, 'mouseStSt_citeseq_75pct'), gene.column <- 1)`  
 > > `# Read in new metadata.`  
-> > `metadata = read_csv(file.path(data_dir, 'mouseStSt_citeseq_75pct', 'annot_metadata.csv'))`  
+> > `metadata <- read_csv(file.path(data_dir, 'mouseStSt_citeseq_75pct', 'annot_metadata.csv'))`  
 > > `# Save data for next lesson.`  
-> > `save(counts, metadata, file = file.path(data_dir, 'lesson03_challenge.Rdata'))`  
+> > `save(counts, metadata, file <- file.path(data_dir, 'lesson03_challenge.Rdata'))`  
 > {: .solution}
 {: .challenge}
 
