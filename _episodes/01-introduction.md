@@ -3,13 +3,16 @@ title: "Introduction to single cell RNA-seq"
 teaching: 30
 exercises: 10
 questions:
-- "What is single-cell RNA-seq?"
-- "What is the difference between bulk RNA-seq and single-cell RNA-seq?"
-- "How do I choose between bulk RNA-seq and single-cell RNA-seq"
+- "What is single cell RNA-seq?"
+- "What is the difference between bulk RNA-seq and single cell RNA-seq?"
+- "How do I choose between bulk RNA-seq and single cell RNA-seq"
 objectives:
-- "Describe what single-cell RNA-seq is."
+- "Describe the overall experimental process of generating single-cell transcriptomes."
+- "Describe instances where bulk vs. single cell RNA-Seq methods are uniquely appropriate."
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "Single cell methods excel in defining cellular heterogeneity and profiling cells differentiating along a trajectory."
+- "Single cell RNA-Seq data is sparse and cannot be analyzed using standard bulk RNA-Seq approaches."
+- "Bulk transcriptomics provides a more in-depth portrait of tissue gene expression, but scRNA-Seq allows you to distinguish between changes in cell composition vs gene expression."
 ---
 
 ## Brief overview of single cell transcriptomics technology 
@@ -26,10 +29,22 @@ The steps in droplet scRNA-Seq are:
     * If scRNA-Seq is being performed on fresh tissue, the cells are usually checked for viability. We want "happy" cells loaded into the machine. We might hope for >90% viable and set a minimum threshold of >70%, although these numbers can vary depending on the experiment.
 3. Cell suspension:
     * Using a microfluidic system, each cell is suspended in a nanoliter-size droplet along with a barcoded primer bead. The cells are kept separate from each other in an oil/water emulsion.
-4. Cell lysis, generating cDNA:
-    * The cells are lysed in each droplet. Each cell was already encapsulated with a barcoded primer bead which has a primer specific to that cell. Often a poly-d(T) primer is used to prime the poly(A) tail of mRNA. 
+4. Cell lysis, generating complementary DNA (cDNA):
+    * The cells are lysed in each droplet. Each cell was already encapsulated with a barcoded primer bead which has a primer specific to that cell. Often a poly-d(T) primer is used to prime the poly(A) tail of mRNA. Amplify cDNA and add correct primers for Illumina sequencing.
 7. Library generation:
-    * [DAS check this] Oil-water emulsion is "de-emulsified". Amplify cDNA and add correct primers for Illuina sequencing. Sequence on any old Illumina machine. Sequencing should be paired-end, one read contains cell and molecule barcodes, other read contains the bit of transcript that was captured.
+    * Remove oil to destroy droplets and homogenize the mixture. Amplify by PCR. Sequence on any Illumina machine. Sequencing should be paired-end -- one read contains cell and molecule barcodes, while the other read contains the bit of transcript that was captured.
+    
+Add figure from 10X.
+
+## What is scRNA-Seq useful for? 
+
+Single cell RNA-Seq is a new technology and its uses are limited only by your imagination! A few examples of problems that have been addressed using scRNA-Seq include:
+ * developmental studies & studies of cellular trajectories.
+ * detailed tissue atlases.
+ * characterization of tumor clonality.
+ * definition of cell-type specific transcriptional responses (e.g. T-cell response to infection)
+ * profiling of changes in cell state (i.e. homeostasis vs. response state)
+ * a variety of different types of CRISPR screens
 
 ## Comparing and contrasting scRNA-Seq with bulk RNA-Seq 
 
@@ -37,12 +52,14 @@ Bulk RNA-Seq and single cell RNA-Seq are related in that they both assess transc
 
 Consider the following points when assessing the differences between the technologies and choosing which to utilize for your own experiment:
  * Tissues are heterogeneous mixtures of diverse cell types. Bulk RNA-Seq data consists of average measures of transcripts expressed across many different cell types, while scRNA-Seq data is cell-type resolved.
- * Bulk RNA-Seq data may obscure the processes of changes in gene expression or tissue cell composition.
- * Bulk RNA-Seq allows for much higher sequencing coverage for each gene.
+ * Bulk RNA-Seq data may not be able to distinguish between changes in gene expression or tissue cell composition.
+ * Bulk RNA-Seq allows for much higher sequencing coverage for each gene and often captures more total genes.
  * Bulk RNA-Seq allows for better isoform detection due to the higher sequencing depth and relatively uniform coverage across transcripts (vs. a typical 3' bias in scRNA-Seq).
  * Genes without poly-A tail (e.g. some noncoding RNAs) might not be detected in scRNA-Seq, but can be reliably assessed using bulk RNA-Seq.
+ 
+> DMG - make or find a figure for bulk vs SC 
 
-> ## Challeng
+> ## Challenge
 > For each of these scenarios, choose between using bulk RNA-Seq and scRNA-Seq to address your problem.
 >
 > Differentiation of embryonic stem cells to another cell type
@@ -70,31 +87,50 @@ Consider the following points when assessing the differences between the technol
 > > bulk
 > {: .solution}
 > 
-> Very heterogeneous tissue
-> > ## Solution
-> > You would likely find single cell RNA-Seq most powerful in this situation since ...
-> {: .solution}
-> 
 > eQTL mapping
 > > ## Solution
 > > probably bulk, but both could be informative!
 > {: .solution}
 {: .challenge}
 
+## Single cell data modalities
 
-## What is scRNA-Seq useful for? 
+There are several different modalities by which one can gather data on the molecular properties of single cells. 10X Genomics currently offers the following reliable assays:
 
-Single cell RNA-Seq is a new technology and its uses are limited only by your imagination! A few examples of problems that have been addressed using scRNA-Seq include:
- * developmental studies & studies of cellular trajectories.
- * detailed tissue atlases.
- * characterization of tumor clonality.
- * definition of cell-type specific transcriptional responses (e.g. T-cell response to infection)
- * profiling of changes in cell state (i.e. homeostasis vs. response state)
- * a variety of different types of CRISPR screens
+* RNA-seq - assess gene expression in single cells. A sub-group of single cell gene expression is single nucleus gene expression, which is often used on frozen samples or for tissues where preparing a single cell suspension is difficult or impossible (e.g. brain).
+* ATAC-seq - assess chromatin accessibility in single cells
+* "Multiome" - RNA + ATAC in the same single cells
+* Immune repertoire profiling - assess clonality and antigen specificity of adaptive immune cells (B and T cells)
+* CITE-Seq - assess cell surface protein levels
+* Spatial transcriptomics/proteomics - assess gene expression and/or protein abundance with near-single cell resolution
 
-## Emphasize focus of this course: 10X Genomics, mouse
 
-While there are several commercially available scRNA-seq technologies, this course will focus on data generated by the 10X Genomics platform. This technology is widely used at JAX, and it is flexible, reliable, and relatively cost-efficient. We will focus on a mouse data set, although most of the techniques that you will learn in this workshop apply equally well to other species.  
+## Focus of this course: 10X Genomics mouse scRNA-Seq
+
+While there are several commercially available scRNA-seq technologies, this course will focus on data generated by the 10X Genomics platform. This technology is widely used at JAX, and it is flexible, reliable, and relatively cost-efficient. We will focus on a mouse data set, although most of the techniques that you will learn in this workshop apply equally well to other species. Each data modality has its own strengths and weaknesses; in this course we will focus on transcriptomics.
+
+
+## Brief overview of instrumentation and library preparation choices available from 10X Genomics
+
+10X Genomics offers a variety of options for profiling single cells. Here we give a brief overview of some of their offerings to illustrate what is available.
+
+To profile gene expression, users can choose from several options:
+ * 3' gene expression -- the "usual" option, amplifies from the 3' end of transcripts
+ * 5' gene expression -- another option for 
+ * "targeted" gene expression -- focus on a smaller number of genes that are of particular interest
+
+One can also choose to profile gene expression on different instruments. The "workhorse" 10X Chromium machine is used for profiling gene expression of up to eight samples totaling 25k-100k cells. The newer Chromium X 
+
+10X Genomics also produces a suite of other instrumentation for applications such as spatial transcriptomics (Visium) or in situ profiling (Xenium), which we will not cover in this course.
+
+Library prep options: 3', 5'
+
+Standard vs high throughput instrumentation and library kits
+
+Other equipment - Visium, Xenium, etc
+
+
+
 
 {% include links.md %}
 
