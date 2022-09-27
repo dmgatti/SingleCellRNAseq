@@ -27,14 +27,14 @@ The steps in droplet scRNA-Seq are:
     * If the cells are part of a tissue, the cells are disaggregated using collagenase or other reagents. The specifics of this protocol can vary greatly due to differences between tissues that are biological in nature. If the cells are in culture or suspension, they may be used as is.
 2. Assess cell viability.
     * If scRNA-Seq is being performed on fresh tissue, the cells are usually checked for viability. We want "happy" cells loaded into the machine. We might hope for >90% viable and set a minimum threshold of >70%, although these numbers can vary depending on the experiment.
-3. Cell suspension:
+3. Droplet formation inside instrument:
     * Using a microfluidic system, each cell is suspended in a nanoliter-size droplet along with a barcoded primer bead. The cells are kept separate from each other in an oil/water emulsion.
 4. Cell lysis, generating complementary DNA (cDNA):
-    * The cells are lysed in each droplet. Each cell was already encapsulated with a barcoded primer bead which has a primer specific to that cell. Often a poly-d(T) primer is used to prime the poly(A) tail of mRNA. Amplify cDNA and add correct primers for Illumina sequencing.
+    * The cells are lysed in each droplet. Each cell was already encapsulated with a barcoded primer bead which has a primer specific to that cell. Often a poly-d(T) primer is used to prime the poly(A) tail of mRNA. Transcribe cDNA and add correct primers for Illumina sequencing.
 7. Library generation:
-    * Remove oil to destroy droplets and homogenize the mixture. Amplify by PCR. Sequence on any Illumina machine. Sequencing should be paired-end -- one read contains cell and molecule barcodes, while the other read contains the bit of transcript that was captured.
+    * Remove oil to destroy droplets and homogenize the mixture. Amplify cDNA by PCR. Sequence on any Illumina machine. Sequencing should be paired-end -- one read contains cell and molecule barcodes, while the other read contains the target transcript that was captured.
     
-Add figure from 10X.
+> DMG: Add figure from 10X.
 
 ## What is scRNA-Seq useful for? 
 
@@ -126,17 +126,9 @@ To profile gene expression, users can choose from several options:
  * 5' gene expression -- another option for 
  * "targeted" gene expression -- focus on a smaller number of genes that are of particular interest
 
-One can also choose to profile gene expression on different instruments. The "workhorse" 10X Chromium machine is used for profiling gene expression of up to eight samples totaling 25k-100k cells. The newer Chromium X 
+One can also choose to profile gene expression on different instruments. The "workhorse" **10X Chromium** machine is used for profiling gene expression of up to eight samples totaling 25k-100k cells. The newer Chromium X is a higher throughput instrument which can profile up to 16 samples and up to one million cells. More information is available from [10X Genomics](https://www.10xgenomics.com/products/single-cell-gene-expression).
 
 10X Genomics also produces a suite of other instrumentation for applications such as spatial transcriptomics (Visium) or in situ profiling (Xenium), which we will not cover in this course.
-
-Library prep options: 3', 5'
-
-Standard vs high throughput instrumentation and library kits
-
-Other equipment - Visium, Xenium, etc
-
-
 
 
 {% include links.md %}
