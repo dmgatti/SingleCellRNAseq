@@ -4,15 +4,15 @@ title: "Overview of scRNA-seq Data"
 teaching: 10
 exercises: 2
 questions:
-- "What does single cell RNAseq data look like?"
+- "What does single cell RNA-Seq data look like?"
 objectives:
 - "Understand the types of files provided by CellRanger."
 - "Understand the structure of files provided by CellRanger."
 - "Describe a sparse matrix and explain why it is useful."
-- "Read in a feature-barcode matrix using Seurat."
+- "Read in a count matrix using Seurat."
 keypoints:
-- "CellRanger produces a feature-barcode matrix that can be read in using Seurat."
-- "The feature-barcode matrix is stored as a sparse matrix with features in rows and cells in columns."
+- "CellRanger produces a gene expression count matrix that can be read in using Seurat."
+- "The count matrix is stored as a sparse matrix with features in rows and cells in columns."
 ---
 
 ```{r, include=FALSE}
@@ -27,15 +27,24 @@ data_dir = '../data'
 
 ## What files are delivered? Details of FASTQ, etc.
 
-> TBD: DAS to fill in.
-> Maybe we explain briefly what was done in CellRanger to produce the gene x bar code matrix that we start with.
+The raw data for an scRNA-Seq experiment typically consists of two FASTQ files.
+[Describe further]
 
-## Typical pre-processing pipeline -- 10X CellRanger 
+DAS -- NB SCBL provides CellRanger results as well. See next section.
 
-* Aligned by CellRanger (???).
-* Produces gene counts for each cell.
+## Typical pre-processing pipeline
 
-## Intro to two major single cell ecosystems: 
+### 10X CellRanger
+
+ * What is CellRanger?
+ * Produces gene counts for each cell.
+
+### CellRanger alternatives
+
+ * alevin
+ * STARsolo
+
+## Intro to two major single cell analysis ecosystems: 
 
 At the time that this workshop was created, there were many different software packages designed for analyzing scRNA-seq data in a variety of scenarios. The two scRNA-seq software "ecosystems" that were most widely in use were:
 
@@ -89,7 +98,7 @@ Open a file browser and look in the `mouseStSt_scrnaseq_75pct` directory and you
 > {: .solution}
 {: .challenge}
 
-### Reading a CellRanger Feature-Barcode Matrix using Seurat
+### Reading a CellRanger Gene Expression Count Matrix using Seurat
 
 In order to read these files into memory, we will use the [Seurat::Read10X()](https://satijalab.org/seurat/reference/read10x) function. This function searches for the three files mentioned above in the directory that you pass in. Once it verifies that all three files are present, it reads them in to create a counts matrix with genes in rows and cells in columns.
 
