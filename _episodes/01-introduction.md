@@ -13,6 +13,7 @@ keypoints:
 - "Single cell methods excel in defining cellular heterogeneity and profiling cells differentiating along a trajectory."
 - "Single cell RNA-Seq data is sparse and cannot be analyzed using standard bulk RNA-Seq approaches."
 - "Bulk transcriptomics provides a more in-depth portrait of tissue gene expression, but scRNA-Seq allows you to distinguish between changes in cell composition vs gene expression."
+- "Different experimental questions can be investigated using different single-cell sequencing modalities."
 ---
 
 ## Brief overview of single cell transcriptomics technology 
