@@ -6,30 +6,39 @@ title: "Overview of scRNA-seq Data"
 teaching: 10
 exercises: 2
 questions:
-- "What does single cell RNAseq data look like?"
+- "What does single cell RNA-Seq data look like?"
 objectives:
 - "Understand the types of files provided by CellRanger."
 - "Understand the structure of files provided by CellRanger."
 - "Describe a sparse matrix and explain why it is useful."
-- "Read in a feature-barcode matrix using Seurat."
+- "Read in a count matrix using Seurat."
 keypoints:
-- "CellRanger produces a feature-barcode matrix that can be read in using Seurat."
-- "The feature-barcode matrix is stored as a sparse matrix with features in rows and cells in columns."
+- "CellRanger produces a gene expression count matrix that can be read in using Seurat."
+- "The count matrix is stored as a sparse matrix with features in rows and cells in columns."
 ---
 
 
 
 ## What files are delivered? Details of FASTQ, etc.
 
-> TBD: DAS to fill in.
-> Maybe we explain briefly what was done in CellRanger to produce the gene x bar code matrix that we start with.
+The raw data for an scRNA-Seq experiment typically consists of two FASTQ files.
+[Describe further]
 
-## Typical pre-processing pipeline -- 10X CellRanger 
+DAS -- NB SCBL provides CellRanger results as well. See next section.
 
-* Aligned by CellRanger (???).
-* Produces gene counts for each cell.
+## Typical pre-processing pipeline
 
-## Intro to two major single cell ecosystems: 
+### 10X CellRanger
+
+ * What is CellRanger?
+ * Produces gene counts for each cell.
+
+### CellRanger alternatives
+
+ * alevin
+ * STARsolo
+
+## Intro to two major single cell analysis ecosystems: 
 
 At the time that this workshop was created, there were many different software packages designed for analyzing scRNA-seq data in a variety of scenarios. The two scRNA-seq software "ecosystems" that were most widely in use were:
 
@@ -83,17 +92,17 @@ Open a file browser and look in the `mouseStSt_scrnaseq_75pct` directory and you
 > {: .solution}
 {: .challenge}
 
-### Reading a CellRanger Feature-Barcode Matrix using Seurat
+### Reading a CellRanger Gene Expression Count Matrix using Seurat
 
 In order to read these files into memory, we will use the [Seurat::Read10X()](https://satijalab.org/seurat/reference/read10x) function. This function searches for the three files mentioned above in the directory that you pass in. Once it verifies that all three files are present, it reads them in to create a counts matrix with genes in rows and cells in columns.
 
-We will use the `gene.column = 1` argument to tell Seurat to use the first column in 'features.tsv.gz' as the gene identifier.
+We will use the `gene.column <- 1` argument to tell Seurat to use the first column in 'features.tsv.gz' as the gene identifier.
 
 Run the following command. This may take up to 3 minutes to complete.
 
 
 ~~~
-counts = Seurat::Read10X(file.path(data_dir, 'mouseStSt_scrnaseq_75pct'), gene.column = 1)
+counts <- Seurat::Read10X(file.path(data_dir, 'mouseStSt_scrnaseq_75pct'), gene.column = 1)
 ~~~
 {: .language-r}
 
@@ -266,8 +275,8 @@ What proportion of genes have zero counts in all samples? To answer this questio
 
 
 ~~~
-gene_sums = data.frame(gene_id = rownames(counts),
-                       sums    = rowSums(counts))
+gene_sums <- data.frame(gene_id = rownames(counts),
+                        sums    = rowSums(counts))
 sum(gene_sums$sums == 0)
 ~~~
 {: .language-r}
@@ -305,7 +314,7 @@ The sample metadata file is a comma-separated variable (CSV) file, We will read 
 
 
 ~~~
-metadata = read_csv(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'annot_metadata.csv'))
+metadata <- read_csv(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'annot_metadata.csv'))
 ~~~
 {: .language-r}
 
@@ -360,7 +369,7 @@ We're going to explore the data using a series of Challenges. You will be asked 
 >
 > > ## Solution to Challenge 2
 > >
-> > count(metadata, sample) %>% summarize(total = n())     
+> > count(metadata, sample) %>% summarize(total <- n())     
 > {: .solution}
 {: .challenge}
 
@@ -396,9 +405,16 @@ We will use the *in vivo* and *ex vivo* in the next lesson. Save it now and we w
 
 
 ~~~
-save(counts, metadata, file = file.path(data_dir, 'lesson03.Rdata'))
+save(counts, metadata, file <- file.path(data_dir, 'lesson03.Rdata'))
 ~~~
 {: .language-r}
+
+
+
+~~~
+Error in save(counts, metadata, file <- file.path(data_dir, "lesson03.Rdata")): object 'file <- file.path(data_dir, "lesson03.Rdata")' not found
+~~~
+{: .error}
 
 > ## Challenge 5
 > In the lesson above, you read in the scRNASeq and nucSeq data. There is another dataset which was created using "citeSeq" in the `mouseStSt_citeseq_75pct` directory. Delete the `counts` and `metadata` objects from your environment. Then read in the counts and metadata from the `mouseStSt_citeseq_75pct` directory and save them to a file called 'lesson03_challenge.Rdata'.
@@ -408,11 +424,11 @@ save(counts, metadata, file = file.path(data_dir, 'lesson03.Rdata'))
 > > `# Remove exising counts and metadata.`  
 > > `rm(counts, metadata)`
 > > `# Read in new counts.`  
-> > `counts = Seurat::Read10X(file.path(data_dir, 'mouseStSt_citeseq_75pct'), gene.column = 1)`  
+> > `counts <- Seurat::Read10X(file.path(data_dir, 'mouseStSt_citeseq_75pct'), gene.column <- 1)`  
 > > `# Read in new metadata.`  
-> > `metadata = read_csv(file.path(data_dir, 'mouseStSt_citeseq_75pct', 'annot_metadata.csv'))`  
+> > `metadata <- read_csv(file.path(data_dir, 'mouseStSt_citeseq_75pct', 'annot_metadata.csv'))`  
 > > `# Save data for next lesson.`  
-> > `save(counts, metadata, file = file.path(data_dir, 'lesson03_challenge.Rdata'))`  
+> > `save(counts, metadata, file <- file.path(data_dir, 'lesson03_challenge.Rdata'))`  
 > {: .solution}
 {: .challenge}
 
@@ -444,53 +460,53 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] sp_1.5-0           SeuratObject_4.1.1 Seurat_4.1.1       forcats_0.5.2     
- [5] stringr_1.4.1      dplyr_1.0.9        purrr_0.3.4        readr_2.1.2       
- [9] tidyr_1.2.0        tibble_3.1.8       ggplot2_3.3.6      tidyverse_1.3.2   
+ [1] sp_1.5-0           SeuratObject_4.1.2 Seurat_4.2.0       forcats_0.5.2     
+ [5] stringr_1.4.1      dplyr_1.0.10       purrr_0.3.4        readr_2.1.2       
+ [9] tidyr_1.2.1        tibble_3.1.8       ggplot2_3.3.6      tidyverse_1.3.2   
 [13] knitr_1.40        
 
 loaded via a namespace (and not attached):
   [1] googledrive_2.0.0     Rtsne_0.16            colorspace_2.0-3     
-  [4] deldir_1.0-6          ellipsis_0.3.2        ggridges_0.5.3       
-  [7] fs_1.5.2              spatstat.data_2.2-0   leiden_0.4.2         
+  [4] deldir_1.0-6          ellipsis_0.3.2        ggridges_0.5.4       
+  [7] fs_1.5.2              spatstat.data_2.2-0   leiden_0.4.3         
  [10] listenv_0.8.0         bit64_4.0.5           ggrepel_0.9.1        
  [13] fansi_1.0.3           lubridate_1.8.0       xml2_1.3.3           
  [16] codetools_0.2-18      splines_4.1.2         polyclip_1.10-0      
  [19] jsonlite_1.8.0        broom_1.0.1           ica_1.0-3            
- [22] cluster_2.1.3         dbplyr_2.2.1          png_0.1-7            
+ [22] cluster_2.1.4         dbplyr_2.2.1          png_0.1-7            
  [25] rgeos_0.5-9           uwot_0.1.14           spatstat.sparse_2.1-1
- [28] sctransform_0.3.4     shiny_1.7.2           compiler_4.1.2       
+ [28] sctransform_0.3.5     shiny_1.7.2           compiler_4.1.2       
  [31] httr_1.4.4            backports_1.4.1       lazyeval_0.2.2       
- [34] assertthat_0.2.1      Matrix_1.4-1          fastmap_1.1.0        
- [37] gargle_1.2.0          cli_3.3.0             later_1.3.0          
- [40] htmltools_0.5.3       tools_4.1.2           igraph_1.3.4         
- [43] gtable_0.3.0          glue_1.6.2            reshape2_1.4.4       
+ [34] assertthat_0.2.1      Matrix_1.5-1          fastmap_1.1.0        
+ [37] gargle_1.2.1          cli_3.3.0             later_1.3.0          
+ [40] htmltools_0.5.3       tools_4.1.2           igraph_1.3.5         
+ [43] gtable_0.3.1          glue_1.6.2            reshape2_1.4.4       
  [46] RANN_2.6.1            Rcpp_1.0.9            scattermore_0.8      
- [49] cellranger_1.1.0      vctrs_0.4.1           nlme_3.1-158         
- [52] progressr_0.10.1      lmtest_0.9-40         spatstat.random_2.2-0
- [55] xfun_0.32             globals_0.16.1        rvest_1.0.3          
- [58] mime_0.12             miniUI_0.1.1.1        lifecycle_1.0.1      
+ [49] cellranger_1.1.0      vctrs_0.4.1           nlme_3.1-159         
+ [52] progressr_0.11.0      lmtest_0.9-40         spatstat.random_2.2-0
+ [55] xfun_0.33             globals_0.16.1        rvest_1.0.3          
+ [58] mime_0.12             miniUI_0.1.1.1        lifecycle_1.0.2      
  [61] irlba_2.3.5           goftest_1.2-3         googlesheets4_1.0.1  
- [64] future_1.27.0         MASS_7.3-57           zoo_1.8-10           
+ [64] future_1.28.0         MASS_7.3-58.1         zoo_1.8-11           
  [67] scales_1.2.1          vroom_1.5.7           spatstat.core_2.4-4  
  [70] spatstat.utils_2.3-1  hms_1.1.2             promises_1.2.0.1     
  [73] parallel_4.1.2        RColorBrewer_1.1-3    gridExtra_2.3        
- [76] reticulate_1.25       pbapply_1.5-0         rpart_4.1.16         
- [79] stringi_1.7.8         highr_0.9             rlang_1.0.4          
+ [76] reticulate_1.26       pbapply_1.5-0         rpart_4.1.16         
+ [79] stringi_1.7.8         highr_0.9             rlang_1.0.6          
  [82] pkgconfig_2.0.3       matrixStats_0.62.0    evaluate_0.16        
  [85] lattice_0.20-45       tensor_1.5            ROCR_1.0-11          
  [88] htmlwidgets_1.5.4     patchwork_1.1.2       bit_4.0.4            
  [91] cowplot_1.1.1         tidyselect_1.1.2      parallelly_1.32.1    
  [94] RcppAnnoy_0.0.19      plyr_1.8.7            magrittr_2.0.3       
  [97] R6_2.5.1              generics_0.1.3        DBI_1.1.3            
-[100] mgcv_1.8-40           pillar_1.8.1          haven_2.5.0          
+[100] mgcv_1.8-40           pillar_1.8.1          haven_2.5.1          
 [103] withr_2.5.0           fitdistrplus_1.1-8    abind_1.4-5          
-[106] survival_3.3-1        future.apply_1.9.0    modelr_0.1.9         
+[106] survival_3.4-0        future.apply_1.9.1    modelr_0.1.9         
 [109] crayon_1.5.1          KernSmooth_2.23-20    utf8_1.2.2           
 [112] spatstat.geom_2.4-0   plotly_4.10.0         tzdb_0.3.0           
-[115] grid_4.1.2            readxl_1.4.0          data.table_1.14.2    
+[115] grid_4.1.2            readxl_1.4.1          data.table_1.14.2    
 [118] reprex_2.0.2          digest_0.6.29         xtable_1.8-4         
-[121] httpuv_1.6.5          munsell_0.5.0         viridisLite_0.4.1    
+[121] httpuv_1.6.6          munsell_0.5.0         viridisLite_0.4.1    
 ~~~
 {: .output}
 

@@ -1,8 +1,8 @@
 ---
 source: Rmd
 title: "Experimental Considerations"
-teaching: 10
-exercises: 2
+teaching: 30
+exercises: 10
 questions:
 - "How do I design a rigorous and reproducible single cell RNAseq experiment?"
 objectives:
@@ -13,7 +13,6 @@ objectives:
 keypoints:
 - "Due to the high variance in single-cell data sets, a well-powered study with adequate biological replication is essential for rigor & reproducibility."
 - "Do not confound experimental batch with any technical aspect of the experiment, i.e. sample pooling or flow cell assignment."
-- "Different experimental questions can be investigated using different single-cell sequencing modalities."
 ---
 
 ```{r, include=FALSE}
@@ -29,6 +28,8 @@ what are doublets
 software for identifying doublets (in QC lesson)
 correlation between cell number and doublet rate
 
+> DAS: Find figure of correlation between cells vs doublet rate.
+
 ## How to decide on the parameters of the experiment
 
 There are a number of parameters in a typical scRNA-Seq experiment that are customizable according to the particular details of each study. 
@@ -36,7 +37,7 @@ There are a number of parameters in a typical scRNA-Seq experiment that are cust
 ### Number of cells
 
 Distinguish between cells *loaded* vs cells *captured*
-A typical number would be 6,000 cells on standard 10X Chromium, or 
+A typical number of captured cells would be 6,000 cells on standard 10X Chromium, or 
 "Overloading" or "Superloading"
 
 ### Sequencing depth
@@ -55,12 +56,12 @@ Note that the tens of thousands of cells sequenced in a typical sample do *not* 
 In a strict sense, biological replication would entail independently rearing multiple genetically identical animals, subjecting them to identical conditions, and harvesting cells in an identical manner. This is one strength of working in the mouse that we can leverage at JAX. However, there are also instances where we can attain truly useful biological replication without meeting these strict requirements. For example, a disease study in humans may profile single cells collected from affected and unaffected individuals, and could provide insights as long as the groups are not systematically different. Turning to the mouse, a fine-grained timecourse may not require biological replication at every timepoint because -- depending on the questions investigators wish to ask -- cells from different individual mice collected at different timepoints might be analyzed together to attain robust results.
 
 How many biological replicates should one collect? This question is difficult to answer with a "one size fits all" approach but we recommend an absolute minimum of three biological replicates per experimental group. More is almost always better, but there are obviously tradeoffs with respect to budget and the time it takes to harvest samples. There are many studies that have attempted to model the power of single cell RNA-Seq experiments, including differential gene expression and differences in cell composition. We will not discuss these studies in detail in this course, but some may be useful for your own work:
- * Schmid et al. 2021. scPower accelerates and optimizes the design of multi-sample single cell transcriptomic studies.  https://doi.org/10.1038/s41467-021-26779-7
- * Svensson et al. 2017. Power analysis of single-cell RNA-sequencing experiments. https://doi.org/10.1038/nmeth.4220
- * Davis et al. 2019. SCOPIT: sample size calculations for single-cell sequencing experiments. https://doi.org/10.1186/s12859-019-3167-9
- * Zimmerman et al. 2021. Hierarchicell: an R-package for estimating power for tests of differential expression with single-cell data. https://doi.org/10.1186%2Fs12864-021-07635-w
- * Vieth et al. 2017. powsimR: power analysis for bulk and single cell RNA-seq experiments. https://doi.org/10.1093/bioinformatics/btx435j
- * Su et al. 2020. Simulation, power evaluation and sample size recommendation for single-cell RNA-seq. https://doi.org/10.1093/bioinformatics/btaa607
+ * Schmid et al. 2021. scPower accelerates and optimizes the design of multi-sample single cell transcriptomic studies.  <https://doi.org/10.1038/s41467-021-26779-7>
+ * Svensson et al. 2017. Power analysis of single-cell RNA-sequencing experiments. <https://doi.org/10.1038/nmeth.4220>
+ * Davis et al. 2019. SCOPIT: sample size calculations for single-cell sequencing experiments. <https://doi.org/10.1186/s12859-019-3167-9>
+ * Zimmerman et al. 2021. Hierarchicell: an R-package for estimating power for tests of differential expression with single-cell data. <https://doi.org/10.1186%2Fs12864-021-07635-w>
+ * Vieth et al. 2017. powsimR: power analysis for bulk and single cell RNA-seq experiments. <https://doi.org/10.1093/bioinformatics/btx435j>
+ * Su et al. 2020. Simulation, power evaluation and sample size recommendation for single-cell RNA-seq. <https://doi.org/10.1093/bioinformatics/btaa607>
 
 
 ## Pooling options  
@@ -82,18 +83,6 @@ In order to reduce the effect of batch structure on your experiment is it crucia
 
 ![Batch Confounding](../fig/flow_cell_batch.png)
 
-
-
-## Choosing between data modalities and 10X technical offerings
-
-> ## Challenge 1
-> TBD: Can we propose an experimental question that naturally leads to choosing one of the modalities?
->
-> > ## Solution to Challenge 1
-> >
-> >    
-> {: .solution}
-{: .challenge}
 
 > ## Recommended Reading
 >

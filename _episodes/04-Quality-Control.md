@@ -360,52 +360,52 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] sp_1.5-0           SeuratObject_4.1.1 Seurat_4.1.1       Matrix_1.4-1      
- [5] forcats_0.5.2      stringr_1.4.1      dplyr_1.0.9        purrr_0.3.4       
- [9] readr_2.1.2        tidyr_1.2.0        tibble_3.1.8       ggplot2_3.3.6     
+ [1] sp_1.5-0           SeuratObject_4.1.2 Seurat_4.2.0       Matrix_1.5-1      
+ [5] forcats_0.5.2      stringr_1.4.1      dplyr_1.0.10       purrr_0.3.4       
+ [9] readr_2.1.2        tidyr_1.2.1        tibble_3.1.8       ggplot2_3.3.6     
 [13] tidyverse_1.3.2    knitr_1.40        
 
 loaded via a namespace (and not attached):
   [1] googledrive_2.0.0     Rtsne_0.16            colorspace_2.0-3     
-  [4] deldir_1.0-6          ellipsis_0.3.2        ggridges_0.5.3       
+  [4] deldir_1.0-6          ellipsis_0.3.2        ggridges_0.5.4       
   [7] fs_1.5.2              spatstat.data_2.2-0   farver_2.1.1         
- [10] leiden_0.4.2          listenv_0.8.0         ggrepel_0.9.1        
+ [10] leiden_0.4.3          listenv_0.8.0         ggrepel_0.9.1        
  [13] fansi_1.0.3           lubridate_1.8.0       xml2_1.3.3           
  [16] codetools_0.2-18      splines_4.1.2         polyclip_1.10-0      
  [19] jsonlite_1.8.0        broom_1.0.1           ica_1.0-3            
- [22] cluster_2.1.3         dbplyr_2.2.1          png_0.1-7            
+ [22] cluster_2.1.4         dbplyr_2.2.1          png_0.1-7            
  [25] rgeos_0.5-9           uwot_0.1.14           spatstat.sparse_2.1-1
- [28] sctransform_0.3.4     shiny_1.7.2           compiler_4.1.2       
+ [28] sctransform_0.3.5     shiny_1.7.2           compiler_4.1.2       
  [31] httr_1.4.4            backports_1.4.1       lazyeval_0.2.2       
- [34] assertthat_0.2.1      fastmap_1.1.0         gargle_1.2.0         
+ [34] assertthat_0.2.1      fastmap_1.1.0         gargle_1.2.1         
  [37] cli_3.3.0             later_1.3.0           htmltools_0.5.3      
- [40] tools_4.1.2           igraph_1.3.4          gtable_0.3.0         
+ [40] tools_4.1.2           igraph_1.3.5          gtable_0.3.1         
  [43] glue_1.6.2            reshape2_1.4.4        RANN_2.6.1           
  [46] Rcpp_1.0.9            scattermore_0.8       cellranger_1.1.0     
- [49] vctrs_0.4.1           nlme_3.1-158          progressr_0.10.1     
- [52] lmtest_0.9-40         spatstat.random_2.2-0 xfun_0.32            
+ [49] vctrs_0.4.1           nlme_3.1-159          progressr_0.11.0     
+ [52] lmtest_0.9-40         spatstat.random_2.2-0 xfun_0.33            
  [55] globals_0.16.1        rvest_1.0.3           mime_0.12            
- [58] miniUI_0.1.1.1        lifecycle_1.0.1       irlba_2.3.5          
- [61] goftest_1.2-3         googlesheets4_1.0.1   future_1.27.0        
- [64] MASS_7.3-57           zoo_1.8-10            scales_1.2.1         
+ [58] miniUI_0.1.1.1        lifecycle_1.0.2       irlba_2.3.5          
+ [61] goftest_1.2-3         googlesheets4_1.0.1   future_1.28.0        
+ [64] MASS_7.3-58.1         zoo_1.8-11            scales_1.2.1         
  [67] spatstat.core_2.4-4   spatstat.utils_2.3-1  hms_1.1.2            
  [70] promises_1.2.0.1      parallel_4.1.2        RColorBrewer_1.1-3   
- [73] gridExtra_2.3         reticulate_1.25       pbapply_1.5-0        
+ [73] gridExtra_2.3         reticulate_1.26       pbapply_1.5-0        
  [76] rpart_4.1.16          stringi_1.7.8         highr_0.9            
- [79] rlang_1.0.4           pkgconfig_2.0.3       matrixStats_0.62.0   
+ [79] rlang_1.0.6           pkgconfig_2.0.3       matrixStats_0.62.0   
  [82] evaluate_0.16         lattice_0.20-45       tensor_1.5           
  [85] ROCR_1.0-11           labeling_0.4.2        htmlwidgets_1.5.4    
  [88] patchwork_1.1.2       cowplot_1.1.1         tidyselect_1.1.2     
  [91] parallelly_1.32.1     RcppAnnoy_0.0.19      plyr_1.8.7           
  [94] magrittr_2.0.3        R6_2.5.1              generics_0.1.3       
  [97] DBI_1.1.3             mgcv_1.8-40           pillar_1.8.1         
-[100] haven_2.5.0           withr_2.5.0           fitdistrplus_1.1-8   
-[103] abind_1.4-5           survival_3.3-1        future.apply_1.9.0   
+[100] haven_2.5.1           withr_2.5.0           fitdistrplus_1.1-8   
+[103] abind_1.4-5           survival_3.4-0        future.apply_1.9.1   
 [106] modelr_0.1.9          crayon_1.5.1          KernSmooth_2.23-20   
 [109] utf8_1.2.2            spatstat.geom_2.4-0   plotly_4.10.0        
-[112] tzdb_0.3.0            grid_4.1.2            readxl_1.4.0         
+[112] tzdb_0.3.0            grid_4.1.2            readxl_1.4.1         
 [115] data.table_1.14.2     reprex_2.0.2          digest_0.6.29        
-[118] xtable_1.8-4          httpuv_1.6.5          munsell_0.5.0        
+[118] xtable_1.8-4          httpuv_1.6.6          munsell_0.5.0        
 [121] viridisLite_0.4.1    
 ~~~
 {: .output}
