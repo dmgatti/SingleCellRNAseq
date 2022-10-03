@@ -34,7 +34,7 @@ The steps in droplet scRNA-Seq are:
 7. Library generation:
     * Remove oil to destroy droplets and homogenize the mixture. Amplify by PCR. Sequence on any Illumina machine. Sequencing should be paired-end -- one read contains cell and molecule barcodes, while the other read contains the bit of transcript that was captured.
     
-Add figure from 10X.
+![Single cell library prep](../fig/Zhang_etal_2017_NatComm_Fig1_GEMs.jpg)
 
 ## What is scRNA-Seq useful for? 
 
@@ -46,8 +46,6 @@ Single cell RNA-Seq is a new technology and its uses are limited only by your im
  * profiling of changes in cell state (i.e. homeostasis vs. response state)
  * a variety of different types of CRISPR screens
 
-![Single Cell Library Prep](../fig/single_cell_library_prep.png)
-> DMG: May need to make our own figure.
 
 ## Comparing and contrasting scRNA-Seq with bulk RNA-Seq 
 
@@ -74,27 +72,27 @@ https://www.10xgenomics.com/blog/single-cell-rna-seq-an-introductory-overview-an
 > > You would likely find single cell RNA-Seq most powerful in this situation since the cells are differentiating along a continuous transcriptional gradient.
 > {: .solution}
 > 
-> Aging and *Cdkn2a*
+> Studying aging with a specific focus on the senescence-involved (e.g. [ref](https://pubmed.ncbi.nlm.nih.gov/15582292/)) gene *Cdkn2a*
 > > ## Solution
 > > Since you are interested in the expression of a single gene (*Cdkn2a*), bulk RNA-seq may be a better choice because of the greater sequencing depth and the potenial to identify isoforms.
 > {: .solution}
 > 
-> PBMCs -- 
+> Studying variation in vaccine response by profiling peripheral blood mononuclear cells (PBMCs) -- 
 > > ## Solution
 > > Since you may be interested in the expression of specific cell types, single cell RNA-seq may be a better choice because you will be able to quantify cell proportions and cell-specific gene expression.
 > {: .solution}
 > 
-> New non-model species
+> Doing functional genomics in a non-model species
 > > ## Solution
 > > Non-model organsms may not have a well-developed reference genome and transcript annotation. Thus, you may need to use tools which perform de-novo transcript assembly and then align your reads to that custom transcriptome. De-novo transcript assembly requires greater sequencing depth, which single-cell RNA-seq may not provide. So we would recommend using bulk RNA-seq in this situation.
 > {: .solution}
 > 
-> Studying miRNAs
+> Studying micro RNAs
 > > ## Solution
 > > MicroRNAs are not currently assayed by most scRNA-seq technologies. So bulk RNA-seq, with an enrichment for small RNAs, would be the better choice here.
 > {: .solution}
 > 
-> eQTL mapping
+> Performing gene expression quantitative trait locus (eQTL) mapping
 > > ## Solution
 > > You may want good estimates of transcript abundance in your tissue of interest, so bulkd RNA-seq may be a good choice here. However, you may be able to aggregate scRNA-seq expression for each cell type and perform eQTL mapping. So both could be informative!
 > {: .solution}
@@ -126,17 +124,9 @@ To profile gene expression, users can choose from several options:
  * 5' gene expression -- another option for 
  * "targeted" gene expression -- focus on a smaller number of genes that are of particular interest
 
-One can also choose to profile gene expression on different instruments. The "workhorse" 10X Chromium machine is used for profiling gene expression of up to eight samples totaling 25k-100k cells. The newer Chromium X 
+One can also choose to profile gene expression on different instruments. The "workhorse" 10X Chromium machine is used for profiling gene expression of up to eight samples totaling 25k-100k cells. The newer Chromium X can be used for significantly larger projects, up to million cell studies. There are also variations in the kits that can be purchased to perform library preparation. In general 10X Genomics does a fairly good job of continuously improving the chemistry such that the data quality continues to improve.
 
 10X Genomics also produces a suite of other instrumentation for applications such as spatial transcriptomics (Visium) or in situ profiling (Xenium), which we will not cover in this course.
-
-Library prep options: 3', 5'
-
-Standard vs high throughput instrumentation and library kits
-
-Other equipment - Visium, Xenium, etc
-
-
 
 
 {% include links.md %}
