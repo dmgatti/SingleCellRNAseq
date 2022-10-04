@@ -15,15 +15,19 @@ keypoints:
 - "The count matrix is stored as a sparse matrix with features in rows and cells in columns."
 ---
 
-```{r, include=FALSE}
+```{r setup, include=FALSE}
 source("../bin/chunk-options.R")
 knitr_fig_path("03-")
+```
 
+```{r libs}
 library(tidyverse)
 library(Seurat)
 
 data_dir <- '../data'
 ```
+
+> DAS NOTE THAT student should open up project you created in setup step
 
 ## What files are delivered? Details of FASTQ, etc.
 
@@ -59,11 +63,13 @@ At the time that this workshop was created, there were many different software p
     * Seurat v4: Integrative multimodal analysis and mapping of user data sets to cell identity reference database.
 
 * Python/scanpy
-    * TBD: Expand on this.
+    * DAS: Expand on this.
 
 ## Reading in CellRanger Data
 
-[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) software which analyzes Chromium single cell data to align reads, generates feature-bar code matrices, and performs other downstream analyses. CellRanger is provided by 10X Genomics. In this workshop, we will read in the feature-bar code matrix produced by CellRanger and will perform the downstream analysis using Seurat.
+[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) is software which analyzes Chromium single cell data to align reads, generates feature-bar code matrices, and performs other downstream analyses. 
+[DAS add a sentence on what a feature barcode matrix is. In this context gene expression.]
+CellRanger is provided by 10X Genomics. In this workshop, we will read in the feature-bar code matrix produced by CellRanger and will perform the downstream analysis using Seurat.
 
 ### Liver Atlas
 
@@ -73,11 +79,11 @@ We will be working with a subset of the mouse liver data. Before the workshop, y
 
 > TBD: Not sure where to host the files. Maybe on Box with a public link. Can't figure out how to grab using RCurl yet.
 
-Open a file browser and look in the `mouseStSt_scrnaseq_75pct` directory and you should see three files. Each file ends with 'gz', which indicates that it has been compressed (or 'zipped') using [gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; the software that we use will uncompress the files as it reads them in. The files are:
+Open a file browser and look in the `data_dir` subdirectory `mouseStSt_scrnaseq_75pct` and you should see three files. Each file ends with 'gz', which indicates that it has been compressed (or 'zipped') using [gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; the software that we use will uncompress the files as it reads them in. The files are:
 
 * matrix.mtx.gz: Two-dimensional matrix containing the counts for each gene in each cell.
     * Genes are in rows and cells are in columns.
-    * This file is in a special sparse matrix format which reduces memory usage.
+    * This file is in a special sparse matrix format which reduces disk space and memory usage.
 * barcodes.tsv.gz: DNA barcodes for each cell. Used as column names in counts matrix.
 * features.tsv.gz: Gene symbols for each gene. Used as row names in counts matrix.
 
@@ -100,14 +106,19 @@ Open a file browser and look in the `mouseStSt_scrnaseq_75pct` directory and you
 
 ### Reading a CellRanger Gene Expression Count Matrix using Seurat
 
-In order to read these files into memory, we will use the [Seurat::Read10X()](https://satijalab.org/seurat/reference/read10x) function. This function searches for the three files mentioned above in the directory that you pass in. Once it verifies that all three files are present, it reads them in to create a counts matrix with genes in rows and cells in columns.
+In order to read these files into memory, we will use the 
+[Seurat::Read10X()](https://satijalab.org/seurat/reference/read10x) function. 
+This function searches for the three files mentioned above in the directory that
+you pass in. Once it verifies that all three files are present, it reads them 
+in to create a counts matrix with genes in rows and cells in columns.
 
-We will use the `gene.column <- 1` argument to tell Seurat to use the first column in 'features.tsv.gz' as the gene identifier.
+We will use the `gene.column = 1` argument to tell Seurat to use the first column in 'features.tsv.gz' as the gene identifier.
 
-Run the following command. This may take up to 3 minutes to complete.
+Run the following command. This may take up to three minutes to complete.
 
 ```{r read_counts}
-counts <- Seurat::Read10X(file.path(data_dir, 'mouseStSt_scrnaseq_75pct'), gene.column = 1)
+# uses the Seurat function Read10X()
+counts <- Read10X(file.path(data_dir, 'mouseStSt_scrnaseq_75pct'), gene.column = 1)
 ```
 
 `counts` now contains the sequencing read counts for each gene and cell.
@@ -131,6 +142,9 @@ sum(duplicated(rownames(counts)))
 ```
 
 The sum equals zero, so there are no duplicated gene symbols, which is good.
+As it turns out, the reference genome/annotation files that are prepared for
+use by CellRanger have already been filtered to ensure no duplicated gene
+symbols. 
 
 Let's look at the cell identifiers in the column names.
 
@@ -145,6 +159,15 @@ sum(duplicated(colnames(counts)))
 ```
 
 The sum of duplicated values equals zero, so all of the barcodes are unique.
+The barcode sequence is the actual sequence of the oligonucleotide tag that
+was stuck to the GEM (barcoded bead) that went into each droplet. In early
+versions of 10X technology there were approximately 
+[750,000 barcodes](https://kb.10xgenomics.com/hc/en-us/articles/115004506263-What-is-a-barcode-whitelist-) 
+per run while in the current chemistry there are 
+[>3 million barcodes](https://kb.10xgenomics.com/hc/en-us/articles/360031133451-Why-is-there-a-discrepancy-in-the-3M-february-2018-txt-barcode-whitelist-).
+CellRanger attempts to correct sequencing errors in the barcodes
+and uses a "whitelist" of known barcodes (in the 10X chemistry) to help.
+
 
 Next, let's look at the values in `counts`.
 
