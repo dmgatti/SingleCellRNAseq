@@ -21,13 +21,21 @@ keypoints:
 
 In this lesson we will discuss several key factors you should keep in mind when designing and executing your single cell study. Single cell transcriptomics is in many ways more customizable than bulk transcriptomics. This can be an advantage but can also complicate study design.
 
-## Doublets - a ubiquitous property of droplet single cell assays
+Distinguish between cells *loaded* vs cells *captured*
 
-what are doublets
-software for identifying doublets (in QC lesson)
-correlation between cell number and doublet rate
+## Doublets/multiplets - a ubiquitous property of droplet single cell assays
 
-> DAS: Find figure of correlation between cells vs doublet rate.
+In droplet single cell transcriptomics, a key reason the technology "works" is because most droplets contain at most one cell. After all, if droplets contained more than one cell the technology would no longer be profiling single cells! However, due to the nature of the cell loading of droplets (which can be modeled accurately using Poisson statisticss), even in a perfect experiment it is inevitable that some droplets contain more than one cell. These are called multiplets -- or doublets, since the vast majority of multiple-cell droplets contain two cells. The initial paper describing the 10X technology, published in 2017, showed the following histogram:
+![Histogram showing the number of cells per droplet](../fig/Zhang_etal_2017_NatComm_Fig1_poisson.png)
+
+It is important to realize that the doublet rate is not fixed but rather depends on the number of cells *loaded* into the 10X Chromium machine. The more cells are loaded, the higher the doublet rate. The table below shows the basic relationship between the number of cells loaded and the doublet rate. This table comes from the 10X User Guide for their 
+Chromium Next GEM Single Cell 3ʹ Reagent Kits v3.1 product,
+but the basic trends should hold across other versions of this product as well.
+![Table showing recovery and multiplet rate as a function of cells loaded](../fig/10x_cells_loading_table.png)
+(Image provided by 10x Genomics).
+
+In a future lesson we will discuss software options for trying to identify and remove doublets prior to drawing biological conclusions from data. Unfortunately this process is not always straightforward and we are usually forced to accept the reality that we likely cannot remove *all* doublets from our data.
+
 
 ## How to decide on the parameters of the experiment
 
@@ -35,7 +43,6 @@ There are a number of parameters in a typical scRNA-Seq experiment that are cust
 
 ### Number of cells
 
-Distinguish between cells *loaded* vs cells *captured*
 A typical number of captured cells would be 6,000 cells on standard 10X Chromium, or 
 "Overloading" or "Superloading"
 
@@ -85,7 +92,10 @@ In order to reduce the effect of batch structure on your experiment is it crucia
 
 > ## Recommended Reading
 >
-> - Review(s) with best-practices or advice on experimental design?
+> Luecken MD, Theis FJ (2019) Current best practices in single-cell RNA-seq analysis: a tutorial.
+Mol Syst Biol [link](https://pubmed.ncbi.nlm.nih.gov/31217225/)
+>
+> Andrews TS, Kiselev VY, McCarthy D, Hemberg M (2021) Tutorial: guidelines for the computational analysis of single-cell RNA sequencing data. Nat Protoc [link](https://pubmed.ncbi.nlm.nih.gov/33288955/)
 >
 {: .checklist }
 

@@ -461,7 +461,7 @@ attached base packages:
 
 other attached packages:
  [1] sp_1.5-0           SeuratObject_4.1.2 Seurat_4.2.0       forcats_0.5.2     
- [5] stringr_1.4.1      dplyr_1.0.10       purrr_0.3.4        readr_2.1.2       
+ [5] stringr_1.4.1      dplyr_1.0.10       purrr_0.3.4        readr_2.1.3       
  [9] tidyr_1.2.1        tibble_3.1.8       ggplot2_3.3.6      tidyverse_1.3.2   
 [13] knitr_1.40        
 
@@ -472,7 +472,7 @@ loaded via a namespace (and not attached):
  [10] listenv_0.8.0         bit64_4.0.5           ggrepel_0.9.1        
  [13] fansi_1.0.3           lubridate_1.8.0       xml2_1.3.3           
  [16] codetools_0.2-18      splines_4.1.2         polyclip_1.10-0      
- [19] jsonlite_1.8.0        broom_1.0.1           ica_1.0-3            
+ [19] jsonlite_1.8.2        broom_1.0.1           ica_1.0-3            
  [22] cluster_2.1.4         dbplyr_2.2.1          png_0.1-7            
  [25] rgeos_0.5-9           uwot_0.1.14           spatstat.sparse_2.1-1
  [28] sctransform_0.3.5     shiny_1.7.2           compiler_4.1.2       
@@ -482,13 +482,13 @@ loaded via a namespace (and not attached):
  [40] htmltools_0.5.3       tools_4.1.2           igraph_1.3.5         
  [43] gtable_0.3.1          glue_1.6.2            reshape2_1.4.4       
  [46] RANN_2.6.1            Rcpp_1.0.9            scattermore_0.8      
- [49] cellranger_1.1.0      vctrs_0.4.1           nlme_3.1-159         
+ [49] cellranger_1.1.0      vctrs_0.4.2           nlme_3.1-159         
  [52] progressr_0.11.0      lmtest_0.9-40         spatstat.random_2.2-0
  [55] xfun_0.33             globals_0.16.1        rvest_1.0.3          
  [58] mime_0.12             miniUI_0.1.1.1        lifecycle_1.0.2      
- [61] irlba_2.3.5           goftest_1.2-3         googlesheets4_1.0.1  
+ [61] irlba_2.3.5.1         goftest_1.2-3         googlesheets4_1.0.1  
  [64] future_1.28.0         MASS_7.3-58.1         zoo_1.8-11           
- [67] scales_1.2.1          vroom_1.5.7           spatstat.core_2.4-4  
+ [67] scales_1.2.1          vroom_1.6.0           spatstat.core_2.4-4  
  [70] spatstat.utils_2.3-1  hms_1.1.2             promises_1.2.0.1     
  [73] parallel_4.1.2        RColorBrewer_1.1-3    gridExtra_2.3        
  [76] reticulate_1.26       pbapply_1.5-0         rpart_4.1.16         
@@ -502,7 +502,7 @@ loaded via a namespace (and not attached):
 [100] mgcv_1.8-40           pillar_1.8.1          haven_2.5.1          
 [103] withr_2.5.0           fitdistrplus_1.1-8    abind_1.4-5          
 [106] survival_3.4-0        future.apply_1.9.1    modelr_0.1.9         
-[109] crayon_1.5.1          KernSmooth_2.23-20    utf8_1.2.2           
+[109] crayon_1.5.2          KernSmooth_2.23-20    utf8_1.2.2           
 [112] spatstat.geom_2.4-0   plotly_4.10.0         tzdb_0.3.0           
 [115] grid_4.1.2            readxl_1.4.1          data.table_1.14.2    
 [118] reprex_2.0.2          digest_0.6.29         xtable_1.8-4         
