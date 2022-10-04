@@ -19,6 +19,119 @@ keypoints:
 
 
 
+
+~~~
+library(tidyverse)
+~~~
+{: .language-r}
+
+
+
+~~~
+Warning: package 'tidyverse' was built under R version 4.1.2
+~~~
+{: .warning}
+
+
+
+~~~
+── Attaching packages ─────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
+✔ tibble  3.1.8      ✔ dplyr   1.0.10
+✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+✔ readr   2.1.3      ✔ forcats 0.5.2 
+~~~
+{: .output}
+
+
+
+~~~
+Warning: package 'ggplot2' was built under R version 4.1.2
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: package 'tibble' was built under R version 4.1.2
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: package 'tidyr' was built under R version 4.1.2
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: package 'readr' was built under R version 4.1.2
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: package 'dplyr' was built under R version 4.1.2
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: package 'stringr' was built under R version 4.1.2
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: package 'forcats' was built under R version 4.1.2
+~~~
+{: .warning}
+
+
+
+~~~
+── Conflicts ────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+~~~
+{: .output}
+
+
+
+~~~
+library(Seurat)
+~~~
+{: .language-r}
+
+
+
+~~~
+Warning: package 'Seurat' was built under R version 4.1.2
+~~~
+{: .warning}
+
+
+
+~~~
+Attaching SeuratObject
+Attaching sp
+~~~
+{: .output}
+
+
+
+~~~
+data_dir <- '../data'
+~~~
+{: .language-r}
+
+> DAS NOTE THAT student should open up project you created in setup step
+
 ## What files are delivered? Details of FASTQ, etc.
 
 The raw data for an scRNA-Seq experiment typically consists of two FASTQ files.
@@ -53,11 +166,13 @@ At the time that this workshop was created, there were many different software p
     * Seurat v4: Integrative multimodal analysis and mapping of user data sets to cell identity reference database.
 
 * Python/scanpy
-    * TBD: Expand on this.
+    * DAS: Expand on this.
 
 ## Reading in CellRanger Data
 
-[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) software which analyzes Chromium single cell data to align reads, generates feature-bar code matrices, and performs other downstream analyses. CellRanger is provided by 10X Genomics. In this workshop, we will read in the feature-bar code matrix produced by CellRanger and will perform the downstream analysis using Seurat.
+[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) is software which analyzes Chromium single cell data to align reads, generates feature-bar code matrices, and performs other downstream analyses. 
+[DAS add a sentence on what a feature barcode matrix is. In this context gene expression.]
+CellRanger is provided by 10X Genomics. In this workshop, we will read in the feature-bar code matrix produced by CellRanger and will perform the downstream analysis using Seurat.
 
 ### Liver Atlas
 
@@ -67,11 +182,11 @@ We will be working with a subset of the mouse liver data. Before the workshop, y
 
 > TBD: Not sure where to host the files. Maybe on Box with a public link. Can't figure out how to grab using RCurl yet.
 
-Open a file browser and look in the `mouseStSt_scrnaseq_75pct` directory and you should see three files. Each file ends with 'gz', which indicates that it has been compressed (or 'zipped') using [gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; the software that we use will uncompress the files as it reads them in. The files are:
+Open a file browser and look in the `data_dir` subdirectory `mouseStSt_scrnaseq_75pct` and you should see three files. Each file ends with 'gz', which indicates that it has been compressed (or 'zipped') using [gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; the software that we use will uncompress the files as it reads them in. The files are:
 
 * matrix.mtx.gz: Two-dimensional matrix containing the counts for each gene in each cell.
     * Genes are in rows and cells are in columns.
-    * This file is in a special sparse matrix format which reduces memory usage.
+    * This file is in a special sparse matrix format which reduces disk space and memory usage.
 * barcodes.tsv.gz: DNA barcodes for each cell. Used as column names in counts matrix.
 * features.tsv.gz: Gene symbols for each gene. Used as row names in counts matrix.
 
@@ -94,15 +209,20 @@ Open a file browser and look in the `mouseStSt_scrnaseq_75pct` directory and you
 
 ### Reading a CellRanger Gene Expression Count Matrix using Seurat
 
-In order to read these files into memory, we will use the [Seurat::Read10X()](https://satijalab.org/seurat/reference/read10x) function. This function searches for the three files mentioned above in the directory that you pass in. Once it verifies that all three files are present, it reads them in to create a counts matrix with genes in rows and cells in columns.
+In order to read these files into memory, we will use the 
+[Seurat::Read10X()](https://satijalab.org/seurat/reference/read10x) function. 
+This function searches for the three files mentioned above in the directory that
+you pass in. Once it verifies that all three files are present, it reads them 
+in to create a counts matrix with genes in rows and cells in columns.
 
-We will use the `gene.column <- 1` argument to tell Seurat to use the first column in 'features.tsv.gz' as the gene identifier.
+We will use the `gene.column = 1` argument to tell Seurat to use the first column in 'features.tsv.gz' as the gene identifier.
 
-Run the following command. This may take up to 3 minutes to complete.
+Run the following command. This may take up to three minutes to complete.
 
 
 ~~~
-counts <- Seurat::Read10X(file.path(data_dir, 'mouseStSt_scrnaseq_75pct'), gene.column = 1)
+# uses the Seurat function Read10X()
+counts <- Read10X(file.path(data_dir, 'mouseStSt_scrnaseq_75pct'), gene.column = 1)
 ~~~
 {: .language-r}
 
@@ -155,6 +275,9 @@ sum(duplicated(rownames(counts)))
 {: .output}
 
 The sum equals zero, so there are no duplicated gene symbols, which is good.
+As it turns out, the reference genome/annotation files that are prepared for
+use by CellRanger have already been filtered to ensure no duplicated gene
+symbols. 
 
 Let's look at the cell identifiers in the column names.
 
@@ -190,6 +313,15 @@ sum(duplicated(colnames(counts)))
 {: .output}
 
 The sum of duplicated values equals zero, so all of the barcodes are unique.
+The barcode sequence is the actual sequence of the oligonucleotide tag that
+was stuck to the GEM (barcoded bead) that went into each droplet. In early
+versions of 10X technology there were approximately 
+[750,000 barcodes](https://kb.10xgenomics.com/hc/en-us/articles/115004506263-What-is-a-barcode-whitelist-) 
+per run while in the current chemistry there are 
+[>3 million barcodes](https://kb.10xgenomics.com/hc/en-us/articles/360031133451-Why-is-there-a-discrepancy-in-the-3M-february-2018-txt-barcode-whitelist-).
+CellRanger attempts to correct sequencing errors in the barcodes
+and uses a "whitelist" of known barcodes (in the 10X chemistry) to help.
+
 
 Next, let's look at the values in `counts`.
 
@@ -322,13 +454,13 @@ metadata <- read_csv(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'annot_meta
 
 ~~~
 Rows: 109232 Columns: 8
--- Column specification ------------------------------------------------------------------------------------------------
+── Column specification ────────────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: ","
 chr (5): annot, sample, cell, digest, typeSample
 dbl (3): UMAP_1, UMAP_2, cluster
 
-i Use `spec()` to retrieve the full column specification for this data.
-i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ~~~
 {: .output}
 
@@ -343,7 +475,7 @@ head(metadata)
 
 
 ~~~
-# A tibble: 6 x 8
+# A tibble: 6 × 8
   UMAP_1 UMAP_2 cluster annot   sample cell                digest typeSample
    <dbl>  <dbl>   <dbl> <chr>   <chr>  <chr>               <chr>  <chr>     
 1  -4.60  -7.03      10 B cells CS99   GCACGGTTCAGCGGAA-16 exVivo scRnaSeq  
@@ -443,25 +575,23 @@ sessionInfo()
 
 
 ~~~
-R version 4.1.2 (2021-11-01)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19042)
+R version 4.1.0 (2021-05-18)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur 10.16
 
 Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
 
 locale:
-[1] LC_COLLATE=English_United States.1252 
-[2] LC_CTYPE=English_United States.1252   
-[3] LC_MONETARY=English_United States.1252
-[4] LC_NUMERIC=C                          
-[5] LC_TIME=English_United States.1252    
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
  [1] sp_1.5-0           SeuratObject_4.1.2 Seurat_4.2.0       forcats_0.5.2     
- [5] stringr_1.4.1      dplyr_1.0.10       purrr_0.3.4        readr_2.1.2       
+ [5] stringr_1.4.1      dplyr_1.0.10       purrr_0.3.4        readr_2.1.3       
  [9] tidyr_1.2.1        tibble_3.1.8       ggplot2_3.3.6      tidyverse_1.3.2   
 [13] knitr_1.40        
 
@@ -471,40 +601,40 @@ loaded via a namespace (and not attached):
   [7] fs_1.5.2              spatstat.data_2.2-0   leiden_0.4.3         
  [10] listenv_0.8.0         bit64_4.0.5           ggrepel_0.9.1        
  [13] fansi_1.0.3           lubridate_1.8.0       xml2_1.3.3           
- [16] codetools_0.2-18      splines_4.1.2         polyclip_1.10-0      
- [19] jsonlite_1.8.0        broom_1.0.1           ica_1.0-3            
- [22] cluster_2.1.4         dbplyr_2.2.1          png_0.1-7            
+ [16] codetools_0.2-18      splines_4.1.0         polyclip_1.10-0      
+ [19] jsonlite_1.8.2        broom_1.0.1           ica_1.0-3            
+ [22] cluster_2.1.2         dbplyr_2.2.1          png_0.1-7            
  [25] rgeos_0.5-9           uwot_0.1.14           spatstat.sparse_2.1-1
- [28] sctransform_0.3.5     shiny_1.7.2           compiler_4.1.2       
+ [28] sctransform_0.3.5     shiny_1.7.2           compiler_4.1.0       
  [31] httr_1.4.4            backports_1.4.1       lazyeval_0.2.2       
  [34] assertthat_0.2.1      Matrix_1.5-1          fastmap_1.1.0        
- [37] gargle_1.2.1          cli_3.3.0             later_1.3.0          
- [40] htmltools_0.5.3       tools_4.1.2           igraph_1.3.5         
+ [37] gargle_1.2.1          cli_3.4.1             later_1.3.0          
+ [40] htmltools_0.5.3       tools_4.1.0           igraph_1.3.5         
  [43] gtable_0.3.1          glue_1.6.2            reshape2_1.4.4       
  [46] RANN_2.6.1            Rcpp_1.0.9            scattermore_0.8      
- [49] cellranger_1.1.0      vctrs_0.4.1           nlme_3.1-159         
+ [49] cellranger_1.1.0      vctrs_0.4.2           nlme_3.1-152         
  [52] progressr_0.11.0      lmtest_0.9-40         spatstat.random_2.2-0
  [55] xfun_0.33             globals_0.16.1        rvest_1.0.3          
  [58] mime_0.12             miniUI_0.1.1.1        lifecycle_1.0.2      
- [61] irlba_2.3.5           goftest_1.2-3         googlesheets4_1.0.1  
- [64] future_1.28.0         MASS_7.3-58.1         zoo_1.8-11           
- [67] scales_1.2.1          vroom_1.5.7           spatstat.core_2.4-4  
+ [61] irlba_2.3.5.1         goftest_1.2-3         googlesheets4_1.0.1  
+ [64] future_1.28.0         MASS_7.3-54           zoo_1.8-11           
+ [67] scales_1.2.1          vroom_1.6.0           spatstat.core_2.4-4  
  [70] spatstat.utils_2.3-1  hms_1.1.2             promises_1.2.0.1     
- [73] parallel_4.1.2        RColorBrewer_1.1-3    gridExtra_2.3        
- [76] reticulate_1.26       pbapply_1.5-0         rpart_4.1.16         
+ [73] parallel_4.1.0        RColorBrewer_1.1-3    gridExtra_2.3        
+ [76] reticulate_1.26       pbapply_1.5-0         rpart_4.1-15         
  [79] stringi_1.7.8         highr_0.9             rlang_1.0.6          
  [82] pkgconfig_2.0.3       matrixStats_0.62.0    evaluate_0.16        
- [85] lattice_0.20-45       tensor_1.5            ROCR_1.0-11          
+ [85] lattice_0.20-44       tensor_1.5            ROCR_1.0-11          
  [88] htmlwidgets_1.5.4     patchwork_1.1.2       bit_4.0.4            
  [91] cowplot_1.1.1         tidyselect_1.1.2      parallelly_1.32.1    
  [94] RcppAnnoy_0.0.19      plyr_1.8.7            magrittr_2.0.3       
  [97] R6_2.5.1              generics_0.1.3        DBI_1.1.3            
-[100] mgcv_1.8-40           pillar_1.8.1          haven_2.5.1          
+[100] mgcv_1.8-35           pillar_1.8.1          haven_2.5.1          
 [103] withr_2.5.0           fitdistrplus_1.1-8    abind_1.4-5          
-[106] survival_3.4-0        future.apply_1.9.1    modelr_0.1.9         
-[109] crayon_1.5.1          KernSmooth_2.23-20    utf8_1.2.2           
+[106] survival_3.2-11       future.apply_1.9.1    modelr_0.1.9         
+[109] crayon_1.5.2          KernSmooth_2.23-20    utf8_1.2.2           
 [112] spatstat.geom_2.4-0   plotly_4.10.0         tzdb_0.3.0           
-[115] grid_4.1.2            readxl_1.4.1          data.table_1.14.2    
+[115] grid_4.1.0            readxl_1.4.1          data.table_1.14.2    
 [118] reprex_2.0.2          digest_0.6.29         xtable_1.8-4         
 [121] httpuv_1.6.6          munsell_0.5.0         viridisLite_0.4.1    
 ~~~
