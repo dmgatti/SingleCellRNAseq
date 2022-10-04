@@ -53,4 +53,6 @@ dir.create("./results")
 
 TBD: Users will download a subset of the counts and metadata from somewhere (Box?). So far, 25% of the full data from liveratlas.org seems to work well.
 
+> DAS: Add some code here to download the file into `data`.
+
 {% include links.md %}
