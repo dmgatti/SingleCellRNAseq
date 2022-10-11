@@ -76,8 +76,10 @@ dir.create("results")
 TBD: Users will download a subset of the counts and metadata from somewhere (Box?). So far, 25% of the full data from liveratlas.org seems to work well.
 
 > DAS: Add some code here to download the file into `data`.
+> Make sure we use the shared link -- shared link settings -> direct link
 ~~~
-download.file(url = '', destfile = 'data/name_of_data.rds')
+download.file(url = '', destfile = 'data/name_of_data.rds',
+  method = 'curl', extra = ' -L ')
 ~~~
 {: .r}
 
