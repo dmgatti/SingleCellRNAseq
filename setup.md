@@ -77,7 +77,8 @@ TBD: Users will download a subset of the counts and metadata from somewhere (Box
 
 > DAS: Add some code here to download the file into `data`.
 ~~~
-download.file(url = '', destfile = 'data/name_of_data.rds')
+download.file(url      = 'https://thejacksonlaboratory.ent.box.com/file/993331645882',
+              destfile = 'data/annot_metadata.csv')
 ~~~
 {: .r}
 

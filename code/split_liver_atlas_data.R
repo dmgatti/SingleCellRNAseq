@@ -77,6 +77,9 @@ write_sc = function(meta, counts, out_dir) {
   
   dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
   
+  # Write metadata.
+  write_csv(meta, file = file.path(out_dir, 'annot_metadata.csv'))
+  
   # Note: 3 files: barcodes.tsv.gz  features.tsv.gz  matrix.mtx.gz
   barcode_file = file.path(out_dir, 'barcodes.tsv')
   feature_file = file.path(out_dir, 'features.tsv')
