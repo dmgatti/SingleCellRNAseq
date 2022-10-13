@@ -78,8 +78,10 @@ TBD: Users will download a subset of the counts and metadata from somewhere (Box
 > DAS: Add some code here to download the file into `data`.
 > Make sure we use the shared link -- shared link settings -> direct link
 ~~~
+
 download.file(url = '', destfile = 'data/name_of_data.rds',
   method = 'curl', extra = ' -L ')
+
 ~~~
 {: .r}
 

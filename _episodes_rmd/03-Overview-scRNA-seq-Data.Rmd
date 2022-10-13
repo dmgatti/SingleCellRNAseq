@@ -20,14 +20,20 @@ source("../bin/chunk-options.R")
 knitr_fig_path("03-")
 ```
 
-```{r libs}
-library(tidyverse)
-library(Seurat)
+```{r libs,warning=FALSE}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(Seurat))
 
 data_dir <- '../data'
 ```
 
-> DAS NOTE THAT student should open up project you created in setup step
+## Open Project File
+
+In the Setup section of this workshop, you created an RStudio Project. Open this project now, by:
+
+1. selecting File --> Open Project... from the Menu,
+2. choosing "scRNA.Rproj" , 
+3. opening the project file.
 
 ## What files are delivered? Details of FASTQ, etc.
 
@@ -79,7 +85,7 @@ We will be working with a subset of the mouse liver data. Before the workshop, y
 
 > TBD: Not sure where to host the files. Maybe on Box with a public link. Can't figure out how to grab using RCurl yet.
 
-Open a file browser and look in the `data_dir` subdirectory `mouseStSt_scrnaseq_75pct` and you should see three files. Each file ends with 'gz', which indicates that it has been compressed (or 'zipped') using [gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; the software that we use will uncompress the files as it reads them in. The files are:
+Open a file browser and look in the `data_dir` subdirectory `mouseStSt_invivo` and you should see three files. Each file ends with 'gz', which indicates that it has been compressed (or 'zipped') using [gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; the software that we use will uncompress the files as it reads them in. The files are:
 
 * matrix.mtx.gz: Two-dimensional matrix containing the counts for each gene in each cell.
     * Genes are in rows and cells are in columns.
@@ -90,15 +96,15 @@ Open a file browser and look in the `data_dir` subdirectory `mouseStSt_scrnaseq_
 ![Counts Matrix](../fig/counts_matrix.png)
 
 > ## Challenge 1
-> 1). R has a function called [file.size](https://stat.ethz.ch/R-manual/R-devel/library/base/html/file.info.html). Look at the help for this function and get the size of each of the files in the `mouseStSt_scrnaseq_75pct` directory.  Which one is the largest?  
+> 1). R has a function called [file.size](https://stat.ethz.ch/R-manual/R-devel/library/base/html/file.info.html). Look at the help for this function and get the size of each of the files in the `mouseStSt_invivo` directory.  Which one is the largest?  
 >
 > > ## Solution to Challenge 1
 > >
-> > 1). `file.size(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'barcodes.tsv.gz'))`  
+> > 1). `file.size(file.path(data_dir, 'mouseStSt_invivo', 'barcodes.tsv.gz'))`  
 > >     584346 bytes  
-> >     `file.size(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'features.tsv.gz'))`  
+> >     `file.size(file.path(data_dir, 'mouseStSt_invivo', 'features.tsv.gz'))`  
 > >     113733 bytes  
-> >     `file.size(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'matrix.mtx.gz'))`  
+> >     `file.size(file.path(data_dir, 'mouseStSt_invivo', 'matrix.mtx.gz'))`  
 > >     603248953 bytes  
 > >     'matrix.mtx.gz' is the largest file.     
 > {: .solution}
@@ -118,7 +124,7 @@ Run the following command. This may take up to three minutes to complete.
 
 ```{r read_counts}
 # uses the Seurat function Read10X()
-counts <- Read10X(file.path(data_dir, 'mouseStSt_scrnaseq_75pct'), gene.column = 1)
+counts <- Read10X(file.path(data_dir, 'mouseStSt_invivo'), gene.column = 1)
 ```
 
 `counts` now contains the sequencing read counts for each gene and cell.
@@ -224,7 +230,7 @@ The sample metadata file is a comma-separated variable (CSV) file, We will read 
 > TBD: Use a metadata file that does NOT have cell identities & UMAP coordinates here? Then reveal the full one later.
 
 ```{r read_metadata}
-metadata <- read_csv(file.path(data_dir, 'mouseStSt_scrnaseq_75pct', 'annot_metadata.csv'))
+metadata <- read_csv(file.path(data_dir, 'mouseStSt_invivo', 'annot_metadata.csv'))
 ```
 
 Let's look at the top of the metadata.
@@ -276,6 +282,8 @@ We're going to explore the data using a series of Challenges. You will be asked 
 > TBD: Use a treemap to look at the proportion of samples from each digest/protocol? It's not required, but could be fun.
 
 In this workshop, we will attempt to reproduce the results of the [Liver Atlas](https://livercellatlas.org/index.php) using Seurat. We will analyze the *scRNASeq* and *nucSeq* data together and you will analyze the *citeSeq* data during Challenges.
+
+> TBD: explain differences between scRNASeq, citeSeq & nucSeq? Briefly?
 
 ### Save Data for Next Lesson
 

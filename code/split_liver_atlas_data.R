@@ -1,6 +1,7 @@
 ################################################################################
 # Read in the liver atlas data and produce two subsets of data which maintain
 # the same proportions of cell types and "bad" cells.
+#
 # 2022-07-26
 # Daniel Gatti
 # dan.gatti@jax.org
@@ -12,8 +13,13 @@ library(tidyverse)
 library(Matrix)
 library(Seurat)
 
-src_dir  = '/fastscratch/dgatti'
-dest_dir = '/projects/compsci/USERS/dgatti/projects/scrnaseq/data'
+# Download the data from: https://www.livercellatlas.org/download.php
+# Get "Liver Cell Atlas: Mouse StSt": All Liver Cells
+# Gene-cell count matrix
+# Cell annotation matrix
+
+src_dir  = '/fastscratch/dgatti/liver'
+dest_dir = '/projects/compsci/vmp/USERS/dgatti/projects/scrnaseq/data'
 
 # Read in cell metadata.
 metadata = read_csv(file.path(src_dir, 'annot_mouseStStAll.csv'),
@@ -24,11 +30,14 @@ n_cells = nrow(metadata)
 counts = Read10X(file.path(src_dir, 'rawData_mouseStSt/countTable_mouseStSt'),
                  gene.column = 1)
 
-# What are the types of cell digets?
+# What are the types of cell digests?
 count(metadata, digest)
 
 # What are the proportions of cell types?
 count(metadata, annot)
+
+# What are the sample types?
+count(metadata, typeSample)
 
 # What proportion of the cells are un-annotated?
 (ncol(counts) - nrow(metadata)) / ncol(counts)
@@ -41,9 +50,9 @@ count(metadata, digest, annot) %>%
   select(-total, -n) %>%
   pivot_wider(names_from = digest, values_from = prop)
 
-# Get barcodes for the cells without metadata and keep  half of them.
+# Get barcodes for the cells without metadata.
 bad_cells = colnames(counts)[!colnames(counts) %in% metadata$cell]
-bad_cells = sample(bad_cells, size = floor(length(bad_cells) / 2))
+bad_cells = sample(bad_cells, size = floor(length(bad_cells)) / 2)
 bad_cells = data.frame(UMAP_1  = 0,
                        UMAP_2  = 0,
                        cluster = 0, 
@@ -51,13 +60,53 @@ bad_cells = data.frame(UMAP_1  = 0,
                        sample  = NA_character_,
                        cell    = bad_cells,
                        digest  = NA_character_,
-                       typeSample = sample(c('scRnaSeq', 'citeSeq'), 
+                       typeSample = sample('scRnaSeq', 
                                            size = length(bad_cells), replace = TRUE))
 
 # Add the bad cells to metadata and subset counts.
 metadata = bind_rows(metadata, bad_cells)
 counts   = counts[,metadata$cell]
 rm(bad_cells)
+
+# Remove citeSeq data.
+metadata = subset(metadata, typeSample != 'citeSeq')
+counts   = counts[,metadata$cell]
+
+# Write single cell data.
+write_sc = function(meta, counts, out_dir) {
+  
+  dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+  
+  # Write metadata.
+  write_csv(meta, file = file.path(out_dir, 'annot_metadata.csv'))
+  
+  # Note: 3 files: barcodes.tsv.gz  features.tsv.gz  matrix.mtx.gz
+  barcode_file = file.path(out_dir, 'barcodes.tsv')
+  feature_file = file.path(out_dir, 'features.tsv')
+  matrix_file  = file.path(out_dir, 'matrix.mtx')
+  writeLines(text = colnames(counts), con = barcode_file, sep = '\n')
+  writeLines(text = rownames(counts), con = feature_file, sep = '\n')
+  Matrix::writeMM(obj = counts, file = matrix_file)
+  gzip(barcode_file, overwrite = TRUE)
+  gzip(feature_file, overwrite = TRUE)
+  gzip(matrix_file,  overwrite = TRUE)
+
+} # write_sc()
+
+# Split invivo and exvivo data.
+meta_iv   = subset(metadata, digest == 'inVivo')
+counts_iv = counts[,meta_iv$cell]
+write_sc(meta_iv, counts_iv, file.path(dest_dir, 'mouseStSt_invivo'))
+rm(meta_iv, counts_iv)
+
+meta_ev   = subset(metadata, digest == 'exVivo')
+counts_ev = counts[,meta_ev$cell]
+write_sc(meta_ev, counts_ev, file.path(dest_dir, 'mouseStSt_exvivo'))
+
+
+
+################################################################################
+# DMG: The code below was used for sub-sampling. We may not need to do that now.
 
 # Subset the scRNAseq data, retaining the proportion of cells.
 # Write results to the given directory.
@@ -89,7 +138,7 @@ subsample_scrnaseq = function(meta, counts, prop, out_dir) {
 
     curr_type = cell_prop$annot[i]
     wh   = which(meta$annot == curr_type)
-    rows = sample(wh, size = sum(keep == curr_type))
+    rows = sample(wh, size = min(sum(keep == curr_type), length(wh)))
     stopifnot(unique(meta$annot[wh]) == curr_type)
     cell_keep = c(cell_keep, meta$cell[rows])
   
@@ -125,24 +174,18 @@ subsample_scrnaseq = function(meta, counts, prop, out_dir) {
 
 } # subsample_scrnaseq()
 
-#subsample_scrnaseq(meta = metadata, counts = counts, prop = 0.5, 
-#        out_dir = file.path(dest_dir, 'mouseStSt_50'))
-
-# Filter to retain scRNAseq data and subset.
-meta_ss   = filter(metadata, typeSample %in% c('scRnaSeq', 'nucSeq'))
+# Filter to retain in vivo data and subset.
+meta_ss   = filter(metadata, digest == 'inVivo')
 counts_ss = counts[,meta_ss$cell]
-subsample_scrnaseq(meta = meta_ss, counts = counts_ss, prop = 0.75, 
-        out_dir = file.path(dest_dir, 'mouseStSt_scrnaseq_75pct'))
+subsample_scrnaseq(meta = meta_ss, counts = counts_ss, prop = 1.0, 
+        out_dir = file.path(dest_dir, 'mouseStSt_invivo'))
 
-# Filter to retain citeseq data and subset.
-meta_ss   = filter(metadata, typeSample == 'citeSeq')
+# Filter to retain ex vivo data and subset.
+meta_ss   = filter(metadata, digest == 'exVivo')
 counts_ss = counts[,meta_ss$cell]
-subsample_scrnaseq(meta = meta_ss, counts = counts_ss, prop = 0.75, 
-        out_dir = file.path(dest_dir, 'mouseStSt_citeseq_75pct'))
+subsample_scrnaseq(meta = meta_ss, counts = counts_ss, prop = 1.0, 
+        out_dir = file.path(dest_dir, 'mouseStSt_exvivo'))
 
-
-#subsample_scrnaseq(meta = metadata, counts = counts, prop = 0.10, 
-#        out_dir = file.path(dest_dir, 'mouseStSt_10'))
 
 
 

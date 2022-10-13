@@ -19,6 +19,137 @@ keypoints:
 
 
 
+
+~~~
+library(tidyverse)
+~~~
+{: .language-r}
+
+
+
+~~~
+Warning: package 'tidyverse' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+-- Attaching packages ------------------------------------------------------------------------------- tidyverse 1.3.2 --
+v ggplot2 3.3.6      v purrr   0.3.4 
+v tibble  3.1.8      v dplyr   1.0.10
+v tidyr   1.2.1      v stringr 1.4.1 
+v readr   2.1.3      v forcats 0.5.2 
+~~~
+{: .output}
+
+
+
+~~~
+Warning: package 'tibble' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: package 'tidyr' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: package 'readr' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: package 'dplyr' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: package 'stringr' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: package 'forcats' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+-- Conflicts ---------------------------------------------------------------------------------- tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+~~~
+{: .output}
+
+
+
+~~~
+library(Matrix)
+~~~
+{: .language-r}
+
+
+
+~~~
+Warning: package 'Matrix' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+
+Attaching package: 'Matrix'
+
+The following objects are masked from 'package:tidyr':
+
+    expand, pack, unpack
+~~~
+{: .output}
+
+
+
+~~~
+library(Seurat)
+~~~
+{: .language-r}
+
+
+
+~~~
+Warning: package 'Seurat' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+Attaching SeuratObject
+Attaching sp
+~~~
+{: .output}
+
+
+
+~~~
+data_dir <- '../data'
+~~~
+{: .language-r}
+
+
 ## Read Data from Previous Lesson
 
 
@@ -40,11 +171,11 @@ Some technical questions that you might ask include:
 
 ### Filtering Genes by Counts
 
-As mentioned in an earlier lesson, the counts matrix is sparse and may contain rows (genes) or columns (cells) with low overall counts. In the case of genes, we may wish to exclude genes with zeros counts in most cells. Let's see how many genes have zeros counts across all cells. Note that the [Matrix package](https://cran.r-project.org/web/packages/Matrix/index.html) has a special implementation fo [rowSums](https://rdrr.io/rforge/Matrix/man/colSums.html) which works with sparse matrices.
+As mentioned in an earlier lesson, the counts matrix is sparse and may contain rows (genes) or columns (cells) with low overall counts. In the case of genes, we may wish to exclude genes with zeros counts in most cells. Let's see how many genes have zeros counts across all cells. Note that the [Matrix package](https://cran.r-project.org/web/packages/Matrix/index.html) has a special implementation of [rowSums](https://rdrr.io/rforge/Matrix/man/colSums.html) which works with sparse matrices.
 
 
 ~~~
-gene_counts = rowSums(counts, na.rm = TRUE)
+gene_counts <- Matrix::rowSums(counts, na.rm = TRUE)
 sum(gene_counts == 0)
 ~~~
 {: .language-r}
@@ -60,7 +191,7 @@ Of the 31053 genes, 4618 have zero counts across all cells. These genes do not i
 
 
 ~~~
-counts = counts[gene_counts > 0,]
+counts <- counts[gene_counts > 0,]
 ~~~
 {: .language-r}
 
@@ -71,20 +202,33 @@ We could also set some other threshold for filtering genes. Perhaps we should lo
 We will count the number of cells in which each gene was detected. Because `counts` is a sparse matrix, we have to be careful not to perform operations that would convert the entire matrix into a non-sparse matrix. This might happen if we wrote code like:
 
 ```{}
-gene_counts = rowSums(counts > 0)
+gene_counts <- rowSums(counts > 0)
 ```
 
 The expression `counts > 0` would create a logical matrix that takes up much more memory than the sparse matrix. We might be tempted to try `rowSums(counts == 0)`, but this would also result in a non-sparse matrix because most of the values would be `TRUE`. However, if we evaluate `rowSums(counts != 0)`, then most of the values would be `FALSE`, which can be stored as 0 and so the matrix would still be sparse. The `Matrix` package has an implementation of 'rowSums()' that is efficient, but you may have to specify that you want to used the `Matrix` version of 'rowSums()' explicitly.
 
 
 ~~~
-gene_counts = Matrix::rowSums(counts > 0)
+gene_counts <- Matrix::rowSums(counts > 0)
+
+tibble(gene_id = names(gene_counts), counts = gene_counts) %>% 
+  ggplot(aes(counts)) +
+    geom_histogram(bins = 100) +
+    labs(title = 'Number of Cells in which Gene was Detected',
+         x     = 'Number of Genes',
+         y     = 'Histogram of Number of Cells in which Gene was Detected')
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-04-gene_count_hist-1.png" alt="plot of chunk gene_count_hist" width="612" style="display: block; margin: auto;" />
+
+~~~
 hist(gene_counts, breaks = 1000, las = 1, xlab = 'Number of Cells in which Gene was Detected', 
      ylab = 'Number of Genes', main = 'Histogram of Number of Cells in which Gene was Detected')
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-gene_count_hist-1.png" alt="plot of chunk gene_count_hist" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-04-gene_count_hist-2.png" alt="plot of chunk gene_count_hist" width="612" style="display: block; margin: auto;" />
 
 As you can see, the number of cells in which each gene is detected spans several orders of magnitude and this makes it difficult to interpret the plot. Some genes are detected in all cells while others are detected in only one cell. Let's zoom in on the part with lower gene counts.
 
@@ -124,7 +268,7 @@ heatmap(tmp, breaks = c(-0.5, 0.5, 10), col = c('white', 'black'))
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-04-unnamed-chunk-1-1.png" alt="plot of chunk unnamed-chunk-1" width="612" style="display: block; margin: auto;" />
 
 
 
@@ -385,7 +529,7 @@ loaded via a namespace (and not attached):
  [49] vctrs_0.4.2           nlme_3.1-159          progressr_0.11.0     
  [52] lmtest_0.9-40         spatstat.random_2.2-0 xfun_0.33            
  [55] globals_0.16.1        rvest_1.0.3           mime_0.12            
- [58] miniUI_0.1.1.1        lifecycle_1.0.2       irlba_2.3.5.1        
+ [58] miniUI_0.1.1.1        lifecycle_1.0.3       irlba_2.3.5.1        
  [61] goftest_1.2-3         googlesheets4_1.0.1   future_1.28.0        
  [64] MASS_7.3-58.1         zoo_1.8-11            scales_1.2.1         
  [67] spatstat.core_2.4-4   spatstat.utils_2.3-1  hms_1.1.2            
@@ -393,9 +537,9 @@ loaded via a namespace (and not attached):
  [73] gridExtra_2.3         reticulate_1.26       pbapply_1.5-0        
  [76] rpart_4.1.16          stringi_1.7.8         highr_0.9            
  [79] rlang_1.0.6           pkgconfig_2.0.3       matrixStats_0.62.0   
- [82] evaluate_0.16         lattice_0.20-45       tensor_1.5           
+ [82] evaluate_0.17         lattice_0.20-45       tensor_1.5           
  [85] ROCR_1.0-11           labeling_0.4.2        htmlwidgets_1.5.4    
- [88] patchwork_1.1.2       cowplot_1.1.1         tidyselect_1.1.2     
+ [88] patchwork_1.1.2       cowplot_1.1.1         tidyselect_1.2.0     
  [91] parallelly_1.32.1     RcppAnnoy_0.0.19      plyr_1.8.7           
  [94] magrittr_2.0.3        R6_2.5.1              generics_0.1.3       
  [97] DBI_1.1.3             mgcv_1.8-40           pillar_1.8.1         
