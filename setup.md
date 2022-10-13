@@ -73,15 +73,23 @@ dir.create("results")
 
 **Before the workshop**, please download the following files:
 
-TBD: Users will download a subset of the counts and metadata from somewhere (Box?). So far, 25% of the full data from liveratlas.org seems to work well.
+TBD: Users will download a subset of the counts and metadata from somewhere (Box?). So far, 25% of the full data from liveratlas.org seems to work well. 
 
-> DAS: Add some code here to download the file into `data`.
-> Make sure we use the shared link -- shared link settings -> direct link
+Open the `scRNA.Rproj` project.
+
 ~~~
-
-download.file(url = '', destfile = 'data/name_of_data.rds',
-  method = 'curl', extra = ' -L ')
-
+download.file(url = 'https://thejacksonlaboratory.box.com/shared/static/vfe1bwyqtypxs6p5k4z0cw7z7jczyan1.zip', 
+              destfile = 'data/mouseStSt_invivo.zip',
+              method   = 'curl', 
+              extra    = ' -L ')
+download.file(url = 'https://thejacksonlaboratory.box.com/shared/static/b153ueu2lie3st760maj4zr9u0vp7o2t.zip', 
+              destfile = 'data/mouseStSt_exvivo.zip',
+              method   = 'curl', 
+              extra    = ' -L ')
+unzip(zipfile = 'data/mouseStSt_invivo.zip' ,
+      exdir   = 'data')
+unzip(zipfile = 'data/mouseStSt_exvivo.zip',
+      exdir   = 'data')
 ~~~
 {: .r}
 
