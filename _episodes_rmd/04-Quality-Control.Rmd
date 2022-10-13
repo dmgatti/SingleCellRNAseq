@@ -169,7 +169,7 @@ metadata = as.data.frame(metadata) %>%
 liver = CreateSeuratObject(counts       = counts, 
                            project      = 'liver: sc & nuc RNAseq',
                            meta.data    = metadata,
-                           min.cells    = 100,
+                           min.cells    = 20,
                            min.features = 100)
 ```
 
