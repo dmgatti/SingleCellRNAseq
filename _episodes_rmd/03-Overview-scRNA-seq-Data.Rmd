@@ -73,17 +73,38 @@ At the time that this workshop was created, there were many different software p
 
 ## Reading in CellRanger Data
 
-[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) is software which analyzes Chromium single cell data to align reads, generates feature-bar code matrices, and performs other downstream analyses. 
+[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) is software which analyzes Chromium single cell data to 
+align reads, generates feature-bar code matrices, and perform other downstream 
+analyses. 
 [DAS add a sentence on what a feature barcode matrix is. In this context gene expression.]
-CellRanger is provided by 10X Genomics. In this workshop, we will read in the feature-bar code matrix produced by CellRanger and will perform the downstream analysis using Seurat.
+CellRanger is provided by 10X Genomics. In this workshop, we will read in the 
+feature-bar code matrix produced by CellRanger and will perform the downstream 
+analysis using Seurat.
 
 ### Liver Atlas
 
-In this lesson, we will read in a subset of data from the [Liver Atlas](https://livercellatlas.org/index.php), which is described in their [Cell paper](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1). Briefly, the authors performed scRNASeq on liver cells from mice and humans, identified cell types, clustered them, and made the data publicly available. We split the data into two sets, one to use in the lesson and one for the challenges. We have also sub-sampled each subset to contain 75% of the cells to reduce memory usage and speed up the analysis time for this workshop.
+In this lesson, we will read in a subset of data from the 
+[Liver Atlas](https://livercellatlas.org/index.php), which is described in their 
+[Cell paper](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1). 
+Briefly, the authors performed scRNASeq on liver cells from mice and humans, 
+identified cell types, clustered them, and made the data publicly available. 
+We will be working with a subset of the *mouse* liver data. 
+We split the data into two sets, one to use in the lesson and one for 
+you to work with independently as a challenge. We have also sub-sampled each 
+data subset to contain 75% of the cells to reduce memory usage and speed up the 
+analysis time for this workshop.
 
-We will be working with a subset of the mouse liver data. Before the workshop, you should have downloaded the data from <NEED TO FILL THIS IN> and placed it in your `data` directory. Go to the [Setup](../setup) page for instructions on how to download the data files.
+Before the workshop, you should have downloaded the data from 
+<NEED TO FILL THIS IN> and placed it in your `data` directory. 
+Go to the [Setup](../setup) page for instructions on how to download the data 
+files.
 
-Open a file browser and look in the `data_dir` subdirectory `mouseStSt_invivo` and you should see three files. Each file ends with 'gz', which indicates that it has been compressed (or 'zipped') using [gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; the software that we use will uncompress the files as it reads them in. The files are:
+Open a file browser and look in the `data` subdirectory `mouseStSt_invivo` and 
+you should see three files. Each file ends with 'gz', which indicates that it 
+has been compressed (or 'zipped') using 
+[gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; 
+the software that we use will uncompress the files as it reads them in. The 
+files are:
 
 * matrix.mtx.gz: Two-dimensional matrix containing the counts for each gene in each cell.
     * Genes are in rows and cells are in columns.
@@ -116,7 +137,8 @@ This function searches for the three files mentioned above in the directory that
 you pass in. Once it verifies that all three files are present, it reads them 
 in to create a counts matrix with genes in rows and cells in columns.
 
-We will use the `gene.column = 1` argument to tell Seurat to use the first column in 'features.tsv.gz' as the gene identifier.
+We will use the `gene.column = 1` argument to tell Seurat to use the first 
+column in 'features.tsv.gz' as the gene identifier.
 
 Run the following command. This may take up to three minutes to complete.
 
@@ -133,13 +155,16 @@ How many rows and columns are there in `counts`?
 dim(counts)
 ```
 
-In the `counts` matrix, genes are in rows and cells are in columns. Let's look at the first few gene names.
+In the `counts` matrix, genes are in rows and cells are in columns. Let's look 
+at the first few gene names.
 
 ```{r rownames_counts}
 head(rownames(counts), n = 10)
 ```
 
-As you can see, the gene names are gene symbols. There is some risk that these may not be unique. Let's check whether any of the gene symbols are duplicated. We will sum the number of duplicated gene symbols.
+As you can see, the gene names are gene symbols. There is some risk that these 
+may not be unique. Let's check whether any of the gene symbols are duplicated. 
+We will sum the number of duplicated gene symbols.
 
 ```{r duplicated_symbol}
 sum(duplicated(rownames(counts)))
@@ -156,7 +181,8 @@ Let's look at the cell identifiers in the column names.
 head(colnames(counts), n = 10)
 ```
 
-Each of these barcodes identifies one cell. They should all be unique. Once again, let's verify this.
+Each of these barcodes identifies one cell. They should all be unique. Once 
+again, let's verify this.
 
 ```{r barcodes_unique}
 sum(duplicated(colnames(counts)))
@@ -179,9 +205,21 @@ Next, let's look at the values in `counts`.
 counts[1:10, 1:20]
 ```
 
-We can see the gene symbols in rows along the left. The barcodes are not shown to make the values easier to read. Each of the periods represents a zero. The '1' values represent a single read for a gene in one cell.
+We can see the gene symbols in rows along the left. The barcodes are not shown 
+to make the values easier to read. Each of the periods represents a zero. The 
+'1' values represent a single read for a gene in one cell.
 
-Although `counts` looks like a matrix and you can use many matrix functions on it, `counts` is actually a different type of object. In scRNASeq, the read depth in each cell is quite low. So you many only get counts for a small number of genes in each cell. The `counts` matrix has `r nrow(counts)` rows and `r ncol(counts)`, and includes `r exp(log(nrow(counts)) + log(ncol(counts)))` entries. However, most of these entries (`r sum(counts == 0) / exp(log(nrow(counts)) + log(ncol(counts))) * 100`%) are zeros because every gene is not detected in every cell. It would be wasteful to store all of these zeros in memory. It would also make it difficult to store all of the data in memory. So `counts` is a 'sparse matrix', which only stores the positions of non-zero values in memory.
+Although `counts` looks like a matrix and you can use many matrix functions on 
+it, `counts` is actually a *different* type of object. In scRNASeq, the read 
+depth in each cell is quite low. So you many only get counts for a small number 
+of genes in each cell. The `counts` matrix has `r nrow(counts)` rows and 
+`r ncol(counts)`, and includes `r exp(log(nrow(counts)) + log(ncol(counts)))` 
+entries. However, most of these entries 
+(`r sum(counts == 0) / exp(log(nrow(counts)) + log(ncol(counts))) * 100`%) are 
+zeros because every gene is not detected in every cell. It would be wasteful 
+to store all of these zeros in memory. It would also make it difficult to 
+store all of the data in memory. So `counts` is a 'sparse matrix', which only 
+stores the positions of non-zero values in memory.
 
 Look at the structure of the `counts` matrix using [str](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/str.html). 
 
@@ -189,17 +227,30 @@ Look at the structure of the `counts` matrix using [str](https://stat.ethz.ch/R-
 str(counts)
 ```
 
-We can see that the formal class name is a "dgCMatrix". There are two long vectors of integers which encode the positions of non-zero values. The gene names and cell barcodes are stored in character vectors and the non-zero values are an integer vector. This class saves space by not allocating memory to store all of the zero values.
+We can see that the formal class name is a "dgCMatrix". There are two long 
+vectors of integers which encode the positions of non-zero values. The gene 
+names and cell barcodes are stored in character vectors and the non-zero values 
+are an integer vector. This class saves space by not allocating memory to store 
+all of the zero values.
 
-Let's look at small portion of `counts`. We will create a tile plot indicating which values are non-zero for the first 100 cells and genes in rows 400 to 600. For historical reasons, R plots the rows along the X-axis and columns along the Y-axis. We will transpose the matrix so that genes are on the Y-axis, which reflects the way in which we normally look at this matrix.
+Let's look at small portion of `counts`. We will create a tile plot indicating 
+which values are non-zero for the first 100 cells and genes in rows 400 to 600. 
+For historical reasons, R plots the rows along the X-axis and columns along the 
+Y-axis. We will transpose the matrix so that genes are on the Y-axis, which 
+reflects the way in which we normally look at this matrix.
 
 ```{r counts_image,fig.height=6}
 image(1:100, 400:600, t(as.matrix(counts[400:600,1:100]) > 0), xlab = 'Cells', ylab = 'Genes')
 ```
 
-In the tile plot above, each row represents one gene and each column represents one cell. Red indicates non-zero values and yellow indicates zero values.  As you can see, most of the matrix consists of zeros (yellow tiles) and hence is called 'sparse'. You can also see that some genes are expressed in most cells, indicated by the horizontal red lines, and that some genes are expressed in very few cells.
+In the tile plot above, each row represents one gene and each column represents 
+one cell. Red indicates non-zero values and yellow indicates zero values.  As 
+you can see, most of the matrix consists of zeros (yellow tiles) and hence is 
+called 'sparse'. You can also see that some genes are expressed in most cells, 
+indicated by the horizontal red lines, and that some genes are expressed in 
+very few cells.
 
-What proportion of genes have zero counts in all samples? To answer this question, we will get the mean of the number of zeros in the first 10,000 cells. We will no
+What proportion of genes have zero counts in all samples? 
 
 ```{r gene_sums}
 gene_sums <- data.frame(gene_id = rownames(counts),
@@ -207,7 +258,9 @@ gene_sums <- data.frame(gene_id = rownames(counts),
 sum(gene_sums$sums == 0)
 ```
 
-We can see that `r sum(gene_sums$sums == 0)` (`r mean(gene_sums$sums == 0)`%) genes have no reads associated with them. In the next lesson, we will remove genes that have no counts in any cells.
+We can see that `r sum(gene_sums$sums == 0)` (`r mean(gene_sums$sums == 0)`%) 
+genes have no reads at all associated with them. In the next lesson, we will 
+remove genes that have no counts in any cells.
 
 Next, let's look at the number of counts in each cell.
 
@@ -215,15 +268,21 @@ Next, let's look at the number of counts in each cell.
 hist(colSums(counts))
 ```
 
-The range of counts covers several orders of magnitude, from `r min(colSums(counts))` to `r max(colSums(counts))`. 
+The range of counts covers several orders of magnitude, from 
+`r min(colSums(counts))` to `r max(colSums(counts))`. 
 
 TBD: What do we say here? How does scRNAseq handle coverage?
 
 ### Sample Metadata
 
-Sample metadata refers to information about your samples that is not the "data", i.e. the gene counts. This might include information such as sex, tissue, or treatment. In the case of the liver atlas data, the authors provided a metadata file for their samples.
+Sample metadata refers to information about your samples that is not the 
+"data", i.e. the gene counts. This might include information such as sex, 
+tissue, or treatment. In the case of the liver atlas data, the authors provided 
+a metadata file for their samples.
 
-The sample metadata file is a comma-separated variable (CSV) file, We will read it in using the readr [read_csv](https://readr.tidyverse.org/reference/read_delim.html) function.
+The sample metadata file is a comma-separated variable (CSV) file, We will read 
+it in using the readr 
+[read_csv](https://readr.tidyverse.org/reference/read_delim.html) function.
 
 > TBD: Use a metadata file that does NOT have cell identities & UMAP coordinates here? Then reveal the full one later.
 
@@ -244,7 +303,17 @@ In the table above, you can see that there are four columns:
 1. digest: either "inVivo" or "exVivo". whether the cells were harvested *in vivo* or *ex vivo*,
 1. typeSample: either "scRnaSeq" or "nucSeq". The type of library preparation protocol, either single cell RNA-seq or nuclear sequencing.
 
-We're going to explore the data using a series of Challenges. You will be asked to look at the contents of some of the columns to see how the data is distributed.
+Let's look at how many cells we have from each digest type
+and library preparation method:
+
+```{r cell_classes}
+with(metadata, table(digest, typeSample))
+```
+
+We're going to explore the data further using a series of Challenges. 
+You will be asked to look at the contents of some of the columns to see 
+how the data are 
+distributed.
 
 > ## Challenge 2
 > How many mice were used to produce this data? The "sample" column contains the mouse identifier for each cell.  
@@ -279,13 +348,20 @@ We're going to explore the data using a series of Challenges. You will be asked 
 
 > TBD: Use a treemap to look at the proportion of samples from each digest/protocol? It's not required, but could be fun.
 
-In this workshop, we will attempt to reproduce the results of the [Liver Atlas](https://livercellatlas.org/index.php) using Seurat. We will analyze the *scRNASeq* and *nucSeq* data together and you will analyze the *citeSeq* data during Challenges.
+In this workshop, we will attempt to reproduce some of the results of the 
+[Liver Atlas](https://livercellatlas.org/index.php) using Seurat. We will 
+analyze the *in-vivo* single **cell** RNA-Seq and single **nucleus** RNA-Seq 
+data together and you will analyze some separate *ex-vivo* data during 
+Challenges.
 
 > TBD: explain differences between scRNASeq, citeSeq & nucSeq? Briefly?
 
 ### Save Data for Next Lesson
 
-We will use the *in vivo* and *ex vivo* in the next lesson. Save it now and we will load it at the beginning of the next lesson. We will use R's [save](https://stat.ethz.ch/R-manual/R-devel/library/base/html/save.html) command to save the objects in compressed, binary format. The `save` command is useful when you want to save multiple objects in one file.
+We will use the *in-vivo* data in the next lesson. Save it now and we will 
+load it at the beginning of the next lesson. We will use R's [save](https://stat.ethz.ch/R-manual/R-devel/library/base/html/save.html) 
+command to save the objects in compressed, binary format. The `save` command is 
+useful when you want to save multiple objects in one file.
 
 ```{r save_data}
 save(counts, metadata, file <- file.path(data_dir, 'lesson03.Rdata'))

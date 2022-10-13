@@ -35,27 +35,60 @@ data_dir <- '../data'
 load(file.path(data_dir, 'lesson03.Rdata'))
 ```
 
-## Issues in scRNA-seq
+## Quality control in scRNA-seq
 
-There are many technical reasons why cells produced by an scRNA-seq protocol might not be of high quality. The goal of the quality control steps are to assure that only single, live cells are included in the final data set. Failure to do this may adversely impact cell type identification, clustering, and interpretation of the data. 
+There are many technical reasons why cells produced by an scRNA-seq protocol 
+might not be of high quality. The goal of the quality control steps are to 
+assure that only single, live cells are included in the final data set. 
+Ultimately some multiplets and poor quality cells will likely escape your
+detection and make it into your final dataset; however, these quality
+control steps aim to reduce the chance of this happening.
+Failure to undertake quality control is likely to adversely impact cell type 
+identification, clustering, and interpretation of the data. 
 
 Some technical questions that you might ask include:
 
-1. What happens to make mitochondrial expression higher?
-1. Why do we check for ribosomal gene content?
-1. What is UMI, what happens to make it bad, and why to we check UMI?
-1. What happens to make gene counts low in a cell and how do we use gene counts per cell to fix it?
+1. Why is mitochondrial gene expression high in some cells?
+1. What is UMI, and why do we check numbers of UMI?
+1. What happens to make gene counts low in a cell?
+
+<!-- DASremoved ribosomal point here. Often we don't filter based on ribo, not clearly associated with poor quality cells -->
+
+## High-level overview of quality control and filtering
+
+First we will walk through some of the typical quantities one 
+examines when conducting quality control of scRNA-Seq data.
+As mentioned in the previous lesson, the data we are working with
+contains `r sum(metadata$typeSample == 'scRnaSeq')` single *cell*
+transcriptomes and `r sum(metadata$typeSample == 'snRnaSeq')`
+single *nucleus* transcriptomes.
+Capturing transcripts from whole cells is very different from
+capturing only those that are in the nucleus. Thus, the data
+properties defining each data type are different.
+Therefore, we should perform quality control separately on 
+each of the two data types.
+
 
 ### Filtering Genes by Counts
 
-As mentioned in an earlier lesson, the counts matrix is sparse and may contain rows (genes) or columns (cells) with low overall counts. In the case of genes, we may wish to exclude genes with zeros counts in most cells. Let's see how many genes have zeros counts across all cells. Note that the [Matrix package](https://cran.r-project.org/web/packages/Matrix/index.html) has a special implementation of [rowSums](https://rdrr.io/rforge/Matrix/man/colSums.html) which works with sparse matrices.
+As mentioned in an earlier lesson, the counts matrix is sparse and may contain 
+rows (genes) or columns (cells) with low overall counts. In the case of genes, 
+we likely wish to exclude genes with zeros counts in most cells. Let's see how 
+many genes have zeros counts across all cells. Note that the 
+[Matrix package](https://cran.r-project.org/web/packages/Matrix/index.html) 
+has a special implementation of 
+[rowSums](https://rdrr.io/rforge/Matrix/man/colSums.html) which works with 
+sparse matrices.
 
 ```{r zero_gene_counts}
 gene_counts <- Matrix::rowSums(counts, na.rm = TRUE)
 sum(gene_counts == 0)
 ```
 
-Of the `r nrow(counts)` genes, `r sum(gene_counts == 0)` have zero counts across all cells. These genes do not inform us about the mean, variance, or covariance of any of the other genes and we could remove them before proceeding with further analysis.
+Of the `r nrow(counts)` genes, `r sum(gene_counts == 0)` have zero counts across 
+all cells. These genes do not inform us about the mean, variance, or covariance 
+of any of the other genes and we could remove them before proceeding with 
+further analysis.
 
 ```{r filter_gene_by_counts}
 counts <- counts[gene_counts > 0,]
@@ -63,15 +96,28 @@ counts <- counts[gene_counts > 0,]
 
 This leaves `r nrow(counts)` genes in the counts matrix.
 
-We could also set some other threshold for filtering genes. Perhaps we should look at the number of genes that have different numbers of counts. We will use a histogram to look at the distribution of overall gene counts. Note that, since we just resized the counts matrix, we need to recalculate the gene_counts.
+We could also set some other threshold for filtering genes. Perhaps we should 
+look at the number of genes that have different numbers of counts. We will use 
+a histogram to look at the distribution of overall gene counts. Note that, since 
+we just resized the counts matrix, we need to recalculate the gene_counts.
 
-We will count the number of cells in which each gene was detected. Because `counts` is a sparse matrix, we have to be careful not to perform operations that would convert the entire matrix into a non-sparse matrix. This might happen if we wrote code like:
+We will count the number of cells in which each gene was detected. Because 
+`counts` is a sparse matrix, we have to be careful not to perform operations 
+that would convert the entire matrix into a non-sparse matrix. This might 
+happen if we wrote code like:
 
 ```{}
 gene_counts <- rowSums(counts > 0)
 ```
 
-The expression `counts > 0` would create a logical matrix that takes up much more memory than the sparse matrix. We might be tempted to try `rowSums(counts == 0)`, but this would also result in a non-sparse matrix because most of the values would be `TRUE`. However, if we evaluate `rowSums(counts != 0)`, then most of the values would be `FALSE`, which can be stored as 0 and so the matrix would still be sparse. The `Matrix` package has an implementation of 'rowSums()' that is efficient, but you may have to specify that you want to used the `Matrix` version of 'rowSums()' explicitly.
+The expression `counts > 0` would create a logical matrix that takes up much 
+more memory than the sparse matrix. We might be tempted to try 
+`rowSums(counts == 0)`, but this would also result in a non-sparse matrix 
+because most of the values would be `TRUE`. However, if we evaluate 
+`rowSums(counts != 0)`, then most of the values would be `FALSE`, which can be 
+stored as 0 and so the matrix would still be sparse. The `Matrix` package has 
+an implementation of 'rowSums()' that is efficient, but you may have to specify 
+that you want to used the `Matrix` version of 'rowSums()' explicitly.
 
 ```{r gene_count_hist}
 gene_counts <- Matrix::rowSums(counts > 0)
@@ -81,7 +127,8 @@ tibble(gene_id = names(gene_counts), counts = gene_counts) %>%
     geom_histogram(bins = 100) +
     labs(title = 'Number of Cells in which Gene was Detected',
          x     = 'Number of Genes',
-         y     = 'Histogram of Number of Cells in which Gene was Detected')
+         y     = 'Histogram of Number of Cells in which Gene was Detected') +
+  theme_bw(base_size = 14) #+ scale_x_log10()
 hist(gene_counts, breaks = 1000, las = 1, xlab = 'Number of Cells in which Gene was Detected', 
      ylab = 'Number of Genes', main = 'Histogram of Number of Cells in which Gene was Detected')
 ```
@@ -180,7 +227,14 @@ liver = CreateSeuratObject(counts       = counts,
 
 ### Filtering by Mitochondrial Gene Content
 
-During apoptosis, the cell membrane may break and release transcripts into the surrounding media. However, the mitochondrial transcripts will remain inside of the mitochondria. This will lead to an apparent, but spurious, increase in mitochondrial gene expression. As a result, we use the percentage of mitochondrial-encoded reads to filter out cells that were not healthy during sample processing. 
+During apoptosis, the cell membrane may break and release transcripts into 
+the surrounding media. However, the mitochondrial transcripts may remain inside 
+of the mitochondria. This will lead to an apparent, but spurious, increase in 
+mitochondrial gene expression. As a result, we use the percentage of 
+mitochondrial-encoded reads to filter out cells that were not healthy during 
+sample processing. See 
+[this link](https://kb.10xgenomics.com/hc/en-us/articles/360001086611) 
+from 10X Genomics for additional information.
 
 > TBD: Mention that different cell types may have different levels of mitochondrial RNA content and how we handle this.
 
@@ -264,7 +318,7 @@ liver <- subset(liver, subset = percent.mt < 15)
 > TBD: We will correct between in vivo, ex vivo, & nuc seq. Students will correct between in vivo & ex vivo.
 > The Seurat v2 paper (Butler et al, 2018) claims to have a batch normalization method that beats ComBat & limma. Do we use that?
 
-### Save Data for Next Lesson
+## Save Data for Next Lesson
 
 We will use the Seurat object in the next lesson. Save it now and we will load it at the beginning of the next lesson. We will use R's [saveRDS](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html) command to save the Seurat object in compressed, binary format. The `saveRDS` function is useful when you want to save one object in compressed, binary format.
 
@@ -310,7 +364,7 @@ saveRDS(liver, file = file.path(data_dir, 'lesson04.rds'))
 > {: .solution}
 {: .challenge}
 
-### Session Info
+## Session Info
 
 ```{r session_info}
 sessionInfo()
