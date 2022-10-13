@@ -52,14 +52,14 @@ count(metadata, digest, annot) %>%
 
 # Get barcodes for the cells without metadata.
 bad_cells = colnames(counts)[!colnames(counts) %in% metadata$cell]
-bad_cells = sample(bad_cells, size = floor(length(bad_cells)) / 2)
+bad_cells = sample(bad_cells, size = floor(length(bad_cells)) / 4)
 bad_cells = data.frame(UMAP_1  = 0,
                        UMAP_2  = 0,
                        cluster = 0, 
                        annot   = 'bad',
                        sample  = NA_character_,
                        cell    = bad_cells,
-                       digest  = NA_character_,
+                       digest  = sample(c('inVivo', 'exVivo'), size = length(bad_cells), replace = TRUE),
                        typeSample = sample('scRnaSeq', 
                                            size = length(bad_cells), replace = TRUE))
 
