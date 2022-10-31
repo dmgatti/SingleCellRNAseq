@@ -29,6 +29,7 @@ data_dir = '../data'
 liver = readRDS(file.path(data_dir, 'lesson04.rds'))
 ```
 
+> DAS do we want to add cell cycle scoring in here?
 
 ## Normalization (log and more specialized) 
 
