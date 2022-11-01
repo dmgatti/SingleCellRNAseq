@@ -1,17 +1,17 @@
 ---
 source: Rmd
-title: "Quality Control"
+title: "Quality Control of scRNA-Seq Data"
 teaching: 30
 exercises: 10
 questions:
-- "How do I deterimine if my single cell RNA-seq experiment data is good?"
+- "How do I determine if my single cell RNA-seq experiment data is high quality?"
 - "What are the common quality control metrics that I should check in my scRNA-seq data?"
 objectives:
 - "Critically examine scRNA-seq data to identify potential technical issues."
-- "Apply filters to remove cells that may not provide high quality data."
+- "Apply filters to remove cells that are largely poor quality/dead cells."
 - "Understand the implications of different filtering steps on the data."
 keypoints:
-- "?????"
+- "It is essential to filter based on criteria including mitochondrial gene expression and number of genes expressed in a cell."
 - "?????"
 ---
 
@@ -58,15 +58,6 @@ Some technical questions that you might ask include:
 
 First we will walk through some of the typical quantities one 
 examines when conducting quality control of scRNA-Seq data.
-As mentioned in the previous lesson, the data we are working with
-contains `r sum(metadata$typeSample == 'scRnaSeq')` single *cell*
-transcriptomes and `r sum(metadata$typeSample == 'snRnaSeq')`
-single *nucleus* transcriptomes.
-Capturing transcripts from whole cells is very different from
-capturing only those that are in the nucleus. Thus, the data
-properties defining each data type are different.
-Therefore, we should perform quality control separately on 
-each of the two data types.
 
 
 ### Filtering Genes by Counts
@@ -87,7 +78,7 @@ sum(gene_counts == 0)
 
 Of the `r nrow(counts)` genes, `r sum(gene_counts == 0)` have zero counts across 
 all cells. These genes do not inform us about the mean, variance, or covariance 
-of any of the other genes and we could remove them before proceeding with 
+of any of the other genes and we will remove them before proceeding with 
 further analysis.
 
 ```{r filter_gene_by_counts}
@@ -99,7 +90,7 @@ This leaves `r nrow(counts)` genes in the counts matrix.
 We could also set some other threshold for filtering genes. Perhaps we should 
 look at the number of genes that have different numbers of counts. We will use 
 a histogram to look at the distribution of overall gene counts. Note that, since 
-we just resized the counts matrix, we need to recalculate the gene_counts.
+we just resized the counts matrix, we need to recalculate `gene_counts`.
 
 We will count the number of cells in which each gene was detected. Because 
 `counts` is a sparse matrix, we have to be careful not to perform operations 
@@ -129,11 +120,15 @@ tibble(gene_id = names(gene_counts), counts = gene_counts) %>%
          x     = 'Number of Genes',
          y     = 'Histogram of Number of Cells in which Gene was Detected') +
   theme_bw(base_size = 14) #+ scale_x_log10()
+
 hist(gene_counts, breaks = 1000, las = 1, xlab = 'Number of Cells in which Gene was Detected', 
      ylab = 'Number of Genes', main = 'Histogram of Number of Cells in which Gene was Detected')
 ```
 
-As you can see, the number of cells in which each gene is detected spans several orders of magnitude and this makes it difficult to interpret the plot. Some genes are detected in all cells while others are detected in only one cell. Let's zoom in on the part with lower gene counts.
+As you can see, the number of cells in which each gene is detected spans several 
+orders of magnitude and this makes it difficult to interpret the plot. Some 
+genes are detected in all cells while others are detected in only one cell. 
+Let's zoom in on the part with lower gene counts.
 
 ```{r gene_count_hist_2}
 hist(gene_counts, breaks = -1:max(gene_counts), freq = TRUE, xlim = c(0, 100), las = 1, 
@@ -143,87 +138,116 @@ text(2, 1180, labels = paste(sum(gene_counts == 1), 'genes were detected in only
 text(3,  800, labels = paste(sum(gene_counts == 2), 'genes were detected in two cells'),     adj = c(0, 0.5))
 ```
 
-In the plot above, we can see that there are `r sum(gene_counts == 1)` genes that were detected in only one cell, `r sum(gene_counts == 2)` genes detected in two cells, etc.
+In the plot above, we can see that there are `r sum(gene_counts == 1)` 
+genes that were detected in only one cell, `r sum(gene_counts == 2)` 
+genes detected in two cells, etc.
 
-Selecting the number of cells in which a gene must be detected can be tricky. If you retain all genes, you may consume more computational resources and add noise to your analysis. If you discard too many genes, you may miss rare but important cells types.
+Making a decision to keep or remove a gene based on its expression being
+detected in a certain
+number of cells can be tricky. 
+If you retain all genes, you may consume more computational resources and add 
+noise to your analysis. If you discard too many genes, you may miss rare 
+but important cell types.
 
-Consider this example: You have a total of 10,000 cells in your scRNA-seq results. There is a rare cell population consisting of 100 cells that expresses 20 genes which are not expressed in any other cell type. If you only retain genes that are detected in more than 100 cells, you will miss this cell population.
-
-
-> TDB: How many cells do I need to see a gene in for it to be informative? Discuss effects of a gene detected in 100 cells vs gene detected in 1000 cells. What are the effects of retaining too many genes?
-
-> TBD: Can we use a plot like the one below to help explain the issues?
-
-```{r}
-ngenes = 100
-ncells = 100
-tmp = matrix(rbinom(ngenes * ncells, 1, prob = 5e-2), ngenes, ncells,
-             dimnames = list(paste0('gene', 1:ngenes), paste0('cell', 1:ncells)))
-tmp[1:10, 1:10]   = 1
-tmp[11:50, 11:50] = 1
-tmp[51:100,51:100]  = 1
-heatmap(tmp, breaks = c(-0.5, 0.5, 10), col = c('white', 'black'))
-```
-
+Consider this example: You have a total of 10,000 cells in your scRNA-seq 
+results. There is a rare cell population consisting of 100 cells that 
+expresses 20 genes which are not expressed in any other cell type. If you 
+only retain genes that are detected in more than 100 cells, you will miss 
+this cell population.
 
 
 > ## Challenge 1
-> What total count threshold would you choose to filter genes? You may want to remake the plot above to include more cells on the X-axis. Remember that there are `r ncol(counts)` cells.
+> How would filtering genes too strictly affect your results? 
+How would this affect your ability to discriminate between cell types? 
 >
 > > ## Solution to Challenge 1
-> >
-> > **TBD: Need DAS. to provide rationale. **
+> > 
+> > Filtering too strictly would make it more difficult to distinguish between
+cell types. The degree to which this problem affects your analyses depends on
+the degree of strictness of your filtering. Let's take the situation to its
+logical extreme -- what if we keep only genes expressed in at least 95% of cells.
+If we did this, we would end up with only `r sum(gene_counts > ncol(counts)*0.95)`
+genes! By definition these genes will be highly expressed in all cell types,
+therefore eliminating our ability to clearly distinguish between cell types.
 > {: .solution}
 {: .challenge}
 
 
 > ## Challenge 2
-> How would filtering genes too strictly affect your results? How would this affect your ability to discriminate between cell types? 
+> What total count threshold would you choose to filter genes? Remember that 
+there are `r ncol(counts)` cells.
 >
 > > ## Solution to Challenge 1
 > >
-> > **TBD: Need DAS. to provide rationale. **
+> > This is a question that has a largely subjective answer. Following from
+challenge one, we do not want to be *too* strict in our filtering. However,
+we do want to remove genes that will not provide much information about
+gene expression variability among the cells in our dataset. Our recommendation
+would be to filter genes expressed in <5 cells, but one could reasonably
+justify a threshold between 3 and 20 cells.
 > {: .solution}
 {: .challenge}
 
+
 ### Filtering Cells by Counts
 
-Next we will look at the number of genes expressed in each cell. If the cell processing does not go well, the total number of reads in a cell may be low, which leads to lower gene counts. Filtering out these cells is a quality control step that should improve your final results.
+Next we will look at the number of genes expressed in each cell. 
+If a cell lyses and leaks RNA,the total number of reads in a 
+cell may be low, which leads to lower gene counts. Furthermore, each
+single cell suspension likely contains some amount of so-called "ambient"
+RNA from damaged/dead/dying cells. This ambient RNA comes along for the ride
+in every droplet. Therefore even droplets that do not contain cells
+(empty droplets) can have some reads mapping to transcripts that look
+like gene expression.
+Filtering out these kinds of cells is a quality control step that 
+should improve your final results.
 
 We will explicitly use the `Matrix` package's implementation of 'colSums()'.
 
 ```{r sum_cell_counts}
-cell_counts = Matrix::colSums(counts > 0)
+cell_counts <- Matrix::colSums(counts > 0)
 hist(cell_counts, breaks = 1000, las = 1, xlab = 'Number of Genes with Counts > 0', 
      ylab = 'Number of Cells')
 ```
 
-> TBD: Can you have too many genes expressed? Are those doublets? 
+Cells with way more genes expressed than the typical cell might be
+doublets/multiplets and should also be removed.
+
 
 ### Creating the Seurat Object
 
-In order to use Seurat, we must take the sample metadata and gene counts and create a [Seurat Object](https://rdrr.io/cran/SeuratObject/man/Seurat-class.html). This is a data structure which organizes the data and metadata and will store aspects of the analysis as we progress through the workshop.
+In order to use Seurat, we must take the sample metadata and gene counts and 
+create a 
+[Seurat Object](https://rdrr.io/cran/SeuratObject/man/Seurat-class.html). 
+This is a data structure which organizes the data and metadata and will 
+store aspects of the analysis as we progress through the workshop.
 
-Below, we will create a Seurat object for the liver data. We must first convert the cell metadata into a data.frame and place the bar codes in rownames. The we will pass the counts and metadata into the [CreateSeuratObject](https://search.r-project.org/CRAN/refmans/SeuratObject/html/CreateSeuratObject.html) function to create the Seurat object. 
+Below, we will create a Seurat object for the liver data. We must first 
+convert the cell metadata into a data.frame and place the barcodes 
+in rownames. The we will pass the counts and metadata into the
+[CreateSeuratObject](https://search.r-project.org/CRAN/refmans/SeuratObject/html/CreateSeuratObject.html) 
+function to create the Seurat object. 
 
-In the section above, we examined the counts across genes and cells and proposed filtering by different threshold.  The CreateSeuratObject function contains two arguments, 'min.cells' and 'min.features', that allow us to filter the genes and cells by counts.
+In the section above, we examined the counts across genes and cells and 
+proposed filtering using thresholds.  The CreateSeuratObject function 
+contains two arguments, 'min.cells' and 'min.features', that allow us to 
+filter the genes and cells by counts. Although we might use these arguments
+for convenience in a typical analysis, for this course we will look more
+closely at these quantities.
 
-> TBD: DAS to provide rationale and values for cell and feature filtering. Also, do we want to do it here or follow the Seurat tutorial and do it after creating the object? It seems like a good idea to look at the plots before filtering. But maybe there is some basic filtering that makes sense.
 
 ```{r create_seurat_obj}
 metadata = as.data.frame(metadata) %>%
               column_to_rownames('cell')
 liver = CreateSeuratObject(counts       = counts, 
-                           project      = 'liver: sc & nuc RNAseq',
-                           meta.data    = metadata,
-                           min.cells    = 20,
-                           min.features = 100)
+                           project      = 'liver: scRNA-Seq',
+                           meta.data    = metadata)
 ```
 
 
-## Typical filters for cell quality - %MT, ribosomal, number UMI, number genes 
+## Typical filters for cell quality - %MT, number UMI, number of genes expressed
 
-> Briefly review filters and reasons for them.
+Here we briefly review these filters.
 
 ### Filtering by Mitochondrial Gene Content
 
@@ -267,27 +291,15 @@ liver <- subset(liver, subset = percent.mt < 15)
 ```
 
 
-### Filtering Cells by Ribosomal Transcript Content
-
-```{r filter_ribosomal}
-
-```
-
-### Filtering Cells by UMI
-
-> Define what UMI is. (Do we need a glossary?)
-> Where do we get these from? Are they in the cell bar code?
-
-```{r filter_umi}
-
-```
 
 ### Filtering Cells by Total Gene Counts
 
-> TBD: Didn't we do this when we created the Seurat object?
+Let's look at how many genes are expressed in each cell. We'll split by
+the mouse ID so we can see if there are particular samples that are 
+very different from the rest.
 
 ```{r filter_gene_counts}
-
+VlnPlot(liver, 'nFeature_RNA', group.by = 'sample')
 ```
 
 
@@ -301,9 +313,16 @@ liver <- subset(liver, subset = percent.mt < 15)
 > {: .solution}
 {: .challenge}
 
-## Differences between tissues and datatypes (single cell vs single nucleus, etc) 
 
-> TBD: DAS to fill in.
+### Filtering Cells by UMI
+
+> Define what UMI is. (Do we need a glossary?)
+> Where do we get these from? Are they in the cell bar code?
+
+```{r filter_umi}
+
+```
+
 
 ## Cell cycle assignment 
 
@@ -315,6 +334,7 @@ liver <- subset(liver, subset = percent.mt < 15)
 
 ## Batch correction
 
+> DAS DMG need to discuss whether to include this step.
 > TBD: We will correct between in vivo, ex vivo, & nuc seq. Students will correct between in vivo & ex vivo.
 > The Seurat v2 paper (Butler et al, 2018) claims to have a batch normalization method that beats ComBat & limma. Do we use that?
 
@@ -327,7 +347,11 @@ saveRDS(liver, file = file.path(data_dir, 'lesson04.rds'))
 ```
 
 > ## Challenge 3
-> Delete the existing counts and metadata objects. Read in the  *citeSeq* data that you saved at the end of Lesson 03 (lesson03_challenge.Rdata) and create a Seurat object called 'liver_2'. Use the same cell and feature filters that were used to create the Seurat object above.
+> Delete the existing counts and metadata objects. Read in the  *ex-vivo* data 
+that you saved at the end of Lesson 03 (lesson03_challenge.Rdata) and create 
+a Seurat object called 'liver_2'. Look at the filtering quantities and
+decide whether you can use the same cell and feature filters 
+that were used to create the Seurat object above.
 >
 > > ## Solution to Challenge 3  
 > > `# Remove the existing counts and metadata.`  
@@ -338,15 +362,16 @@ saveRDS(liver, file = file.path(data_dir, 'lesson04.rds'))
 > > `metadata = as.data.frame(metadata) %>%`  
 > > `             column_to_rownames('cell')`  
 > > `liver_2 = CreateSeuratObject(count        = counts, `  
-> > `                             project      = 'liver: citeSeq',`  
-> > `                             meta.data    = metadata,`  
-> > `                             min.cells    = 100,`  
-> > `                             min.features = 100)`  
+> > `                             project      = 'liver: ex-vivo',`  
+> > `                             meta.data    = metadata)`  
+> > ``
 > {: .solution}
 {: .challenge}
 
 > ## Challenge 4
-> Estimate the proportion of mitochondrial genes. Create plots of the proportion of features, cells, and mitochondrial genes. Filter the Seurat object by mitochon.
+> Estimate the proportion of mitochondrial genes. 
+Create plots of the proportion of features, cells, and mitochondrial genes. 
+Filter the Seurat object by mitochondrial gene expression.
 >
 > > ## Solution to Challenge 4  
 > > `liver_2 = liver_2 %>%`  
@@ -356,13 +381,6 @@ saveRDS(liver, file = file.path(data_dir, 'lesson04.rds'))
 > {: .solution}
 {: .challenge}
 
-> ## Challenge 5
-> TBD: Do more of the steps above.
->
-> > ## Solution to Challenge 5   
-> >      
-> {: .solution}
-{: .challenge}
 
 ## Session Info
 
