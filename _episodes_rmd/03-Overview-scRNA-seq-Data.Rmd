@@ -111,11 +111,15 @@ visualization/exploration.
     * Scanpy is a python toolkit for analyzing single-cell gene expression data.
     * Scanpy is built jointly with anndata, which is a file format specification 
     and accompanying API for efficiently storing and accessing single cell data.
+    * Like Seurat, scanpy is under active development as well. Scanpy has an 
+    advantage of being a somewhat larger and more diverse community than
+    Seurat, where developement is centered around a single lab group.
     * This software has been used in a very large number of single cell projects. We 
-    encourage you to check it out and consider using it for your own work. For 
-    this course we will not use scanpy simply because we view R/Seurat as having 
-    a slight edge over scanpy when it comes to visualization and interactive 
-    exploration of single cell data.
+    encourage you to check it out and consider using it for your own work. 
+    
+For this course we will not use scanpy simply because we view R/Seurat as 
+having a slight edge over scanpy when it comes to visualization and 
+interactive exploration of single cell data.
 
 
 ## Reading in CellRanger Data
@@ -149,9 +153,7 @@ Briefly, the authors performed scRNASeq on liver cells from mice and humans,
 identified cell types, clustered them, and made the data publicly available. 
 We will be working with a subset of the *mouse* liver data. 
 We split the data into two sets, one to use in the lesson and one for 
-you to work with independently as a challenge. We have also sub-sampled each 
-data subset to contain 75% of the cells to reduce memory usage and speed up the 
-analysis time for this workshop.
+you to work with independently as a challenge. 
 
 Before the workshop, you should have downloaded the data from 
 Box and placed it in your `data` directory. 
@@ -165,12 +167,13 @@ has been compressed (or 'zipped') using
 the software that we use will uncompress the files as it reads them in. The 
 files are:
 
-* matrix.mtx.gz: The feature-barcode matrix, i.e. a two-dimensional matrix 
-containing the counts for each gene in each cell.
+ * matrix.mtx.gz: The feature-barcode matrix, i.e. a two-dimensional 
+ matrix containing the counts for each gene in each cell.
     * Genes are in rows and cells are in columns.
-    * This file is in a special sparse matrix format which reduces disk space and memory usage.
-* barcodes.tsv.gz: DNA barcodes for each cell. Used as column names in counts matrix.
-* features.tsv.gz: Gene symbols for each gene. Used as row names in counts matrix.
+    * This file is in a special sparse matrix format which reduces disk space 
+    and memory usage.
+ * barcodes.tsv.gz: DNA barcodes for each cell. Used as column names in counts matrix.
+ * features.tsv.gz: Gene symbols for each gene. Used as row names in counts matrix.
 
 ![Counts Matrix](../fig/counts_matrix.png)
 
@@ -409,8 +412,6 @@ the mouse identifier for each cell.
 
 
 
-> TBD: Use a treemap to look at the proportion of samples from each 
-digest/protocol? It's not required, but could be fun. DAS what is a treemap?
 
 In this workshop, we will attempt to reproduce some of the results of the 
 [Liver Atlas](https://livercellatlas.org/index.php) using Seurat. We will 
@@ -418,7 +419,6 @@ analyze the *in-vivo* single **cell** RNA-Seq
 together and you will analyze some separate *ex-vivo* data during 
 Challenges.
 
-> TBD: explain differences between scRNASeq, citeSeq & nucSeq? Briefly?
 
 ### Save Data for Next Lesson
 
@@ -433,7 +433,8 @@ save(counts, metadata, file = file.path(data_dir, 'lesson03.Rdata'))
 
 > ## Challenge 5
 > In the lesson above, you read in the scRNASeq data. There is 
-another dataset which was created using an *ex vivo* digest in the `mouseStSt_exvivo` 
+another dataset which was created using an *ex vivo* digest in the 
+`mouseStSt_exvivo` 
 directory. Delete the `counts` and `metadata` objects from your environment. 
 Then read in the counts and metadata from the `mouseStSt_exvivo` 
 directory and save them to a file called 'lesson03_challenge.Rdata'.
