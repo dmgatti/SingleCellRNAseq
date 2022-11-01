@@ -1,12 +1,14 @@
 ---
 source: Rmd
-title: "Biology Driven Analyses"
+title: "Biology Driven Analyses of scRNA-Seq"
 teaching: 10
 exercises: 2
 questions:
-- "How do I design a single cell RNAseq experiment?"
+- "What are some scRNA-Seq analyses that might provide me with biological insight?"
 objectives:
-- "Explain how to use RMarkdown with the new lesson template."
+- "Understand the ability (and limitations) of scRNA-Seq data for quantifying differences in gene expression and tissue cell composition."
+- "Be able to articulate the concept of pseudotime."
+- ""
 - "Demonstrate how to include pieces of code, figures, and challenges."
 keypoints:
 - "Edit the .Rmd files not the .md files"
@@ -20,14 +22,16 @@ knitr_fig_path("06-")
 
 ## Differential expression 
 
+Looking for differential expression can be thought of as 
+
+## Pathway enrichment 
+
 ## Differences in cell composition 
 
 ## Cell-cell communication 
 
 ## Pseudotime 
 
-## TF activity analysis (e.g. SCENIC) 
 
-## Gene ontology-like enrichment 
 
 
