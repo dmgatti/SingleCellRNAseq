@@ -158,20 +158,20 @@ including differential gene expression and differences in cell composition.
 We will not discuss these studies in detail in this course, but some may be 
 useful for your own work:
  * Schmid et al. 2021. scPower accelerates and optimizes the design of 
- multi-sample single cell transcriptomic studies.  
- <https://doi.org/10.1038/s41467-021-26779-7>
+ multi-sample single cell transcriptomic 
+ studies. <https://doi.org/10.1038/s41467-021-26779-7>
  * Svensson et al. 2017. Power analysis of single-cell RNA-sequencing 
  experiments. <https://doi.org/10.1038/nmeth.4220>
  * Davis et al. 2019. SCOPIT: sample size calculations for single-cell 
  sequencing experiments. <https://doi.org/10.1186/s12859-019-3167-9>
  * Zimmerman et al. 2021. Hierarchicell: an R-package for estimating power 
- for tests of differential expression with single-cell data.
- <https://doi.org/10.1186%2Fs12864-021-07635-w>
+ for tests of differential expression with single-cell 
+ data. <https://doi.org/10.1186%2Fs12864-021-07635-w>
  * Vieth et al. 2017. powsimR: power analysis for bulk and single cell 
  RNA-seq experiments. <https://doi.org/10.1093/bioinformatics/btx435j>
  * Su et al. 2020. Simulation, power evaluation and sample size 
- recommendation for single-cell RNA-seq. 
- <https://doi.org/10.1093/bioinformatics/btaa607>
+ recommendation for single-cell 
+ RNA-seq. <https://doi.org/10.1093/bioinformatics/btaa607>
 
 
 ## Pooling options  
@@ -183,8 +183,9 @@ toolkit.
 In pooled single cell genomics, there are two primary methods of tracking 
 the sample to which each individual cell belongs. First, one can attach a 
 unique barcode ("hashtag") to all cells of each sample, typically using an oligonucleotide-tagged antibody to a ubiquitous cell surface protein or an 
-alternative (e.g. lipid-reactive) reagent 
-![Overview of cell hashing approach](../fig/smibert_etal_2018_Fig1A.jpg). 
+alternative (e.g. lipid-reactive) reagent. 
+![Overview of cell hashing approach](../fig/smibert_etal_2018_Fig1A.jpg)
+
 (Figure from [Smibert et al. 2018](https://pubmed.ncbi.nlm.nih.gov/30567574/))
 This approach was pioneered by 
 [Smibert et al](https://pubmed.ncbi.nlm.nih.gov/30567574/). The hashtag is 
