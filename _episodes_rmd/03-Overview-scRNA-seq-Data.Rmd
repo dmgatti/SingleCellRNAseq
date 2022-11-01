@@ -29,56 +29,115 @@ data_dir <- '../data'
 
 ## Open Project File
 
-In the Setup section of this workshop, you created an RStudio Project. Open this project now, by:
+In the Setup section of this workshop, you created an RStudio Project. 
+Open this project now, by:
 
-1. selecting File --> Open Project... from the Menu,
-2. choosing "scRNA.Rproj" , 
+1. selecting File --> Open Project... from the Menu
+2. choosing "scRNA.Rproj"
 3. opening the project file.
 
-## What files are delivered? Details of FASTQ, etc.
+## What do raw data look like in scRNA-Seq?
 
 The raw data for an scRNA-Seq experiment typically consists of two FASTQ files.
-[Describe further]
+One file contains the sequences of the cell barcode and molecular
+barcode (UMI), while the other file contains the sequences derived from
+the transcript. The reads in file one are approximately 28bp long 
+(16bp cell barcode, 12bp UMI), while the reads in file two are 
+approximately 90bp long.
 
-DAS -- NB SCBL provides CellRanger results as well. See next section.
+The Single Cell Biology Laboratory at JAX additionally provides output
+of running the 
+[10X CellRanger pipeline](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) 
+(see below). 
 
 ## Typical pre-processing pipeline
 
 ### 10X CellRanger
 
- * What is CellRanger?
- * Produces gene counts for each cell.
+[10X CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) 
+is "a set of analysis pipelines that process Chromium single cell 
+data to align reads, generate feature-barcode matrices" and perform
+various other downstream analyses.
+In this course we will work with data that has been preprocessed 
+using CellRanger.
+All you need to remember is that we used CellRanger to obtain
+gene expression counts for each gene within each cell.
 
 ### CellRanger alternatives
 
- * alevin
- * STARsolo
+There are several alternatives to CellRanger. Each of these alternatives
+has appealing properties that we encourage you to read about but do not
+have the time to discuss in this course. Alternatives include:
+
+ * `alevin` [Srivastava et al. 2019](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1670-y), 
+ from the developers of the `salmon` aligner
+ * `kallisto | bustools` [Melsted et al. 2021](https://doi.org/10.1038/s41587-021-00870-2), 
+ from the developers of the `kallisto` aligner
+ * `STARsolo` [Kaminow et al 2021](https://doi.org/10.1101/2021.05.05.442755), 
+ from the developers of the `STAR` aligner
+
+While you should be aware that these alternatives
+exist and in some cases there may be very compelling reasons to use them,
+broadly speaking CellRanger is the most widely used tool for 
+processing 10X Chromium scRNA-Seq data. 
+
 
 ## Intro to two major single cell analysis ecosystems: 
 
-At the time that this workshop was created, there were many different software packages designed for analyzing scRNA-seq data in a variety of scenarios. The two scRNA-seq software "ecosystems" that were most widely in use were:
+At the time that this workshop was created, there were many different software 
+packages designed for analyzing scRNA-seq data in a variety of scenarios. The 
+two scRNA-seq software "ecosystems" that were most widely in use were:
 
-* R/Seurat : Focus of this workshop. Biggest strength is straightforward vignettes and ease of visualization/exploration. 
-    * [Seurat](https://www.nature.com/articles/nbt.3192) was released in 2015 by the [Regev lab](https://biology.mit.edu/profile/aviv-regev/).
-    * The first author, Rahul Satija, now has a faculty position and has maintained and improved Seurat.
+* R/Seurat : The Seurat ecosystem is the tool of choice for this workshop. The 
+biggest strength of Seurat is its straightforward vignettes and ease of 
+visualization/exploration. 
+    * [Seurat](https://www.nature.com/articles/nbt.3192) was released in 2015 
+    by the [Regev lab](https://biology.mit.edu/profile/aviv-regev/).
+    * The first author, Rahul Satija, now has a faculty position and has 
+    maintained and improved Seurat.
     * Currently at [version 4](https://www.cell.com/cell/fulltext/S0092-8674(21)00583-3).
     * Source code available on [Github](https://www.github.com/satijalab/seurat).
-    * Seurat v1: Infers cellular localization by integrating scRNA-seq with *in situ* hybridization.
-    * Seurat v2: Integrates multiple scRNA-seq data sets using shared correlation structure.
-    * Seurat v3: Integrates data from multiple technologies, i.e. scRNA-seq, scATAC-seq, proteomics, *in situ* hybridization.
-    * Seurat v4: Integrative multimodal analysis and mapping of user data sets to cell identity reference database.
+    * Each version of Seurat adds new functionality:
+        * Seurat v1: Infers cellular localization by integrating scRNA-seq 
+        with *in situ* hybridization.
+        * Seurat v2: Integrates multiple scRNA-seq data sets using shared 
+        correlation structure.
+        * Seurat v3: Integrates data from multiple technologies, i.e. scRNA-seq, 
+        scATAC-seq, proteomics, *in situ* hybridization.
+        * Seurat v4: Integrative multimodal analysis and mapping of user data 
+        sets to cell identity reference database.
 
-* Python/scanpy
-    * DAS: Expand on this.
+* Python/scanpy and anndata
+    * Scanpy is a python toolkit for analyzing single-cell gene expression data.
+    * Scanpy is built jointly with anndata, which is a file format specification 
+    and accompanying API for efficiently storing and accessing single cell data.
+    * This software has been used in a very large number of single cell projects. We 
+    encourage you to check it out and consider using it for your own work. For 
+    this course we will not use scanpy simply because we view R/Seurat as having 
+    a slight edge over scanpy when it comes to visualization and interactive 
+    exploration of single cell data.
+
 
 ## Reading in CellRanger Data
 
-[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) is software which analyzes Chromium single cell data to 
-align reads, generates feature-bar code matrices, and perform other downstream 
+As described above,
+[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) 
+is software which preprocesses Chromium single cell data to 
+align reads, generate feature-bar code matrices, and perform other downstream 
 analyses. 
-[DAS add a sentence on what a feature barcode matrix is. In this context gene expression.]
-CellRanger is provided by 10X Genomics. In this workshop, we will read in the 
-feature-bar code matrix produced by CellRanger and will perform the downstream 
+We will not be using any of CellRanger's downstream analyses,
+but we *will* be using the feature-barcode matrix produced by CellRanger.
+A feature-barcode matrix -- in the context of scRNA-Seq -- is a
+matrix that gives gene expression counts for each gene in each single cell.
+In a feature-barcode matrix, the 
+genes (rows) are the features, and the cells (columns) are each identified
+by a barcode.
+The name feature-barcode matrix is a generalized term for the
+gene expression matrix. For example, feature-barcode could also refer
+to a matrix of single cell protein expression or single cell
+chromatin accessibility.
+In this workshop, we will read in the 
+feature-barcode matrix produced by CellRanger and will perform the downstream 
 analysis using Seurat.
 
 ### Liver Atlas
@@ -95,7 +154,7 @@ data subset to contain 75% of the cells to reduce memory usage and speed up the
 analysis time for this workshop.
 
 Before the workshop, you should have downloaded the data from 
-<NEED TO FILL THIS IN> and placed it in your `data` directory. 
+Box and placed it in your `data` directory. 
 Go to the [Setup](../setup) page for instructions on how to download the data 
 files.
 
@@ -106,7 +165,8 @@ has been compressed (or 'zipped') using
 the software that we use will uncompress the files as it reads them in. The 
 files are:
 
-* matrix.mtx.gz: Two-dimensional matrix containing the counts for each gene in each cell.
+* matrix.mtx.gz: The feature-barcode matrix, i.e. a two-dimensional matrix 
+containing the counts for each gene in each cell.
     * Genes are in rows and cells are in columns.
     * This file is in a special sparse matrix format which reduces disk space and memory usage.
 * barcodes.tsv.gz: DNA barcodes for each cell. Used as column names in counts matrix.
@@ -115,7 +175,9 @@ files are:
 ![Counts Matrix](../fig/counts_matrix.png)
 
 > ## Challenge 1
-> 1). R has a function called [file.size](https://stat.ethz.ch/R-manual/R-devel/library/base/html/file.info.html). Look at the help for this function and get the size of each of the files in the `mouseStSt_invivo` directory.  Which one is the largest?  
+> 1). R has a function called [file.size](https://stat.ethz.ch/R-manual/R-devel/library/base/html/file.info.html). 
+Look at the help for this function and get the size of each of the files in 
+the `mouseStSt_invivo` directory.  Which one is the largest?  
 >
 > > ## Solution to Challenge 1
 > >
@@ -213,7 +275,7 @@ Although `counts` looks like a matrix and you can use many matrix functions on
 it, `counts` is actually a *different* type of object. In scRNASeq, the read 
 depth in each cell is quite low. So you many only get counts for a small number 
 of genes in each cell. The `counts` matrix has `r nrow(counts)` rows and 
-`r ncol(counts)`, and includes `r exp(log(nrow(counts)) + log(ncol(counts)))` 
+`r ncol(counts)` columns, and includes `r exp(log(nrow(counts)) + log(ncol(counts)))` 
 entries. However, most of these entries 
 (`r sum(counts == 0) / exp(log(nrow(counts)) + log(ncol(counts))) * 100`%) are 
 zeros because every gene is not detected in every cell. It would be wasteful 
@@ -240,7 +302,8 @@ Y-axis. We will transpose the matrix so that genes are on the Y-axis, which
 reflects the way in which we normally look at this matrix.
 
 ```{r counts_image,fig.height=6}
-image(1:100, 400:600, t(as.matrix(counts[400:600,1:100]) > 0), xlab = 'Cells', ylab = 'Genes')
+image(1:100, 400:600, t(as.matrix(counts[400:600,1:100]) > 0), 
+      xlab = 'Cells', ylab = 'Genes')
 ```
 
 In the tile plot above, each row represents one gene and each column represents 
@@ -254,24 +317,29 @@ What proportion of genes have zero counts in all samples?
 
 ```{r gene_sums}
 gene_sums <- data.frame(gene_id = rownames(counts),
-                        sums    = rowSums(counts))
+                        sums    = Matrix::rowSums(counts))
 sum(gene_sums$sums == 0)
 ```
 
-We can see that `r sum(gene_sums$sums == 0)` (`r mean(gene_sums$sums == 0)`%) 
+We can see that `r sum(gene_sums$sums == 0)` (`r 100*mean(gene_sums$sums == 0)`%) 
 genes have no reads at all associated with them. In the next lesson, we will 
 remove genes that have no counts in any cells.
 
 Next, let's look at the number of counts in each cell.
 
 ```{r cell_counts}
-hist(colSums(counts))
+hist(Matrix::colSums(counts))
+
+Matrix::colSums(counts) %>% enframe() %>%
+  ggplot(aes(value)) + geom_histogram(bins = 30) + 
+  theme_bw(base_size = 16) + scale_x_log10()
 ```
 
 The range of counts covers several orders of magnitude, from 
-`r min(colSums(counts))` to `r max(colSums(counts))`. 
+`r min(Matrix::colSums(counts))` to `r max(Matrix::colSums(counts))`. We will need
+to normalize for this large difference in sequencing depth,
+which we will cover in the next lesson.
 
-TBD: What do we say here? How does scRNAseq handle coverage?
 
 ### Sample Metadata
 
@@ -300,11 +368,15 @@ In the table above, you can see that there are four columns:
 
 1. sample: mouse identifier from which cell was derived;
 1. cell: the DNA bar code used to identify the cell;
-1. digest: either "inVivo" or "exVivo". whether the cells were harvested *in vivo* or *ex vivo*,
-1. typeSample: either "scRnaSeq" or "nucSeq". The type of library preparation protocol, either single cell RNA-seq or nuclear sequencing.
+1. digest: cells for this liver atlas were harvested using either an *in vivo* 
+or an *ex vivo* procedure. In this subset of the data we are looking only 
+at *in vivo* samples;
+1. typeSample: the type of library preparation protocol, either single cell 
+RNA-seq (scRnaSeq) or nuclear sequencing (nucSeq). In this subset of the data 
+we are looking only at scRnaSeq samples.
 
-Let's look at how many cells we have from each digest type
-and library preparation method:
+Let's confirm that we are only looking at scRnaSeq samples from *in vivo* 
+digest cells:
 
 ```{r cell_classes}
 with(metadata, table(digest, typeSample))
@@ -316,42 +388,34 @@ how the data are
 distributed.
 
 > ## Challenge 2
-> How many mice were used to produce this data? The "sample" column contains the mouse identifier for each cell.  
+> How many mice were used to produce this data? The "sample" column contains 
+the mouse identifier for each cell.  
 >
 > > ## Solution to Challenge 2
 > >
-> > count(metadata, sample) %>% summarize(total <- n())     
+> > count(metadata, sample) %>% summarize(total = n())     
 > {: .solution}
 {: .challenge}
 
 
 > ## Challenge 3
-> There were two digests, inVivo and exVivo. How many cells are there from each mouse in each digestion? 
+> How many cells are there from each mouse? 
 >
 > > ## Solution to Challenge 3
 > >
-> > count(metadata, sample, digest)  
-> > From this, we can see that each mouse was used for only one type of digestion, either inVivo or exVivo.
+> > with(metadata, table(sample))
 > {: .solution}
 {: .challenge}
 
 
-> ## Challenge 4
-> There were also two types of library preparation, indicated by the "typeSample" column. How many cells were derived from each digestion and library preparation protocol?
->
-> > ## Solution to Challenge 4
-> >
-> > count(metadata, digest, typeSample)  
-> > From this, we can see that ther are between 15 and 75 thousand cells in each class.
-> {: .solution}
-{: .challenge}
 
-> TBD: Use a treemap to look at the proportion of samples from each digest/protocol? It's not required, but could be fun.
+> TBD: Use a treemap to look at the proportion of samples from each 
+digest/protocol? It's not required, but could be fun. DAS what is a treemap?
 
 In this workshop, we will attempt to reproduce some of the results of the 
 [Liver Atlas](https://livercellatlas.org/index.php) using Seurat. We will 
-analyze the *in-vivo* single **cell** RNA-Seq and single **nucleus** RNA-Seq 
-data together and you will analyze some separate *ex-vivo* data during 
+analyze the *in-vivo* single **cell** RNA-Seq 
+together and you will analyze some separate *ex-vivo* data during 
 Challenges.
 
 > TBD: explain differences between scRNASeq, citeSeq & nucSeq? Briefly?
@@ -364,22 +428,26 @@ command to save the objects in compressed, binary format. The `save` command is
 useful when you want to save multiple objects in one file.
 
 ```{r save_data}
-save(counts, metadata, file <- file.path(data_dir, 'lesson03.Rdata'))
+save(counts, metadata, file = file.path(data_dir, 'lesson03.Rdata'))
 ```
 
 > ## Challenge 5
-> In the lesson above, you read in the scRNASeq and nucSeq data. There is another dataset which was created using "citeSeq" in the `mouseStSt_citeseq_75pct` directory. Delete the `counts` and `metadata` objects from your environment. Then read in the counts and metadata from the `mouseStSt_citeseq_75pct` directory and save them to a file called 'lesson03_challenge.Rdata'.
+> In the lesson above, you read in the scRNASeq data. There is 
+another dataset which was created using an *ex vivo* digest in the `mouseStSt_exvivo` 
+directory. Delete the `counts` and `metadata` objects from your environment. 
+Then read in the counts and metadata from the `mouseStSt_exvivo` 
+directory and save them to a file called 'lesson03_challenge.Rdata'.
 >
 > > ## Solution to Challenge 5
 > >
 > > `# Remove exising counts and metadata.`  
 > > `rm(counts, metadata)`
 > > `# Read in new counts.`  
-> > `counts <- Seurat::Read10X(file.path(data_dir, 'mouseStSt_citeseq_75pct'), gene.column <- 1)`  
+> > `counts <- Seurat::Read10X(file.path(data_dir, 'mouseStSt_exvivo'), gene.column = 1)`  
 > > `# Read in new metadata.`  
-> > `metadata <- read_csv(file.path(data_dir, 'mouseStSt_citeseq_75pct', 'annot_metadata.csv'))`  
+> > `metadata <- read_csv(file.path(data_dir, 'mouseStSt_exvivo', 'annot_metadata.csv'))`  
 > > `# Save data for next lesson.`  
-> > `save(counts, metadata, file <- file.path(data_dir, 'lesson03_challenge.Rdata'))`  
+> > `save(counts, metadata, file = file.path(data_dir, 'lesson03_challenge.Rdata'))`  
 > {: .solution}
 {: .challenge}
 
