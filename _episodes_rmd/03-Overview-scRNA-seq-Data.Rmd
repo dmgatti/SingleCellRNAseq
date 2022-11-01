@@ -175,7 +175,7 @@ files are:
  * barcodes.tsv.gz: DNA barcodes for each cell. Used as column names in counts matrix.
  * features.tsv.gz: Gene symbols for each gene. Used as row names in counts matrix.
 
-![Counts Matrix](../fig/counts_matrix.png)
+![Counts Matrix](../fig/counts_matrix.png){width=40%}
 
 > ## Challenge 1
 > 1). R has a function called [file.size](https://stat.ethz.ch/R-manual/R-devel/library/base/html/file.info.html). 
