@@ -131,11 +131,15 @@ genes are detected in all cells while others are detected in only one cell.
 Let's zoom in on the part with lower gene counts.
 
 ```{r gene_count_hist_2}
-hist(gene_counts, breaks = -1:max(gene_counts), freq = TRUE, xlim = c(0, 100), las = 1, 
+hist(gene_counts, breaks = -1:max(gene_counts), freq = TRUE, 
+     xlim = c(0, 100), las = 1, 
      xlab = 'Number of Cells in which Gene was Detected', 
-     ylab = 'Number of Genes', main = 'Histogram of Number of Cells in which Gene was Detected')
-text(2, 1180, labels = paste(sum(gene_counts == 1), 'genes were detected in only one cell'), adj = c(0, 0.5))
-text(3,  800, labels = paste(sum(gene_counts == 2), 'genes were detected in two cells'),     adj = c(0, 0.5))
+     ylab = 'Number of Genes', 
+     main = 'Histogram of Number of Cells in which Gene was Detected')
+text(2, 1180, labels = paste(sum(gene_counts == 1), 
+  'genes were detected in only one cell'), adj = c(0, 0.5))
+text(3,  800, labels = paste(sum(gene_counts == 2), 
+  'genes were detected in two cells'), adj = c(0, 0.5))
 ```
 
 In the plot above, we can see that there are `r sum(gene_counts == 1)` 
@@ -179,12 +183,12 @@ there are `r ncol(counts)` cells.
 >
 > > ## Solution to Challenge 1
 > >
-> > This is a question that has a largely subjective answer. Following from
+> > This is a question that has a somewhat subjective answer. Following from
 challenge one, we do not want to be *too* strict in our filtering. However,
 we do want to remove genes that will not provide much information about
 gene expression variability among the cells in our dataset. Our recommendation
 would be to filter genes expressed in <5 cells, but one could reasonably
-justify a threshold between 3 and 20 cells.
+justify a threshold between, say, 3 and 20 cells.
 > {: .solution}
 {: .challenge}
 
@@ -233,7 +237,8 @@ proposed filtering using thresholds.  The CreateSeuratObject function
 contains two arguments, 'min.cells' and 'min.features', that allow us to 
 filter the genes and cells by counts. Although we might use these arguments
 for convenience in a typical analysis, for this course we will look more
-closely at these quantities.
+closely at these quantities on a per-library basis to decide on
+our filtering thresholds.
 
 
 ```{r create_seurat_obj}
