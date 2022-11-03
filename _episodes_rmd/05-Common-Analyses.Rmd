@@ -106,7 +106,7 @@ We will "regress out" the signals of technical confounders including
 
 ```{r scaling, message=FALSE}
 liver <- liver %>%
-              ScaleData(vars.to.regress = c("percent.mt", "nCount_RNA"))
+              ScaleData(vars.to.regress = c("percent.mt", "nFeature_RNA"))
 ```
 
 ### Principal Component Analysis
@@ -214,11 +214,16 @@ markers <- FindAllMarkers(liver_mini, only.pos = TRUE,
 <!-- harder types are not identified correctly by SingleR. -->
 <!-- Should we include this as opinion/narrator's comment? -->
 
+<!-- Do we need to do batch correction with Harmony? The authors of the
+liver cell atlas did it ...
+See https://github.com/guilliottslab/scripts_GuilliamsEtAll_Cell2022/blob/main/3b_Harmony.R
+-->
+
 We will again use the Seurat object in the next lesson. Save it now and we will 
 load it at the beginning of the next lesson. 
 
 ```{r save_seurat}
-save(liver, markers, file = file.path(data_dir, 'lesson05.RData'))
+save(liver, markers, file = file.path(data_dir, 'lesson05.Rdata'))
 ```
 
 
