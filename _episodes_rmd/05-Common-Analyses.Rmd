@@ -156,7 +156,7 @@ ElbowPlot(liver, ndims = 50)
 We would say that the standard deviation in PCs really starts to stablize
 around N = 27 PCs. Let's use this value moving forward.
 
-```{r elbow2}
+```{r elbow3}
 num_pc <- 27
 ElbowPlot(liver, ndims = 40) + geom_vline(xintercept = num_pc)
 ```
@@ -218,7 +218,7 @@ We will again use the Seurat object in the next lesson. Save it now and we will
 load it at the beginning of the next lesson. 
 
 ```{r save_seurat}
-saveRDS(liver, markers, file = file.path(data_dir, 'lesson05.RData'))
+save(liver, markers, file = file.path(data_dir, 'lesson05.RData'))
 ```
 
 
