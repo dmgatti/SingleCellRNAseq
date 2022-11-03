@@ -30,7 +30,8 @@ installation was successful.
 In RStudio, copy and paste the following commands into the Console:
 
 ~~~
-install.packages(c("tidyverse", "Seurat"), dependencies = TRUE)
+install.packages(c("tidyverse", "Matrix", "Seurat", "BiocManager"), dependencies = TRUE)
+BiocManager::install(c("SingleCellExperiment", "scds"))
 ~~~
 {: .r}
 
@@ -39,7 +40,10 @@ the console to verify that both packages installed correctly.
 
 ~~~
 library(tidyverse)
+library(Matrix)
 library(Seurat)
+library(SingleCellExperiment)
+library(scds)
 ~~~
 {: .r}
 
