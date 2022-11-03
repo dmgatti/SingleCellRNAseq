@@ -8,11 +8,10 @@ questions:
 objectives:
 - "Understand the ability (and limitations) of scRNA-Seq data for quantifying differences in gene expression and tissue cell composition."
 - "Be able to articulate the concept of pseudotime."
-- ""
-- "Demonstrate how to include pieces of code, figures, and challenges."
+- "Have basic ability to be able to conduct enrichment analyses of gene expression and look at how cells interact in scRNA-Seq"
 keypoints:
-- "Edit the .Rmd files not the .md files"
-- "Run `make serve` to knit documents and preview lesson website locally"
+- "ADD"
+- "ADD"
 ---
 
 ```{r, include=FALSE}
@@ -40,11 +39,28 @@ FeaturePlot(liver, c("Lyve1", "Cdh5"), cols = c('lightgrey', 'red'))
 ## Differential expression 
 
 Looking for differential expression can be thought of as a problem that
-is related to finding marker genes.
+is related to finding cell type marker genes. Marker genes are, by definition,
+genes that vary significantly between cell types. Often we are most interested
+in the expression of genes that specifically mark particular cell types 
+that we are interested in, but there can also be value in using broader
+markers (e.g. CD45 - encoded by the gene *Ptprc* - marks all immune cells).
+
+<!-- What do we look for differential expression between??? -->
 
 ## Pathway enrichment 
 
+We could conduct pathway enrichment on 
+
 ## Differences in cell composition
+
+Single cell transcriptomics is a very powerful method for identifying
+differences in tissue cell composition. This sort of question was 
+usually addressed using methods like flow cytometry in the past, but flow
+cytometry requires knowing what you want to look for before you can
+quantify it. In scRNA-Seq we can take an entirely unbiased view of cell
+composition, and we can define cell subsets with more subtle changes in
+gene expression as opposed to only looking at broad classes of cell types.
+
 
 scCODA
 linear modeling
@@ -54,7 +70,15 @@ propeller
 
 cellchat, cellphoneDB, etc.
 
-## Pseudotime 
+## Pseudotime and velocity
+
+What is pseudotime
+
+There are many, many algorithms and software packages for inferring 
+pseudotime. For a very nice list check out
+[Anthony Gitter's github list](https://github.com/agitter/single-cell-pseudotime).
+
+What is RNA velocity?
 
 monocle
 RNA velocity
