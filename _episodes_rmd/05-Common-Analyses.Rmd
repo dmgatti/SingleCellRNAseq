@@ -4,7 +4,7 @@ title: "Common Analyses"
 teaching: 10
 exercises: 2
 questions:
-- "What are the most common single cell RNAseq analyses?"
+- "What are the most common single cell RNA-Seq analyses?"
 objectives:
 - "Explain how to use RMarkdown with the new lesson template."
 - "Demonstrate how to include pieces of code, figures, and challenges."
@@ -20,24 +20,31 @@ knitr_fig_path("05-")
 library(tidyverse)
 library(Seurat)
 
-data_dir = '../data'
+data_dir <- '../data'
 ```
 
 ## Read Data from Previous Lesson
 
 ```{r load_data}
-liver = readRDS(file.path(data_dir, 'lesson04.rds'))
+liver <- readRDS(file.path(data_dir, 'lesson04.rds'))
 ```
-
-> DAS do we want to add cell cycle scoring in here?
 
 ## Normalization (log and more specialized) 
 
+Instead of working with raw count data measured across cells
+that were sequenced to highly variable depths, we conduct
+normalization to try to make gene expression values follow
+a more stable distribution as well as being more comparable
+between cells.
+
 ### Log Normalization
 
-> TBD: How do we show a histogram of the unnormalized and normalized values?
-
-The count data is usually log-normally distributed. Many statistical methods work best when the data is normally distributed. 
+The count data is usually log-normally distributed. 
+Many statistical methods work best when the data is normally distributed. 
+We also would like to correct for variability in sequencing depth 
+between cells, the nature of which is purely technical.
+Log normalization will give us normalized gene expression which represents
+the log of the number of counts per 10,000 reads.
 
 ```{r normalization, message=FALSE}
 liver <- liver %>%
@@ -46,12 +53,56 @@ liver <- liver %>%
 
 ### Finding Variable Features
 
+Next we will find a subset of features showing high cell-to-cell variation 
+in the dataset (that is, they are highly expressed in some cells and lowly
+expressed in others). 
+
 ```{r var_features, message=FALSE}
 liver <- liver %>% 
               FindVariableFeatures(nfeatures = 2000)
+
+# Identify the 25 most highly variable genes
+top25 <- head(VariableFeatures(liver), 25)
+
+# plot variable features with and without labels
+plot1 <- VariableFeaturePlot(liver)
+plot2 <- LabelPoints(plot = plot1, points = top25, xnudge = 0, 
+                     ynudge = 0,repel = TRUE)
+plot1 + plot2
 ```
 
+## Cell cycle assignment 
+
+We will also show how to predict cell cycle state.
+This approach is outlined in the Seurat vignette at
+[this link](https://satijalab.org/seurat/articles/cell_cycle_vignette.html).
+
+
+```{r cellcycle}
+cc.genes <- readLines(file.path(data_dir,
+  'regev_lab_cell_cycle_genes_mm.fixed.txt'))
+s.genes <- cc.genes[1:43]
+g2m.genes <- cc.genes[44:98]
+
+liver <- CellCycleScoring(liver, s.features=s.genes, 
+  g2m.features=g2m.genes, set.ident=FALSE)
+```
+
+Seurat will provide a quantitative estimate of the cell's chance of being
+in different phases of the cell cycle `S.Score` and `G2M.Score`, as well as
+a categorical prediction of which phase the cell is in 
+(`Phase` -- G1, G2M, S).
+
 ### Scale Data
+
+Now we apply a linear transformation that is often used in initial 
+scRNA-Seq processing. This transformation standardizes the expression of
+each gene, setting the mean across cells to 0 and variance to 1. 
+This helps all genes to contribute to the inferred variability rather
+than just the highly-expressed genes.
+
+We will "regress out" the signals of technical confounders including
+%MT and the number of UMIs.
 
 ```{r scaling, message=FALSE}
 liver <- liver %>%
@@ -60,30 +111,119 @@ liver <- liver %>%
 
 ### Principal Component Analysis
 
+Next we reduce the dimensionality of the data. You have probably heard
+of PCA as a technique for summarizing major axes of variation in a dataset.
+Here, we perform PCA on the single cell gene expression data in order to
+place each cell in a multidimensional space with lower dimension (say 20-40)
+than the complete expression matrix (~20,000 genes).
+
 ```{r PCA, message=FALSE}
 liver <- liver %>%
               RunPCA(verbose = FALSE, npcs = 100)
 ```
 
+It is usually not very useful to view the raw PCs themselves:
+```{r pcplot}
+DimPlot(liver, reduction = "pca")
+```
+
+Instead we will take some of the PCs and use them for a further
+summarization of the data. Namely, we will use the PCs as input to the
+UMAP (or t-SNE) algorithm which projects our cells onto a 2D space
+(the computer screen). 
+
+A significant challenge in scRNA-Seq is deciding how many PCs to use.
+You can think of each PC as capturing pathway-level transcriptional variation
+across the cells in your dataset. Thus even if the transcriptome is sparse
+within each cell (it is), you can still compare different cells across major
+axes of variation. We don't want to use too few PCs, otherwise we 
+might miss significant axes of variation (e.g. a cell subtype or minor cell 
+type). We also don't want to use too many PCs since, as you go out in PC-space,
+the PCs increasingly represent more noise and less biological reality.
+
+We will use a very simple method to choose the number of PCs: the elbow
+method. Using this method we look for where the elbow plot stops dropping
+precipitously.
+```{r elbow}
+ElbowPlot(liver, ndims = 100)
+```
+
+Let's zoom in more and see what things like under 50 PCs.
+```{r elbow2}
+ElbowPlot(liver, ndims = 50)
+```
+
+We would say that the standard deviation in PCs really starts to stablize
+around N = 27 PCs. Let's use this value moving forward.
+
+```{r elbow2}
+num_pc <- 27
+ElbowPlot(liver, ndims = 40) + geom_vline(xintercept = num_pc)
+```
+
 ## Dimensionality reduction (UMAP, tSNE, etc) 
 
+As mentioned above, dimensionality reduction allows you to actually 
+visualize your data! The two methods below are widely used in the
+single cell community.
+
 > Uniform Manifold Approximation and Projection (UMAP) [van der Maaten & Hinton, 2008](https://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf).
+
 > t-Distributed Stochastic Neighbor Embedding (t-SNE) [McUnnes et al](https://arxiv.org/abs/1802.03426) 
+
+These methods generally do a very effective job of putting similar points near each other in the reduced-dimensionality space. Thus cells from 
+the same clusters are likely to be placed in the same region of the UMAP/t-SNE.
+
+UMAP is more widely used the t-SNE at the current time.
+Note that you should caution yourself not to overinterpret UMAP plots.
+Although UMAP does optimize both local and global similarity for points
+being projected onto a 2D space, UMAP contains no guarantee that similar points
+must be near each other.
+
+```{r umap}
+liver <- RunUMAP(liver, reduction = 'pca', dims = 1:num_pc, 
+    verbose = FALSE)
+```
 
 ## Clustering 
 
 ```{r seurat3, message=FALSE}
-ElbowPlot(liver, ndims = 100) + geom_vline(xintercept = 27)
-num_pc <- 27
+
 liver <- FindNeighbors(liver, reduction = 'pca', 
                        dims = 1:num_pc, verbose = FALSE) %>%
-           FindClusters(verbose = FALSE, resolution = 0.8) %>%
-           RunUMAP(reduction = 'pca', dims = 1:num_pc, verbose = FALSE)
+           FindClusters(verbose = FALSE, resolution = 0.3)
+UMAPPlot(liver, label = TRUE, label.size = 6)
 ```
-
-## Annotating cell types (+ automated options e.g. SingleR) 
 
 ## Finding marker genes 
 
-## Discussion of data visualization, sample of common plots
+Now we will find marker genes for our clusters. Finding marker genes takes a
+while so we will downsample our data to speed up the process.
+Even still this may take a few minutes.
 
+```{r markers}
+liver_mini <- subset(liver, downsample = 300)
+markers <- FindAllMarkers(liver_mini, only.pos = TRUE, 
+    logfc.threshold	= log2(1.25), min.pct = 0.2) 
+```
+
+
+<!-- ## Annotating cell types (+ automated options e.g. SingleR)  -->
+<!-- DAS - I don't think these methods are generally all that useful. The -->
+<!-- cell types they get right are usually easy to identify, while the -->
+<!-- harder types are not identified correctly by SingleR. -->
+<!-- Should we include this as opinion/narrator's comment? -->
+
+We will again use the Seurat object in the next lesson. Save it now and we will 
+load it at the beginning of the next lesson. 
+
+```{r save_seurat}
+saveRDS(liver, markers, file = file.path(data_dir, 'lesson05.RData'))
+```
+
+
+## Session Info
+
+```{r session_info}
+sessionInfo()
+```
