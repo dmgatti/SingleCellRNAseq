@@ -17,9 +17,12 @@ library(Seurat)
 # Get "Liver Cell Atlas: Mouse StSt": All Liver Cells
 # Gene-cell count matrix
 # Cell annotation matrix
+# Get a node with 64GB to read in file.
 
-src_dir  = '/fastscratch/dgatti/liver'
+src_dir  = '/fastscratch/dgatti/scrnaseq/data'
 dest_dir = '/projects/compsci/vmp/USERS/dgatti/projects/scrnaseq/data'
+
+set.seed(295872)
 
 # Read in cell metadata.
 metadata = read_csv(file.path(src_dir, 'annot_mouseStStAll.csv'),
@@ -50,6 +53,11 @@ count(metadata, digest, annot) %>%
   select(-total, -n) %>%
   pivot_wider(names_from = digest, values_from = prop)
 
+# Get the sample IDs.
+sample_ids = metadata %>%
+               count(sample, digest) %>%
+               filter(digest != 'nuclei')
+
 # Get barcodes for the cells without metadata.
 bad_cells = colnames(counts)[!colnames(counts) %in% metadata$cell]
 bad_cells = sample(bad_cells, size = floor(length(bad_cells)) / 4)
@@ -62,6 +70,17 @@ bad_cells = data.frame(UMAP_1  = 0,
                        digest  = sample(c('inVivo', 'exVivo'), size = length(bad_cells), replace = TRUE),
                        typeSample = sample('scRnaSeq', 
                                            size = length(bad_cells), replace = TRUE))
+
+# Add sample IDs to the inVivo and exVivo data.
+wh_invivo = which(bad_cells$digest == 'inVivo')
+bad_cells$sample[wh_invivo] = sample(sample_ids$sample[sample_ids$digest == 'inVivo'],
+                                     size = length(wh_invivo), replace = TRUE)
+
+wh_exvivo = which(bad_cells$digest == 'exVivo')
+bad_cells$sample[wh_exvivo] = sample(sample_ids$sample[sample_ids$digest == 'exVivo'],
+                                     size = length(wh_exvivo), replace = TRUE)
+
+rm(wh_invivo, wh_exvivo)
 
 # Add the bad cells to metadata and subset counts.
 metadata = bind_rows(metadata, bad_cells)
@@ -79,6 +98,10 @@ write_sc = function(meta, counts, out_dir) {
   
   # Write metadata.
   write_csv(meta, file = file.path(out_dir, 'annot_metadata.csv'))
+
+  # Remove UMAP and cell type annotation from metadata file.
+  meta = meta[,c('sample', 'cell', 'digest', 'typeSample')]
+  write_csv(meta, file = file.path(out_dir, 'annot_metadata_first.csv'))
   
   # Note: 3 files: barcodes.tsv.gz  features.tsv.gz  matrix.mtx.gz
   barcode_file = file.path(out_dir, 'barcodes.tsv')
@@ -92,6 +115,13 @@ write_sc = function(meta, counts, out_dir) {
   gzip(matrix_file,  overwrite = TRUE)
 
 } # write_sc()
+
+# Verify that we have 'bad' samples in the metadata.
+stopifnotsum(metadata$annot == 'bad' > 0)
+# Verifyg that we have only 'scRnaSeq' samples.
+stopifnot(all(metadata$typeSample == 'scRnaSeq'))
+# Verify that we only have inVivo and esVivo data.
+stopifnot(all(metadata$digest %in% c('inVivo', 'exVivo')))
 
 # Split invivo and exvivo data.
 meta_iv   = subset(metadata, digest == 'inVivo')
@@ -112,7 +142,7 @@ write_sc(meta_ev, counts_ev, file.path(dest_dir, 'mouseStSt_exvivo'))
 # Write results to the given directory.
 # Assumes data read in using Seurat::Read10X().
 # meta: data.frame containing cell metadata.
-# counts: sparce matrix containing counts. Genes in rows, cell in columns.
+# counts: sparse matrix containing counts. Genes in rows, cell in columns.
 # prop: float between 0 and 1 indicating the proportion of the cells to keep.
 # out_dir: string containing the full path to the output directory. 
 subsample_scrnaseq = function(meta, counts, prop, out_dir) {
@@ -155,6 +185,11 @@ subsample_scrnaseq = function(meta, counts, prop, out_dir) {
    # Subset and write metadata.
    meta_ss = meta[match(cell_keep, meta$cell),]
    stopifnot(all(cell_keep == meta_ss$cell))
+   write_csv(meta_ss, file = file.path(out_dir, 'annot_metadata_paper.csv'))
+
+   # Remove UMAP and annotation columns and write out file for
+   # students to start with.
+   meta_ss = meta_ss[,]
    write_csv(meta_ss, file = file.path(out_dir, 'annot_metadata.csv'))
    rm(meta_ss)
    
