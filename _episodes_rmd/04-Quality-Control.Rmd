@@ -21,15 +21,23 @@ knitr_fig_path("04-")
 ```
 
 ```{r libs, warning=FALSE}
-library(tidyverse)
-library(Matrix)
-library(Seurat)
-library(SingleCellExperiment)
-library(scds)
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(Matrix))
+suppressPackageStartupMessages(library(Seurat))
+suppressPackageStartupMessages(library(SingleCellExperiment))
+suppressPackageStartupMessages(library(scds))
 
 data_dir <- '../data'
 ```
 
+
+## Read Data from Previous Lesson
+
+```{r load_data}
+load(file.path(data_dir, 'lesson03.Rdata'))
+```
+
+> Reminder: This load in your counts and cell metadata.
 
 ## Quality control in scRNA-seq
 
@@ -67,26 +75,15 @@ for more details.
 
 
 ```{r scds1}
-counts <- Read10X(file.path(data_dir, 'mouseStSt_invivo'), gene.column = 1)
 sce <- SingleCellExperiment(list(counts = counts))
 sce <- cxds_bcds_hybrid(sce)
 doublet_preds <- colData(sce)
 ```
 
 ```{r gc, echo = FALSE}
-rm(counts)
 rm(sce)
 gc()
 ```
-
-## Read Data from Previous Lesson
-
-```{r load_data}
-load(file.path(data_dir, 'lesson03.Rdata'))
-```
-
-We waited to load the lesson 3 data until just now for memory efficiency.
-
 
 
 ## High-level overview of quality control and filtering
@@ -586,6 +583,6 @@ Filter the Seurat object by mitochondrial gene expression.
 
 ## Session Info
 
-```{r session_info}
+```{r session_info,collapse=TRUE}
 sessionInfo()
 ```

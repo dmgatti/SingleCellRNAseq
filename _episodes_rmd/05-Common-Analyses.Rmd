@@ -17,8 +17,8 @@ keypoints:
 source("../bin/chunk-options.R")
 knitr_fig_path("05-")
 
-library(tidyverse)
-library(Seurat)
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(Seurat))
 
 data_dir <- '../data'
 ```

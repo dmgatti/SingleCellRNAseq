@@ -175,7 +175,9 @@ files are:
  * barcodes.tsv.gz: DNA barcodes for each cell. Used as column names in counts matrix.
  * features.tsv.gz: Gene symbols for each gene. Used as row names in counts matrix.
 
-![Counts Matrix](../fig/counts_matrix.png)
+<img src="../fig/counts_matrix.png" width="800px" alt="Count Matrix" >
+
+<!-- ![Counts Matrix](../fig/counts_matrix.png) -->
 
 > ## Challenge 1
 > 1). R has a function called [file.size](https://stat.ethz.ch/R-manual/R-devel/library/base/html/file.info.html). 
@@ -355,10 +357,8 @@ The sample metadata file is a comma-separated variable (CSV) file, We will read
 it in using the readr 
 [read_csv](https://readr.tidyverse.org/reference/read_delim.html) function.
 
-> TBD: Use a metadata file that does NOT have cell identities & UMAP coordinates here? Then reveal the full one later.
-
 ```{r read_metadata}
-metadata <- read_csv(file.path(data_dir, 'mouseStSt_invivo', 'annot_metadata.csv'))
+metadata <- read_csv(file.path(data_dir, 'mouseStSt_invivo', 'annot_metadata_first.csv'))
 ```
 
 Let's look at the top of the metadata.
@@ -382,7 +382,7 @@ Let's confirm that we are only looking at scRnaSeq samples from *in vivo*
 digest cells:
 
 ```{r cell_classes}
-with(metadata, table(digest, typeSample))
+count(metadata, digest, typeSample)
 ```
 
 We're going to explore the data further using a series of Challenges. 
@@ -454,7 +454,7 @@ directory and save them to a file called 'lesson03_challenge.Rdata'.
 
 ### Session Info
 
-```{r session_info}
+```{r session_info,collapse=TRUE}
 sessionInfo()
 ```
 
