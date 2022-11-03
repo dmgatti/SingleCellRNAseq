@@ -27,11 +27,20 @@ liver <- readRDS(file.path(data_dir, 'lesson04.rds'))
 
 ## Normalization (log and more specialized) 
 
+Instead of working with raw count data measured across cells
+that were sequenced to highly variable depths, we conduct
+normalization to try to make gene expression values follow
+a more stable distribution as well as being more comparable
+between cells.
+
 ### Log Normalization
 
-> TBD: How do we show a histogram of the unnormalized and normalized values?
-
-The count data is usually log-normally distributed. Many statistical methods work best when the data is normally distributed. 
+The count data is usually log-normally distributed. 
+Many statistical methods work best when the data is normally distributed. 
+We also would like to correct for variability in sequencing depth 
+between cells, the nature of which is purely technical.
+Log normalization will give us normalized gene expression which represents
+the log of the number of counts per 10,000 reads.
 
 
 ~~~
@@ -42,23 +51,113 @@ liver <- liver %>%
 
 ### Finding Variable Features
 
+Next we will find a subset of features showing high cell-to-cell variation 
+in the dataset (that is, they are highly expressed in some cells and lowly
+expressed in others). 
+
 
 ~~~
 liver <- liver %>% 
               FindVariableFeatures(nfeatures = 2000)
+
+# Identify the 25 most highly variable genes
+top25 <- head(VariableFeatures(liver), 25)
+
+# plot variable features with and without labels
+plot1 <- VariableFeaturePlot(liver)
+plot2 <- LabelPoints(plot = plot1, points = top25, xnudge = 0, 
+                     ynudge = 0,repel = TRUE)
+plot1 + plot2
 ~~~
 {: .language-r}
 
+
+
+~~~
+Warning: Transformation introduced infinite values in continuous x-axis
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: Removed 749 rows containing missing values (geom_point).
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: Transformation introduced infinite values in continuous x-axis
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: Removed 749 rows containing missing values (geom_point).
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: ggrepel: 7 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps
+~~~
+{: .warning}
+
+<img src="../fig/rmd-05-var_features-1.png" alt="plot of chunk var_features" width="612" style="display: block; margin: auto;" />
+
+## Cell cycle assignment 
+
+We will also show how to predict cell cycle state.
+This approach is outlined in the Seurat vignette at
+[this link](https://satijalab.org/seurat/articles/cell_cycle_vignette.html).
+
+
+
+~~~
+cc.genes <- readLines(file.path(data_dir,
+  'regev_lab_cell_cycle_genes_mm.fixed.txt'))
+s.genes <- cc.genes[1:43]
+g2m.genes <- cc.genes[44:98]
+
+liver <- CellCycleScoring(liver, s.features=s.genes, 
+  g2m.features=g2m.genes, set.ident=FALSE)
+~~~
+{: .language-r}
+
+Seurat will provide a quantitative estimate of the cell's chance of being
+in different phases of the cell cycle `S.Score` and `G2M.Score`, as well as
+a categorical prediction of which phase the cell is in 
+(`Phase` -- G1, G2M, S).
+
 ### Scale Data
+
+Now we apply a linear transformation that is often used in initial 
+scRNA-Seq processing. This transformation standardizes the expression of
+each gene, setting the mean across cells to 0 and variance to 1. 
+This helps all genes to contribute to the inferred variability rather
+than just the highly-expressed genes.
+
+We will "regress out" the signals of technical confounders including
+%MT and the number of UMIs.
 
 
 ~~~
 liver <- liver %>%
-              ScaleData(vars.to.regress = c("percent.mt", "nCount_RNA"))
+              ScaleData(vars.to.regress = c("percent.mt", "nFeature_RNA"))
 ~~~
 {: .language-r}
 
 ### Principal Component Analysis
+
+Next we reduce the dimensionality of the data. You have probably heard
+of PCA as a technique for summarizing major axes of variation in a dataset.
+Here, we perform PCA on the single cell gene expression data in order to
+place each cell in a multidimensional space with lower dimension (say 20-40)
+than the complete expression matrix (~20,000 genes).
 
 
 ~~~
@@ -67,27 +166,84 @@ liver <- liver %>%
 ~~~
 {: .language-r}
 
-## Dimensionality reduction (UMAP, tSNE, etc) 
-
-> Uniform Manifold Approximation and Projection (UMAP) [van der Maaten & Hinton, 2008](https://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf).
-> t-Distributed Stochastic Neighbor Embedding (t-SNE) [McUnnes et al](https://arxiv.org/abs/1802.03426) 
-
-## Clustering 
-
+It is usually not very useful to view the raw PCs themselves:
 
 ~~~
-ElbowPlot(liver, ndims = 100) + geom_vline(xintercept = 27)
+DimPlot(liver, reduction = "pca")
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-05-seurat3-1.png" alt="plot of chunk seurat3" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-05-pcplot-1.png" alt="plot of chunk pcplot" width="612" style="display: block; margin: auto;" />
+
+Instead we will take some of the PCs and use them for a further
+summarization of the data. Namely, we will use the PCs as input to the
+UMAP (or t-SNE) algorithm which projects our cells onto a 2D space
+(the computer screen). 
+
+A significant challenge in scRNA-Seq is deciding how many PCs to use.
+You can think of each PC as capturing pathway-level transcriptional variation
+across the cells in your dataset. Thus even if the transcriptome is sparse
+within each cell (it is), you can still compare different cells across major
+axes of variation. We don't want to use too few PCs, otherwise we 
+might miss significant axes of variation (e.g. a cell subtype or minor cell 
+type). We also don't want to use too many PCs since, as you go out in PC-space,
+the PCs increasingly represent more noise and less biological reality.
+
+We will use a very simple method to choose the number of PCs: the elbow
+method. Using this method we look for where the elbow plot stops dropping
+precipitously.
+
+~~~
+ElbowPlot(liver, ndims = 100)
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-05-elbow-1.png" alt="plot of chunk elbow" width="612" style="display: block; margin: auto;" />
+
+Let's zoom in more and see what things like under 50 PCs.
+
+~~~
+ElbowPlot(liver, ndims = 50)
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-05-elbow2-1.png" alt="plot of chunk elbow2" width="612" style="display: block; margin: auto;" />
+
+We would say that the standard deviation in PCs really starts to stablize
+around N = 27 PCs. Let's use this value moving forward.
+
 
 ~~~
 num_pc <- 27
-liver <- FindNeighbors(liver, reduction = 'pca', 
-                       dims = 1:num_pc, verbose = FALSE) %>%
-           FindClusters(verbose = FALSE, resolution = 0.8) %>%
-           RunUMAP(reduction = 'pca', dims = 1:num_pc, verbose = FALSE)
+ElbowPlot(liver, ndims = 40) + geom_vline(xintercept = num_pc)
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-05-elbow3-1.png" alt="plot of chunk elbow3" width="612" style="display: block; margin: auto;" />
+
+## Dimensionality reduction (UMAP, tSNE, etc) 
+
+As mentioned above, dimensionality reduction allows you to actually 
+visualize your data! The two methods below are widely used in the
+single cell community.
+
+> Uniform Manifold Approximation and Projection (UMAP) [van der Maaten & Hinton, 2008](https://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf).
+
+> t-Distributed Stochastic Neighbor Embedding (t-SNE) [McUnnes et al](https://arxiv.org/abs/1802.03426) 
+
+These methods generally do a very effective job of putting similar points near each other in the reduced-dimensionality space. Thus cells from 
+the same clusters are likely to be placed in the same region of the UMAP/t-SNE.
+
+UMAP is more widely used the t-SNE at the current time.
+Note that you should caution yourself not to overinterpret UMAP plots.
+Although UMAP does optimize both local and global similarity for points
+being projected onto a 2D space, UMAP contains no guarantee that similar points
+must be near each other.
+
+
+~~~
+liver <- RunUMAP(liver, reduction = 'pca', dims = 1:num_pc, 
+    verbose = FALSE)
 ~~~
 {: .language-r}
 
@@ -100,9 +256,304 @@ This message will be shown once per session
 ~~~
 {: .warning}
 
+## Clustering 
+
+
+~~~
+liver <- FindNeighbors(liver, reduction = 'pca', 
+                       dims = 1:num_pc, verbose = FALSE) %>%
+           FindClusters(verbose = FALSE, resolution = 0.3)
+UMAPPlot(liver, label = TRUE, label.size = 6)
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-05-seurat3-1.png" alt="plot of chunk seurat3" width="612" style="display: block; margin: auto;" />
+
 ## Finding marker genes 
 
-## Annotating cell types (+ automated options e.g. SingleR) 
+Now we will find marker genes for our clusters. Finding marker genes takes a
+while so we will downsample our data to speed up the process.
+Even still this may take a few minutes.
 
-## Discussion of data visualization, sample of common plots
 
+~~~
+liver_mini <- subset(liver, downsample = 300)
+markers <- FindAllMarkers(liver_mini, only.pos = TRUE, 
+    logfc.threshold	= log2(1.25), min.pct = 0.2) 
+~~~
+{: .language-r}
+
+
+
+~~~
+Calculating cluster 0
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 1
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 2
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 3
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 4
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 5
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 6
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 7
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 8
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 9
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 10
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 11
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 12
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 13
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 14
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 15
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 16
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 17
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 18
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 19
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 20
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 21
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 22
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 23
+~~~
+{: .output}
+
+
+
+~~~
+Calculating cluster 24
+~~~
+{: .output}
+
+
+<!-- ## Annotating cell types (+ automated options e.g. SingleR)  -->
+<!-- DAS - I don't think these methods are generally all that useful. The -->
+<!-- cell types they get right are usually easy to identify, while the -->
+<!-- harder types are not identified correctly by SingleR. -->
+<!-- Should we include this as opinion/narrator's comment? -->
+
+<!-- Do we need to do batch correction with Harmony? The authors of the
+liver cell atlas did it ...
+See https://github.com/guilliottslab/scripts_GuilliamsEtAll_Cell2022/blob/main/3b_Harmony.R
+-->
+
+We will again use the Seurat object in the next lesson. Save it now and we will 
+load it at the beginning of the next lesson. 
+
+
+~~~
+save(liver, markers, file = file.path(data_dir, 'lesson05.Rdata'))
+~~~
+{: .language-r}
+
+
+## Session Info
+
+
+~~~
+sessionInfo()
+~~~
+{: .language-r}
+
+
+
+~~~
+R version 4.1.2 (2021-11-01)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19042)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] sp_1.5-0           SeuratObject_4.1.2 Seurat_4.2.0       forcats_0.5.2     
+ [5] stringr_1.4.1      dplyr_1.0.10       purrr_0.3.5        readr_2.1.3       
+ [9] tidyr_1.2.1        tibble_3.1.8       ggplot2_3.3.6      tidyverse_1.3.2   
+[13] knitr_1.40        
+
+loaded via a namespace (and not attached):
+  [1] googledrive_2.0.0     Rtsne_0.16            colorspace_2.0-3     
+  [4] deldir_1.0-6          ellipsis_0.3.2        ggridges_0.5.4       
+  [7] fs_1.5.2              spatstat.data_3.0-0   farver_2.1.1         
+ [10] leiden_0.4.3          listenv_0.8.0         ggrepel_0.9.1        
+ [13] fansi_1.0.3           lubridate_1.8.0       xml2_1.3.3           
+ [16] codetools_0.2-18      splines_4.1.2         polyclip_1.10-4      
+ [19] jsonlite_1.8.3        broom_1.0.1           ica_1.0-3            
+ [22] cluster_2.1.4         dbplyr_2.2.1          png_0.1-7            
+ [25] rgeos_0.5-9           uwot_0.1.14           spatstat.sparse_3.0-0
+ [28] sctransform_0.3.5     shiny_1.7.3           compiler_4.1.2       
+ [31] httr_1.4.4            backports_1.4.1       lazyeval_0.2.2       
+ [34] assertthat_0.2.1      Matrix_1.5-1          fastmap_1.1.0        
+ [37] limma_3.50.3          gargle_1.2.1          cli_3.4.1            
+ [40] later_1.3.0           htmltools_0.5.3       tools_4.1.2          
+ [43] igraph_1.3.5          gtable_0.3.1          glue_1.6.2           
+ [46] reshape2_1.4.4        RANN_2.6.1            Rcpp_1.0.9           
+ [49] scattermore_0.8       cellranger_1.1.0      vctrs_0.5.0          
+ [52] nlme_3.1-160          progressr_0.11.0      lmtest_0.9-40        
+ [55] spatstat.random_3.0-1 xfun_0.34             globals_0.16.1       
+ [58] rvest_1.0.3           mime_0.12             miniUI_0.1.1.1       
+ [61] lifecycle_1.0.3       irlba_2.3.5.1         goftest_1.2-3        
+ [64] googlesheets4_1.0.1   future_1.28.0         MASS_7.3-58.1        
+ [67] zoo_1.8-11            scales_1.2.1          spatstat.core_2.4-4  
+ [70] spatstat.utils_3.0-1  hms_1.1.2             promises_1.2.0.1     
+ [73] parallel_4.1.2        RColorBrewer_1.1-3    gridExtra_2.3        
+ [76] reticulate_1.26       pbapply_1.5-0         rpart_4.1.19         
+ [79] stringi_1.7.8         highr_0.9             rlang_1.0.6          
+ [82] pkgconfig_2.0.3       matrixStats_0.62.0    evaluate_0.17        
+ [85] lattice_0.20-45       tensor_1.5            ROCR_1.0-11          
+ [88] labeling_0.4.2        htmlwidgets_1.5.4     patchwork_1.1.2      
+ [91] cowplot_1.1.1         tidyselect_1.2.0      parallelly_1.32.1    
+ [94] RcppAnnoy_0.0.20      plyr_1.8.7            magrittr_2.0.3       
+ [97] R6_2.5.1              generics_0.1.3        DBI_1.1.3            
+[100] mgcv_1.8-41           pillar_1.8.1          haven_2.5.1          
+[103] withr_2.5.0           fitdistrplus_1.1-8    abind_1.4-5          
+[106] survival_3.4-0        future.apply_1.9.1    modelr_0.1.9         
+[109] crayon_1.5.2          KernSmooth_2.23-20    utf8_1.2.2           
+[112] spatstat.geom_3.0-3   plotly_4.10.0         tzdb_0.3.0           
+[115] grid_4.1.2            readxl_1.4.1          data.table_1.14.4    
+[118] reprex_2.0.2          digest_0.6.30         xtable_1.8-4         
+[121] httpuv_1.6.6          munsell_0.5.0         viridisLite_0.4.1    
+~~~
+{: .output}

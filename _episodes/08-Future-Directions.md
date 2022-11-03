@@ -17,12 +17,20 @@ keypoints:
 
 
 
-## RNA-Seq + ATAC 
+## Multimodal molecular profiling
 
-## CITE-Seq 
+RNA-Seq + ATAC 
 
-## Spatial transcriptomics 
+RNA + protein (CITE-Seq)
 
-## Immune repertoire profiling 
+Immune repertoire profiling 
+
+## Spatial profiling 
+
+Visium
+
+Xenium
+
+AKOYA
 
 

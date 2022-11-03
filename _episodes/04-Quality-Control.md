@@ -21,206 +21,26 @@ keypoints:
 
 
 ~~~
-library(tidyverse)
-~~~
-{: .language-r}
-
-
-
-~~~
-── Attaching packages ─────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.2 ──
-✔ ggplot2 3.3.6      ✔ purrr   0.3.5 
-✔ tibble  3.1.8      ✔ dplyr   1.0.10
-✔ tidyr   1.2.1      ✔ stringr 1.4.1 
-✔ readr   2.1.3      ✔ forcats 0.5.2 
-── Conflicts ────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-~~~
-{: .output}
-
-
-
-~~~
-library(Matrix)
-~~~
-{: .language-r}
-
-
-
-~~~
-
-Attaching package: 'Matrix'
-
-The following objects are masked from 'package:tidyr':
-
-    expand, pack, unpack
-~~~
-{: .output}
-
-
-
-~~~
-library(Seurat)
-~~~
-{: .language-r}
-
-
-
-~~~
-Attaching SeuratObject
-Attaching sp
-~~~
-{: .output}
-
-
-
-~~~
-library(SingleCellExperiment)
-~~~
-{: .language-r}
-
-
-
-~~~
-Loading required package: SummarizedExperiment
-Loading required package: MatrixGenerics
-Loading required package: matrixStats
-
-Attaching package: 'matrixStats'
-
-The following object is masked from 'package:dplyr':
-
-    count
-
-
-Attaching package: 'MatrixGenerics'
-
-The following objects are masked from 'package:matrixStats':
-
-    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
-    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
-    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
-    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
-    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
-    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
-    colWeightedMeans, colWeightedMedians, colWeightedSds,
-    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
-    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
-    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
-    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
-    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
-    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
-    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
-    rowWeightedSds, rowWeightedVars
-
-Loading required package: GenomicRanges
-Loading required package: stats4
-Loading required package: BiocGenerics
-Loading required package: parallel
-
-Attaching package: 'BiocGenerics'
-
-The following objects are masked from 'package:parallel':
-
-    clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
-    clusterExport, clusterMap, parApply, parCapply, parLapply,
-    parLapplyLB, parRapply, parSapply, parSapplyLB
-
-The following objects are masked from 'package:dplyr':
-
-    combine, intersect, setdiff, union
-
-The following objects are masked from 'package:stats':
-
-    IQR, mad, sd, var, xtabs
-
-The following objects are masked from 'package:base':
-
-    anyDuplicated, append, as.data.frame, basename, cbind, colnames,
-    dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
-    grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
-    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
-    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
-    union, unique, unsplit, which.max, which.min
-
-Loading required package: S4Vectors
-
-Attaching package: 'S4Vectors'
-
-The following objects are masked from 'package:Matrix':
-
-    expand, unname
-
-The following objects are masked from 'package:dplyr':
-
-    first, rename
-
-The following object is masked from 'package:tidyr':
-
-    expand
-
-The following objects are masked from 'package:base':
-
-    expand.grid, I, unname
-
-Loading required package: IRanges
-
-Attaching package: 'IRanges'
-
-The following object is masked from 'package:sp':
-
-    %over%
-
-The following objects are masked from 'package:dplyr':
-
-    collapse, desc, slice
-
-The following object is masked from 'package:purrr':
-
-    reduce
-
-Loading required package: GenomeInfoDb
-Loading required package: Biobase
-Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.
-
-
-Attaching package: 'Biobase'
-
-The following object is masked from 'package:MatrixGenerics':
-
-    rowMedians
-
-The following objects are masked from 'package:matrixStats':
-
-    anyMissing, rowMedians
-
-
-Attaching package: 'SummarizedExperiment'
-
-The following object is masked from 'package:SeuratObject':
-
-    Assays
-
-The following object is masked from 'package:Seurat':
-
-    Assays
-~~~
-{: .output}
-
-
-
-~~~
-library(scds)
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(Matrix))
+suppressPackageStartupMessages(library(Seurat))
+suppressPackageStartupMessages(library(SingleCellExperiment))
+suppressPackageStartupMessages(library(scds))
 
 data_dir <- '../data'
 ~~~
 {: .language-r}
 
+
+## Read Data from Previous Lesson
+
+
+~~~
+load(file.path(data_dir, 'lesson03.Rdata'))
+~~~
+{: .language-r}
+
+> Reminder: This load in your counts and cell metadata.
 
 ## Quality control in scRNA-seq
 
@@ -259,7 +79,6 @@ for more details.
 
 
 ~~~
-counts <- Read10X(file.path(data_dir, 'mouseStSt_invivo'), gene.column = 1)
 sce <- SingleCellExperiment(list(counts = counts))
 sce <- cxds_bcds_hybrid(sce)
 ~~~
@@ -282,22 +101,11 @@ doublet_preds <- colData(sce)
 
 
 ~~~
-           used  (Mb) gc trigger    (Mb) limit (Mb)   max used    (Mb)
-Ncells  7386868 394.6   12707271   678.7         NA    9081870   485.1
-Vcells 13343645 101.9 2764338348 21090.3      32768 3427825896 26152.3
+            used   (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells   7323133  391.1   12973522   692.9    9045382   483.1
+Vcells 248759977 1897.9 2772394238 21151.7 3441038856 26253.1
 ~~~
 {: .output}
-
-## Read Data from Previous Lesson
-
-
-~~~
-load(file.path(data_dir, 'lesson03.Rdata'))
-~~~
-{: .language-r}
-
-We waited to load the lesson 3 data until just now for memory efficiency.
-
 
 
 ## High-level overview of quality control and filtering
@@ -327,11 +135,11 @@ sum(gene_counts == 0)
 
 
 ~~~
-[1] 6315
+[1] 6258
 ~~~
 {: .output}
 
-Of the 31053 genes, 6315 have zero counts across 
+Of the 31053 genes, 6258 have zero counts across 
 all cells. These genes do not inform us about the mean, variance, or covariance 
 of any of the other genes and we will remove them before proceeding with 
 further analysis.
@@ -342,7 +150,7 @@ counts <- counts[gene_counts > 0,]
 ~~~
 {: .language-r}
 
-This leaves 24738 genes in the counts matrix.
+This leaves 24795 genes in the counts matrix.
 
 We could also set some other threshold for filtering genes. Perhaps we should 
 look at the number of genes that have different numbers of counts. We will use 
@@ -412,8 +220,8 @@ text(3,  800, labels = paste(sum(gene_counts == 2),
 
 <img src="../fig/rmd-04-gene_count_hist_2-1.png" alt="plot of chunk gene_count_hist_2" width="612" style="display: block; margin: auto;" />
 
-In the plot above, we can see that there are 1530 
-genes that were detected in only one cell, 873 
+In the plot above, we can see that there are 1514 
+genes that were detected in only one cell, 887 
 genes detected in two cells, etc.
 
 Making a decision to keep or remove a gene based on its expression being
@@ -449,7 +257,7 @@ therefore eliminating our ability to clearly distinguish between cell types.
 
 > ## Challenge 2
 > What total count threshold would you choose to filter genes? Remember that 
-there are 70388 cells.
+there are 70542 cells.
 >
 > > ## Solution to Challenge 1
 > >
@@ -882,27 +690,29 @@ sessionInfo()
 
 
 ~~~
-R version 4.1.0 (2021-05-18)
-Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Big Sur 10.16
+R version 4.1.2 (2021-11-01)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19042)
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
 
 locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
 
 attached base packages:
-[1] parallel  stats4    stats     graphics  grDevices utils     datasets 
-[8] methods   base     
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
 
 other attached packages:
- [1] scds_1.8.0                  SingleCellExperiment_1.14.1
- [3] SummarizedExperiment_1.22.0 Biobase_2.52.0             
- [5] GenomicRanges_1.44.0        GenomeInfoDb_1.28.4        
- [7] IRanges_2.26.0              S4Vectors_0.30.2           
- [9] BiocGenerics_0.38.0         MatrixGenerics_1.4.3       
+ [1] scds_1.10.0                 SingleCellExperiment_1.16.0
+ [3] SummarizedExperiment_1.24.0 Biobase_2.54.0             
+ [5] GenomicRanges_1.46.1        GenomeInfoDb_1.30.1        
+ [7] IRanges_2.28.0              S4Vectors_0.32.4           
+ [9] BiocGenerics_0.40.0         MatrixGenerics_1.6.0       
 [11] matrixStats_0.62.0          sp_1.5-0                   
 [13] SeuratObject_4.1.2          Seurat_4.2.0               
 [15] Matrix_1.5-1                forcats_0.5.2              
@@ -914,20 +724,20 @@ other attached packages:
 
 loaded via a namespace (and not attached):
   [1] readxl_1.4.1           backports_1.4.1        plyr_1.8.7            
-  [4] igraph_1.3.5           lazyeval_0.2.2         splines_4.1.0         
+  [4] igraph_1.3.5           lazyeval_0.2.2         splines_4.1.2         
   [7] listenv_0.8.0          scattermore_0.8        digest_0.6.30         
  [10] htmltools_0.5.3        fansi_1.0.3            magrittr_2.0.3        
- [13] tensor_1.5             googlesheets4_1.0.1    cluster_2.1.2         
+ [13] tensor_1.5             googlesheets4_1.0.1    cluster_2.1.4         
  [16] ROCR_1.0-11            tzdb_0.3.0             globals_0.16.1        
  [19] modelr_0.1.9           spatstat.sparse_3.0-0  colorspace_2.0-3      
  [22] rvest_1.0.3            ggrepel_0.9.1          haven_2.5.1           
- [25] xfun_0.34              RCurl_1.98-1.9         crayon_1.5.2          
+ [25] xfun_0.34              RCurl_1.98-1.7         crayon_1.5.2          
  [28] jsonlite_1.8.3         progressr_0.11.0       spatstat.data_3.0-0   
- [31] survival_3.2-11        zoo_1.8-11             glue_1.6.2            
+ [31] survival_3.4-0         zoo_1.8-11             glue_1.6.2            
  [34] polyclip_1.10-4        gtable_0.3.1           gargle_1.2.1          
- [37] zlibbioc_1.38.0        XVector_0.32.0         leiden_0.4.3          
- [40] DelayedArray_0.18.0    future.apply_1.9.1     abind_1.4-5           
- [43] scales_1.2.1           DBI_1.1.3              spatstat.random_3.0-0 
+ [37] zlibbioc_1.40.0        XVector_0.34.0         leiden_0.4.3          
+ [40] DelayedArray_0.20.0    future.apply_1.9.1     abind_1.4-5           
+ [43] scales_1.2.1           DBI_1.1.3              spatstat.random_3.0-1 
  [46] miniUI_0.1.1.1         Rcpp_1.0.9             viridisLite_0.4.1     
  [49] xtable_1.8-4           reticulate_1.26        spatstat.core_2.4-4   
  [52] htmlwidgets_1.5.4      httr_1.4.4             RColorBrewer_1.1-3    
@@ -936,25 +746,25 @@ loaded via a namespace (and not attached):
  [61] deldir_1.0-6           utf8_1.2.2             labeling_0.4.2        
  [64] tidyselect_1.2.0       rlang_1.0.6            reshape2_1.4.4        
  [67] later_1.3.0            munsell_0.5.0          cellranger_1.1.0      
- [70] tools_4.1.0            xgboost_1.6.0.1        cli_3.4.1             
+ [70] tools_4.1.2            xgboost_1.6.0.1        cli_3.4.1             
  [73] generics_0.1.3         broom_1.0.1            ggridges_0.5.4        
  [76] evaluate_0.17          fastmap_1.1.0          goftest_1.2-3         
  [79] fs_1.5.2               fitdistrplus_1.1-8     RANN_2.6.1            
- [82] pbapply_1.5-0          future_1.28.0          nlme_3.1-152          
- [85] mime_0.12              xml2_1.3.3             compiler_4.1.0        
+ [82] pbapply_1.5-0          future_1.28.0          nlme_3.1-160          
+ [85] mime_0.12              xml2_1.3.3             compiler_4.1.2        
  [88] plotly_4.10.0          png_0.1-7              spatstat.utils_3.0-1  
  [91] reprex_2.0.2           stringi_1.7.8          highr_0.9             
- [94] rgeos_0.5-9            lattice_0.20-44        vctrs_0.5.0           
+ [94] rgeos_0.5-9            lattice_0.20-45        vctrs_0.5.0           
  [97] pillar_1.8.1           lifecycle_1.0.3        spatstat.geom_3.0-3   
 [100] lmtest_0.9-40          RcppAnnoy_0.0.20       bitops_1.0-7          
 [103] data.table_1.14.4      cowplot_1.1.1          irlba_2.3.5.1         
 [106] httpuv_1.6.6           patchwork_1.1.2        R6_2.5.1              
 [109] promises_1.2.0.1       KernSmooth_2.23-20     gridExtra_2.3         
-[112] parallelly_1.32.1      codetools_0.2-18       MASS_7.3-54           
+[112] parallelly_1.32.1      codetools_0.2-18       MASS_7.3-58.1         
 [115] assertthat_0.2.1       withr_2.5.0            sctransform_0.3.5     
-[118] GenomeInfoDbData_1.2.6 mgcv_1.8-35            hms_1.1.2             
-[121] grid_4.1.0             rpart_4.1-15           googledrive_2.0.0     
-[124] Rtsne_0.16             pROC_1.18.0            shiny_1.7.3           
-[127] lubridate_1.8.0       
+[118] GenomeInfoDbData_1.2.7 mgcv_1.8-41            parallel_4.1.2        
+[121] hms_1.1.2              grid_4.1.2             rpart_4.1.19          
+[124] googledrive_2.0.0      Rtsne_0.16             pROC_1.18.0           
+[127] shiny_1.7.3            lubridate_1.8.0       
 ~~~
 {: .output}
