@@ -12,7 +12,7 @@ objectives:
 - "Understand the implications of different filtering steps on the data."
 keypoints:
 - "It is essential to filter based on criteria including mitochondrial gene expression and number of genes expressed in a cell."
-- "?????"
+- "Determining your filtering thresholds should be done separately for each experiment, and these values can vary dramatically in different settings."
 ---
 
 ```{r, setup, include=FALSE}
@@ -24,16 +24,12 @@ knitr_fig_path("04-")
 library(tidyverse)
 library(Matrix)
 library(Seurat)
+library(SingleCellExperiment)
+library(scds)
 
 data_dir <- '../data'
 ```
 
-
-## Read Data from Previous Lesson
-
-```{r load_data}
-load(file.path(data_dir, 'lesson03.Rdata'))
-```
 
 ## Quality control in scRNA-seq
 
@@ -53,6 +49,45 @@ Some technical questions that you might ask include:
 1. What happens to make gene counts low in a cell?
 
 <!-- DASremoved ribosomal point here. Often we don't filter based on ribo, not clearly associated with poor quality cells -->
+
+## Doublet detection 
+
+We will begin by discussing doublets. We have already discussed the 
+concept of the doublet. Now we will try running one computational
+doublet-detection approach and track predictions of doublets.
+
+We will use the scds method. scds contains two methods for predicting
+doublets. Method cxds is based on co-expression of gene pairs, while 
+method bcds uses the full count information and a binary classification 
+approach using in silico doublets. 
+Method cxds_bcds_hybrid combines both approaches. We will use the combined
+approach. See 
+[Bais and Kostka 2020](https://academic.oup.com/bioinformatics/article/36/4/1150/5566507)
+for more details.
+
+
+```{r scds1}
+counts <- Read10X(file.path(data_dir, 'mouseStSt_invivo'), gene.column = 1)
+sce <- SingleCellExperiment(list(counts = counts))
+sce <- cxds_bcds_hybrid(sce)
+doublet_preds <- colData(sce)
+```
+
+```{r gc, echo = FALSE}
+rm(counts)
+rm(sce)
+gc()
+```
+
+## Read Data from Previous Lesson
+
+```{r load_data}
+load(file.path(data_dir, 'lesson03.Rdata'))
+```
+
+We waited to load the lesson 3 data until just now for memory efficiency.
+
+
 
 ## High-level overview of quality control and filtering
 
@@ -183,7 +218,7 @@ there are `r ncol(counts)` cells.
 >
 > > ## Solution to Challenge 1
 > >
-> > This is a question that has a somewhat subjective answer. Following from
+> > This is a question that has a somewhat imprecise answer. Following from
 challenge one, we do not want to be *too* strict in our filtering. However,
 we do want to remove genes that will not provide much information about
 gene expression variability among the cells in our dataset. Our recommendation
@@ -242,17 +277,36 @@ our filtering thresholds.
 
 
 ```{r create_seurat_obj}
-metadata = as.data.frame(metadata) %>%
+metadata <- as.data.frame(metadata) %>%
               column_to_rownames('cell')
-liver = CreateSeuratObject(counts       = counts, 
-                           project      = 'liver: scRNA-Seq',
-                           meta.data    = metadata)
+liver <- CreateSeuratObject(counts    = counts, 
+                            project   = 'liver: scRNA-Seq',
+                            meta.data = metadata)
+```
+
+Add on doublet predictions that we did earlier in this lesson.
+```{r add_doublets}
+liver <- AddMetaData(liver, as.data.frame(doublet_preds))
 ```
 
 
-## Typical filters for cell quality - %MT, number UMI, number of genes expressed
+## Typical filters for cell quality
 
-Here we briefly review these filters.
+Here we briefly review these filters and decide what thresholds we will
+use for these data.
+
+```{r liver_outliers, include = FALSE, eval = FALSE}
+# This is modeled after what the authors of the liver cell atlas did
+library(scuttle)
+genes <- scuttle::isOutlier(liver$nFeature_RNA, nmads = 3, 
+                            batch = liver$sample, log=TRUE)
+umi <- scuttle::isOutlier(liver$nCount_RNA, nmads = 3, 
+                          batch = liver$sample, log=TRUE)
+mt <- scuttle::isOutlier(liver$percent.mt, nmads = 3, log = FALSE,
+                         batch = liver$sample, type = 'lower')
+tapply(genes | umi | mt, liver$annot, mean, na.rm=T)
+attr(umi, 'thresholds')
+```
 
 ### Filtering by Mitochondrial Gene Content
 
@@ -265,23 +319,40 @@ sample processing. See
 [this link](https://kb.10xgenomics.com/hc/en-us/articles/360001086611) 
 from 10X Genomics for additional information.
 
-> TBD: Mention that different cell types may have different levels of mitochondrial RNA content and how we handle this.
+First we compute the percentage mitochondrial gene expression in each cell.
+
 
 ```{r pct_mito}
 liver <- liver %>% 
               PercentageFeatureSet(pattern = "^mt-", col.name = "percent.mt")
 ```
 
-> TBD: Seurat uses a 5% threshold for MT content.
+Different cell types may have different levels of mitochondrial RNA content.
+Therefore we must use our knowledge of the particular biological system
+that we are profiling in order to choose an appropriate threshold.
+If we are profiling single nuclei instead of single cells we might 
+consider a very low threshold for MT content. If we are profiling a tissue
+where we anticipate broad variability in levels of mitochondrial RNA
+content between cell types, we might use a very lenient threshold
+to start and then return to filter out additional cells after we 
+obtain tentative cell type labels that we have obtained by carrying
+out normalization and clustering. In this course we will filter only once
+
 
 ```{r seurat_counts_plots}
-VlnPlot(liver, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+VlnPlot(liver, features = "percent.mt", group.by = 'sample')
+```
+
+It is hard to see with so many dots! Let's try another version where we just
+plot the violins:
+
+```{r seurat_counts_plots2}
+VlnPlot(liver, features = "percent.mt", group.by = 'sample', pt.size = 0)
 ```
 
 
-> TBD: I made the plot below to see if there are mitochondrial expression differences by annotated cell type. The students won't have this file at this stage of the analysis. But how do we discuss these differences? Since we're looking for high values, it may not be too important.
-
-```{r mito_by_cell_type}
+```{r mito_by_cell_type, include = FALSE, eval = FALSE}
+# DMG made the plot below to see if there are mitochondrial expression differences by annotated cell type. The students won't have this file at this stage of the analysis. But how do we discuss these differences? Since we're looking for high values, it may not be too important.
 liver[[c('annot', 'percent.mt')]] %>% 
     ggplot(aes(annot, percent.mt + 0.01)) +
       geom_boxplot() +
@@ -289,63 +360,189 @@ liver[[c('annot', 'percent.mt')]] %>%
       coord_flip()
 ```
 
-> TBD: What threshold do we use? And provide rationale.
+In most cases it would be ideal to determine separate filtering 
+thresholds on each scRNA-Seq sample. This would account for the fact
+that the characteristics of each sample might vary 
+(for many possible reasons) even if the
+same tissue is profiled. However, in this course we will see if we can
+find a single threshold that works decently well across all samples.
+As you can see, the samples we are examining do not look 
+drastically different so this may not be such an unrealistic simplification.
+
+We will use a threshold of 15% mitochondrial gene expression which will 
+remove the "long tail" of cells with high `percent.mt` values. We could
+also perhaps justify going as low as 10% to be more conservative,
+but we likely would not want to go down to 5%, which would 
+remove around half the cells.
 
 ```{r subset_by mito}
-liver <- subset(liver, subset = percent.mt < 15)
+#liver <- subset(liver, subset = percent.mt < 15)
 ```
 
 
 
 ### Filtering Cells by Total Gene Counts
 
-Let's look at how many genes are expressed in each cell. We'll split by
+Let's look at how many genes are expressed in each cell. 
+Again we'll split by
 the mouse ID so we can see if there are particular samples that are 
 very different from the rest.
+Again we will show only the violins for clarity.
 
 ```{r filter_gene_counts}
-VlnPlot(liver, 'nFeature_RNA', group.by = 'sample')
+VlnPlot(liver, 'nFeature_RNA', group.by = 'sample', pt.size = 0)
 ```
 
+Like with the mitochondrial expression percentage, we will strive
+to find a threshold that works reasonably well across all samples.
+For the number of genes expressed we will want to filter out both cells
+that express to *few* genes and cells that express too *many* genes. 
+As noted above, damaged or dying cells may leak RNA, resulting in a low
+number of genes expressed, and we want to filter out these cells to 
+ignore their "damaged" transcriptomes. On the other hand, cells with way 
+more genes expressed than the typical cell might be
+doublets/multiplets and should also be removed.
 
-> ## Challenge 2
-> List three technical issues that can lead to poor scRNA-seq data quality and which filters we use to detect each one. 
->
-> > ## Solution to Challenge 2
-> >
-> > 1 ). Cells may enter apoptosis during the disassociation protocol, which is indicated by high mitochondrial gene expression (why?).  
-> > 2 ). Etc. etc. DAS to help fill in.
-> {: .solution}
-{: .challenge}
+It looks like filtering out cells that express less than 400 or 
+greater than 5,000 genes is a reasonable compromise across our samples.
+(Note the log scale in this plot, which is necessary for seeing the violin
+densities at low numbers of genes expressed).
+
+```{r filter_gene_counts_5k}
+VlnPlot(liver, 'nFeature_RNA', group.by = 'sample', pt.size = 0) +
+  scale_y_log10() + 
+  geom_hline(yintercept = 400) + 
+  geom_hline(yintercept = 5000)
+#liver <- subset(liver, nFeature_RNA > 400 & nFeature_RNA < 5000)
+```
 
 
 ### Filtering Cells by UMI
 
-> Define what UMI is. (Do we need a glossary?)
-> Where do we get these from? Are they in the cell bar code?
+A UMI -- unique molecular identifier -- is like a molecular barcode for
+each RNA molecule in the cell. UMIs are short, distinct oligonucleotides
+attached during the initial 
+preparation of cDNA from RNA. Therefore each UMI is unique to a single RNA
+molecule. 
+
+Why are UMI useful? The amount of RNA in a single cell is quite low 
+(approximately 10-30pg according to 
+[this link](https://bionumbers.hms.harvard.edu/bionumber.aspx?id=111205&ver=2&trm=amount+of+rna+per+cell&org=)).
+Thus single cell transcriptomics profiling usually includes a PCR 
+amplification step. PCR amplification is fairly "noisy" because small 
+stochastic sampling differences can propagate through exponential 
+amplification. Using UMIs, we can throw out all copies of the molecule
+except one (the copies we throw out are called "PCR duplicates").
+
+![UMI](../fig/lexogen.png)
+
+> Note, not sure about permissions for this figure ...
+
+Several papers (e.g. [Islam et al](https://doi.org/10.1038/nmeth.2772))
+have demonstrated that UMIs reduce amplification noise in single cell
+transcriptomics and thereby increase data fidelity. The only downside of
+UMIs is that they cause us to throw away a lot of our data
+(perhaps as high as 90% of our sequenced reads). Nevertheless, we don't
+want those reads if they are not giving us new information about gene 
+expression, so we tolerate this inefficiency.
+
+CellRanger will automatically process your UMIs and the feature-barcode
+matrix it produces will be free from PCR duplicates.
+Thus, we can think of the number of UMIs as the sequencing depth of 
+each cell.
+
+Typically the number of genes and number of UMI are highly correlated
+and this is mostly the case in our liver dataset:
+```{r genes_umi}
+ggplot(liver@meta.data, aes(x = nCount_RNA, y = nFeature_RNA)) +
+  geom_point() +
+  theme_bw(base_size = 16) +
+  xlab("nUMI") + ylab("nGenes") +
+  scale_x_log10() + scale_y_log10()
+```
+
+It turns out that the cloud of cells that have unusually low gene counts
+for the number of UMIs sequenced were nearly all filtered out by the authors of 
+the liver cell atlas publication. 
+
+
 
 ```{r filter_umi}
+VlnPlot(liver, 'nCount_RNA', group.by = 'sample', pt.size = 0) +
+  scale_y_log10() + 
+  geom_hline(yintercept = 700) + 
+  geom_hline(yintercept = 30000)
+#liver <- subset(liver, nCount_RNA > 700 & nCount_RNA < 30000)
+```
 
+Again we try to select thresholds that remove most of the strongest outliers
+in all samples. 
+
+
+> ## Challenge 2
+> List two technical issues that can lead to poor scRNA-seq data quality and which filters we use to detect each one. 
+>
+> > ## Solution to Challenge 2
+> >
+> > 1 ). Cell membranes may rupture during the disassociation protocol, 
+which is indicated 
+by high mitochondrial gene expression because the mitochondrial 
+transcripts are contained within the mitochondria, while other transcripts
+in the cytoplasm may leak out. Use the mitochondrial percentage filter to 
+try to remove these cells.
+> > 2 ). Cells may be doublets of two different cell types. In this case
+they might express many more genes than either cell type alone. Use the
+"number of genes expressed" filter to try to remove these cells.
+> > 3 ). Cells 
+> {: .solution}
+{: .challenge}
+
+
+
+## Doublet detection revisited
+
+Let's go back to our doublet predictions. How many of the cells that
+are going to be filtered out of our data were predicted to be doublets
+by scds?
+
+```{r filtering}
+liver$keep <- with(liver@meta.data, percent.mt < 15 & nFeature_RNA > 400 &
+  nFeature_RNA < 5000 & nCount_RNA > 700 & nCount_RNA < 30000)
+```
+
+Using the scds hybrid_score method, the scores range between 0 and 2.
+Higher scores should be more likely to be doublets.
+
+```{r doublet_plot}
+ggplot(liver@meta.data, aes(x = keep, y = hybrid_score)) + 
+  geom_violin() + theme_bw(base_size = 18)
+```
+
+Somewhat unsatisfyingly, we don't really get much clear enrichment of
+cells with high scds hybrid scores. Nevertheless let's filter
+out those cells with a hybrid_score > 1.5.
+
+## Subset based on %MT, number of genes, and number of UMI thresholds
+
+```{r subsetting}
+liver <- subset(liver, subset = percent.mt < 15 & nFeature_RNA > 400 &
+  nFeature_RNA < 5000 & nCount_RNA > 700 & nCount_RNA < 30000 & 
+    hybrid_score < 1.5)
 ```
 
 
-## Cell cycle assignment 
-
-> TBD: DAS to fill in.
-
-## Doublet detection 
-
-> TBD: DAS to fill in.
-
-## Batch correction
-
-> DAS DMG need to discuss whether to include this step.
-> TBD: We will correct between in vivo, ex vivo, & nuc seq. Students will correct between in vivo & ex vivo.
-> The Seurat v2 paper (Butler et al, 2018) claims to have a batch normalization method that beats ComBat & limma. Do we use that?
+<!-- Discuss batch correction here? -->
+<!-- it might be interesting to do batch correction across in vivo + nuc seq -->
+<!-- DAS recommends using harmony if we want to do batch correction -->
 
 ## Save Data for Next Lesson
 
-We will use the Seurat object in the next lesson. Save it now and we will load it at the beginning of the next lesson. We will use R's [saveRDS](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html) command to save the Seurat object in compressed, binary format. The `saveRDS` function is useful when you want to save one object in compressed, binary format.
+We will use the Seurat object in the next lesson. Save it now and we will 
+load it at the beginning of the next lesson. We will use R's
+[saveRDS](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html)
+command to save the Seurat object. 
+The `saveRDS` function is useful when you want to save one object in 
+compressed, binary format.
 
 ```{r save_seurat}
 saveRDS(liver, file = file.path(data_dir, 'lesson04.rds'))
