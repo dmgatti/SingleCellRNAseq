@@ -20,18 +20,44 @@ source("../bin/chunk-options.R")
 knitr_fig_path("06-")
 ```
 
+## Read Data from Previous Lesson
+
+```{r load_data}
+liver <- load(file.path(data_dir, 'lesson05.Rdata'))
+```
+
+## Identifying cell types
+
+Let's plot the expression of some of the major cell type
+markers. Look at the data.frame `markers` for a summary of the
+markers we found in lesson 5.
+
+```{r expr}
+UMAPPlot(liver, label = TRUE, label.size = 6) + NoLegend()
+FeaturePlot(liver, c("Lyve1", "Cdh5"), cols = c('lightgrey', 'red'))
+```
+
 ## Differential expression 
 
-Looking for differential expression can be thought of as 
+Looking for differential expression can be thought of as a problem that
+is related to finding marker genes.
 
 ## Pathway enrichment 
 
-## Differences in cell composition 
+## Differences in cell composition
+
+scCODA
+linear modeling
+propeller
 
 ## Cell-cell communication 
 
+cellchat, cellphoneDB, etc.
+
 ## Pseudotime 
 
-
+monocle
+RNA velocity
+scvelo
 
 
