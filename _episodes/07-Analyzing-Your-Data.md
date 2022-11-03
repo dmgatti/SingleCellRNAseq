@@ -6,20 +6,46 @@ title: "Analyzing Your Data"
 teaching: 10
 exercises: 2
 questions:
-- "How do I design a single cell RNAseq experiment?"
+- "Can I analyze my own single cell RNA-Seq experiment?"
 objectives:
-- "Explain how to use RMarkdown with the new lesson template."
-- "Demonstrate how to include pieces of code, figures, and challenges."
+- "Identify a workflow for analyzing your data."
+- "Be aware of key decision points where your choices influence analysis outcomes."
+- "Know how to seek help with your work."
 keypoints:
-- "Edit the .Rmd files not the .md files"
-- "Run `make serve` to knit documents and preview lesson website locally"
+- "There are excellent tools for helping you analyze your scRNA-Seq data."
+- "Pay attention to points we have stressed in this course and points that are stressed in analysis vignettes that you may find elsewhere."
+- "There is a vibrant single cell community at JAX and online (e.g. Twitter) where you can seek out help."
 ---
 
 
 
-## Thoughts
+In this lesson we will dive into the data that you bring.
+It is not required that you bring along data. We will not necessarily
+discuss any new questions that we did not cover earlier in the course;
+rather, this lesson is an opportunity to see how some of these issues
+play out in a set of diverse datasets that have different
+characteristics.
 
-Diving into the data that participants bring. Could be a good opportunity to address questions specific to real data being generated at JAX. However not everyone will necessarily have data to bring along. This could also prove challenging if data/questions are very heterogeneous ..
+If you have your own data, you might set a goal of completing quality
+control, normalization, basic clustering, and identifying major
+cell clusters. If you are working with data from a publication, you might
+try to reproduce -- as best you can -- one of the main figures from the
+paper.
 
 
+## Points to keep in mind as you work with your data
+
+ * You can find a high-level overview of the scRNA-Seq workflow by reviewing
+ lessons 3 and 4 of this course.
+ * If you have your own data it may be helpful to find a published dataset 
+ from the same tissue which will likely be valuable for confirming the cell 
+ types that you see in your data.
+ * Your cell/gene filtering parameters may be quite different from those we 
+ used earlier in this course.
+ * The number of PCs that you select for dimensionality reduction is an 
+ important quantity and you may wish to examine results from more than one
+ value to determine how they change.
+ * Your clustering resolution will obviously affect the clusters that you
+ detect and can easily be altered to match your intuition regarding the
+ heterogeneity of cells in your sample.
 

@@ -30,74 +30,158 @@ data_dir <- '../data'
 
 ## Open Project File
 
-In the Setup section of this workshop, you created an RStudio Project. Open this project now, by:
+In the Setup section of this workshop, you created an RStudio Project. 
+Open this project now, by:
 
-1. selecting File --> Open Project... from the Menu,
-2. choosing "scRNA.Rproj" , 
+1. selecting File --> Open Project... from the Menu
+2. choosing "scRNA.Rproj"
 3. opening the project file.
 
-## What files are delivered? Details of FASTQ, etc.
+## What do raw data look like in scRNA-Seq?
 
 The raw data for an scRNA-Seq experiment typically consists of two FASTQ files.
-[Describe further]
+One file contains the sequences of the cell barcode and molecular
+barcode (UMI), while the other file contains the sequences derived from
+the transcript. The reads in file one are approximately 28bp long 
+(16bp cell barcode, 12bp UMI), while the reads in file two are 
+approximately 90bp long.
 
-DAS -- NB SCBL provides CellRanger results as well. See next section.
+The Single Cell Biology Laboratory at JAX additionally provides output
+of running the 
+[10X CellRanger pipeline](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) 
+(see below). 
 
 ## Typical pre-processing pipeline
 
 ### 10X CellRanger
 
- * What is CellRanger?
- * Produces gene counts for each cell.
+[10X CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) 
+is "a set of analysis pipelines that process Chromium single cell 
+data to align reads, generate feature-barcode matrices" and perform
+various other downstream analyses.
+In this course we will work with data that has been preprocessed 
+using CellRanger.
+All you need to remember is that we used CellRanger to obtain
+gene expression counts for each gene within each cell.
 
 ### CellRanger alternatives
 
- * alevin
- * STARsolo
+There are several alternatives to CellRanger. Each of these alternatives
+has appealing properties that we encourage you to read about but do not
+have the time to discuss in this course. Alternatives include:
+
+ * `alevin` [Srivastava et al. 2019](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1670-y), 
+ from the developers of the `salmon` aligner
+ * `kallisto | bustools` [Melsted et al. 2021](https://doi.org/10.1038/s41587-021-00870-2), 
+ from the developers of the `kallisto` aligner
+ * `STARsolo` [Kaminow et al 2021](https://doi.org/10.1101/2021.05.05.442755), 
+ from the developers of the `STAR` aligner
+
+While you should be aware that these alternatives
+exist and in some cases there may be very compelling reasons to use them,
+broadly speaking CellRanger is the most widely used tool for 
+processing 10X Chromium scRNA-Seq data. 
+
 
 ## Intro to two major single cell analysis ecosystems: 
 
-At the time that this workshop was created, there were many different software packages designed for analyzing scRNA-seq data in a variety of scenarios. The two scRNA-seq software "ecosystems" that were most widely in use were:
+At the time that this workshop was created, there were many different software 
+packages designed for analyzing scRNA-seq data in a variety of scenarios. The 
+two scRNA-seq software "ecosystems" that were most widely in use were:
 
-* R/Seurat : Focus of this workshop. Biggest strength is straightforward vignettes and ease of visualization/exploration. 
-    * [Seurat](https://www.nature.com/articles/nbt.3192) was released in 2015 by the [Regev lab](https://biology.mit.edu/profile/aviv-regev/).
-    * The first author, Rahul Satija, now has a faculty position and has maintained and improved Seurat.
+* R/Seurat : The Seurat ecosystem is the tool of choice for this workshop. The 
+biggest strength of Seurat is its straightforward vignettes and ease of 
+visualization/exploration. 
+    * [Seurat](https://www.nature.com/articles/nbt.3192) was released in 2015 
+    by the [Regev lab](https://biology.mit.edu/profile/aviv-regev/).
+    * The first author, Rahul Satija, now has a faculty position and has 
+    maintained and improved Seurat.
     * Currently at [version 4](https://www.cell.com/cell/fulltext/S0092-8674(21)00583-3).
     * Source code available on [Github](https://www.github.com/satijalab/seurat).
-    * Seurat v1: Infers cellular localization by integrating scRNA-seq with *in situ* hybridization.
-    * Seurat v2: Integrates multiple scRNA-seq data sets using shared correlation structure.
-    * Seurat v3: Integrates data from multiple technologies, i.e. scRNA-seq, scATAC-seq, proteomics, *in situ* hybridization.
-    * Seurat v4: Integrative multimodal analysis and mapping of user data sets to cell identity reference database.
+    * Each version of Seurat adds new functionality:
+        * Seurat v1: Infers cellular localization by integrating scRNA-seq 
+        with *in situ* hybridization.
+        * Seurat v2: Integrates multiple scRNA-seq data sets using shared 
+        correlation structure.
+        * Seurat v3: Integrates data from multiple technologies, i.e. scRNA-seq, 
+        scATAC-seq, proteomics, *in situ* hybridization.
+        * Seurat v4: Integrative multimodal analysis and mapping of user data 
+        sets to cell identity reference database.
 
-* Python/scanpy
-    * DAS: Expand on this.
+* Python/scanpy and anndata
+    * Scanpy is a python toolkit for analyzing single-cell gene expression data.
+    * Scanpy is built jointly with anndata, which is a file format specification 
+    and accompanying API for efficiently storing and accessing single cell data.
+    * Like Seurat, scanpy is under active development as well. Scanpy has an 
+    advantage of being a somewhat larger and more diverse community than
+    Seurat, where developement is centered around a single lab group.
+    * This software has been used in a very large number of single cell projects. We 
+    encourage you to check it out and consider using it for your own work. 
+    
+For this course we will not use scanpy simply because we view R/Seurat as 
+having a slight edge over scanpy when it comes to visualization and 
+interactive exploration of single cell data.
+
 
 ## Reading in CellRanger Data
 
-[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) is software which analyzes Chromium single cell data to align reads, generates feature-bar code matrices, and performs other downstream analyses. 
-[DAS add a sentence on what a feature barcode matrix is. In this context gene expression.]
-CellRanger is provided by 10X Genomics. In this workshop, we will read in the feature-bar code matrix produced by CellRanger and will perform the downstream analysis using Seurat.
+As described above,
+[CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) 
+is software which preprocesses Chromium single cell data to 
+align reads, generate feature-bar code matrices, and perform other downstream 
+analyses. 
+We will not be using any of CellRanger's downstream analyses,
+but we *will* be using the feature-barcode matrix produced by CellRanger.
+A feature-barcode matrix -- in the context of scRNA-Seq -- is a
+matrix that gives gene expression counts for each gene in each single cell.
+In a feature-barcode matrix, the 
+genes (rows) are the features, and the cells (columns) are each identified
+by a barcode.
+The name feature-barcode matrix is a generalized term for the
+gene expression matrix. For example, feature-barcode could also refer
+to a matrix of single cell protein expression or single cell
+chromatin accessibility.
+In this workshop, we will read in the 
+feature-barcode matrix produced by CellRanger and will perform the downstream 
+analysis using Seurat.
 
 ### Liver Atlas
 
-In this lesson, we will read in a subset of data from the [Liver Atlas](https://livercellatlas.org/index.php), which is described in their [Cell paper](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1). Briefly, the authors performed scRNASeq on liver cells from mice and humans, identified cell types, clustered them, and made the data publicly available. We split the data into two sets, one to use in the lesson and one for the challenges. We have also sub-sampled each subset to contain 75% of the cells to reduce memory usage and speed up the analysis time for this workshop.
+In this lesson, we will read in a subset of data from the 
+[Liver Atlas](https://livercellatlas.org/index.php), which is described in their 
+[Cell paper](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1). 
+Briefly, the authors performed scRNASeq on liver cells from mice and humans, 
+identified cell types, clustered them, and made the data publicly available. 
+We will be working with a subset of the *mouse* liver data. 
+We split the data into two sets, one to use in the lesson and one for 
+you to work with independently as a challenge. 
 
-We will be working with a subset of the mouse liver data. Before the workshop, you should have downloaded the data from <NEED TO FILL THIS IN> and placed it in your `data` directory. Go to the [Setup](../setup) page for instructions on how to download the data files.
+Before the workshop, you should have downloaded the data from 
+Box and placed it in your `data` directory. 
+Go to the [Setup](../setup) page for instructions on how to download the data 
+files.
 
-> TBD: Not sure where to host the files. Maybe on Box with a public link. Can't figure out how to grab using RCurl yet.
+Open a file browser and look in the `data` subdirectory `mouseStSt_invivo` and 
+you should see three files. Each file ends with 'gz', which indicates that it 
+has been compressed (or 'zipped') using 
+[gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; 
+the software that we use will uncompress the files as it reads them in. The 
+files are:
 
-Open a file browser and look in the `data_dir` subdirectory `mouseStSt_invivo` and you should see three files. Each file ends with 'gz', which indicates that it has been compressed (or 'zipped') using [gzip](https://www.gnu.org/software/gzip/). You **don't** need to unzip them; the software that we use will uncompress the files as it reads them in. The files are:
-
-* matrix.mtx.gz: Two-dimensional matrix containing the counts for each gene in each cell.
+ * matrix.mtx.gz: The feature-barcode matrix, i.e. a two-dimensional 
+ matrix containing the counts for each gene in each cell.
     * Genes are in rows and cells are in columns.
-    * This file is in a special sparse matrix format which reduces disk space and memory usage.
-* barcodes.tsv.gz: DNA barcodes for each cell. Used as column names in counts matrix.
-* features.tsv.gz: Gene symbols for each gene. Used as row names in counts matrix.
+    * This file is in a special sparse matrix format which reduces disk space 
+    and memory usage.
+ * barcodes.tsv.gz: DNA barcodes for each cell. Used as column names in counts matrix.
+ * features.tsv.gz: Gene symbols for each gene. Used as row names in counts matrix.
 
 ![Counts Matrix](../fig/counts_matrix.png)
 
 > ## Challenge 1
-> 1). R has a function called [file.size](https://stat.ethz.ch/R-manual/R-devel/library/base/html/file.info.html). Look at the help for this function and get the size of each of the files in the `mouseStSt_invivo` directory.  Which one is the largest?  
+> 1). R has a function called [file.size](https://stat.ethz.ch/R-manual/R-devel/library/base/html/file.info.html). 
+Look at the help for this function and get the size of each of the files in 
+the `mouseStSt_invivo` directory.  Which one is the largest?  
 >
 > > ## Solution to Challenge 1
 > >
@@ -119,7 +203,8 @@ This function searches for the three files mentioned above in the directory that
 you pass in. Once it verifies that all three files are present, it reads them 
 in to create a counts matrix with genes in rows and cells in columns.
 
-We will use the `gene.column = 1` argument to tell Seurat to use the first column in 'features.tsv.gz' as the gene identifier.
+We will use the `gene.column = 1` argument to tell Seurat to use the first 
+column in 'features.tsv.gz' as the gene identifier.
 
 Run the following command. This may take up to three minutes to complete.
 
@@ -143,11 +228,12 @@ dim(counts)
 
 
 ~~~
-[1] 31053 45057
+[1] 31053 70388
 ~~~
 {: .output}
 
-In the `counts` matrix, genes are in rows and cells are in columns. Let's look at the first few gene names.
+In the `counts` matrix, genes are in rows and cells are in columns. Let's look 
+at the first few gene names.
 
 
 ~~~
@@ -163,7 +249,9 @@ head(rownames(counts), n = 10)
 ~~~
 {: .output}
 
-As you can see, the gene names are gene symbols. There is some risk that these may not be unique. Let's check whether any of the gene symbols are duplicated. We will sum the number of duplicated gene symbols.
+As you can see, the gene names are gene symbols. There is some risk that these 
+may not be unique. Let's check whether any of the gene symbols are duplicated. 
+We will sum the number of duplicated gene symbols.
 
 
 ~~~
@@ -201,7 +289,8 @@ head(colnames(counts), n = 10)
 ~~~
 {: .output}
 
-Each of these barcodes identifies one cell. They should all be unique. Once again, let's verify this.
+Each of these barcodes identifies one cell. They should all be unique. Once 
+again, let's verify this.
 
 
 ~~~
@@ -266,9 +355,21 @@ Tcea1   . . 2 . 2 2 . . 1 2 . 2 2 . . 2 1 1 2 .
 ~~~
 {: .output}
 
-We can see the gene symbols in rows along the left. The barcodes are not shown to make the values easier to read. Each of the periods represents a zero. The '1' values represent a single read for a gene in one cell.
+We can see the gene symbols in rows along the left. The barcodes are not shown 
+to make the values easier to read. Each of the periods represents a zero. The 
+'1' values represent a single read for a gene in one cell.
 
-Although `counts` looks like a matrix and you can use many matrix functions on it, `counts` is actually a different type of object. In scRNASeq, the read depth in each cell is quite low. So you many only get counts for a small number of genes in each cell. The `counts` matrix has 31053 rows and 45057, and includes 1.399155 &times; 10<sup>9</sup> entries. However, most of these entries (92.518553%) are zeros because every gene is not detected in every cell. It would be wasteful to store all of these zeros in memory. It would also make it difficult to store all of the data in memory. So `counts` is a 'sparse matrix', which only stores the positions of non-zero values in memory.
+Although `counts` looks like a matrix and you can use many matrix functions on 
+it, `counts` is actually a *different* type of object. In scRNASeq, the read 
+depth in each cell is quite low. So you many only get counts for a small number 
+of genes in each cell. The `counts` matrix has 31053 rows and 
+70388 columns, and includes 2.1857586 &times; 10<sup>9</sup> 
+entries. However, most of these entries 
+(92.8589671%) are 
+zeros because every gene is not detected in every cell. It would be wasteful 
+to store all of these zeros in memory. It would also make it difficult to 
+store all of the data in memory. So `counts` is a 'sparse matrix', which only 
+stores the positions of non-zero values in memory.
 
 Look at the structure of the `counts` matrix using [str](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/str.html). 
 
@@ -282,37 +383,51 @@ str(counts)
 
 ~~~
 Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
-  ..@ i       : int [1:104677042] 15 19 36 38 40 61 66 67 70 93 ...
-  ..@ p       : int [1:45058] 0 3264 6449 9729 13446 16990 20054 23142 26419 29563 ...
-  ..@ Dim     : int [1:2] 31053 45057
+  ..@ i       : int [1:156085739] 15 19 36 38 40 61 66 67 70 93 ...
+  ..@ p       : int [1:70389] 0 3264 6449 9729 13446 16990 20054 23142 26419 29563 ...
+  ..@ Dim     : int [1:2] 31053 70388
   ..@ Dimnames:List of 2
   .. ..$ : chr [1:31053] "Xkr4" "Gm1992" "Gm37381" "Rp1" ...
-  .. ..$ : chr [1:45057] "AAACGAATCCACTTCG-2" "AAAGGTACAGGAAGTC-2" "AACTTCTGTCATGGCC-2" "AATGGCTCAACGGTAG-2" ...
-  ..@ x       : num [1:104677042] 1 1 1 2 1 6 1 1 2 1 ...
+  .. ..$ : chr [1:70388] "AAACGAATCCACTTCG-2" "AAAGGTACAGGAAGTC-2" "AACTTCTGTCATGGCC-2" "AATGGCTCAACGGTAG-2" ...
+  ..@ x       : num [1:156085739] 1 1 1 2 1 6 1 1 2 1 ...
   ..@ factors : list()
 ~~~
 {: .output}
 
-We can see that the formal class name is a "dgCMatrix". There are two long vectors of integers which encode the positions of non-zero values. The gene names and cell barcodes are stored in character vectors and the non-zero values are an integer vector. This class saves space by not allocating memory to store all of the zero values.
+We can see that the formal class name is a "dgCMatrix". There are two long 
+vectors of integers which encode the positions of non-zero values. The gene 
+names and cell barcodes are stored in character vectors and the non-zero values 
+are an integer vector. This class saves space by not allocating memory to store 
+all of the zero values.
 
-Let's look at small portion of `counts`. We will create a tile plot indicating which values are non-zero for the first 100 cells and genes in rows 400 to 600. For historical reasons, R plots the rows along the X-axis and columns along the Y-axis. We will transpose the matrix so that genes are on the Y-axis, which reflects the way in which we normally look at this matrix.
+Let's look at small portion of `counts`. We will create a tile plot indicating 
+which values are non-zero for the first 100 cells and genes in rows 400 to 600. 
+For historical reasons, R plots the rows along the X-axis and columns along the 
+Y-axis. We will transpose the matrix so that genes are on the Y-axis, which 
+reflects the way in which we normally look at this matrix.
 
 
 ~~~
-image(1:100, 400:600, t(as.matrix(counts[400:600,1:100]) > 0), xlab = 'Cells', ylab = 'Genes')
+image(1:100, 400:600, t(as.matrix(counts[400:600,1:100]) > 0), 
+      xlab = 'Cells', ylab = 'Genes')
 ~~~
 {: .language-r}
 
 <img src="../fig/rmd-03-counts_image-1.png" alt="plot of chunk counts_image" width="612" style="display: block; margin: auto;" />
 
-In the tile plot above, each row represents one gene and each column represents one cell. Red indicates non-zero values and yellow indicates zero values.  As you can see, most of the matrix consists of zeros (yellow tiles) and hence is called 'sparse'. You can also see that some genes are expressed in most cells, indicated by the horizontal red lines, and that some genes are expressed in very few cells.
+In the tile plot above, each row represents one gene and each column represents 
+one cell. Red indicates non-zero values and yellow indicates zero values.  As 
+you can see, most of the matrix consists of zeros (yellow tiles) and hence is 
+called 'sparse'. You can also see that some genes are expressed in most cells, 
+indicated by the horizontal red lines, and that some genes are expressed in 
+very few cells.
 
-What proportion of genes have zero counts in all samples? To answer this question, we will get the mean of the number of zeros in the first 10,000 cells. We will no
+What proportion of genes have zero counts in all samples? 
 
 
 ~~~
 gene_sums <- data.frame(gene_id = rownames(counts),
-                        sums    = rowSums(counts))
+                        sums    = Matrix::rowSums(counts))
 sum(gene_sums$sums == 0)
 ~~~
 {: .language-r}
@@ -320,31 +435,49 @@ sum(gene_sums$sums == 0)
 
 
 ~~~
-[1] 9101
+[1] 6315
 ~~~
 {: .output}
 
-We can see that 9101 (0.2930796%) genes have no reads associated with them. In the next lesson, we will remove genes that have no counts in any cells.
+We can see that 6315 (20.3361994%) 
+genes have no reads at all associated with them. In the next lesson, we will 
+remove genes that have no counts in any cells.
 
 Next, let's look at the number of counts in each cell.
 
 
 ~~~
-hist(colSums(counts))
+hist(Matrix::colSums(counts))
 ~~~
 {: .language-r}
 
 <img src="../fig/rmd-03-cell_counts-1.png" alt="plot of chunk cell_counts" width="612" style="display: block; margin: auto;" />
 
-The range of counts covers several orders of magnitude, from 505 to 5.2203 &times; 10<sup>4</sup>. 
+~~~
+Matrix::colSums(counts) %>% enframe() %>%
+  ggplot(aes(value)) + geom_histogram(bins = 30) + 
+  theme_bw(base_size = 16) + scale_x_log10()
+~~~
+{: .language-r}
 
-TBD: What do we say here? How does scRNAseq handle coverage?
+<img src="../fig/rmd-03-cell_counts-2.png" alt="plot of chunk cell_counts" width="612" style="display: block; margin: auto;" />
+
+The range of counts covers several orders of magnitude, from 
+500 to 3.21969 &times; 10<sup>5</sup>. We will need
+to normalize for this large difference in sequencing depth,
+which we will cover in the next lesson.
+
 
 ### Sample Metadata
 
-Sample metadata refers to information about your samples that is not the "data", i.e. the gene counts. This might include information such as sex, tissue, or treatment. In the case of the liver atlas data, the authors provided a metadata file for their samples.
+Sample metadata refers to information about your samples that is not the 
+"data", i.e. the gene counts. This might include information such as sex, 
+tissue, or treatment. In the case of the liver atlas data, the authors provided 
+a metadata file for their samples.
 
-The sample metadata file is a comma-separated variable (CSV) file, We will read it in using the readr [read_csv](https://readr.tidyverse.org/reference/read_delim.html) function.
+The sample metadata file is a comma-separated variable (CSV) file, We will read 
+it in using the readr 
+[read_csv](https://readr.tidyverse.org/reference/read_delim.html) function.
 
 > TBD: Use a metadata file that does NOT have cell identities & UMAP coordinates here? Then reveal the full one later.
 
@@ -357,14 +490,14 @@ metadata <- read_csv(file.path(data_dir, 'mouseStSt_invivo', 'annot_metadata.csv
 
 
 ~~~
-Rows: 45057 Columns: 8
--- Column specification ------------------------------------------------------------------------------------------------
+Rows: 70388 Columns: 8
+── Column specification ────────────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: ","
 chr (5): annot, sample, cell, digest, typeSample
 dbl (3): UMAP_1, UMAP_2, cluster
 
-i Use `spec()` to retrieve the full column specification for this data.
-i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ~~~
 {: .output}
 
@@ -379,16 +512,16 @@ head(metadata)
 
 
 ~~~
-# A tibble: 6 x 8
-   UMAP_1 UMAP_2 cluster annot             sample cell            digest typeS~1
+# A tibble: 6 × 8
+   UMAP_1 UMAP_2 cluster annot             sample cell            digest typeS…¹
     <dbl>  <dbl>   <dbl> <chr>             <chr>  <chr>           <chr>  <chr>  
-1  0.761    18.0       4 Endothelial cells CS48   AAACGAATCCACTT~ inVivo scRnaS~
-2 -3.94     14.0       2 Endothelial cells CS48   AAAGGTACAGGAAG~ inVivo scRnaS~
-3 -4.19     14.7       2 Endothelial cells CS48   AACTTCTGTCATGG~ inVivo scRnaS~
-4  1.36     17.6       4 Endothelial cells CS48   AATGGCTCAACGGT~ inVivo scRnaS~
-5 -0.0735   18.1       4 Endothelial cells CS48   ACACTGAAGTGCAG~ inVivo scRnaS~
-6 -3.29     13.9       2 Endothelial cells CS48   ACCACAACAGTCTC~ inVivo scRnaS~
-# ... with abbreviated variable name 1: typeSample
+1  0.761    18.0       4 Endothelial cells CS48   AAACGAATCCACTT… inVivo scRnaS…
+2 -3.94     14.0       2 Endothelial cells CS48   AAAGGTACAGGAAG… inVivo scRnaS…
+3 -4.19     14.7       2 Endothelial cells CS48   AACTTCTGTCATGG… inVivo scRnaS…
+4  1.36     17.6       4 Endothelial cells CS48   AATGGCTCAACGGT… inVivo scRnaS…
+5 -0.0735   18.1       4 Endothelial cells CS48   ACACTGAAGTGCAG… inVivo scRnaS…
+6 -3.29     13.9       2 Endothelial cells CS48   ACCACAACAGTCTC… inVivo scRnaS…
+# … with abbreviated variable name ¹​typeSample
 ~~~
 {: .output}
 
@@ -396,78 +529,97 @@ In the table above, you can see that there are four columns:
 
 1. sample: mouse identifier from which cell was derived;
 1. cell: the DNA bar code used to identify the cell;
-1. digest: either "inVivo" or "exVivo". whether the cells were harvested *in vivo* or *ex vivo*,
-1. typeSample: either "scRnaSeq" or "nucSeq". The type of library preparation protocol, either single cell RNA-seq or nuclear sequencing.
+1. digest: cells for this liver atlas were harvested using either an *in vivo* 
+or an *ex vivo* procedure. In this subset of the data we are looking only 
+at *in vivo* samples;
+1. typeSample: the type of library preparation protocol, either single cell 
+RNA-seq (scRnaSeq) or nuclear sequencing (nucSeq). In this subset of the data 
+we are looking only at scRnaSeq samples.
 
-We're going to explore the data using a series of Challenges. You will be asked to look at the contents of some of the columns to see how the data is distributed.
-
-> ## Challenge 2
-> How many mice were used to produce this data? The "sample" column contains the mouse identifier for each cell.  
->
-> > ## Solution to Challenge 2
-> >
-> > count(metadata, sample) %>% summarize(total <- n())     
-> {: .solution}
-{: .challenge}
-
-
-> ## Challenge 3
-> There were two digests, inVivo and exVivo. How many cells are there from each mouse in each digestion? 
->
-> > ## Solution to Challenge 3
-> >
-> > count(metadata, sample, digest)  
-> > From this, we can see that each mouse was used for only one type of digestion, either inVivo or exVivo.
-> {: .solution}
-{: .challenge}
-
-
-> ## Challenge 4
-> There were also two types of library preparation, indicated by the "typeSample" column. How many cells were derived from each digestion and library preparation protocol?
->
-> > ## Solution to Challenge 4
-> >
-> > count(metadata, digest, typeSample)  
-> > From this, we can see that ther are between 15 and 75 thousand cells in each class.
-> {: .solution}
-{: .challenge}
-
-> TBD: Use a treemap to look at the proportion of samples from each digest/protocol? It's not required, but could be fun.
-
-In this workshop, we will attempt to reproduce the results of the [Liver Atlas](https://livercellatlas.org/index.php) using Seurat. We will analyze the *scRNASeq* and *nucSeq* data together and you will analyze the *citeSeq* data during Challenges.
-
-> TBD: explain differences between scRNASeq, citeSeq & nucSeq? Briefly?
-
-### Save Data for Next Lesson
-
-We will use the *in vivo* and *ex vivo* in the next lesson. Save it now and we will load it at the beginning of the next lesson. We will use R's [save](https://stat.ethz.ch/R-manual/R-devel/library/base/html/save.html) command to save the objects in compressed, binary format. The `save` command is useful when you want to save multiple objects in one file.
+Let's confirm that we are only looking at scRnaSeq samples from *in vivo* 
+digest cells:
 
 
 ~~~
-save(counts, metadata, file <- file.path(data_dir, 'lesson03.Rdata'))
+with(metadata, table(digest, typeSample))
 ~~~
 {: .language-r}
 
 
 
 ~~~
-Error in save(counts, metadata, file <- file.path(data_dir, "lesson03.Rdata")): object 'file <- file.path(data_dir, "lesson03.Rdata")' not found
+        typeSample
+digest   scRnaSeq
+  inVivo    70388
 ~~~
-{: .error}
+{: .output}
+
+We're going to explore the data further using a series of Challenges. 
+You will be asked to look at the contents of some of the columns to see 
+how the data are 
+distributed.
+
+> ## Challenge 2
+> How many mice were used to produce this data? The "sample" column contains 
+the mouse identifier for each cell.  
+>
+> > ## Solution to Challenge 2
+> >
+> > count(metadata, sample) %>% summarize(total = n())     
+> {: .solution}
+{: .challenge}
+
+
+> ## Challenge 3
+> How many cells are there from each mouse? 
+>
+> > ## Solution to Challenge 3
+> >
+> > with(metadata, table(sample))
+> {: .solution}
+{: .challenge}
+
+
+
+
+In this workshop, we will attempt to reproduce some of the results of the 
+[Liver Atlas](https://livercellatlas.org/index.php) using Seurat. We will 
+analyze the *in-vivo* single **cell** RNA-Seq 
+together and you will analyze some separate *ex-vivo* data during 
+Challenges.
+
+
+### Save Data for Next Lesson
+
+We will use the *in-vivo* data in the next lesson. Save it now and we will 
+load it at the beginning of the next lesson. We will use R's [save](https://stat.ethz.ch/R-manual/R-devel/library/base/html/save.html) 
+command to save the objects in compressed, binary format. The `save` command is 
+useful when you want to save multiple objects in one file.
+
+
+~~~
+save(counts, metadata, file = file.path(data_dir, 'lesson03.Rdata'))
+~~~
+{: .language-r}
 
 > ## Challenge 5
-> In the lesson above, you read in the scRNASeq and nucSeq data. There is another dataset which was created using "citeSeq" in the `mouseStSt_citeseq_75pct` directory. Delete the `counts` and `metadata` objects from your environment. Then read in the counts and metadata from the `mouseStSt_citeseq_75pct` directory and save them to a file called 'lesson03_challenge.Rdata'.
+> In the lesson above, you read in the scRNASeq data. There is 
+another dataset which was created using an *ex vivo* digest in the 
+`mouseStSt_exvivo` 
+directory. Delete the `counts` and `metadata` objects from your environment. 
+Then read in the counts and metadata from the `mouseStSt_exvivo` 
+directory and save them to a file called 'lesson03_challenge.Rdata'.
 >
 > > ## Solution to Challenge 5
 > >
 > > `# Remove exising counts and metadata.`  
 > > `rm(counts, metadata)`
 > > `# Read in new counts.`  
-> > `counts <- Seurat::Read10X(file.path(data_dir, 'mouseStSt_citeseq_75pct'), gene.column <- 1)`  
+> > `counts <- Seurat::Read10X(file.path(data_dir, 'mouseStSt_exvivo'), gene.column = 1)`  
 > > `# Read in new metadata.`  
-> > `metadata <- read_csv(file.path(data_dir, 'mouseStSt_citeseq_75pct', 'annot_metadata.csv'))`  
+> > `metadata <- read_csv(file.path(data_dir, 'mouseStSt_exvivo', 'annot_metadata.csv'))`  
 > > `# Save data for next lesson.`  
-> > `save(counts, metadata, file <- file.path(data_dir, 'lesson03_challenge.Rdata'))`  
+> > `save(counts, metadata, file = file.path(data_dir, 'lesson03_challenge.Rdata'))`  
 > {: .solution}
 {: .challenge}
 
@@ -482,70 +634,69 @@ sessionInfo()
 
 
 ~~~
-R version 4.1.2 (2021-11-01)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19042)
+R version 4.1.0 (2021-05-18)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur 10.16
 
 Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
 
 locale:
-[1] LC_COLLATE=English_United States.1252 
-[2] LC_CTYPE=English_United States.1252   
-[3] LC_MONETARY=English_United States.1252
-[4] LC_NUMERIC=C                          
-[5] LC_TIME=English_United States.1252    
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
  [1] sp_1.5-0           SeuratObject_4.1.2 Seurat_4.2.0       forcats_0.5.2     
- [5] stringr_1.4.1      dplyr_1.0.10       purrr_0.3.4        readr_2.1.3       
+ [5] stringr_1.4.1      dplyr_1.0.10       purrr_0.3.5        readr_2.1.3       
  [9] tidyr_1.2.1        tibble_3.1.8       ggplot2_3.3.6      tidyverse_1.3.2   
 [13] knitr_1.40        
 
 loaded via a namespace (and not attached):
-  [1] googledrive_2.0.0     Rtsne_0.16            colorspace_2.0-3     
-  [4] deldir_1.0-6          ellipsis_0.3.2        ggridges_0.5.4       
-  [7] fs_1.5.2              spatstat.data_2.2-0   leiden_0.4.3         
- [10] listenv_0.8.0         bit64_4.0.5           ggrepel_0.9.1        
- [13] fansi_1.0.3           lubridate_1.8.0       xml2_1.3.3           
- [16] codetools_0.2-18      splines_4.1.2         polyclip_1.10-0      
- [19] jsonlite_1.8.2        broom_1.0.1           ica_1.0-3            
- [22] cluster_2.1.4         dbplyr_2.2.1          png_0.1-7            
- [25] rgeos_0.5-9           uwot_0.1.14           spatstat.sparse_2.1-1
- [28] sctransform_0.3.5     shiny_1.7.2           compiler_4.1.2       
- [31] httr_1.4.4            backports_1.4.1       lazyeval_0.2.2       
- [34] assertthat_0.2.1      Matrix_1.5-1          fastmap_1.1.0        
- [37] gargle_1.2.1          cli_3.3.0             later_1.3.0          
- [40] htmltools_0.5.3       tools_4.1.2           igraph_1.3.5         
- [43] gtable_0.3.1          glue_1.6.2            reshape2_1.4.4       
- [46] RANN_2.6.1            Rcpp_1.0.9            scattermore_0.8      
- [49] cellranger_1.1.0      vctrs_0.4.2           nlme_3.1-159         
- [52] progressr_0.11.0      lmtest_0.9-40         spatstat.random_2.2-0
- [55] xfun_0.33             globals_0.16.1        rvest_1.0.3          
- [58] mime_0.12             miniUI_0.1.1.1        lifecycle_1.0.3      
- [61] irlba_2.3.5.1         goftest_1.2-3         googlesheets4_1.0.1  
- [64] future_1.28.0         MASS_7.3-58.1         zoo_1.8-11           
- [67] scales_1.2.1          vroom_1.6.0           spatstat.core_2.4-4  
- [70] spatstat.utils_2.3-1  hms_1.1.2             promises_1.2.0.1     
- [73] parallel_4.1.2        RColorBrewer_1.1-3    gridExtra_2.3        
- [76] reticulate_1.26       pbapply_1.5-0         rpart_4.1.16         
- [79] stringi_1.7.8         highr_0.9             rlang_1.0.6          
- [82] pkgconfig_2.0.3       matrixStats_0.62.0    evaluate_0.17        
- [85] lattice_0.20-45       tensor_1.5            ROCR_1.0-11          
- [88] htmlwidgets_1.5.4     patchwork_1.1.2       bit_4.0.4            
- [91] cowplot_1.1.1         tidyselect_1.2.0      parallelly_1.32.1    
- [94] RcppAnnoy_0.0.19      plyr_1.8.7            magrittr_2.0.3       
- [97] R6_2.5.1              generics_0.1.3        DBI_1.1.3            
-[100] mgcv_1.8-40           pillar_1.8.1          haven_2.5.1          
-[103] withr_2.5.0           fitdistrplus_1.1-8    abind_1.4-5          
-[106] survival_3.4-0        future.apply_1.9.1    modelr_0.1.9         
-[109] crayon_1.5.2          KernSmooth_2.23-20    utf8_1.2.2           
-[112] spatstat.geom_2.4-0   plotly_4.10.0         tzdb_0.3.0           
-[115] grid_4.1.2            readxl_1.4.1          data.table_1.14.2    
-[118] reprex_2.0.2          digest_0.6.29         xtable_1.8-4         
-[121] httpuv_1.6.6          munsell_0.5.0         viridisLite_0.4.1    
+  [1] readxl_1.4.1          backports_1.4.1       plyr_1.8.7           
+  [4] igraph_1.3.5          lazyeval_0.2.2        splines_4.1.0        
+  [7] listenv_0.8.0         scattermore_0.8       digest_0.6.30        
+ [10] htmltools_0.5.3       fansi_1.0.3           magrittr_2.0.3       
+ [13] tensor_1.5            googlesheets4_1.0.1   cluster_2.1.2        
+ [16] ROCR_1.0-11           tzdb_0.3.0            globals_0.16.1       
+ [19] modelr_0.1.9          matrixStats_0.62.0    vroom_1.6.0          
+ [22] spatstat.sparse_3.0-0 colorspace_2.0-3      rvest_1.0.3          
+ [25] ggrepel_0.9.1         haven_2.5.1           xfun_0.34            
+ [28] crayon_1.5.2          jsonlite_1.8.3        progressr_0.11.0     
+ [31] spatstat.data_3.0-0   survival_3.2-11       zoo_1.8-11           
+ [34] glue_1.6.2            polyclip_1.10-4       gtable_0.3.1         
+ [37] gargle_1.2.1          leiden_0.4.3          future.apply_1.9.1   
+ [40] abind_1.4-5           scales_1.2.1          DBI_1.1.3            
+ [43] spatstat.random_3.0-0 miniUI_0.1.1.1        Rcpp_1.0.9           
+ [46] viridisLite_0.4.1     xtable_1.8-4          reticulate_1.26      
+ [49] spatstat.core_2.4-4   bit_4.0.4             htmlwidgets_1.5.4    
+ [52] httr_1.4.4            RColorBrewer_1.1-3    ellipsis_0.3.2       
+ [55] ica_1.0-3             pkgconfig_2.0.3       farver_2.1.1         
+ [58] uwot_0.1.14           dbplyr_2.2.1          deldir_1.0-6         
+ [61] utf8_1.2.2            tidyselect_1.2.0      labeling_0.4.2       
+ [64] rlang_1.0.6           reshape2_1.4.4        later_1.3.0          
+ [67] munsell_0.5.0         cellranger_1.1.0      tools_4.1.0          
+ [70] cli_3.4.1             generics_0.1.3        broom_1.0.1          
+ [73] ggridges_0.5.4        evaluate_0.17         fastmap_1.1.0        
+ [76] goftest_1.2-3         bit64_4.0.5           fs_1.5.2             
+ [79] fitdistrplus_1.1-8    RANN_2.6.1            pbapply_1.5-0        
+ [82] future_1.28.0         nlme_3.1-152          mime_0.12            
+ [85] xml2_1.3.3            compiler_4.1.0        plotly_4.10.0        
+ [88] png_0.1-7             spatstat.utils_3.0-1  reprex_2.0.2         
+ [91] stringi_1.7.8         highr_0.9             rgeos_0.5-9          
+ [94] lattice_0.20-44       Matrix_1.5-1          vctrs_0.5.0          
+ [97] pillar_1.8.1          lifecycle_1.0.3       spatstat.geom_3.0-3  
+[100] lmtest_0.9-40         RcppAnnoy_0.0.20      data.table_1.14.4    
+[103] cowplot_1.1.1         irlba_2.3.5.1         httpuv_1.6.6         
+[106] patchwork_1.1.2       R6_2.5.1              promises_1.2.0.1     
+[109] KernSmooth_2.23-20    gridExtra_2.3         parallelly_1.32.1    
+[112] codetools_0.2-18      MASS_7.3-54           assertthat_0.2.1     
+[115] withr_2.5.0           sctransform_0.3.5     mgcv_1.8-35          
+[118] parallel_4.1.0        hms_1.1.2             grid_4.1.0           
+[121] rpart_4.1-15          googledrive_2.0.0     Rtsne_0.16           
+[124] shiny_1.7.3           lubridate_1.8.0      
 ~~~
 {: .output}
 

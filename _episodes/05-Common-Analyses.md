@@ -6,7 +6,7 @@ title: "Common Analyses"
 teaching: 10
 exercises: 2
 questions:
-- "What are the most common single cell RNAseq analyses?"
+- "What are the most common single cell RNA-Seq analyses?"
 objectives:
 - "Explain how to use RMarkdown with the new lesson template."
 - "Demonstrate how to include pieces of code, figures, and challenges."
@@ -21,10 +21,9 @@ keypoints:
 
 
 ~~~
-liver = readRDS(file.path(data_dir, 'lesson04.rds'))
+liver <- readRDS(file.path(data_dir, 'lesson04.rds'))
 ~~~
 {: .language-r}
-
 
 ## Normalization (log and more specialized) 
 
@@ -101,9 +100,9 @@ This message will be shown once per session
 ~~~
 {: .warning}
 
-## Annotating cell types (+ automated options e.g. SingleR) 
-
 ## Finding marker genes 
+
+## Annotating cell types (+ automated options e.g. SingleR) 
 
 ## Discussion of data visualization, sample of common plots
 
