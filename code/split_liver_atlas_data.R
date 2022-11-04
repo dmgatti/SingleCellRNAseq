@@ -53,10 +53,13 @@ count(metadata, digest, annot) %>%
   select(-total, -n) %>%
   pivot_wider(names_from = digest, values_from = prop)
 
+# Retain exVivo & inVivo samples in metadata.
+metadata = metadata %>%
+             filter(digest %in% c('exVivo', 'inVivo'))
+
 # Get the sample IDs.
 sample_ids = metadata %>%
-               count(sample, digest) %>%
-               filter(digest != 'nuclei')
+               count(sample, digest)
 
 # Get barcodes for the cells without metadata.
 bad_cells = colnames(counts)[!colnames(counts) %in% metadata$cell]
@@ -67,29 +70,28 @@ bad_cells = data.frame(UMAP_1  = 0,
                        annot   = 'bad',
                        sample  = NA_character_,
                        cell    = bad_cells,
-                       digest  = sample(c('inVivo', 'exVivo'), size = length(bad_cells), replace = TRUE),
+                       digest  = sample(c('inVivo', 'exVivo'), 
+                                        size = length(bad_cells), replace = TRUE),
                        typeSample = sample('scRnaSeq', 
                                            size = length(bad_cells), replace = TRUE))
 
 # Add sample IDs to the inVivo and exVivo data.
-wh_invivo = which(bad_cells$digest == 'inVivo')
-bad_cells$sample[wh_invivo] = sample(sample_ids$sample[sample_ids$digest == 'inVivo'],
+wh_invivo      = which(bad_cells$digest == 'inVivo')
+invivo_samples = sample_ids$sample[sample_ids$digest == 'inVivo']
+bad_cells$sample[wh_invivo] = sample(invivo_samples,
                                      size = length(wh_invivo), replace = TRUE)
 
-wh_exvivo = which(bad_cells$digest == 'exVivo')
-bad_cells$sample[wh_exvivo] = sample(sample_ids$sample[sample_ids$digest == 'exVivo'],
+wh_exvivo       = which(bad_cells$digest == 'exVivo')
+exvivo_samples  = sample_ids$sample[sample_ids$digest == 'exVivo']
+bad_cells$sample[wh_exvivo] = sample(exvivo_samples,
                                      size = length(wh_exvivo), replace = TRUE)
 
-rm(wh_invivo, wh_exvivo)
+rm(wh_invivo, wh_exvivo, invivo_samples, exvivo_samples)
 
 # Add the bad cells to metadata and subset counts.
 metadata = bind_rows(metadata, bad_cells)
 counts   = counts[,metadata$cell]
 rm(bad_cells)
-
-# Remove citeSeq data.
-metadata = subset(metadata, typeSample != 'citeSeq')
-counts   = counts[,metadata$cell]
 
 # Write single cell data.
 write_sc = function(meta, counts, out_dir) {
@@ -117,11 +119,13 @@ write_sc = function(meta, counts, out_dir) {
 } # write_sc()
 
 # Verify that we have 'bad' samples in the metadata.
-stopifnotsum(metadata$annot == 'bad' > 0)
+stopifnot(sum(metadata$annot == 'bad') > 0)
 # Verifyg that we have only 'scRnaSeq' samples.
 stopifnot(all(metadata$typeSample == 'scRnaSeq'))
 # Verify that we only have inVivo and esVivo data.
 stopifnot(all(metadata$digest %in% c('inVivo', 'exVivo')))
+
+count(metadata, sample, annot)
 
 # Split invivo and exvivo data.
 meta_iv   = subset(metadata, digest == 'inVivo')
