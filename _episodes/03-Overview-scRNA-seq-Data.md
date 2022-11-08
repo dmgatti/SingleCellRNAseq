@@ -230,7 +230,7 @@ dim(counts)
 
 
 ~~~
-[1] 31053 70542
+[1]  31053 123922
 ~~~
 {: .output}
 
@@ -365,9 +365,9 @@ Although `counts` looks like a matrix and you can use many matrix functions on
 it, `counts` is actually a *different* type of object. In scRNASeq, the read 
 depth in each cell is quite low. So you many only get counts for a small number 
 of genes in each cell. The `counts` matrix has 31053 rows and 
-70542 columns, and includes 2.1905407 &times; 10<sup>9</sup> 
+123922 columns, and includes 3.8481499 &times; 10<sup>9</sup> 
 entries. However, most of these entries 
-(92.8330366%) are 
+(93.0408482%) are 
 zeros because every gene is not detected in every cell. It would be wasteful 
 to store all of these zeros in memory. It would also make it difficult to 
 store all of the data in memory. So `counts` is a 'sparse matrix', which only 
@@ -385,13 +385,13 @@ str(counts)
 
 ~~~
 Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
-  ..@ i       : int [1:156995251] 15 19 36 38 40 61 66 67 70 93 ...
-  ..@ p       : int [1:70543] 0 3264 6449 9729 13446 16990 20054 23142 26419 29563 ...
-  ..@ Dim     : int [1:2] 31053 70542
+  ..@ i       : int [1:267798590] 15 19 36 38 40 61 66 67 70 93 ...
+  ..@ p       : int [1:123923] 0 3264 6449 9729 13446 16990 20054 23142 26419 29563 ...
+  ..@ Dim     : int [1:2] 31053 123922
   ..@ Dimnames:List of 2
   .. ..$ : chr [1:31053] "Xkr4" "Gm1992" "Gm37381" "Rp1" ...
-  .. ..$ : chr [1:70542] "AAACGAATCCACTTCG-2" "AAAGGTACAGGAAGTC-2" "AACTTCTGTCATGGCC-2" "AATGGCTCAACGGTAG-2" ...
-  ..@ x       : num [1:156995251] 1 1 1 2 1 6 1 1 2 1 ...
+  .. ..$ : chr [1:123922] "AAACGAATCCACTTCG-2" "AAAGGTACAGGAAGTC-2" "AACTTCTGTCATGGCC-2" "AATGGCTCAACGGTAG-2" ...
+  ..@ x       : num [1:267798590] 1 1 1 2 1 6 1 1 2 1 ...
   ..@ factors : list()
 ~~~
 {: .output}
@@ -437,11 +437,11 @@ sum(gene_sums$sums == 0)
 
 
 ~~~
-[1] 6258
+[1] 5518
 ~~~
 {: .output}
 
-We can see that 6258 (20.1526423%) 
+We can see that 5518 (17.7696197%) 
 genes have no reads at all associated with them. In the next lesson, we will 
 remove genes that have no counts in any cells.
 
@@ -465,7 +465,7 @@ Matrix::colSums(counts) %>% enframe() %>%
 <img src="../fig/rmd-03-cell_counts-2.png" alt="plot of chunk cell_counts" width="612" style="display: block; margin: auto;" />
 
 The range of counts covers several orders of magnitude, from 
-500 to 3.80515 &times; 10<sup>5</sup>. We will need
+500 to 2.89876 &times; 10<sup>5</sup>. We will need
 to normalize for this large difference in sequencing depth,
 which we will cover in the next lesson.
 
@@ -490,7 +490,7 @@ metadata <- read_csv(file.path(data_dir, 'mouseStSt_invivo', 'annot_metadata_fir
 
 
 ~~~
-Rows: 70542 Columns: 4
+Rows: 123922 Columns: 4
 -- Column specification ------------------------------------------------------------------------------------------------
 Delimiter: ","
 chr (4): sample, cell, digest, typeSample
@@ -546,10 +546,11 @@ count(metadata, digest, typeSample)
 
 
 ~~~
-# A tibble: 1 x 3
+# A tibble: 2 x 3
   digest typeSample     n
   <chr>  <chr>      <int>
-1 inVivo scRnaSeq   70542
+1 inVivo citeSeq    51009
+2 inVivo scRnaSeq   72913
 ~~~
 {: .output}
 
@@ -650,54 +651,53 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] sp_1.5-0           SeuratObject_4.1.2 Seurat_4.2.0       forcats_0.5.2     
- [5] stringr_1.4.1      dplyr_1.0.10       purrr_0.3.5        readr_2.1.3       
- [9] tidyr_1.2.1        tibble_3.1.8       ggplot2_3.3.6      tidyverse_1.3.2   
-[13] knitr_1.40        
+ [1] SeuratObject_4.1.3 Seurat_4.2.1       forcats_0.5.2      stringr_1.4.1     
+ [5] dplyr_1.0.10       purrr_0.3.5        readr_2.1.3        tidyr_1.2.1       
+ [9] tibble_3.1.8       ggplot2_3.4.0      tidyverse_1.3.2    knitr_1.40        
 
 loaded via a namespace (and not attached):
-  [1] readxl_1.4.1          backports_1.4.1       plyr_1.8.7           
-  [4] igraph_1.3.5          lazyeval_0.2.2        splines_4.1.2        
-  [7] listenv_0.8.0         scattermore_0.8       digest_0.6.30        
- [10] htmltools_0.5.3       fansi_1.0.3           magrittr_2.0.3       
- [13] tensor_1.5            googlesheets4_1.0.1   cluster_2.1.4        
- [16] ROCR_1.0-11           tzdb_0.3.0            globals_0.16.1       
- [19] modelr_0.1.9          matrixStats_0.62.0    vroom_1.6.0          
- [22] spatstat.sparse_3.0-0 colorspace_2.0-3      rvest_1.0.3          
- [25] ggrepel_0.9.1         haven_2.5.1           xfun_0.34            
- [28] crayon_1.5.2          jsonlite_1.8.3        progressr_0.11.0     
- [31] spatstat.data_3.0-0   survival_3.4-0        zoo_1.8-11           
- [34] glue_1.6.2            polyclip_1.10-4       gtable_0.3.1         
- [37] gargle_1.2.1          leiden_0.4.3          future.apply_1.9.1   
- [40] abind_1.4-5           scales_1.2.1          DBI_1.1.3            
- [43] spatstat.random_3.0-1 miniUI_0.1.1.1        Rcpp_1.0.9           
- [46] viridisLite_0.4.1     xtable_1.8-4          reticulate_1.26      
- [49] spatstat.core_2.4-4   bit_4.0.4             htmlwidgets_1.5.4    
- [52] httr_1.4.4            RColorBrewer_1.1-3    ellipsis_0.3.2       
- [55] ica_1.0-3             pkgconfig_2.0.3       farver_2.1.1         
- [58] uwot_0.1.14           dbplyr_2.2.1          deldir_1.0-6         
- [61] utf8_1.2.2            tidyselect_1.2.0      labeling_0.4.2       
- [64] rlang_1.0.6           reshape2_1.4.4        later_1.3.0          
- [67] munsell_0.5.0         cellranger_1.1.0      tools_4.1.2          
- [70] cli_3.4.1             generics_0.1.3        broom_1.0.1          
- [73] ggridges_0.5.4        evaluate_0.17         fastmap_1.1.0        
- [76] goftest_1.2-3         bit64_4.0.5           fs_1.5.2             
- [79] fitdistrplus_1.1-8    RANN_2.6.1            pbapply_1.5-0        
- [82] future_1.28.0         nlme_3.1-160          mime_0.12            
- [85] xml2_1.3.3            compiler_4.1.2        plotly_4.10.0        
- [88] png_0.1-7             spatstat.utils_3.0-1  reprex_2.0.2         
- [91] stringi_1.7.8         highr_0.9             rgeos_0.5-9          
- [94] lattice_0.20-45       Matrix_1.5-1          vctrs_0.5.0          
- [97] pillar_1.8.1          lifecycle_1.0.3       spatstat.geom_3.0-3  
-[100] lmtest_0.9-40         RcppAnnoy_0.0.20      data.table_1.14.4    
-[103] cowplot_1.1.1         irlba_2.3.5.1         httpuv_1.6.6         
-[106] patchwork_1.1.2       R6_2.5.1              promises_1.2.0.1     
-[109] KernSmooth_2.23-20    gridExtra_2.3         parallelly_1.32.1    
-[112] codetools_0.2-18      MASS_7.3-58.1         assertthat_0.2.1     
-[115] withr_2.5.0           sctransform_0.3.5     mgcv_1.8-41          
-[118] parallel_4.1.2        hms_1.1.2             grid_4.1.2           
-[121] rpart_4.1.19          googledrive_2.0.0     Rtsne_0.16           
-[124] shiny_1.7.3           lubridate_1.8.0      
+  [1] googledrive_2.0.0      Rtsne_0.16             colorspace_2.0-3      
+  [4] deldir_1.0-6           ellipsis_0.3.2         ggridges_0.5.4        
+  [7] fs_1.5.2               spatstat.data_3.0-0    farver_2.1.1          
+ [10] leiden_0.4.3           listenv_0.8.0          bit64_4.0.5           
+ [13] ggrepel_0.9.2          fansi_1.0.3            lubridate_1.9.0       
+ [16] xml2_1.3.3             codetools_0.2-18       splines_4.1.2         
+ [19] polyclip_1.10-4        jsonlite_1.8.3         broom_1.0.1           
+ [22] ica_1.0-3              cluster_2.1.4          dbplyr_2.2.1          
+ [25] png_0.1-7              uwot_0.1.14            spatstat.sparse_3.0-0 
+ [28] sctransform_0.3.5      shiny_1.7.3            compiler_4.1.2        
+ [31] httr_1.4.4             backports_1.4.1        lazyeval_0.2.2        
+ [34] assertthat_0.2.1       Matrix_1.5-1           fastmap_1.1.0         
+ [37] gargle_1.2.1           cli_3.4.1              later_1.3.0           
+ [40] htmltools_0.5.3        tools_4.1.2            igraph_1.3.5          
+ [43] gtable_0.3.1           glue_1.6.2             reshape2_1.4.4        
+ [46] RANN_2.6.1             Rcpp_1.0.9             scattermore_0.8       
+ [49] cellranger_1.1.0       vctrs_0.5.0            nlme_3.1-160          
+ [52] spatstat.explore_3.0-3 progressr_0.11.0       lmtest_0.9-40         
+ [55] spatstat.random_3.0-1  xfun_0.34              globals_0.16.1        
+ [58] rvest_1.0.3            timechange_0.1.1       mime_0.12             
+ [61] miniUI_0.1.1.1         lifecycle_1.0.3        irlba_2.3.5.1         
+ [64] goftest_1.2-3          googlesheets4_1.0.1    future_1.29.0         
+ [67] MASS_7.3-58.1          zoo_1.8-11             scales_1.2.1          
+ [70] vroom_1.6.0            spatstat.utils_3.0-1   hms_1.1.2             
+ [73] promises_1.2.0.1       parallel_4.1.2         RColorBrewer_1.1-3    
+ [76] gridExtra_2.3          reticulate_1.26        pbapply_1.5-0         
+ [79] stringi_1.7.8          highr_0.9              rlang_1.0.6           
+ [82] pkgconfig_2.0.3        matrixStats_0.62.0     evaluate_0.18         
+ [85] lattice_0.20-45        tensor_1.5             ROCR_1.0-11           
+ [88] labeling_0.4.2         patchwork_1.1.2        htmlwidgets_1.5.4     
+ [91] bit_4.0.4              cowplot_1.1.1          tidyselect_1.2.0      
+ [94] parallelly_1.32.1      RcppAnnoy_0.0.20       plyr_1.8.7            
+ [97] magrittr_2.0.3         R6_2.5.1               generics_0.1.3        
+[100] DBI_1.1.3              pillar_1.8.1           haven_2.5.1           
+[103] withr_2.5.0            fitdistrplus_1.1-8     abind_1.4-5           
+[106] survival_3.4-0         sp_1.5-1               future.apply_1.10.0   
+[109] modelr_0.1.9           crayon_1.5.2           KernSmooth_2.23-20    
+[112] utf8_1.2.2             spatstat.geom_3.0-3    plotly_4.10.1         
+[115] tzdb_0.3.0             grid_4.1.2             readxl_1.4.1          
+[118] data.table_1.14.4      reprex_2.0.2           digest_0.6.30         
+[121] xtable_1.8-4           httpuv_1.6.6           munsell_0.5.0         
+[124] viridisLite_0.4.1     
 ~~~
 {: .output}
 

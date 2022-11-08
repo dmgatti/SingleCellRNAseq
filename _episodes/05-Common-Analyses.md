@@ -25,6 +25,38 @@ liver <- readRDS(file.path(data_dir, 'lesson04.rds'))
 ~~~
 {: .language-r}
 
+## A Note on Seurat Functions
+
+The Seurat package is set up so that we primarily work with a 
+Seurat object containing our single cell data and metadata.
+Let's say we are working with our Seurat object `liver`. 
+The usual way we might call a function to do something with our
+data looks like:
+```
+liver <- DoSomething(liver, param1 = TRUE, param2 = 0.3)
+```
+
+However, since the `DoSomething()` function returns the modified
+Seurat object, we can also pipe together multiple commands to do
+multiple things to our object. That could look something like:
+```
+liver <- DoSomething(liver, param1 = TRUE, param2 = 0.3) %>%
+    DoSomethingElse(param1 = 3) %>%
+    DoAThirdThing(param1 = c(1, 4, 6))
+```
+
+We can just as well use the piping operator `%>%` even if 
+we are calling only one function:
+```
+liver <- liver %>%
+    DoSomething(param1 = TRUE, param2 = 0.3)
+```
+
+In this lesson (and elsewhere in the course) we may alternate between
+these slightly different coding styles. Please ask us for clarification
+if you are having difficulty seeing how our example code is 
+doing what it is supposed to do.
+
 ## Normalization (log and more specialized) 
 
 Instead of working with raw count data measured across cells
@@ -66,7 +98,7 @@ top25 <- head(VariableFeatures(liver), 25)
 # plot variable features with and without labels
 plot1 <- VariableFeaturePlot(liver)
 plot2 <- LabelPoints(plot = plot1, points = top25, xnudge = 0, 
-                     ynudge = 0,repel = TRUE)
+                     ynudge = 0, repel = TRUE)
 plot1 + plot2
 ~~~
 {: .language-r}
@@ -75,34 +107,14 @@ plot1 + plot2
 
 ~~~
 Warning: Transformation introduced infinite values in continuous x-axis
+Transformation introduced infinite values in continuous x-axis
 ~~~
 {: .warning}
 
 
 
 ~~~
-Warning: Removed 749 rows containing missing values (geom_point).
-~~~
-{: .warning}
-
-
-
-~~~
-Warning: Transformation introduced infinite values in continuous x-axis
-~~~
-{: .warning}
-
-
-
-~~~
-Warning: Removed 749 rows containing missing values (geom_point).
-~~~
-{: .warning}
-
-
-
-~~~
-Warning: ggrepel: 7 unlabeled data points (too many overlaps). Consider
+Warning: ggrepel: 4 unlabeled data points (too many overlaps). Consider
 increasing max.overlaps
 ~~~
 {: .warning}
@@ -147,7 +159,7 @@ We will "regress out" the signals of technical confounders including
 
 ~~~
 liver <- liver %>%
-              ScaleData(vars.to.regress = c("percent.mt", "nFeature_RNA"))
+    ScaleData(vars.to.regress = c("percent.mt", "nFeature_RNA"))
 ~~~
 {: .language-r}
 
@@ -173,6 +185,14 @@ DimPlot(liver, reduction = "pca")
 ~~~
 {: .language-r}
 
+
+
+~~~
+Rasterizing points since number of points exceeds 100,000.
+To disable this behavior set `raster=FALSE`
+~~~
+{: .output}
+
 <img src="../fig/rmd-05-pcplot-1.png" alt="plot of chunk pcplot" width="612" style="display: block; margin: auto;" />
 
 Instead we will take some of the PCs and use them for a further
@@ -184,9 +204,9 @@ A significant challenge in scRNA-Seq is deciding how many PCs to use.
 You can think of each PC as capturing pathway-level transcriptional variation
 across the cells in your dataset. Thus even if the transcriptome is sparse
 within each cell (it is), you can still compare different cells across major
-axes of variation. We don't want to use too few PCs, otherwise we 
+axes of variation. We don't want to use too *few* PCs, otherwise we 
 might miss significant axes of variation (e.g. a cell subtype or minor cell 
-type). We also don't want to use too many PCs since, as you go out in PC-space,
+type). We also don't want to use too *many* PCs since, as you go out in PC-space,
 the PCs increasingly represent more noise and less biological reality.
 
 We will use a very simple method to choose the number of PCs: the elbow
@@ -210,11 +230,28 @@ ElbowPlot(liver, ndims = 50)
 <img src="../fig/rmd-05-elbow2-1.png" alt="plot of chunk elbow2" width="612" style="display: block; margin: auto;" />
 
 We would say that the standard deviation in PCs really starts to stablize
-around N = 27 PCs. Let's use this value moving forward.
+around N = 24 PCs. Let's use this value moving forward.
+For a more in-depth analysis we would try a variety of values and 
+attempt to decide which value gives us the results that are most 
+biologically sensible. 
+
+There is also a function in Seurat, `JackStraw()`, that one may use
+to try to determine the statistical significance of principal 
+component scores. Specifically, it randomly permutes a subset of data, 
+and calculates projected PCA scores for these random genes. Then it
+compares the PCA scores for the random genes with the observed PCA scores 
+to determine statistical signifance. We are not using this function here
+because it is a bit slow and because it often does not give any better 
+results than the simple method of looking at an elbow plot.
+
+All this said, the major question here -- how many PCs to select in order
+to capture the important variation within your scRNA-Seq data in a
+reduced dimension space -- is still unresolved and your best bet is 
+to explore different values and see what they give you!
 
 
 ~~~
-num_pc <- 27
+num_pc <- 24
 ElbowPlot(liver, ndims = 40) + geom_vline(xintercept = num_pc)
 ~~~
 {: .language-r}
@@ -508,52 +545,51 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] sp_1.5-0           SeuratObject_4.1.2 Seurat_4.2.0       forcats_0.5.2     
- [5] stringr_1.4.1      dplyr_1.0.10       purrr_0.3.5        readr_2.1.3       
- [9] tidyr_1.2.1        tibble_3.1.8       ggplot2_3.3.6      tidyverse_1.3.2   
-[13] knitr_1.40        
+ [1] SeuratObject_4.1.3 Seurat_4.2.1       forcats_0.5.2      stringr_1.4.1     
+ [5] dplyr_1.0.10       purrr_0.3.5        readr_2.1.3        tidyr_1.2.1       
+ [9] tibble_3.1.8       ggplot2_3.4.0      tidyverse_1.3.2    knitr_1.40        
 
 loaded via a namespace (and not attached):
-  [1] googledrive_2.0.0     Rtsne_0.16            colorspace_2.0-3     
-  [4] deldir_1.0-6          ellipsis_0.3.2        ggridges_0.5.4       
-  [7] fs_1.5.2              spatstat.data_3.0-0   farver_2.1.1         
- [10] leiden_0.4.3          listenv_0.8.0         ggrepel_0.9.1        
- [13] fansi_1.0.3           lubridate_1.8.0       xml2_1.3.3           
- [16] codetools_0.2-18      splines_4.1.2         polyclip_1.10-4      
- [19] jsonlite_1.8.3        broom_1.0.1           ica_1.0-3            
- [22] cluster_2.1.4         dbplyr_2.2.1          png_0.1-7            
- [25] rgeos_0.5-9           uwot_0.1.14           spatstat.sparse_3.0-0
- [28] sctransform_0.3.5     shiny_1.7.3           compiler_4.1.2       
- [31] httr_1.4.4            backports_1.4.1       lazyeval_0.2.2       
- [34] assertthat_0.2.1      Matrix_1.5-1          fastmap_1.1.0        
- [37] limma_3.50.3          gargle_1.2.1          cli_3.4.1            
- [40] later_1.3.0           htmltools_0.5.3       tools_4.1.2          
- [43] igraph_1.3.5          gtable_0.3.1          glue_1.6.2           
- [46] reshape2_1.4.4        RANN_2.6.1            Rcpp_1.0.9           
- [49] scattermore_0.8       cellranger_1.1.0      vctrs_0.5.0          
- [52] nlme_3.1-160          progressr_0.11.0      lmtest_0.9-40        
- [55] spatstat.random_3.0-1 xfun_0.34             globals_0.16.1       
- [58] rvest_1.0.3           mime_0.12             miniUI_0.1.1.1       
- [61] lifecycle_1.0.3       irlba_2.3.5.1         goftest_1.2-3        
- [64] googlesheets4_1.0.1   future_1.28.0         MASS_7.3-58.1        
- [67] zoo_1.8-11            scales_1.2.1          spatstat.core_2.4-4  
- [70] spatstat.utils_3.0-1  hms_1.1.2             promises_1.2.0.1     
- [73] parallel_4.1.2        RColorBrewer_1.1-3    gridExtra_2.3        
- [76] reticulate_1.26       pbapply_1.5-0         rpart_4.1.19         
- [79] stringi_1.7.8         highr_0.9             rlang_1.0.6          
- [82] pkgconfig_2.0.3       matrixStats_0.62.0    evaluate_0.17        
- [85] lattice_0.20-45       tensor_1.5            ROCR_1.0-11          
- [88] labeling_0.4.2        htmlwidgets_1.5.4     patchwork_1.1.2      
- [91] cowplot_1.1.1         tidyselect_1.2.0      parallelly_1.32.1    
- [94] RcppAnnoy_0.0.20      plyr_1.8.7            magrittr_2.0.3       
- [97] R6_2.5.1              generics_0.1.3        DBI_1.1.3            
-[100] mgcv_1.8-41           pillar_1.8.1          haven_2.5.1          
-[103] withr_2.5.0           fitdistrplus_1.1-8    abind_1.4-5          
-[106] survival_3.4-0        future.apply_1.9.1    modelr_0.1.9         
-[109] crayon_1.5.2          KernSmooth_2.23-20    utf8_1.2.2           
-[112] spatstat.geom_3.0-3   plotly_4.10.0         tzdb_0.3.0           
-[115] grid_4.1.2            readxl_1.4.1          data.table_1.14.4    
-[118] reprex_2.0.2          digest_0.6.30         xtable_1.8-4         
-[121] httpuv_1.6.6          munsell_0.5.0         viridisLite_0.4.1    
+  [1] googledrive_2.0.0      Rtsne_0.16             colorspace_2.0-3      
+  [4] deldir_1.0-6           ellipsis_0.3.2         ggridges_0.5.4        
+  [7] fs_1.5.2               spatstat.data_3.0-0    farver_2.1.1          
+ [10] leiden_0.4.3           listenv_0.8.0          ggrepel_0.9.2         
+ [13] fansi_1.0.3            lubridate_1.9.0        xml2_1.3.3            
+ [16] codetools_0.2-18       splines_4.1.2          polyclip_1.10-4       
+ [19] jsonlite_1.8.3         broom_1.0.1            ica_1.0-3             
+ [22] cluster_2.1.4          dbplyr_2.2.1           png_0.1-7             
+ [25] uwot_0.1.14            spatstat.sparse_3.0-0  sctransform_0.3.5     
+ [28] shiny_1.7.3            compiler_4.1.2         httr_1.4.4            
+ [31] backports_1.4.1        lazyeval_0.2.2         assertthat_0.2.1      
+ [34] Matrix_1.5-1           fastmap_1.1.0          limma_3.50.3          
+ [37] gargle_1.2.1           cli_3.4.1              later_1.3.0           
+ [40] htmltools_0.5.3        tools_4.1.2            igraph_1.3.5          
+ [43] gtable_0.3.1           glue_1.6.2             reshape2_1.4.4        
+ [46] RANN_2.6.1             Rcpp_1.0.9             scattermore_0.8       
+ [49] cellranger_1.1.0       vctrs_0.5.0            nlme_3.1-160          
+ [52] spatstat.explore_3.0-3 progressr_0.11.0       lmtest_0.9-40         
+ [55] spatstat.random_3.0-1  xfun_0.34              globals_0.16.1        
+ [58] rvest_1.0.3            timechange_0.1.1       mime_0.12             
+ [61] miniUI_0.1.1.1         lifecycle_1.0.3        irlba_2.3.5.1         
+ [64] goftest_1.2-3          googlesheets4_1.0.1    future_1.29.0         
+ [67] MASS_7.3-58.1          zoo_1.8-11             scales_1.2.1          
+ [70] spatstat.utils_3.0-1   hms_1.1.2              promises_1.2.0.1      
+ [73] parallel_4.1.2         RColorBrewer_1.1-3     gridExtra_2.3         
+ [76] reticulate_1.26        pbapply_1.5-0          stringi_1.7.8         
+ [79] highr_0.9              rlang_1.0.6            pkgconfig_2.0.3       
+ [82] matrixStats_0.62.0     evaluate_0.18          lattice_0.20-45       
+ [85] tensor_1.5             ROCR_1.0-11            labeling_0.4.2        
+ [88] patchwork_1.1.2        htmlwidgets_1.5.4      cowplot_1.1.1         
+ [91] tidyselect_1.2.0       parallelly_1.32.1      RcppAnnoy_0.0.20      
+ [94] plyr_1.8.7             magrittr_2.0.3         R6_2.5.1              
+ [97] generics_0.1.3         DBI_1.1.3              pillar_1.8.1          
+[100] haven_2.5.1            withr_2.5.0            fitdistrplus_1.1-8    
+[103] abind_1.4-5            survival_3.4-0         sp_1.5-1              
+[106] future.apply_1.10.0    modelr_0.1.9           crayon_1.5.2          
+[109] KernSmooth_2.23-20     utf8_1.2.2             spatstat.geom_3.0-3   
+[112] plotly_4.10.1          tzdb_0.3.0             grid_4.1.2            
+[115] readxl_1.4.1           data.table_1.14.4      reprex_2.0.2          
+[118] digest_0.6.30          xtable_1.8-4           httpuv_1.6.6          
+[121] munsell_0.5.0          viridisLite_0.4.1     
 ~~~
 {: .output}

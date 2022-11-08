@@ -80,7 +80,7 @@ the log of the number of counts per 10,000 reads.
 
 ```{r normalization, message=FALSE}
 liver <- liver %>%
-              NormalizeData(normalization.method = "LogNormalize")
+            NormalizeData(normalization.method = "LogNormalize")
 ```
 
 ### Finding Variable Features
