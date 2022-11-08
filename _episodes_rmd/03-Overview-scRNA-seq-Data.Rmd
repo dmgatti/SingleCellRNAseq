@@ -382,8 +382,10 @@ Let's confirm that we are only looking at scRnaSeq samples from *in vivo*
 digest cells:
 
 ```{r cell_classes}
-count(metadata, digest, typeSample)
+dplyr::count(metadata, digest, typeSample)
 ```
+
+<!-- NB DAS had an issue with this code, it was seeing plyr::count hence explicitly note dplyr::count -->
 
 We're going to explore the data further using a series of Challenges. 
 You will be asked to look at the contents of some of the columns to see 

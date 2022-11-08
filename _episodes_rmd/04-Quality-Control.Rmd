@@ -37,7 +37,7 @@ data_dir <- '../data'
 load(file.path(data_dir, 'lesson03.Rdata'))
 ```
 
-> Reminder: This load in your counts and cell metadata.
+> Reminder: This code loads in your counts and cell metadata.
 
 ## Quality control in scRNA-seq
 
@@ -73,14 +73,19 @@ approach. See
 [Bais and Kostka 2020](https://academic.oup.com/bioinformatics/article/36/4/1150/5566507)
 for more details.
 
+Because this doublet prediction method takes some time and is
+a bit memory-intensive, we will run it only on cells from one mouse.
+We will return to the doublet predictions later in this lesson.
+
 
 ```{r scds1}
-sce <- SingleCellExperiment(list(counts = counts))
+cell_ids <- filter(metadata, sample == 'CS52') %>% pull(cell)
+sce <- SingleCellExperiment(list(counts = counts[, cell_ids]))
 sce <- cxds_bcds_hybrid(sce)
 doublet_preds <- colData(sce)
 ```
 
-```{r gc, echo = FALSE}
+```{r gc, echo = FALSE, message = FALSE}
 rm(sce)
 gc()
 ```
@@ -272,6 +277,10 @@ for convenience in a typical analysis, for this course we will look more
 closely at these quantities on a per-library basis to decide on
 our filtering thresholds.
 
+```{r seed, echo = FALSE}
+# set a seed for reproducibility in case any randomness used below
+set.seed(1418)
+```
 
 ```{r create_seurat_obj}
 metadata <- as.data.frame(metadata) %>%
@@ -292,18 +301,6 @@ liver <- AddMetaData(liver, as.data.frame(doublet_preds))
 Here we briefly review these filters and decide what thresholds we will
 use for these data.
 
-```{r liver_outliers, include = FALSE, eval = FALSE}
-# This is modeled after what the authors of the liver cell atlas did
-library(scuttle)
-genes <- scuttle::isOutlier(liver$nFeature_RNA, nmads = 3, 
-                            batch = liver$sample, log=TRUE)
-umi <- scuttle::isOutlier(liver$nCount_RNA, nmads = 3, 
-                          batch = liver$sample, log=TRUE)
-mt <- scuttle::isOutlier(liver$percent.mt, nmads = 3, log = FALSE,
-                         batch = liver$sample, type = 'lower')
-tapply(genes | umi | mt, liver$annot, mean, na.rm=T)
-attr(umi, 'thresholds')
-```
 
 ### Filtering by Mitochondrial Gene Content
 
@@ -347,6 +344,9 @@ plot the violins:
 VlnPlot(liver, features = "percent.mt", group.by = 'sample', pt.size = 0)
 ```
 
+Library "CS140" seems to have a "long tail" of cells with high mitochondial
+gene expression. We may wish to monitor this library throughout QC
+and decide whether it has problems worth ditching the sample.
 
 ```{r mito_by_cell_type, include = FALSE, eval = FALSE}
 # DMG made the plot below to see if there are mitochondrial expression differences by annotated cell type. The students won't have this file at this stage of the analysis. But how do we discuss these differences? Since we're looking for high values, it may not be too important.
@@ -496,6 +496,20 @@ they might express many more genes than either cell type alone. Use the
 
 
 
+
+```{r liver_outliers, include = FALSE, eval = FALSE}
+# This is modeled after what the authors of the liver cell atlas did
+library(scuttle)
+genes <- scuttle::isOutlier(liver$nFeature_RNA, nmads = 3, 
+                            batch = liver$sample, log=TRUE)
+umi <- scuttle::isOutlier(liver$nCount_RNA, nmads = 3, 
+                          batch = liver$sample, log=TRUE)
+mt <- scuttle::isOutlier(liver$percent.mt, nmads = 3, log = FALSE,
+                         batch = liver$sample, type = 'lower')
+tapply(genes | umi | mt, liver$annot, mean, na.rm=T)
+attr(umi, 'thresholds')
+```
+
 ## Doublet detection revisited
 
 Let's go back to our doublet predictions. How many of the cells that
@@ -511,26 +525,40 @@ Using the scds hybrid_score method, the scores range between 0 and 2.
 Higher scores should be more likely to be doublets.
 
 ```{r doublet_plot}
-ggplot(liver@meta.data, aes(x = keep, y = hybrid_score)) + 
-  geom_violin() + theme_bw(base_size = 18)
+ggplot(mutate(liver@meta.data, class = ifelse(keep, 'QC singlet', 'QC doublet')),
+  aes(x = class, y = hybrid_score)) + 
+  geom_violin() + theme_bw(base_size = 18) +
+  xlab("") + ylab("SCDS hybrid score")
 ```
 
-Somewhat unsatisfyingly, we don't really get much clear enrichment of
-cells with high scds hybrid scores. Nevertheless let's filter
-out those cells with a hybrid_score > 1.5.
+Somewhat unsatisfyingly, the scds hybrid scores aren't wildly
+different between the cells we've used QC thresholds to call as doublets
+vs singlets. 
+There does seem to be an enrichment of cells with score >0.75 among
+the QC doublets. 
+If we had run scds doublet prediction on all cells we might 
+compare results with *no* scds score filtering to those with an
+scds score cutoff of, say, 1.0.
+One characteristic of the presence of doublet cells
+is a cell cluster located between two large and well-defined clusters
+that expresses markers of both of them (don't worry, we will learn how
+to cluster and visualize data soon). 
+Returning to the scds doublet scores, we could cluster our cells with
+and without doublet score filtering, and see if we note any
+putative doublet clusters.
 
 ## Subset based on %MT, number of genes, and number of UMI thresholds
 
 ```{r subsetting}
 liver <- subset(liver, subset = percent.mt < 15 & nFeature_RNA > 400 &
-  nFeature_RNA < 5000 & nCount_RNA > 700 & nCount_RNA < 30000 & 
-    hybrid_score < 1.5)
+  nFeature_RNA < 5000 & nCount_RNA > 700 & nCount_RNA < 30000)
 ```
 
 
 <!-- Discuss batch correction here? -->
 <!-- it might be interesting to do batch correction across in vivo + nuc seq -->
 <!-- DAS recommends using harmony if we want to do batch correction -->
+<!-- Should probably do batch correction across sample -->
 
 ## Save Data for Next Lesson
 
