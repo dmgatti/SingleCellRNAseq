@@ -91,7 +91,8 @@ rm(wh_invivo, wh_exvivo, invivo_samples, exvivo_samples)
 
 # DAS - do some filtering on bad cells
 bad_cells$nCount_RNA <- Matrix::colSums(counts[, bad_cells$cell])
-bad_cells <- filter(bad_cells, nCount_RNA < 700 | nCount_RNA > 30000)
+bad_cells <- filter(bad_cells, nCount_RNA < 700 | nCount_RNA > 30000) %>%
+               select(-nCount_RNA)
 
 # Add the bad cells to metadata and subset counts.
 metadata = bind_rows(metadata, bad_cells)
