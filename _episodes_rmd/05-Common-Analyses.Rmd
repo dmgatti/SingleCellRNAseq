@@ -29,6 +29,38 @@ data_dir <- '../data'
 liver <- readRDS(file.path(data_dir, 'lesson04.rds'))
 ```
 
+## A Note on Seurat Functions
+
+The Seurat package is set up so that we primarily work with a 
+Seurat object containing our single cell data and metadata.
+Let's say we are working with our Seurat object `liver`. 
+The usual way we might call a function to do something with our
+data looks like:
+```
+liver <- DoSomething(liver, param1 = TRUE, param2 = 0.3)
+```
+
+However, since the `DoSomething()` function returns the modified
+Seurat object, we can also pipe together multiple commands to do
+multiple things to our object. That could look something like:
+```
+liver <- DoSomething(liver, param1 = TRUE, param2 = 0.3) %>%
+    DoSomethingElse(param1 = 3) %>%
+    DoAThirdThing(param1 = c(1, 4, 6))
+```
+
+We can just as well use the piping operator `%>%` even if 
+we are calling only one function:
+```
+liver <- liver %>%
+    DoSomething(param1 = TRUE, param2 = 0.3)
+```
+
+In this lesson (and elsewhere in the course) we may alternate between
+these slightly different coding styles. Please ask us for clarification
+if you are having difficulty seeing how our example code is 
+doing what it is supposed to do.
+
 ## Normalization (log and more specialized) 
 
 Instead of working with raw count data measured across cells
@@ -67,7 +99,7 @@ top25 <- head(VariableFeatures(liver), 25)
 # plot variable features with and without labels
 plot1 <- VariableFeaturePlot(liver)
 plot2 <- LabelPoints(plot = plot1, points = top25, xnudge = 0, 
-                     ynudge = 0,repel = TRUE)
+                     ynudge = 0, repel = TRUE)
 plot1 + plot2
 ```
 
@@ -106,7 +138,7 @@ We will "regress out" the signals of technical confounders including
 
 ```{r scaling, message=FALSE}
 liver <- liver %>%
-              ScaleData(vars.to.regress = c("percent.mt", "nFeature_RNA"))
+    ScaleData(vars.to.regress = c("percent.mt", "nFeature_RNA"))
 ```
 
 ### Principal Component Analysis
@@ -136,9 +168,9 @@ A significant challenge in scRNA-Seq is deciding how many PCs to use.
 You can think of each PC as capturing pathway-level transcriptional variation
 across the cells in your dataset. Thus even if the transcriptome is sparse
 within each cell (it is), you can still compare different cells across major
-axes of variation. We don't want to use too few PCs, otherwise we 
+axes of variation. We don't want to use too *few* PCs, otherwise we 
 might miss significant axes of variation (e.g. a cell subtype or minor cell 
-type). We also don't want to use too many PCs since, as you go out in PC-space,
+type). We also don't want to use too *many* PCs since, as you go out in PC-space,
 the PCs increasingly represent more noise and less biological reality.
 
 We will use a very simple method to choose the number of PCs: the elbow
@@ -154,10 +186,27 @@ ElbowPlot(liver, ndims = 50)
 ```
 
 We would say that the standard deviation in PCs really starts to stablize
-around N = 27 PCs. Let's use this value moving forward.
+around N = 24 PCs. Let's use this value moving forward.
+For a more in-depth analysis we would try a variety of values and 
+attempt to decide which value gives us the results that are most 
+biologically sensible. 
+
+There is also a function in Seurat, `JackStraw()`, that one may use
+to try to determine the statistical significance of principal 
+component scores. Specifically, it randomly permutes a subset of data, 
+and calculates projected PCA scores for these random genes. Then it
+compares the PCA scores for the random genes with the observed PCA scores 
+to determine statistical signifance. We are not using this function here
+because it is a bit slow and because it often does not give any better 
+results than the simple method of looking at an elbow plot.
+
+All this said, the major question here -- how many PCs to select in order
+to capture the important variation within your scRNA-Seq data in a
+reduced dimension space -- is still unresolved and your best bet is 
+to explore different values and see what they give you!
 
 ```{r elbow3}
-num_pc <- 27
+num_pc <- 24
 ElbowPlot(liver, ndims = 40) + geom_vline(xintercept = num_pc)
 ```
 
