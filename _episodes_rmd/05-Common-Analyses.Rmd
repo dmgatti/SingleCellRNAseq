@@ -23,6 +23,12 @@ suppressPackageStartupMessages(library(Seurat))
 data_dir <- '../data'
 ```
 
+```{r seed, echo = FALSE}
+# set a seed for reproducibility in case any randomness used below
+set.seed(1418)
+```
+
+
 ## Read Data from Previous Lesson
 
 ```{r load_data}
@@ -61,7 +67,7 @@ these slightly different coding styles. Please ask us for clarification
 if you are having difficulty seeing how our example code is 
 doing what it is supposed to do.
 
-## Normalization (log and more specialized) 
+### Normalization
 
 Instead of working with raw count data measured across cells
 that were sequenced to highly variable depths, we conduct
@@ -69,9 +75,8 @@ normalization to try to make gene expression values follow
 a more stable distribution as well as being more comparable
 between cells.
 
-### Log Normalization
-
-The count data is usually log-normally distributed. 
+Single cell gene expression
+count data is usually approximately log-normally distributed. 
 Many statistical methods work best when the data is normally distributed. 
 We also would like to correct for variability in sequencing depth 
 between cells, the nature of which is purely technical.
@@ -83,24 +88,40 @@ liver <- liver %>%
               NormalizeData(normalization.method = "LogNormalize")
 ```
 
+This method of normalizing is pretty simple. The way it works is
+to follow a simple formula like
+`norm_count = log((count + 1)/total_counts) * 10000`
+where `total_counts` is the total number of reads in each cell.
+
+There are other normalization methods that are more complicated and
+may outperform the log normalization method. Two examples are:
+
+ * Normalization based on multinomial methods as outlined by
+ [Townes et al. 2019](https://pubmed.ncbi.nlm.nih.gov/31870412/)
+ * Normalization using regularized negative binomial regression
+ [Hafemeister and Satija 2019](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1874-1), 
+ with a [Seurat vignette here](https://satijalab.org/seurat/articles/sctransform_vignette.html)
+ 
+However, no normalization method has been demonstrated to be universally
+and unambiguously better than simple log normalization.
+
 ### Finding Variable Features
 
 Next we will find a subset of features showing high cell-to-cell variation 
 in the dataset (that is, they are highly expressed in some cells and lowly
 expressed in others). 
 
-```{r var_features, message=FALSE}
+```{r var_features, message=FALSE, warning=FALSE}
 liver <- liver %>% 
               FindVariableFeatures(nfeatures = 2000)
 
 # Identify the 25 most highly variable genes
 top25 <- head(VariableFeatures(liver), 25)
 
-# plot variable features with and without labels
 plot1 <- VariableFeaturePlot(liver)
 plot2 <- LabelPoints(plot = plot1, points = top25, xnudge = 0, 
                      ynudge = 0, repel = TRUE)
-plot1 + plot2
+plot2
 ```
 
 ## Cell cycle assignment 
@@ -134,7 +155,11 @@ This helps all genes to contribute to the inferred variability rather
 than just the highly-expressed genes.
 
 We will "regress out" the signals of technical confounders including
-%MT and the number of UMIs.
+%MT and the number of genes expressed. We might also choose to regress out
+other variables such as cell cycle stage (if we wish to examine 
+cellular heterogeneity independent of cell cycle), number of UMIs,
+etc.
+
 
 ```{r scaling, message=FALSE}
 liver <- liver %>%
@@ -154,7 +179,9 @@ liver <- liver %>%
               RunPCA(verbose = FALSE, npcs = 100)
 ```
 
-It is usually not very useful to view the raw PCs themselves:
+It is usually not very useful to view the raw PCs themselves.
+There's nothing obvious that we can glean from the following PC plot:
+
 ```{r pcplot}
 DimPlot(liver, reduction = "pca")
 ```
@@ -210,6 +237,11 @@ num_pc <- 24
 ElbowPlot(liver, ndims = 40) + geom_vline(xintercept = num_pc)
 ```
 
+<!-- Do we need to do batch correction with Harmony? The authors of the
+liver cell atlas did it ...
+See https://github.com/guilliottslab/scripts_GuilliamsEtAll_Cell2022/blob/main/3b_Harmony.R
+-->
+
 ## Dimensionality reduction (UMAP, tSNE, etc) 
 
 As mentioned above, dimensionality reduction allows you to actually 
@@ -229,44 +261,49 @@ Although UMAP does optimize both local and global similarity for points
 being projected onto a 2D space, UMAP contains no guarantee that similar points
 must be near each other.
 
-```{r umap}
+```{r umap, warning=FALSE}
 liver <- RunUMAP(liver, reduction = 'pca', dims = 1:num_pc, 
     verbose = FALSE)
 ```
 
 ## Clustering 
 
-```{r seurat3, message=FALSE}
+Seurat uses a graph-based approach to cluster cells with similar
+transcriptomic profiles. 
+We start by constructing the shared nearest-neighbor graph. This
+computes a distance metric between the cells (in PC-space) and 
+constructs the shared nearest-neighbor graph by calculating the
+neighborhood overlap (Jaccard index) between every cell and its 
+20 (by default) nearest neighbors.
+Then the shared nearest-neighbor graph is used to identify
+cell clusters using a modularity optimization based clustering
+algorithm. 
+The Seurat help pages for the functions below,
+[FindNeighbors](https://satijalab.org/seurat/reference/findneighbors)
+and 
+[FindClusters](https://satijalab.org/seurat/reference/findclusters),
+provide some references if you are interested in digging into
+further details of this clustering procedure.
 
+
+```{r seurat3, message=FALSE}
 liver <- FindNeighbors(liver, reduction = 'pca', 
                        dims = 1:num_pc, verbose = FALSE) %>%
            FindClusters(verbose = FALSE, resolution = 0.3)
 UMAPPlot(liver, label = TRUE, label.size = 6)
 ```
 
-## Finding marker genes 
-
-Now we will find marker genes for our clusters. Finding marker genes takes a
-while so we will downsample our data to speed up the process.
-Even still this may take a few minutes.
-
-```{r markers}
-liver_mini <- subset(liver, downsample = 300)
-markers <- FindAllMarkers(liver_mini, only.pos = TRUE, 
-    logfc.threshold	= log2(1.25), min.pct = 0.2) 
-```
+Note that we are using the principal components computed from 
+normalized gene expression to compute UMAP
+dimensionality reduction and we are also using the principal 
+components to compute a shared nearest neighbor graph and 
+find clusters. These two tasks are independent and could be done in
+either order. Very often the points that are near each other in
+UMAP space are also near neighbors and belong to the same cluster,
+but this is not always the case.
 
 
-<!-- ## Annotating cell types (+ automated options e.g. SingleR)  -->
-<!-- DAS - I don't think these methods are generally all that useful. The -->
-<!-- cell types they get right are usually easy to identify, while the -->
-<!-- harder types are not identified correctly by SingleR. -->
-<!-- Should we include this as opinion/narrator's comment? -->
-
-<!-- Do we need to do batch correction with Harmony? The authors of the
-liver cell atlas did it ...
-See https://github.com/guilliottslab/scripts_GuilliamsEtAll_Cell2022/blob/main/3b_Harmony.R
--->
+## Saving
 
 We will again use the Seurat object in the next lesson. Save it now and we will 
 load it at the beginning of the next lesson. 
