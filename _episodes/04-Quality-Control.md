@@ -88,7 +88,7 @@ sce <- cxds_bcds_hybrid(sce)
 
 ~~~
 Warning in asMethod(object): sparse->dense coercion: allocating vector of size
-6.6 GiB
+11.5 GiB
 ~~~
 {: .warning}
 
@@ -102,8 +102,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger    (Mb)   max used    (Mb)
-Ncells   7323133  391.1   12973522   692.9    9045382   483.1
-Vcells 248759977 1897.9 2772394238 21151.7 3441038856 26253.1
+Ncells   7192514  384.2   12374831   660.9    8911099   476.0
+Vcells 415522237 3170.2 3842900494 29319.1 4194066586 31998.2
 ~~~
 {: .output}
 
@@ -135,11 +135,11 @@ sum(gene_counts == 0)
 
 
 ~~~
-[1] 6258
+[1] 5518
 ~~~
 {: .output}
 
-Of the 31053 genes, 6258 have zero counts across 
+Of the 31053 genes, 5518 have zero counts across 
 all cells. These genes do not inform us about the mean, variance, or covariance 
 of any of the other genes and we will remove them before proceeding with 
 further analysis.
@@ -150,7 +150,7 @@ counts <- counts[gene_counts > 0,]
 ~~~
 {: .language-r}
 
-This leaves 24795 genes in the counts matrix.
+This leaves 25535 genes in the counts matrix.
 
 We could also set some other threshold for filtering genes. Perhaps we should 
 look at the number of genes that have different numbers of counts. We will use 
@@ -220,8 +220,8 @@ text(3,  800, labels = paste(sum(gene_counts == 2),
 
 <img src="../fig/rmd-04-gene_count_hist_2-1.png" alt="plot of chunk gene_count_hist_2" width="612" style="display: block; margin: auto;" />
 
-In the plot above, we can see that there are 1514 
-genes that were detected in only one cell, 887 
+In the plot above, we can see that there are 1332 
+genes that were detected in only one cell, 839 
 genes detected in two cells, etc.
 
 Making a decision to keep or remove a gene based on its expression being
@@ -248,7 +248,7 @@ How would this affect your ability to discriminate between cell types?
 cell types. The degree to which this problem affects your analyses depends on
 the degree of strictness of your filtering. Let's take the situation to its
 logical extreme -- what if we keep only genes expressed in at least 95% of cells.
-If we did this, we would end up with only 11
+If we did this, we would end up with only 13
 genes! By definition these genes will be highly expressed in all cell types,
 therefore eliminating our ability to clearly distinguish between cell types.
 > {: .solution}
@@ -257,7 +257,7 @@ therefore eliminating our ability to clearly distinguish between cell types.
 
 > ## Challenge 2
 > What total count threshold would you choose to filter genes? Remember that 
-there are 70542 cells.
+there are 123922 cells.
 >
 > > ## Solution to Challenge 1
 > >
@@ -469,8 +469,8 @@ VlnPlot(liver, 'nFeature_RNA', group.by = 'sample', pt.size = 0) +
 
 
 ~~~
-Scale for 'y' is already present. Adding another scale for 'y', which will
-replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
 ~~~
 {: .output}
 
@@ -548,8 +548,8 @@ VlnPlot(liver, 'nCount_RNA', group.by = 'sample', pt.size = 0) +
 
 
 ~~~
-Scale for 'y' is already present. Adding another scale for 'y', which will
-replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
 ~~~
 {: .output}
 
@@ -713,58 +713,57 @@ other attached packages:
  [5] GenomicRanges_1.46.1        GenomeInfoDb_1.30.1        
  [7] IRanges_2.28.0              S4Vectors_0.32.4           
  [9] BiocGenerics_0.40.0         MatrixGenerics_1.6.0       
-[11] matrixStats_0.62.0          sp_1.5-0                   
-[13] SeuratObject_4.1.2          Seurat_4.2.0               
-[15] Matrix_1.5-1                forcats_0.5.2              
-[17] stringr_1.4.1               dplyr_1.0.10               
-[19] purrr_0.3.5                 readr_2.1.3                
-[21] tidyr_1.2.1                 tibble_3.1.8               
-[23] ggplot2_3.3.6               tidyverse_1.3.2            
-[25] knitr_1.40                 
+[11] matrixStats_0.62.0          SeuratObject_4.1.3         
+[13] Seurat_4.2.1                Matrix_1.5-1               
+[15] forcats_0.5.2               stringr_1.4.1              
+[17] dplyr_1.0.10                purrr_0.3.5                
+[19] readr_2.1.3                 tidyr_1.2.1                
+[21] tibble_3.1.8                ggplot2_3.4.0              
+[23] tidyverse_1.3.2             knitr_1.40                 
 
 loaded via a namespace (and not attached):
   [1] readxl_1.4.1           backports_1.4.1        plyr_1.8.7            
-  [4] igraph_1.3.5           lazyeval_0.2.2         splines_4.1.2         
-  [7] listenv_0.8.0          scattermore_0.8        digest_0.6.30         
- [10] htmltools_0.5.3        fansi_1.0.3            magrittr_2.0.3        
- [13] tensor_1.5             googlesheets4_1.0.1    cluster_2.1.4         
- [16] ROCR_1.0-11            tzdb_0.3.0             globals_0.16.1        
- [19] modelr_0.1.9           spatstat.sparse_3.0-0  colorspace_2.0-3      
- [22] rvest_1.0.3            ggrepel_0.9.1          haven_2.5.1           
- [25] xfun_0.34              RCurl_1.98-1.7         crayon_1.5.2          
- [28] jsonlite_1.8.3         progressr_0.11.0       spatstat.data_3.0-0   
- [31] survival_3.4-0         zoo_1.8-11             glue_1.6.2            
- [34] polyclip_1.10-4        gtable_0.3.1           gargle_1.2.1          
- [37] zlibbioc_1.40.0        XVector_0.34.0         leiden_0.4.3          
- [40] DelayedArray_0.20.0    future.apply_1.9.1     abind_1.4-5           
- [43] scales_1.2.1           DBI_1.1.3              spatstat.random_3.0-1 
- [46] miniUI_0.1.1.1         Rcpp_1.0.9             viridisLite_0.4.1     
- [49] xtable_1.8-4           reticulate_1.26        spatstat.core_2.4-4   
- [52] htmlwidgets_1.5.4      httr_1.4.4             RColorBrewer_1.1-3    
- [55] ellipsis_0.3.2         ica_1.0-3              farver_2.1.1          
- [58] pkgconfig_2.0.3        uwot_0.1.14            dbplyr_2.2.1          
- [61] deldir_1.0-6           utf8_1.2.2             labeling_0.4.2        
- [64] tidyselect_1.2.0       rlang_1.0.6            reshape2_1.4.4        
- [67] later_1.3.0            munsell_0.5.0          cellranger_1.1.0      
- [70] tools_4.1.2            xgboost_1.6.0.1        cli_3.4.1             
- [73] generics_0.1.3         broom_1.0.1            ggridges_0.5.4        
- [76] evaluate_0.17          fastmap_1.1.0          goftest_1.2-3         
- [79] fs_1.5.2               fitdistrplus_1.1-8     RANN_2.6.1            
- [82] pbapply_1.5-0          future_1.28.0          nlme_3.1-160          
- [85] mime_0.12              xml2_1.3.3             compiler_4.1.2        
- [88] plotly_4.10.0          png_0.1-7              spatstat.utils_3.0-1  
- [91] reprex_2.0.2           stringi_1.7.8          highr_0.9             
- [94] rgeos_0.5-9            lattice_0.20-45        vctrs_0.5.0           
+  [4] igraph_1.3.5           lazyeval_0.2.2         sp_1.5-1              
+  [7] splines_4.1.2          listenv_0.8.0          scattermore_0.8       
+ [10] digest_0.6.30          htmltools_0.5.3        fansi_1.0.3           
+ [13] magrittr_2.0.3         tensor_1.5             googlesheets4_1.0.1   
+ [16] cluster_2.1.4          ROCR_1.0-11            tzdb_0.3.0            
+ [19] globals_0.16.1         modelr_0.1.9           timechange_0.1.1      
+ [22] spatstat.sparse_3.0-0  colorspace_2.0-3       rvest_1.0.3           
+ [25] ggrepel_0.9.2          haven_2.5.1            xfun_0.34             
+ [28] crayon_1.5.2           RCurl_1.98-1.9         jsonlite_1.8.3        
+ [31] progressr_0.11.0       spatstat.data_3.0-0    survival_3.4-0        
+ [34] zoo_1.8-11             glue_1.6.2             polyclip_1.10-4       
+ [37] gtable_0.3.1           gargle_1.2.1           zlibbioc_1.40.0       
+ [40] XVector_0.34.0         leiden_0.4.3           DelayedArray_0.20.0   
+ [43] future.apply_1.10.0    abind_1.4-5            scales_1.2.1          
+ [46] DBI_1.1.3              spatstat.random_3.0-1  miniUI_0.1.1.1        
+ [49] Rcpp_1.0.9             viridisLite_0.4.1      xtable_1.8-4          
+ [52] reticulate_1.26        htmlwidgets_1.5.4      httr_1.4.4            
+ [55] RColorBrewer_1.1-3     ellipsis_0.3.2         ica_1.0-3             
+ [58] farver_2.1.1           pkgconfig_2.0.3        uwot_0.1.14           
+ [61] dbplyr_2.2.1           deldir_1.0-6           utf8_1.2.2            
+ [64] labeling_0.4.2         tidyselect_1.2.0       rlang_1.0.6           
+ [67] reshape2_1.4.4         later_1.3.0            munsell_0.5.0         
+ [70] cellranger_1.1.0       tools_4.1.2            xgboost_1.6.0.1       
+ [73] cli_3.4.1              generics_0.1.3         broom_1.0.1           
+ [76] ggridges_0.5.4         evaluate_0.18          fastmap_1.1.0         
+ [79] goftest_1.2-3          fs_1.5.2               fitdistrplus_1.1-8    
+ [82] RANN_2.6.1             pbapply_1.5-0          future_1.29.0         
+ [85] nlme_3.1-160           mime_0.12              xml2_1.3.3            
+ [88] compiler_4.1.2         plotly_4.10.1          png_0.1-7             
+ [91] spatstat.utils_3.0-1   reprex_2.0.2           stringi_1.7.8         
+ [94] highr_0.9              lattice_0.20-45        vctrs_0.5.0           
  [97] pillar_1.8.1           lifecycle_1.0.3        spatstat.geom_3.0-3   
-[100] lmtest_0.9-40          RcppAnnoy_0.0.20       bitops_1.0-7          
-[103] data.table_1.14.4      cowplot_1.1.1          irlba_2.3.5.1         
+[100] lmtest_0.9-40          RcppAnnoy_0.0.20       data.table_1.14.4     
+[103] cowplot_1.1.1          bitops_1.0-7           irlba_2.3.5.1         
 [106] httpuv_1.6.6           patchwork_1.1.2        R6_2.5.1              
 [109] promises_1.2.0.1       KernSmooth_2.23-20     gridExtra_2.3         
 [112] parallelly_1.32.1      codetools_0.2-18       MASS_7.3-58.1         
 [115] assertthat_0.2.1       withr_2.5.0            sctransform_0.3.5     
-[118] GenomeInfoDbData_1.2.7 mgcv_1.8-41            parallel_4.1.2        
-[121] hms_1.1.2              grid_4.1.2             rpart_4.1.19          
-[124] googledrive_2.0.0      Rtsne_0.16             pROC_1.18.0           
-[127] shiny_1.7.3            lubridate_1.8.0       
+[118] GenomeInfoDbData_1.2.7 parallel_4.1.2         hms_1.1.2             
+[121] grid_4.1.2             googledrive_2.0.0      Rtsne_0.16            
+[124] pROC_1.18.0            spatstat.explore_3.0-3 shiny_1.7.3           
+[127] lubridate_1.9.0       
 ~~~
 {: .output}

@@ -75,11 +75,25 @@ in the expression of genes that specifically mark particular cell types
 that we are interested in, but there can also be value in using broader
 markers (e.g. CD45 - encoded by the gene *Ptprc* - marks all immune cells).
 
+In scRNA-Seq, differential expression usually refers to differences
+*within* a given cell type rather than *between* cell types.
+For example, maybe we administer a drug and wish to see how gene 
+expression of control group hepatocytes differs from
+treatment group hepatocytes.
+
 <!-- What do we look for differential expression between??? -->
 
 ## Pathway enrichment 
 
-We could conduct pathway enrichment on 
+We may wish to look for enrichment of biological pathways 
+in a list of genes. Here we will show two examples of completing this 
+task. There are many ways to do enrichment tests, and they are
+typically not conducted in a way that is unique to single cell data
+thus you have a wide range of options.
+
+ * test for enrichment of biological function for neutrophil markers,
+ endothelial cell markers, hepatocyte markers
+ * test for enrichment for DE genes between in vivo and ex vivo
 
 ## Differences in cell composition
 

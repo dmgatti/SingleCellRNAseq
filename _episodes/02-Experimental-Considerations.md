@@ -182,8 +182,9 @@ toolkit.
 In pooled single cell genomics, there are two primary methods of tracking 
 the sample to which each individual cell belongs. First, one can attach a 
 unique barcode ("hashtag") to all cells of each sample, typically using an oligonucleotide-tagged antibody to a ubiquitous cell surface protein or an 
-alternative (e.g. lipid-reactive) reagent. 
-![Overview of cell hashing approach](../fig/smibert_etal_2018_Fig1A.jpg){width=50%}
+alternative (e.g. lipid-reactive) reagent.  
+
+<img src="../fig/smibert_etal_2018_Fig1A.jpg" alt="Overview of cell hashing approach" width="600px">
 
 (Figure from [Smibert et al. 2018](https://pubmed.ncbi.nlm.nih.gov/30567574/))
 This approach was pioneered by 
@@ -248,8 +249,7 @@ library from each tissue should be distributed evenly across each flow cell.
 The reads for each tissue can be combined from each flow cell using the cell 
 barcodes after sequencing.
 
-![Batch Confounding](../fig/flow_cell_batch.png){width=50%}
-
+<img src="../fig/flow_cell_batch.png" alt="Batch Confounding" width="600px">
 
 > ## Recommended Reading
 >
@@ -292,6 +292,6 @@ other attached packages:
 
 loaded via a namespace (and not attached):
 [1] compiler_4.1.2 magrittr_2.0.3 tools_4.1.2    stringi_1.7.8  stringr_1.4.1 
-[6] xfun_0.34      evaluate_0.17 
+[6] xfun_0.34      evaluate_0.18 
 ~~~
 {: .output}
