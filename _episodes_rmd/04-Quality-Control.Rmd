@@ -344,8 +344,9 @@ plot the violins:
 VlnPlot(liver, features = "percent.mt", group.by = 'sample', pt.size = 0)
 ```
 
-Library "CS140" seems to have a "long tail" of cells with high mitochondial
-gene expression. We may wish to monitor this library throughout QC
+Library "CS89" (and maybe CS144) have a "long tail" of cells with high
+mitochondrial
+gene expression. We may wish to monitor these libraries throughout QC
 and decide whether it has problems worth ditching the sample.
 
 ```{r mito_by_cell_type, include = FALSE, eval = FALSE}
@@ -366,14 +367,14 @@ find a single threshold that works decently well across all samples.
 As you can see, the samples we are examining do not look 
 drastically different so this may not be such an unrealistic simplification.
 
-We will use a threshold of 15% mitochondrial gene expression which will 
+We will use a threshold of 14% mitochondrial gene expression which will 
 remove the "long tail" of cells with high `percent.mt` values. We could
 also perhaps justify going as low as 10% to be more conservative,
 but we likely would not want to go down to 5%, which would 
 remove around half the cells.
 
 ```{r subset_by mito}
-#liver <- subset(liver, subset = percent.mt < 15)
+#liver <- subset(liver, subset = percent.mt < 14)
 ```
 
 
@@ -408,9 +409,9 @@ densities at low numbers of genes expressed).
 ```{r filter_gene_counts_5k}
 VlnPlot(liver, 'nFeature_RNA', group.by = 'sample', pt.size = 0) +
   scale_y_log10() + 
-  geom_hline(yintercept = 400) + 
+  geom_hline(yintercept = 600) + 
   geom_hline(yintercept = 5000)
-#liver <- subset(liver, nFeature_RNA > 400 & nFeature_RNA < 5000)
+#liver <- subset(liver, nFeature_RNA > 600 & nFeature_RNA < 5000)
 ```
 
 
@@ -458,18 +459,15 @@ ggplot(liver@meta.data, aes(x = nCount_RNA, y = nFeature_RNA)) +
   scale_x_log10() + scale_y_log10()
 ```
 
-It turns out that the cloud of cells that have unusually low gene counts
-for the number of UMIs sequenced were nearly all filtered out by the authors of 
-the liver cell atlas publication. 
 
 
 
 ```{r filter_umi}
 VlnPlot(liver, 'nCount_RNA', group.by = 'sample', pt.size = 0) +
   scale_y_log10() + 
-  geom_hline(yintercept = 700) + 
-  geom_hline(yintercept = 30000)
-#liver <- subset(liver, nCount_RNA > 700 & nCount_RNA < 30000)
+  geom_hline(yintercept = 900) + 
+  geom_hline(yintercept = 25000)
+#liver <- subset(liver, nCount_RNA > 900 & nCount_RNA < 25000)
 ```
 
 Again we try to select thresholds that remove most of the strongest outliers
@@ -517,8 +515,8 @@ are going to be filtered out of our data were predicted to be doublets
 by scds?
 
 ```{r filtering}
-liver$keep <- with(liver@meta.data, percent.mt < 15 & nFeature_RNA > 400 &
-  nFeature_RNA < 5000 & nCount_RNA > 700 & nCount_RNA < 30000)
+liver$keep <- with(liver@meta.data, percent.mt < 14 & nFeature_RNA > 600 &
+  nFeature_RNA < 5000 & nCount_RNA > 900 & nCount_RNA < 25000)
 ```
 
 Using the scds hybrid_score method, the scores range between 0 and 2.
@@ -550,8 +548,8 @@ putative doublet clusters.
 ## Subset based on %MT, number of genes, and number of UMI thresholds
 
 ```{r subsetting}
-liver <- subset(liver, subset = percent.mt < 15 & nFeature_RNA > 400 &
-  nFeature_RNA < 5000 & nCount_RNA > 700 & nCount_RNA < 30000)
+liver <- subset(liver, subset = percent.mt < 14 & nFeature_RNA > 600 &
+  nFeature_RNA < 5000 & nCount_RNA > 900 & nCount_RNA < 25000)
 ```
 
 
