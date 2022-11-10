@@ -1,0 +1,4 @@
+Enter an R session
+
+> library(rmarkdown)
+> rmarkdown::render("filename", output_format = md_document(), output_dir = '_episodes')
