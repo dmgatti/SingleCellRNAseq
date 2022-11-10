@@ -79,3 +79,25 @@ obj <- FindNeighbors(obj, reduction = 'pca', dims = 1:X, verbose = FALSE) %>%
     RunUMAP(reduction = 'pca', dims = 1:X, verbose = FALSE)
 ```
 
+## Integration and Label Transfer
+
+When analyzing your own data, you may find it useful to 
+obtain someone else's previously published data (or your lab's
+unpublished data) with which someone has already identified 
+cell clusters. You might then "bootstrap" your own analyses off
+of this existing data. Assuming the data you are using is derived
+from the same (or a similar) tissue, and that there are no 
+enormous differences in the techology used to profile the cells,
+you can use the cell labels identified in the other dataset to
+try to identify your own clusters. This process can be called
+"integration" when two or more datasets are merged in some way, and 
+"label transfer" when the cell cluster labels are transferred from
+one dataset to another. 
+
+If you wish to try this process with your own data, you may find
+the Seurat 
+[Integration and Label Transfer vignette](https://satijalab.org/seurat/archive/v3.0/integration.html)
+helpful.
+
+
+
