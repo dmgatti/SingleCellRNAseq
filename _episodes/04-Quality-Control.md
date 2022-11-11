@@ -40,7 +40,7 @@ load(file.path(data_dir, 'lesson03.Rdata'))
 ~~~
 {: .language-r}
 
-> Reminder: This load in your counts and cell metadata.
+> Reminder: This code loads in your counts and cell metadata.
 
 ## Quality control in scRNA-seq
 
@@ -76,34 +76,25 @@ approach. See
 [Bais and Kostka 2020](https://academic.oup.com/bioinformatics/article/36/4/1150/5566507)
 for more details.
 
+Because this doublet prediction method takes some time and is
+a bit memory-intensive, we will run it only on cells from one mouse.
+We will return to the doublet predictions later in this lesson.
+
 
 
 ~~~
-sce <- SingleCellExperiment(list(counts = counts))
+cell_ids <- filter(metadata, sample == 'CS52') %>% pull(cell)
+sce <- SingleCellExperiment(list(counts = counts[, cell_ids]))
 sce <- cxds_bcds_hybrid(sce)
-~~~
-{: .language-r}
-
-
-
-~~~
-Warning in asMethod(object): sparse->dense coercion: allocating vector of size
-11.5 GiB
-~~~
-{: .warning}
-
-
-
-~~~
 doublet_preds <- colData(sce)
 ~~~
 {: .language-r}
 
 
 ~~~
-            used   (Mb) gc trigger    (Mb)   max used    (Mb)
-Ncells   7192514  384.2   12374831   660.9    8911099   476.0
-Vcells 415522237 3170.2 3842900494 29319.1 4194066586 31998.2
+            used   (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells   7145122  381.6   12374901  660.9   9033526  482.5
+Vcells 179505535 1369.6  433982608 3311.1 433981942 3311.1
 ~~~
 {: .output}
 
@@ -135,11 +126,11 @@ sum(gene_counts == 0)
 
 
 ~~~
-[1] 5518
+[1] 7322
 ~~~
 {: .output}
 
-Of the 31053 genes, 5518 have zero counts across 
+Of the 31053 genes, 7322 have zero counts across 
 all cells. These genes do not inform us about the mean, variance, or covariance 
 of any of the other genes and we will remove them before proceeding with 
 further analysis.
@@ -150,7 +141,7 @@ counts <- counts[gene_counts > 0,]
 ~~~
 {: .language-r}
 
-This leaves 25535 genes in the counts matrix.
+This leaves 23731 genes in the counts matrix.
 
 We could also set some other threshold for filtering genes. Perhaps we should 
 look at the number of genes that have different numbers of counts. We will use 
@@ -220,8 +211,8 @@ text(3,  800, labels = paste(sum(gene_counts == 2),
 
 <img src="../fig/rmd-04-gene_count_hist_2-1.png" alt="plot of chunk gene_count_hist_2" width="612" style="display: block; margin: auto;" />
 
-In the plot above, we can see that there are 1332 
-genes that were detected in only one cell, 839 
+In the plot above, we can see that there are 1596 
+genes that were detected in only one cell, 924 
 genes detected in two cells, etc.
 
 Making a decision to keep or remove a gene based on its expression being
@@ -248,7 +239,7 @@ How would this affect your ability to discriminate between cell types?
 cell types. The degree to which this problem affects your analyses depends on
 the degree of strictness of your filtering. Let's take the situation to its
 logical extreme -- what if we keep only genes expressed in at least 95% of cells.
-If we did this, we would end up with only 13
+If we did this, we would end up with only 41
 genes! By definition these genes will be highly expressed in all cell types,
 therefore eliminating our ability to clearly distinguish between cell types.
 > {: .solution}
@@ -257,7 +248,7 @@ therefore eliminating our ability to clearly distinguish between cell types.
 
 > ## Challenge 2
 > What total count threshold would you choose to filter genes? Remember that 
-there are 123922 cells.
+there are 47743 cells.
 >
 > > ## Solution to Challenge 1
 > >
@@ -324,6 +315,7 @@ our filtering thresholds.
 
 
 
+
 ~~~
 metadata <- as.data.frame(metadata) %>%
               column_to_rownames('cell')
@@ -345,7 +337,6 @@ liver <- AddMetaData(liver, as.data.frame(doublet_preds))
 
 Here we briefly review these filters and decide what thresholds we will
 use for these data.
-
 
 
 ### Filtering by Mitochondrial Gene Content
@@ -400,6 +391,10 @@ VlnPlot(liver, features = "percent.mt", group.by = 'sample', pt.size = 0)
 
 <img src="../fig/rmd-04-seurat_counts_plots2-1.png" alt="plot of chunk seurat_counts_plots2" width="612" style="display: block; margin: auto;" />
 
+Library "CS89" (and maybe CS144) have a "long tail" of cells with high
+mitochondrial
+gene expression. We may wish to monitor these libraries throughout QC
+and decide whether it has problems worth ditching the sample.
 
 
 
@@ -412,7 +407,7 @@ find a single threshold that works decently well across all samples.
 As you can see, the samples we are examining do not look 
 drastically different so this may not be such an unrealistic simplification.
 
-We will use a threshold of 15% mitochondrial gene expression which will 
+We will use a threshold of 14% mitochondrial gene expression which will 
 remove the "long tail" of cells with high `percent.mt` values. We could
 also perhaps justify going as low as 10% to be more conservative,
 but we likely would not want to go down to 5%, which would 
@@ -420,7 +415,7 @@ remove around half the cells.
 
 
 ~~~
-#liver <- subset(liver, subset = percent.mt < 15)
+#liver <- subset(liver, subset = percent.mt < 14)
 ~~~
 {: .language-r}
 
@@ -461,7 +456,7 @@ densities at low numbers of genes expressed).
 ~~~
 VlnPlot(liver, 'nFeature_RNA', group.by = 'sample', pt.size = 0) +
   scale_y_log10() + 
-  geom_hline(yintercept = 400) + 
+  geom_hline(yintercept = 600) + 
   geom_hline(yintercept = 5000)
 ~~~
 {: .language-r}
@@ -477,7 +472,7 @@ Adding another scale for y, which will replace the existing scale.
 <img src="../fig/rmd-04-filter_gene_counts_5k-1.png" alt="plot of chunk filter_gene_counts_5k" width="612" style="display: block; margin: auto;" />
 
 ~~~
-#liver <- subset(liver, nFeature_RNA > 400 & nFeature_RNA < 5000)
+#liver <- subset(liver, nFeature_RNA > 600 & nFeature_RNA < 5000)
 ~~~
 {: .language-r}
 
@@ -530,9 +525,6 @@ ggplot(liver@meta.data, aes(x = nCount_RNA, y = nFeature_RNA)) +
 
 <img src="../fig/rmd-04-genes_umi-1.png" alt="plot of chunk genes_umi" width="612" style="display: block; margin: auto;" />
 
-It turns out that the cloud of cells that have unusually low gene counts
-for the number of UMIs sequenced were nearly all filtered out by the authors of 
-the liver cell atlas publication. 
 
 
 
@@ -540,8 +532,8 @@ the liver cell atlas publication.
 ~~~
 VlnPlot(liver, 'nCount_RNA', group.by = 'sample', pt.size = 0) +
   scale_y_log10() + 
-  geom_hline(yintercept = 700) + 
-  geom_hline(yintercept = 30000)
+  geom_hline(yintercept = 900) + 
+  geom_hline(yintercept = 25000)
 ~~~
 {: .language-r}
 
@@ -556,7 +548,7 @@ Adding another scale for y, which will replace the existing scale.
 <img src="../fig/rmd-04-filter_umi-1.png" alt="plot of chunk filter_umi" width="612" style="display: block; margin: auto;" />
 
 ~~~
-#liver <- subset(liver, nCount_RNA > 700 & nCount_RNA < 30000)
+#liver <- subset(liver, nCount_RNA > 900 & nCount_RNA < 25000)
 ~~~
 {: .language-r}
 
@@ -584,6 +576,9 @@ they might express many more genes than either cell type alone. Use the
 
 
 
+
+
+
 ## Doublet detection revisited
 
 Let's go back to our doublet predictions. How many of the cells that
@@ -592,8 +587,8 @@ by scds?
 
 
 ~~~
-liver$keep <- with(liver@meta.data, percent.mt < 15 & nFeature_RNA > 400 &
-  nFeature_RNA < 5000 & nCount_RNA > 700 & nCount_RNA < 30000)
+liver$keep <- with(liver@meta.data, percent.mt < 14 & nFeature_RNA > 600 &
+  nFeature_RNA < 5000 & nCount_RNA > 900 & nCount_RNA < 25000)
 ~~~
 {: .language-r}
 
@@ -602,24 +597,44 @@ Higher scores should be more likely to be doublets.
 
 
 ~~~
-ggplot(liver@meta.data, aes(x = keep, y = hybrid_score)) + 
-  geom_violin() + theme_bw(base_size = 18)
+ggplot(mutate(liver@meta.data, class = ifelse(keep, 'QC singlet', 'QC doublet')),
+  aes(x = class, y = hybrid_score)) + 
+  geom_violin() + theme_bw(base_size = 18) +
+  xlab("") + ylab("SCDS hybrid score")
 ~~~
 {: .language-r}
 
+
+
+~~~
+Warning: Removed 42388 rows containing non-finite values (`stat_ydensity()`).
+~~~
+{: .warning}
+
 <img src="../fig/rmd-04-doublet_plot-1.png" alt="plot of chunk doublet_plot" width="612" style="display: block; margin: auto;" />
 
-Somewhat unsatisfyingly, we don't really get much clear enrichment of
-cells with high scds hybrid scores. Nevertheless let's filter
-out those cells with a hybrid_score > 1.5.
+Somewhat unsatisfyingly, the scds hybrid scores aren't wildly
+different between the cells we've used QC thresholds to call as doublets
+vs singlets. 
+There does seem to be an enrichment of cells with score >0.75 among
+the QC doublets. 
+If we had run scds doublet prediction on all cells we might 
+compare results with *no* scds score filtering to those with an
+scds score cutoff of, say, 1.0.
+One characteristic of the presence of doublet cells
+is a cell cluster located between two large and well-defined clusters
+that expresses markers of both of them (don't worry, we will learn how
+to cluster and visualize data soon). 
+Returning to the scds doublet scores, we could cluster our cells with
+and without doublet score filtering, and see if we note any
+putative doublet clusters.
 
 ## Subset based on %MT, number of genes, and number of UMI thresholds
 
 
 ~~~
-liver <- subset(liver, subset = percent.mt < 15 & nFeature_RNA > 400 &
-  nFeature_RNA < 5000 & nCount_RNA > 700 & nCount_RNA < 30000 & 
-    hybrid_score < 1.5)
+liver <- subset(liver, subset = percent.mt < 14 & nFeature_RNA > 600 &
+  nFeature_RNA < 5000 & nCount_RNA > 900 & nCount_RNA < 25000)
 ~~~
 {: .language-r}
 
@@ -627,6 +642,7 @@ liver <- subset(liver, subset = percent.mt < 15 & nFeature_RNA > 400 &
 <!-- Discuss batch correction here? -->
 <!-- it might be interesting to do batch correction across in vivo + nuc seq -->
 <!-- DAS recommends using harmony if we want to do batch correction -->
+<!-- Should probably do batch correction across sample -->
 
 ## Save Data for Next Lesson
 

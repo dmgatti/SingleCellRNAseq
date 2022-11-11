@@ -49,3 +49,54 @@ paper.
  detect and can easily be altered to match your intuition regarding the
  heterogeneity of cells in your sample.
 
+
+## A review of a typical Seurat scRNA-Seq analysis pipeline
+
+```{}
+obj <- CreateSeuratObject(counts, project = 'my project',
+        meta.data = metadata) %>%
+        PercentageFeatureSet(pattern = "^mt-", col.name = "percent.mt")
+```
+
+Analyze using base Seurat workflow
+
+```{}
+obj <- NormalizeData(obj, normalization.method = "LogNormalize") %>% 
+    FindVariableFeatures(nfeatures = 2000) %>% 
+    ScaleData(vars.to.regress = c("percent.mt", "nCount_RNA")) %>%
+    RunPCA(verbose = FALSE, npcs = 100)
+```
+
+Look at your PC's and decide how many to use for dimensionality reduction
+and clustering:
+
+```{}
+ElbowPlot(obj, ndims = 100)
+# let's use X PCs
+obj <- FindNeighbors(obj, reduction = 'pca', dims = 1:X, verbose = FALSE) %>%
+    FindClusters(verbose = FALSE, resolution = 0.7) %>%
+    RunUMAP(reduction = 'pca', dims = 1:X, verbose = FALSE)
+```
+
+## Integration and Label Transfer
+
+When analyzing your own data, you may find it useful to 
+obtain someone else's previously published data (or your lab's
+unpublished data) with which someone has already identified 
+cell clusters. You might then "bootstrap" your own analyses off
+of this existing data. Assuming the data you are using is derived
+from the same (or a similar) tissue, and that there are no 
+enormous differences in the techology used to profile the cells,
+you can use the cell labels identified in the other dataset to
+try to identify your own clusters. This process can be called
+"integration" when two or more datasets are merged in some way, and 
+"label transfer" when the cell cluster labels are transferred from
+one dataset to another. 
+
+If you wish to try this process with your own data, you may find
+the Seurat 
+[Integration and Label Transfer vignette](https://satijalab.org/seurat/archive/v3.0/integration.html)
+helpful.
+
+
+

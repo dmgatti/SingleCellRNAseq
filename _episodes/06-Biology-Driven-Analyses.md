@@ -18,6 +18,9 @@ keypoints:
 
 
 
+
+
+
 ## Read Data from Previous Lesson
 
 
@@ -32,6 +35,97 @@ liver <- load(file.path(data_dir, 'lesson05.Rdata'))
 Error in file.path(data_dir, "lesson05.Rdata"): object 'data_dir' not found
 ~~~
 {: .error}
+
+## Batch correction
+
+## Finding marker genes 
+
+Now we will find marker genes for our clusters. Finding marker genes takes a
+while so we will downsample our data to speed up the process.
+Even still this may take a few minutes.
+
+
+~~~
+liver_mini <- subset(liver, downsample = 300)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in subset(liver, downsample = 300): object 'liver' not found
+~~~
+{: .error}
+
+
+
+~~~
+markers <- FindAllMarkers(liver_mini, only.pos = TRUE, 
+    logfc.threshold	= log2(1.25), min.pct = 0.2) 
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in FindAllMarkers(liver_mini, only.pos = TRUE, logfc.threshold = log2(1.25), : could not find function "FindAllMarkers"
+~~~
+{: .error}
+
+These cluster marker genes are very useful. By definition, the 
+marker genes vary in expression between the cells in our dataset.
+Therefore each gene is helping to capture some aspect of the 
+cellular heterogeneity found within the liver tissue we profiled.
+
+The most important task we will carry out using our marker genes is
+the identification of cell type labels for each cluster.
+One approach to obtaining cell type labels is to use an automated
+method like `SingleR`, which was introduced in 
+[Aran et al. 2019](https://doi.org/10.1038/s41590-018-0276-y)
+and has a companion Bioconductor package
+[here](https://bioconductor.org/packages/release/bioc/html/SingleR.html).
+This method 
+> performs unbiased cell type recognition from single-cell RNA sequencing 
+> data, by leveraging reference transcriptomic datasets of pure cell 
+> types to infer the cell of origin of each single cell independently.
+
+A method like `SingleR` is a great option for taking a first look at your
+data and getting a sanity check for what cell types are present.
+However, we find that the reference cell type data are often insufficient
+to categorize the full cellular diversity in many datasets. 
+An automated method might be a great way to initially identify 
+T cells, macrophages, or fibroblasts -- but might struggle with 
+categorizing more detailed subsets like inflammatory macrophages or
+activated fibroblasts.
+
+The "classic" way to identify cell types in your scRNA-Seq data
+is by looking at the marker genes and manually labelling each cell type.
+This manual method has been used ever since the first single cell 
+transcriptomic studies of tissue cellular heterogeneity. 
+There are both advantages and disadvantages to the manual approach.
+The advantages include:
+
+ * The ability to utilize considerable subjective judgement -- after all, you
+ should be familiar with the tissue you are looking at and you can label
+ cells with arbitrary levels of precision and descriptiveness
+ * The possibility to identify cells that are not well represented in 
+ existing data/databases like that used by `SingleR`
+ 
+Disadvantages include:
+
+ * This method can be slow and tedious
+ * Your biological knowledge of the tissue might cause you to mislabel cells
+
+We will show an example of this type of cell type identification in the 
+next lesson.
+
+One could also integrate your data with other existing datasets
+that have cell labels, and do label transfer. There is more information
+on this topic in lesson 7 where you will have the opportunity to
+(potentially) try out this approach on your own data.
+This is a very useful approach that is likely to become 
+increasingly useful as the scientific community accumulates more
+and more scRNA-Seq datasets.
 
 ## Identifying cell types
 
@@ -81,6 +175,42 @@ For example, maybe we administer a drug and wish to see how gene
 expression of control group hepatocytes differs from
 treatment group hepatocytes.
 
+Because the liver dataset we are working with is a *cell atlas*, there is
+no convenient experimental factor to use in our differential expression
+comparison. Nevertheless, we will illustrate how a differential expression
+test could look by making up a fake experimental factor.
+
+
+
+~~~
+libraries <- unique(liver$sample)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in unique(liver$sample): object 'liver' not found
+~~~
+{: .error}
+
+
+
+~~~
+grp <- setNames(c(rep('control', 5), rep('drug', 4)), libraries)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in setNames(c(rep("control", 5), rep("drug", 4)), libraries): object 'libraries' not found
+~~~
+{: .error}
+
+We will look for differential expression between the groups defined
+by this fake drug/control factor.
+
 <!-- What do we look for differential expression between??? -->
 
 ## Pathway enrichment 
@@ -117,6 +247,8 @@ cellchat, cellphoneDB, etc.
 ## Pseudotime and velocity
 
 What is pseudotime
+
+*slingshot*
 
 There are many, many algorithms and software packages for inferring 
 pseudotime. For a very nice list check out
