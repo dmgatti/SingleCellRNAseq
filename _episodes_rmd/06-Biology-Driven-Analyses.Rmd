@@ -17,6 +17,10 @@ keypoints:
 ```{r, include=FALSE}
 source("../bin/chunk-options.R")
 knitr_fig_path("06-")
+
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(Seurat))
+suppressPackageStartupMessages(library(harmony))
 ```
 
 ```{r seed, echo = FALSE}
@@ -28,10 +32,200 @@ set.seed(1418)
 ## Read Data from Previous Lesson
 
 ```{r load_data}
-liver <- load(file.path(data_dir, 'lesson05.Rdata'))
+liver <- readRDS(file.path(data_dir, 'lesson05.rds'))
 ```
 
 ## Batch correction
+
+In bulk RNA-Seq experiments, it is usually vital that we apply a
+correction for samples profiled in different batches. In single cell
+RNA-Seq experiments the situation is a bit more nuanced. We certainly
+want to take into consideration if our samples have been profiled in
+different batches, but the point at which we do so can vary.
+
+Consider this example. 
+Distinguishing between cell types is a robust process, in fact
+we can do a fairly good job distinguishing major cell types
+with just a few dozen genes.
+We might expect that batch effects are small enough that they would
+not strongly impede our ability to identify cell types.
+We could do clustering and cell type identification, then when
+we are doing differential expression testing we could include a covariate
+for batch.
+This is an example where we would be appropriately considering batch,
+but not at *every* step in the analysis.
+
+In contrast, in these liver data, we are going to show an 
+example of why batch correction earlier in the analytical
+process can be helpful.
+The reason this section is included in the lesson on
+"biology-driven" analyses is that we will bring in some understanding
+of biology to show a specific example of cells that were separated
+(in UMAP space and in different clusters)
+by an unknown batch-related factor when they should have been 
+clustering together as the same cell type.
+
+We don't know much about when these liver samples were profiled
+and what differences in the mice, equipment, or operators there 
+could have been. 
+There are `r length(unique(liver$sample))` mice that were profiled
+in the data we are looking at.
+Let's start by looking at whether specific cell clusters in our 
+clustering + UMAP are derived largely from one or a few samples.
+
+```{r table}
+table(liver$sample, liver$seurat_clusters)
+```
+
+Notice cluster 13. Most of the cells are derived from mouse CS53.
+Let's look into this a little further.
+First we plot the cells in UMAP space colored by mouse of origin,
+demonstrating some fairly clear batch effects -- indicated by
+
+    * cell clusters that contain dots of only one or a few colors
+    * clusters of opposing colors that are near each other but not overlapping
+
+```{r sample_effects, fig.width = 7, fig.height = 6}
+UMAPPlot(liver, group.by = 'sample', pt.size = 0.1)
+```
+
+Digging into cluster 13, let's see what genes this cluster
+expresses
+
+```{r find_markers1}
+markers13 <- FindMarkers(liver, '13', only.pos = TRUE, logfc.threshold = 1,
+                         max.cells.per.ident = 500)
+head(markers13, 6)
+```
+
+Look at the genes we are finding. These genes are expressed in almost
+all cells of cluster 13 (column `pct.1`) and in few of the cells in other
+clusters (column `pct.2`). 
+An immunologist would likely recognize these as B cell genes. The gene 
+Cd79a is very frequently captured well in single cell transcriptomics and
+is highly specific to B cells. Let's look at where Cd79a is expressed.
+
+```{r cd79a_vln, fig.width=7, fig.height=4}
+VlnPlot(liver, 'Cd79a')
+```
+
+Expression of this gene is very clearly **ON** in clusters 13 and 21, 
+and **OFF** in all other clusters. Let's look at where clusters 13 and 21
+are:
+
+```{r cd79a_fp, fig.width = 7, fig.height = 6}
+FeaturePlot(liver, "Cd79a", cols = c('lightgrey', 'red'), 
+            label = TRUE, label.size = 6)
+```
+
+Interesting. Clusters 13 and 21 are right next to each other. Recall that
+we saw that cluster 13 cells are largely derived from a single mouse.
+Looking at cluster 21:
+
+```{r c21}
+table(liver$sample[liver$seurat_clusters == '21'])
+```
+
+we can see that this cluster contains cells from several mice. 
+Both clusters 13 and 21 are B cells -- you can verify this on your own by 
+looking at expression of other B cell marker genes. 
+It is unlikely that there would be heterogeneous types of B cells that
+segregate almost perfectly between different batches. Rather, it seems that
+there is some batch-driven pattern in gene expression that is causing
+these cells to cluster separately when they should cluster 
+together.
+
+In the liver cell atlas paper 
+[Guilliams et al](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1)
+from which we obtained these data, the authors applied a batch
+correction across samples. They used a method called harmony. 
+We will run harmony on the subset of data that we are working with. 
+We expect that a successful batch correction algorithm will bring the cells
+in clusters 13 and 21 together into a single cluster.
+
+Harmony is an algorithm that projects cells into a shared embedding.
+In an iterative process, harmony learns cell-specific linear adjustment
+factors in order to integrate datasets in a way that favors clusters 
+containing cells from multiple datasets. At the same time, the method has
+features that allow it to maintain separation of cell clusters that are
+unique to particular datasets. 
+The harmony method is described in 
+[Korsunsky et al. 2019](https://www.nature.com/articles/s41592-019-0619-0)
+and has a website at [this link](https://portals.broadinstitute.org/harmony/).
+The following animation, available from 
+[this link](https://slowkow.com/notes/harmony-animation/)
+in a beautiful and comprehensive workup by 
+[Kamil Slowikowski](https://slowkow.com/), shows in a visual manner
+how cells from different donors are integrated together 
+
+<!-- <img src="../fig/harmony-in-motion-3donors.gif" alt="Animation demonstrating harmony iterative integration" width="500px"> -->
+<img src="../fig/harmony-in-motion-3donors.gif" alt="Animation demonstrating harmony iterative integration">
+
+Let's run harmony on the liver data. Harmony itself returns a
+low-dimensional embedding of the cells, much like the reduced dimensional
+embedding of cells that we previously produced in PC-space.
+Recall that we performed clustering and projection to two dimensions with 
+UMAP all using the PCA dimension reduction. We will now redo those 
+steps but use the *harmony* reduction instead.
+Note that harmony has several parameters that could be tweaked. The most
+important may be theta. Higher values of theta force more mixing across 
+batches. We will use the same values of each parameter that the authors
+of the liver cell atlas used -- their code is available at 
+[this link](https://github.com/guilliottslab/scripts_GuilliamsEtAll_Cell2022/blob/main/3b_Harmony.R).
+
+After we run harmony using the same parameters the authors used, we will
+look at the harmony components and decide how many to use -- in a way
+analogous to deciding how many PCs to use for UMAP and clustering.
+
+```{r harmony, message = FALSE, warning = FALSE}
+# Store old UMAP and old clusters
+liver$before_harmony_clusters <- liver$seurat_clusters
+liver@misc$noharmony_umap <- liver@reductions$umap
+
+# Run harmony
+liver <- RunHarmony(liver, 'sample', assay.use='RNA',
+           theta=1, dims.use=1:40, max.iter.harmony=100)
+ElbowPlot(liver, reduction = 'harmony', ndims = 40)
+```
+
+Let's again pick 24 dimensions, just like we looked at 24 dimensions
+in PC space.
+```{r finish_harmony}
+liver <- FindNeighbors(liver, reduction='harmony', dims=1:24) %>%
+    FindClusters(verbose=FALSE, resolution=0.3) %>%
+    RunUMAP(dims=1:24, reduction='harmony')
+liver$after_harmony_clusters <- liver$seurat_clusters
+```
+
+Now let's see where the cells from the former
+clusters 13 and 21 appear in our new clustering.
+```{r c1321}
+table(liver$before_harmony_clusters, 
+      liver$after_harmony_clusters)[c('13', '21'), ]
+```
+
+These cells are *all* in the new cluster 8. This cluster
+exclusively expresses the B cell gene Cd79a, suggesting that the
+harmony batch correction has accomplished the task that we had hoped.
+
+```{r c8, fig.width = 7, fig.height = 6}
+FeaturePlot(liver, 'Cd79a', cols = c('lightgrey', 'red'), label = T, 
+            label.size = 6)
+```
+```{r c9, fig.width = 8, fig.height = 4}
+VlnPlot(liver, 'Cd79a')
+```
+
+We will work with the harmony clusters from this point forward.
+In a real analysis we should spend more time trying different
+parameters and verifying that our results are robust to a variety of
+different choices. We might also examine other cell clusters that 
+were specific to one batch in an effort to determine whether they
+are like this B cell example and *should* be better aligned between 
+batches, or whether the cells are truly unique to that batch and 
+*should not* be aligned with cells present in other batches.
+
+
 
 ## Finding marker genes 
 
@@ -89,8 +283,8 @@ Disadvantages include:
  * This method can be slow and tedious
  * Your biological knowledge of the tissue might cause you to mislabel cells
 
-We will show an example of this type of cell type identification in the 
-next lesson.
+We will show an example of this type of cell type identification
+below.
 
 One could also integrate your data with other existing datasets
 that have cell labels, and do label transfer. There is more information
@@ -104,12 +298,21 @@ and more scRNA-Seq datasets.
 
 Let's plot the expression of some of the major cell type
 markers. Look at the data.frame `markers` for a summary of the
-markers we found in lesson 5.
+markers we found above.
 
 ```{r expr}
 UMAPPlot(liver, label = TRUE, label.size = 6) + NoLegend()
 FeaturePlot(liver, c("Lyve1", "Cdh5"), cols = c('lightgrey', 'red'))
 ```
+
+ * clusters 0, 2, 7 are endothelial cells (Pecam1) cluster 11 is also pos
+ * cluster 8 is B cells (Cd79a)
+ * cluster 10 is fibroblasts (Pdgfra)
+ * cluster 14 neutrophils (Retnlg, S100a8)
+ * cluster 13 is cholangiocytes
+ * cluster 9 is pDCs (Siglech)
+ * cluster 12 is cDC1s (Xcr1)
+ * cluster 4 is T, NK, ILC
 
 ## Differential expression 
 
@@ -170,6 +373,20 @@ linear modeling
 propeller
 
 ## Cell-cell communication 
+
+An analysis of possible cell-cell communication is one output that
+can be inferred from scRNA-Seq data. The basic idea is that we can 
+use databases of known receptor-ligand interactions in order to 
+predict cells that interact. Specifically, if cell type A expresses ligand X,
+and cell type B expresses the cognate receptor for ligand X, we can infer
+the possibility of communication between these two cell types.
+Of course scRNA-Seq data is not telling us whether that 
+receptor-ligand link is actually *active* at any particular moment in time,
+but it may be useful to understand which cells are communicating
+most/least and how lines of communication change in, say, a 
+drug-treated vs control condition.
+
+
 
 cellchat, cellphoneDB, etc.
 
