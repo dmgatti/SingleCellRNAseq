@@ -309,7 +309,7 @@ We will again use the Seurat object in the next lesson. Save it now and we will
 load it at the beginning of the next lesson. 
 
 ```{r save_seurat}
-save(liver, markers, file = file.path(data_dir, 'lesson05.Rdata'))
+saveRDS(liver, file = file.path(data_dir, 'lesson05.rds'))
 ```
 
 
