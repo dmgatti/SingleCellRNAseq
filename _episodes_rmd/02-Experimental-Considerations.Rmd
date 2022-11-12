@@ -12,6 +12,9 @@ objectives:
 - "Understand the different data modalities in single-cell sequencing and be able to select a modality to answer an experimental question."
 keypoints:
 - "Due to the high variance in single-cell data sets, a well-powered study with adequate biological replication is essential for rigor & reproducibility."
+- "Increasing the number of cells also increases the multiplet rate."
+- "Pooling cells using hashtagging is a useful way to reduce costs, but also stresses cells and may affect cell viability."
+- "Pooling cells from genetically diverse individuals may allow cells to be demultiplexed using genetic variants that differ between samples."
 - "Do not confound experimental batch with any technical aspect of the experiment, i.e. sample pooling or flow cell assignment."
 ---
 
@@ -41,9 +44,9 @@ In droplet single cell transcriptomics, a key reason the technology "works" is
 because most droplets contain at most one cell. After all, if droplets 
 contained more than one cell the technology would no longer be profiling 
 single cells! However, due to the nature of the cell loading of droplets (which 
-can be modeled accurately using Poisson statisticss), even in a perfect 
-experiment it is inevitable that some droplets contain more than one cell. 
-These are called multiplets -- or doublets, since the vast majority of 
+can be modeled accurately using Poisson statistics), even in a perfect 
+experiment it is inevitable that some droplets will contain more than one cell. 
+These are called *multiplets* -- or doublets, since the vast majority of 
 multiple-cell droplets contain two cells. The initial paper describing the 
 10X technology, published in 2017, showed the following histogram:
 
@@ -51,20 +54,19 @@ multiple-cell droplets contain two cells. The initial paper describing the
 
 It is important to realize that the doublet rate is not fixed but rather 
 depends on the number of cells *loaded* into the 10X Chromium machine. 
-The more cells are loaded, the higher the doublet rate. The table below shows 
-the basic relationship between the number of cells loaded and the doublet rate. 
-(Focus on the first and second columns).
-This table comes from the 10X User Guide for their 
+The more cells are loaded, the higher the doublet rate. The figure below shows 
+the relationship between the number of cells loaded and the doublet rate. 
+This figure is derived from the 10X User Guide for their 
 Chromium Next GEM Single Cell 3ʹ Reagent Kits v3.1 product,
 but the basic trends should hold across other versions of this product as well.
-![Table showing recovery and multiplet rate as a function of cells loaded](../fig/10x_cells_loading_table.png)
+![Recovery and multiplet rate as a function of cells loaded](../fig/cell_loading.png)
 (Image provided by 10x Genomics).
 
 In a future lesson we will discuss software options for trying to identify and 
 remove doublets prior to drawing biological conclusions from data. 
 Unfortunately this process is not always straightforward and we are usually 
 forced to accept the reality that we likely cannot remove *all* doublets from 
-our data.
+our data.  
 
 
 ## How to decide on the parameters of the experiment
@@ -77,13 +79,13 @@ customizable according to the particular details of each study.
 A typical number of captured cells (target cell number) would be 6,000-8,000 
 cells on a standard 10X Chromium, or 16,000-20,000 cells on the higher 
 throughput Chromium X.
-At these capture cell numbers the doublet rates are expected to stay
+At these cell capture numbers, the doublet rates are expected to stay
 relatively low (the JAX Single Cell Biology Laboratory estimates
-empirical doublet rates per 1,000 cells of 0.9% and 0.4% for 
+empirical doublet rates of 0.9% and 0.4% per 1,000 cells for 
 Chromium and Chromium X, respectively).
 At these doublet rates we would expect to obtain less than 100 doublets in
 standard experiments.
-One may also choose to "overload" or "superload" the Chromium instrument.
+One may also choose to "overload" or "super load" the Chromium instrument.
 In this strategy we load more than the typical number of cells,
 they flow through the instrument more quickly than usual, and more
 droplets end up with multiple cells.
@@ -98,12 +100,12 @@ There is no fixed rule for how deeply we should sequence in our scRNA-Seq
 experiment. Moreover, the depth of sequencing will vary significantly between
 cells no matter what we choose.
 
-Nevertheless, it is a reasonable rule of thumb to sequence to a depth of 
-approximately 50,000 - 75,000 reads per cell in a typical experiment.
-If we a profiling cells that have relatively fewer genes expressed,
-such as lymphocytes, we might target something closer to 25,000 - 50,000 reads
-per cell. If we are profiling cells that express many genes,
-such as stem cells, we might go significantly higher, to 
+Nevertheless, a reasonable rule of thumb would be to sequence to a depth of 
+approximately 50,000 - 75,000 reads per cell.
+If we are profiling cells that have relatively few genes expressed,
+such as lymphocytes, we might target a sequencing depth closer to 
+25,000 - 50,000 reads per cell. If we are profiling cells that express many 
+genes, such as stem cells, we might go significantly higher, to 
 100,000 or even 200,000 reads per cell.
 
 ### Number of samples
@@ -113,10 +115,10 @@ than to run just one or two. For example, JAX's Single Cell Biology
 Laboratory gives a substantial per-library discount for running 3+ 
 samples as opposed to one or two samples. This is because the chip
 used to run samples through Chromium has 8 (or 16) channels which cannot
-be reused. 
+be reused.  
 
-If you can design your experiment to be run in batches of 8 this is 
-usually the most efficient way to organize it.
+The most efficient way to organize your experiment is to design it to be run 
+in batches of 8.  
 
 
 ## Biological replication  
@@ -125,9 +127,9 @@ Proper biological replication is the cornerstone of a statistically
 well-powered experiment. This is recognized across nearly all of biology. 
 In the early days of single cell RNA-Seq, the main focus of many investigations 
 was demonstrating the technology and often biological replication was missing. 
-As scRNA-Seq has matured, we believe it has become increasingly important to 
-ensure the presence of biological replication in order to have confidence 
-that our findings are statistically robust.
+As scRNA-Seq has matured, it has become increasingly important to 
+include biological replication in order to have confidence that our findings 
+are statistically robust.
 
 Note that the tens of thousands of cells sequenced in a typical sample do 
 *not* constitute biological replication. In order to show a biologically 
@@ -139,24 +141,25 @@ In a strict sense, biological replication would entail independently rearing
 multiple genetically identical animals, subjecting them to identical conditions, 
 and harvesting cells in an identical manner. This is one strength of working in 
 the mouse that we can leverage at JAX. However, there are also instances where 
-we can attain truly useful biological replication without meeting these 
+we can obtain useful biological replication without meeting these 
 strict requirements. For example, a disease study in humans may profile 
 single cells collected from affected and unaffected individuals, and could 
 provide insights as long as the groups are not systematically different. 
-Turning to the mouse, a fine-grained timecourse may not require biological 
-replication at every timepoint because -- depending on the questions 
+Turning to the mouse, a fine-grained time course may not require biological 
+replication at every time point because -- depending on the questions 
 investigators wish to ask -- cells from different individual mice collected 
-at different timepoints might be analyzed together to attain robust results.
+at different time points might be analyzed together to attain robust results.
 
 How many biological replicates should one collect? This question is difficult 
 to answer with a "one size fits all" approach but we recommend an 
 *absolute minimum* of three biological replicates per experimental group. 
-More is almost always better, but there are obviously tradeoffs with respect 
+More is almost always better, but there are obviously trade offs with respect 
 to budget and the time it takes to harvest samples. There are many studies 
 that have attempted to model the power of single cell RNA-Seq experiments, 
 including differential gene expression and differences in cell composition. 
 We will not discuss these studies in detail in this course, but some may be 
-useful for your own work:
+useful for your own work:  
+
  * Schmid et al. 2021. scPower accelerates and optimizes the design of 
  multi-sample single cell transcriptomic 
  studies. <https://doi.org/10.1038/s41467-021-26779-7>
@@ -178,11 +181,12 @@ useful for your own work:
 
 Given the relatively high expense of each scRNA-Seq sample and the importance 
 of proper biological replication laid out above, the opportunity to pool samples 
-and run them together is a powerful tool in the single cell enthusiast's 
+and run them together is a powerful tool in the single cell researcher's 
 toolkit. 
 In pooled single cell genomics, there are two primary methods of tracking 
 the sample to which each individual cell belongs. First, one can attach a 
-unique barcode ("hashtag") to all cells of each sample, typically using an oligonucleotide-tagged antibody to a ubiquitous cell surface protein or an 
+unique barcode ("hashtag") to all cells of each sample, typically using an 
+oligonucleotide-tagged antibody to a ubiquitous cell surface protein or an 
 alternative (e.g. lipid-reactive) reagent.  
 
 <img src="../fig/smibert_etal_2018_Fig1A.jpg" alt="Overview of cell hashing approach" width="600px">
@@ -203,7 +207,10 @@ projects.
 
 A second, alternative, approach is to use natural genetic variation as a 
 built-in barcode and demultiplex cells using SNVs and indels unique to each 
-sample (Figure?). 
+sample. 
+
+> DMG: (Figure?). 
+
 This approach was pioneered by 
 [Kang et al.](https://www.nature.com/articles/nbt.4042). 
 In contrast to the hashtagging approach, genetic demultiplexing requires 
@@ -217,8 +224,7 @@ mouse strain profiled under multiple conditions.
 One advantage of genetic demultiplexing is that we can use the genetic 
 information to filter out any mixed background doublets, allowing us to
 obtain data that contains fewer doublets than we would otherwise
-expect.
-
+expect.  
 
 
 ## Avoid Confounding Batch with Experimental Variables

@@ -1,8 +1,8 @@
 ---
 source: Rmd
 title: "Overview of scRNA-seq Data"
-teaching: 10
-exercises: 2
+teaching: 60
+exercises: 10
 questions:
 - "What does single cell RNA-Seq data look like?"
 objectives:
@@ -36,7 +36,7 @@ Open this project now, by:
 2. choosing "scRNA.Rproj"
 3. opening the project file.
 
-## What do raw data look like in scRNA-Seq?
+## What do raw scRNA-Seq data look like?
 
 The raw data for an scRNA-Seq experiment typically consists of two FASTQ files.
 One file contains the sequences of the cell barcode and molecular
@@ -82,7 +82,7 @@ broadly speaking CellRanger is the most widely used tool for
 processing 10X Chromium scRNA-Seq data. 
 
 
-## Intro to two major single cell analysis ecosystems: 
+## Introduction to two major single cell analysis ecosystems: 
 
 At the time that this workshop was created, there were many different software 
 packages designed for analyzing scRNA-seq data in a variety of scenarios. The 
@@ -107,7 +107,7 @@ visualization/exploration.
         * Seurat v4: Integrative multimodal analysis and mapping of user data 
         sets to cell identity reference database.
 
-* Python/scanpy and anndata
+* Python/[https://scanpy.readthedocs.io/en/stable/](scanpy) and [https://anndata.readthedocs.io/en/latest/](anndata)
     * Scanpy is a python toolkit for analyzing single-cell gene expression data.
     * Scanpy is built jointly with anndata, which is a file format specification 
     and accompanying API for efficiently storing and accessing single cell data.
@@ -117,7 +117,7 @@ visualization/exploration.
     * This software has been used in a very large number of single cell projects. We 
     encourage you to check it out and consider using it for your own work. 
     
-For this course we will not use scanpy simply because we view R/Seurat as 
+For this course we will not use scanpy because we view R/Seurat as 
 having a slight edge over scanpy when it comes to visualization and 
 interactive exploration of single cell data.
 
@@ -257,7 +257,7 @@ sum(duplicated(colnames(counts)))
 
 The sum of duplicated values equals zero, so all of the barcodes are unique.
 The barcode sequence is the actual sequence of the oligonucleotide tag that
-was stuck to the GEM (barcoded bead) that went into each droplet. In early
+was attached to the GEM (barcoded bead) that went into each droplet. In early
 versions of 10X technology there were approximately 
 [750,000 barcodes](https://kb.10xgenomics.com/hc/en-us/articles/115004506263-What-is-a-barcode-whitelist-) 
 per run while in the current chemistry there are 
@@ -385,8 +385,6 @@ digest cells:
 dplyr::count(metadata, digest, typeSample)
 ```
 
-<!-- NB DAS had an issue with this code, it was seeing plyr::count hence explicitly note dplyr::count -->
-
 We're going to explore the data further using a series of Challenges. 
 You will be asked to look at the contents of some of the columns to see 
 how the data are 
@@ -408,11 +406,9 @@ the mouse identifier for each cell.
 >
 > > ## Solution to Challenge 3
 > >
-> > with(metadata, table(sample))
+> > count(metadata, sample)
 > {: .solution}
 {: .challenge}
-
-
 
 
 In this workshop, we will attempt to reproduce some of the results of the 

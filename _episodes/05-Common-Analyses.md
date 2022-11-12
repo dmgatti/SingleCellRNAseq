@@ -17,6 +17,9 @@ keypoints:
 
 
 
+
+
+
 ## Read Data from Previous Lesson
 
 
@@ -57,7 +60,7 @@ these slightly different coding styles. Please ask us for clarification
 if you are having difficulty seeing how our example code is 
 doing what it is supposed to do.
 
-## Normalization (log and more specialized) 
+### Normalization
 
 Instead of working with raw count data measured across cells
 that were sequenced to highly variable depths, we conduct
@@ -65,9 +68,8 @@ normalization to try to make gene expression values follow
 a more stable distribution as well as being more comparable
 between cells.
 
-### Log Normalization
-
-The count data is usually log-normally distributed. 
+Single cell gene expression
+count data is usually approximately log-normally distributed. 
 Many statistical methods work best when the data is normally distributed. 
 We also would like to correct for variability in sequencing depth 
 between cells, the nature of which is purely technical.
@@ -77,9 +79,26 @@ the log of the number of counts per 10,000 reads.
 
 ~~~
 liver <- liver %>%
-              NormalizeData(normalization.method = "LogNormalize")
+            NormalizeData(normalization.method = "LogNormalize")
 ~~~
 {: .language-r}
+
+This method of normalizing is pretty simple. The way it works is
+to follow a simple formula like
+`norm_count = log((count + 1)/total_counts) * 10000`
+where `total_counts` is the total number of reads in each cell.
+
+There are other normalization methods that are more complicated and
+may outperform the log normalization method. Two examples are:
+
+ * Normalization based on multinomial methods as outlined by
+ [Townes et al. 2019](https://pubmed.ncbi.nlm.nih.gov/31870412/)
+ * Normalization using regularized negative binomial regression
+ [Hafemeister and Satija 2019](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1874-1), 
+ with a [Seurat vignette here](https://satijalab.org/seurat/articles/sctransform_vignette.html)
+ 
+However, no normalization method has been demonstrated to be universally
+and unambiguously better than simple log normalization.
 
 ### Finding Variable Features
 
@@ -95,29 +114,12 @@ liver <- liver %>%
 # Identify the 25 most highly variable genes
 top25 <- head(VariableFeatures(liver), 25)
 
-# plot variable features with and without labels
 plot1 <- VariableFeaturePlot(liver)
 plot2 <- LabelPoints(plot = plot1, points = top25, xnudge = 0, 
                      ynudge = 0, repel = TRUE)
-plot1 + plot2
+plot2
 ~~~
 {: .language-r}
-
-
-
-~~~
-Warning: Transformation introduced infinite values in continuous x-axis
-Transformation introduced infinite values in continuous x-axis
-~~~
-{: .warning}
-
-
-
-~~~
-Warning: ggrepel: 4 unlabeled data points (too many overlaps). Consider
-increasing max.overlaps
-~~~
-{: .warning}
 
 <img src="../fig/rmd-05-var_features-1.png" alt="plot of chunk var_features" width="612" style="display: block; margin: auto;" />
 
@@ -154,7 +156,11 @@ This helps all genes to contribute to the inferred variability rather
 than just the highly-expressed genes.
 
 We will "regress out" the signals of technical confounders including
-%MT and the number of UMIs.
+%MT and the number of genes expressed. We might also choose to regress out
+other variables such as cell cycle stage (if we wish to examine 
+cellular heterogeneity independent of cell cycle), number of UMIs,
+etc.
+
 
 
 ~~~
@@ -178,20 +184,14 @@ liver <- liver %>%
 ~~~
 {: .language-r}
 
-It is usually not very useful to view the raw PCs themselves:
+It is usually not very useful to view the raw PCs themselves.
+There's nothing obvious that we can glean from the following PC plot:
+
 
 ~~~
 DimPlot(liver, reduction = "pca")
 ~~~
 {: .language-r}
-
-
-
-~~~
-Rasterizing points since number of points exceeds 100,000.
-To disable this behavior set `raster=FALSE`
-~~~
-{: .output}
 
 <img src="../fig/rmd-05-pcplot-1.png" alt="plot of chunk pcplot" width="612" style="display: block; margin: auto;" />
 
@@ -258,6 +258,11 @@ ElbowPlot(liver, ndims = 40) + geom_vline(xintercept = num_pc)
 
 <img src="../fig/rmd-05-elbow3-1.png" alt="plot of chunk elbow3" width="612" style="display: block; margin: auto;" />
 
+<!-- Do we need to do batch correction with Harmony? The authors of the
+liver cell atlas did it ...
+See https://github.com/guilliottslab/scripts_GuilliamsEtAll_Cell2022/blob/main/3b_Harmony.R
+-->
+
 ## Dimensionality reduction (UMAP, tSNE, etc) 
 
 As mentioned above, dimensionality reduction allows you to actually 
@@ -284,16 +289,25 @@ liver <- RunUMAP(liver, reduction = 'pca', dims = 1:num_pc,
 ~~~
 {: .language-r}
 
-
-
-~~~
-Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric
-To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'
-This message will be shown once per session
-~~~
-{: .warning}
-
 ## Clustering 
+
+Seurat uses a graph-based approach to cluster cells with similar
+transcriptomic profiles. 
+We start by constructing the shared nearest-neighbor graph. This
+computes a distance metric between the cells (in PC-space) and 
+constructs the shared nearest-neighbor graph by calculating the
+neighborhood overlap (Jaccard index) between every cell and its 
+20 (by default) nearest neighbors.
+Then the shared nearest-neighbor graph is used to identify
+cell clusters using a modularity optimization based clustering
+algorithm. 
+The Seurat help pages for the functions below,
+[FindNeighbors](https://satijalab.org/seurat/reference/findneighbors)
+and 
+[FindClusters](https://satijalab.org/seurat/reference/findclusters),
+provide some references if you are interested in digging into
+further details of this clustering procedure.
+
 
 
 ~~~
@@ -306,206 +320,17 @@ UMAPPlot(liver, label = TRUE, label.size = 6)
 
 <img src="../fig/rmd-05-seurat3-1.png" alt="plot of chunk seurat3" width="612" style="display: block; margin: auto;" />
 
-## Finding marker genes 
-
-Now we will find marker genes for our clusters. Finding marker genes takes a
-while so we will downsample our data to speed up the process.
-Even still this may take a few minutes.
-
-
-~~~
-liver_mini <- subset(liver, downsample = 300)
-markers <- FindAllMarkers(liver_mini, only.pos = TRUE, 
-    logfc.threshold	= log2(1.25), min.pct = 0.2) 
-~~~
-{: .language-r}
-
-
-
-~~~
-Calculating cluster 0
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 1
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 2
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 3
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 4
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 5
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 6
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 7
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 8
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 9
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 10
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 11
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 12
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 13
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 14
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 15
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 16
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 17
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 18
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 19
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 20
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 21
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 22
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 23
-~~~
-{: .output}
-
-
-
-~~~
-Calculating cluster 24
-~~~
-{: .output}
-
-
-<!-- ## Annotating cell types (+ automated options e.g. SingleR)  -->
-<!-- DAS - I don't think these methods are generally all that useful. The -->
-<!-- cell types they get right are usually easy to identify, while the -->
-<!-- harder types are not identified correctly by SingleR. -->
-<!-- Should we include this as opinion/narrator's comment? -->
-
-<!-- Do we need to do batch correction with Harmony? The authors of the
-liver cell atlas did it ...
-See https://github.com/guilliottslab/scripts_GuilliamsEtAll_Cell2022/blob/main/3b_Harmony.R
--->
+Note that we are using the principal components computed from 
+normalized gene expression to compute UMAP
+dimensionality reduction and we are also using the principal 
+components to compute a shared nearest neighbor graph and 
+find clusters. These two tasks are independent and could be done in
+either order. Very often the points that are near each other in
+UMAP space are also near neighbors and belong to the same cluster,
+but this is not always the case.
+
+
+## Saving
 
 We will again use the Seurat object in the next lesson. Save it now and we will 
 load it at the beginning of the next lesson. 
@@ -515,6 +340,13 @@ load it at the beginning of the next lesson.
 save(liver, markers, file = file.path(data_dir, 'lesson05.Rdata'))
 ~~~
 {: .language-r}
+
+
+
+~~~
+Error in save(liver, markers, file = file.path(data_dir, "lesson05.Rdata")): object 'markers' not found
+~~~
+{: .error}
 
 
 ## Session Info
@@ -561,35 +393,35 @@ loaded via a namespace (and not attached):
  [25] uwot_0.1.14            spatstat.sparse_3.0-0  sctransform_0.3.5     
  [28] shiny_1.7.3            compiler_4.1.2         httr_1.4.4            
  [31] backports_1.4.1        lazyeval_0.2.2         assertthat_0.2.1      
- [34] Matrix_1.5-1           fastmap_1.1.0          limma_3.50.3          
- [37] gargle_1.2.1           cli_3.4.1              later_1.3.0           
- [40] htmltools_0.5.3        tools_4.1.2            igraph_1.3.5          
- [43] gtable_0.3.1           glue_1.6.2             reshape2_1.4.4        
- [46] RANN_2.6.1             Rcpp_1.0.9             scattermore_0.8       
- [49] cellranger_1.1.0       vctrs_0.5.0            nlme_3.1-160          
- [52] spatstat.explore_3.0-3 progressr_0.11.0       lmtest_0.9-40         
- [55] spatstat.random_3.0-1  xfun_0.34              globals_0.16.1        
- [58] rvest_1.0.3            timechange_0.1.1       mime_0.12             
- [61] miniUI_0.1.1.1         lifecycle_1.0.3        irlba_2.3.5.1         
- [64] goftest_1.2-3          googlesheets4_1.0.1    future_1.29.0         
- [67] MASS_7.3-58.1          zoo_1.8-11             scales_1.2.1          
- [70] spatstat.utils_3.0-1   hms_1.1.2              promises_1.2.0.1      
- [73] parallel_4.1.2         RColorBrewer_1.1-3     gridExtra_2.3         
- [76] reticulate_1.26        pbapply_1.5-0          stringi_1.7.8         
- [79] highr_0.9              rlang_1.0.6            pkgconfig_2.0.3       
- [82] matrixStats_0.62.0     evaluate_0.18          lattice_0.20-45       
- [85] tensor_1.5             ROCR_1.0-11            labeling_0.4.2        
- [88] patchwork_1.1.2        htmlwidgets_1.5.4      cowplot_1.1.1         
- [91] tidyselect_1.2.0       parallelly_1.32.1      RcppAnnoy_0.0.20      
- [94] plyr_1.8.7             magrittr_2.0.3         R6_2.5.1              
- [97] generics_0.1.3         DBI_1.1.3              pillar_1.8.1          
-[100] haven_2.5.1            withr_2.5.0            fitdistrplus_1.1-8    
-[103] abind_1.4-5            survival_3.4-0         sp_1.5-1              
-[106] future.apply_1.10.0    modelr_0.1.9           crayon_1.5.2          
-[109] KernSmooth_2.23-20     utf8_1.2.2             spatstat.geom_3.0-3   
-[112] plotly_4.10.1          tzdb_0.3.0             grid_4.1.2            
-[115] readxl_1.4.1           data.table_1.14.4      reprex_2.0.2          
-[118] digest_0.6.30          xtable_1.8-4           httpuv_1.6.6          
-[121] munsell_0.5.0          viridisLite_0.4.1     
+ [34] Matrix_1.5-1           fastmap_1.1.0          gargle_1.2.1          
+ [37] cli_3.4.1              later_1.3.0            htmltools_0.5.3       
+ [40] tools_4.1.2            igraph_1.3.5           gtable_0.3.1          
+ [43] glue_1.6.2             reshape2_1.4.4         RANN_2.6.1            
+ [46] Rcpp_1.0.9             scattermore_0.8        cellranger_1.1.0      
+ [49] vctrs_0.5.0            nlme_3.1-160           spatstat.explore_3.0-3
+ [52] progressr_0.11.0       lmtest_0.9-40          spatstat.random_3.0-1 
+ [55] xfun_0.34              globals_0.16.1         rvest_1.0.3           
+ [58] timechange_0.1.1       mime_0.12              miniUI_0.1.1.1        
+ [61] lifecycle_1.0.3        irlba_2.3.5.1          goftest_1.2-3         
+ [64] googlesheets4_1.0.1    future_1.29.0          MASS_7.3-58.1         
+ [67] zoo_1.8-11             scales_1.2.1           spatstat.utils_3.0-1  
+ [70] hms_1.1.2              promises_1.2.0.1       parallel_4.1.2        
+ [73] RColorBrewer_1.1-3     gridExtra_2.3          reticulate_1.26       
+ [76] pbapply_1.5-0          stringi_1.7.8          highr_0.9             
+ [79] rlang_1.0.6            pkgconfig_2.0.3        matrixStats_0.62.0    
+ [82] evaluate_0.18          lattice_0.20-45        tensor_1.5            
+ [85] ROCR_1.0-11            labeling_0.4.2         patchwork_1.1.2       
+ [88] htmlwidgets_1.5.4      cowplot_1.1.1          tidyselect_1.2.0      
+ [91] parallelly_1.32.1      RcppAnnoy_0.0.20       plyr_1.8.7            
+ [94] magrittr_2.0.3         R6_2.5.1               generics_0.1.3        
+ [97] DBI_1.1.3              pillar_1.8.1           haven_2.5.1           
+[100] withr_2.5.0            fitdistrplus_1.1-8     abind_1.4-5           
+[103] survival_3.4-0         sp_1.5-1               future.apply_1.10.0   
+[106] modelr_0.1.9           crayon_1.5.2           KernSmooth_2.23-20    
+[109] utf8_1.2.2             spatstat.geom_3.0-3    plotly_4.10.1         
+[112] tzdb_0.3.0             grid_4.1.2             readxl_1.4.1          
+[115] data.table_1.14.4      reprex_2.0.2           digest_0.6.30         
+[118] xtable_1.8-4           httpuv_1.6.6           munsell_0.5.0         
+[121] viridisLite_0.4.1     
 ~~~
 {: .output}

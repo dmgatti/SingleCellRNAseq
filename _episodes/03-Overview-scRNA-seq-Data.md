@@ -3,8 +3,8 @@
 # Instead, please edit 03-Overview-scRNA-seq-Data.md in _episodes_rmd/
 source: Rmd
 title: "Overview of scRNA-seq Data"
-teaching: 10
-exercises: 2
+teaching: 60
+exercises: 10
 questions:
 - "What does single cell RNA-Seq data look like?"
 objectives:
@@ -37,7 +37,7 @@ Open this project now, by:
 2. choosing "scRNA.Rproj"
 3. opening the project file.
 
-## What do raw data look like in scRNA-Seq?
+## What do raw scRNA-Seq data look like?
 
 The raw data for an scRNA-Seq experiment typically consists of two FASTQ files.
 One file contains the sequences of the cell barcode and molecular
@@ -83,7 +83,7 @@ broadly speaking CellRanger is the most widely used tool for
 processing 10X Chromium scRNA-Seq data. 
 
 
-## Intro to two major single cell analysis ecosystems: 
+## Introduction to two major single cell analysis ecosystems: 
 
 At the time that this workshop was created, there were many different software 
 packages designed for analyzing scRNA-seq data in a variety of scenarios. The 
@@ -108,7 +108,7 @@ visualization/exploration.
         * Seurat v4: Integrative multimodal analysis and mapping of user data 
         sets to cell identity reference database.
 
-* Python/scanpy and anndata
+* Python/[https://scanpy.readthedocs.io/en/stable/](scanpy) and [https://anndata.readthedocs.io/en/latest/](anndata)
     * Scanpy is a python toolkit for analyzing single-cell gene expression data.
     * Scanpy is built jointly with anndata, which is a file format specification 
     and accompanying API for efficiently storing and accessing single cell data.
@@ -118,7 +118,7 @@ visualization/exploration.
     * This software has been used in a very large number of single cell projects. We 
     encourage you to check it out and consider using it for your own work. 
     
-For this course we will not use scanpy simply because we view R/Seurat as 
+For this course we will not use scanpy because we view R/Seurat as 
 having a slight edge over scanpy when it comes to visualization and 
 interactive exploration of single cell data.
 
@@ -230,7 +230,7 @@ dim(counts)
 
 
 ~~~
-[1]  31053 123922
+[1] 31053 47743
 ~~~
 {: .output}
 
@@ -309,7 +309,7 @@ sum(duplicated(colnames(counts)))
 
 The sum of duplicated values equals zero, so all of the barcodes are unique.
 The barcode sequence is the actual sequence of the oligonucleotide tag that
-was stuck to the GEM (barcoded bead) that went into each droplet. In early
+was attached to the GEM (barcoded bead) that went into each droplet. In early
 versions of 10X technology there were approximately 
 [750,000 barcodes](https://kb.10xgenomics.com/hc/en-us/articles/115004506263-What-is-a-barcode-whitelist-) 
 per run while in the current chemistry there are 
@@ -365,9 +365,9 @@ Although `counts` looks like a matrix and you can use many matrix functions on
 it, `counts` is actually a *different* type of object. In scRNASeq, the read 
 depth in each cell is quite low. So you many only get counts for a small number 
 of genes in each cell. The `counts` matrix has 31053 rows and 
-123922 columns, and includes 3.8481499 &times; 10<sup>9</sup> 
+47743 columns, and includes 1.4825634 &times; 10<sup>9</sup> 
 entries. However, most of these entries 
-(93.0408482%) are 
+(92.4930544%) are 
 zeros because every gene is not detected in every cell. It would be wasteful 
 to store all of these zeros in memory. It would also make it difficult to 
 store all of the data in memory. So `counts` is a 'sparse matrix', which only 
@@ -385,13 +385,13 @@ str(counts)
 
 ~~~
 Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
-  ..@ i       : int [1:267798590] 15 19 36 38 40 61 66 67 70 93 ...
-  ..@ p       : int [1:123923] 0 3264 6449 9729 13446 16990 20054 23142 26419 29563 ...
-  ..@ Dim     : int [1:2] 31053 123922
+  ..@ i       : int [1:111295227] 15 19 36 38 40 61 66 67 70 93 ...
+  ..@ p       : int [1:47744] 0 3264 6449 9729 13446 16990 20054 23142 26419 29563 ...
+  ..@ Dim     : int [1:2] 31053 47743
   ..@ Dimnames:List of 2
   .. ..$ : chr [1:31053] "Xkr4" "Gm1992" "Gm37381" "Rp1" ...
-  .. ..$ : chr [1:123922] "AAACGAATCCACTTCG-2" "AAAGGTACAGGAAGTC-2" "AACTTCTGTCATGGCC-2" "AATGGCTCAACGGTAG-2" ...
-  ..@ x       : num [1:267798590] 1 1 1 2 1 6 1 1 2 1 ...
+  .. ..$ : chr [1:47743] "AAACGAATCCACTTCG-2" "AAAGGTACAGGAAGTC-2" "AACTTCTGTCATGGCC-2" "AATGGCTCAACGGTAG-2" ...
+  ..@ x       : num [1:111295227] 1 1 1 2 1 6 1 1 2 1 ...
   ..@ factors : list()
 ~~~
 {: .output}
@@ -437,11 +437,11 @@ sum(gene_sums$sums == 0)
 
 
 ~~~
-[1] 5518
+[1] 7322
 ~~~
 {: .output}
 
-We can see that 5518 (17.7696197%) 
+We can see that 7322 (23.5790423%) 
 genes have no reads at all associated with them. In the next lesson, we will 
 remove genes that have no counts in any cells.
 
@@ -465,7 +465,7 @@ Matrix::colSums(counts) %>% enframe() %>%
 <img src="../fig/rmd-03-cell_counts-2.png" alt="plot of chunk cell_counts" width="612" style="display: block; margin: auto;" />
 
 The range of counts covers several orders of magnitude, from 
-500 to 2.89876 &times; 10<sup>5</sup>. We will need
+500 to 3.32592 &times; 10<sup>5</sup>. We will need
 to normalize for this large difference in sequencing depth,
 which we will cover in the next lesson.
 
@@ -490,7 +490,7 @@ metadata <- read_csv(file.path(data_dir, 'mouseStSt_invivo', 'annot_metadata_fir
 
 
 ~~~
-Rows: 123922 Columns: 4
+Rows: 47743 Columns: 4
 -- Column specification ------------------------------------------------------------------------------------------------
 Delimiter: ","
 chr (4): sample, cell, digest, typeSample
@@ -539,18 +539,17 @@ digest cells:
 
 
 ~~~
-count(metadata, digest, typeSample)
+dplyr::count(metadata, digest, typeSample)
 ~~~
 {: .language-r}
 
 
 
 ~~~
-# A tibble: 2 x 3
+# A tibble: 1 x 3
   digest typeSample     n
   <chr>  <chr>      <int>
-1 inVivo citeSeq    51009
-2 inVivo scRnaSeq   72913
+1 inVivo scRnaSeq   47743
 ~~~
 {: .output}
 
@@ -575,11 +574,9 @@ the mouse identifier for each cell.
 >
 > > ## Solution to Challenge 3
 > >
-> > with(metadata, table(sample))
+> > count(metadata, sample)
 > {: .solution}
 {: .challenge}
-
-
 
 
 In this workshop, we will attempt to reproduce some of the results of the 
