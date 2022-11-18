@@ -669,30 +669,30 @@ loaded via a namespace (and not attached):
  [40] htmltools_0.5.3        tools_4.1.2            igraph_1.3.5          
  [43] gtable_0.3.1           glue_1.6.2             reshape2_1.4.4        
  [46] RANN_2.6.1             Rcpp_1.0.9             scattermore_0.8       
- [49] cellranger_1.1.0       vctrs_0.5.0            nlme_3.1-160          
- [52] spatstat.explore_3.0-3 progressr_0.11.0       lmtest_0.9-40         
- [55] spatstat.random_3.0-1  xfun_0.34              globals_0.16.1        
+ [49] cellranger_1.1.0       vctrs_0.5.1            nlme_3.1-160          
+ [52] spatstat.explore_3.0-5 progressr_0.11.0       lmtest_0.9-40         
+ [55] spatstat.random_3.0-1  xfun_0.35              globals_0.16.1        
  [58] rvest_1.0.3            timechange_0.1.1       mime_0.12             
  [61] miniUI_0.1.1.1         lifecycle_1.0.3        irlba_2.3.5.1         
  [64] goftest_1.2-3          googlesheets4_1.0.1    future_1.29.0         
  [67] MASS_7.3-58.1          zoo_1.8-11             scales_1.2.1          
  [70] vroom_1.6.0            spatstat.utils_3.0-1   hms_1.1.2             
  [73] promises_1.2.0.1       parallel_4.1.2         RColorBrewer_1.1-3    
- [76] gridExtra_2.3          reticulate_1.26        pbapply_1.5-0         
+ [76] gridExtra_2.3          reticulate_1.26        pbapply_1.6-0         
  [79] stringi_1.7.8          highr_0.9              rlang_1.0.6           
  [82] pkgconfig_2.0.3        matrixStats_0.62.0     evaluate_0.18         
  [85] lattice_0.20-45        tensor_1.5             ROCR_1.0-11           
  [88] labeling_0.4.2         patchwork_1.1.2        htmlwidgets_1.5.4     
- [91] bit_4.0.4              cowplot_1.1.1          tidyselect_1.2.0      
- [94] parallelly_1.32.1      RcppAnnoy_0.0.20       plyr_1.8.7            
+ [91] bit_4.0.5              cowplot_1.1.1          tidyselect_1.2.0      
+ [94] parallelly_1.32.1      RcppAnnoy_0.0.20       plyr_1.8.8            
  [97] magrittr_2.0.3         R6_2.5.1               generics_0.1.3        
 [100] DBI_1.1.3              pillar_1.8.1           haven_2.5.1           
 [103] withr_2.5.0            fitdistrplus_1.1-8     abind_1.4-5           
 [106] survival_3.4-0         sp_1.5-1               future.apply_1.10.0   
-[109] modelr_0.1.9           crayon_1.5.2           KernSmooth_2.23-20    
+[109] modelr_0.1.10          crayon_1.5.2           KernSmooth_2.23-20    
 [112] utf8_1.2.2             spatstat.geom_3.0-3    plotly_4.10.1         
 [115] tzdb_0.3.0             grid_4.1.2             readxl_1.4.1          
-[118] data.table_1.14.4      reprex_2.0.2           digest_0.6.30         
+[118] data.table_1.14.6      reprex_2.0.2           digest_0.6.30         
 [121] xtable_1.8-4           httpuv_1.6.6           munsell_0.5.0         
 [124] viridisLite_0.4.1     
 ~~~
