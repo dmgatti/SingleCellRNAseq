@@ -298,6 +298,6 @@ other attached packages:
 
 loaded via a namespace (and not attached):
 [1] compiler_4.1.2 magrittr_2.0.3 tools_4.1.2    stringi_1.7.8  stringr_1.4.1 
-[6] xfun_0.34      evaluate_0.18 
+[6] xfun_0.35      evaluate_0.18 
 ~~~
 {: .output}

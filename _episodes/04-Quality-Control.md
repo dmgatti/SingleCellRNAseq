@@ -93,8 +93,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7145122  381.6   12374901  660.9   9033526  482.5
-Vcells 179505535 1369.6  433982608 3311.1 433981942 3311.1
+Ncells   7145182  381.6   12374987  660.9   9033586  482.5
+Vcells 179505584 1369.6  433982676 3311.1 433981999 3311.1
 ~~~
 {: .output}
 
@@ -738,15 +738,15 @@ other attached packages:
 [23] tidyverse_1.3.2             knitr_1.40                 
 
 loaded via a namespace (and not attached):
-  [1] readxl_1.4.1           backports_1.4.1        plyr_1.8.7            
+  [1] readxl_1.4.1           backports_1.4.1        plyr_1.8.8            
   [4] igraph_1.3.5           lazyeval_0.2.2         sp_1.5-1              
   [7] splines_4.1.2          listenv_0.8.0          scattermore_0.8       
  [10] digest_0.6.30          htmltools_0.5.3        fansi_1.0.3           
  [13] magrittr_2.0.3         tensor_1.5             googlesheets4_1.0.1   
  [16] cluster_2.1.4          ROCR_1.0-11            tzdb_0.3.0            
- [19] globals_0.16.1         modelr_0.1.9           timechange_0.1.1      
+ [19] globals_0.16.1         modelr_0.1.10          timechange_0.1.1      
  [22] spatstat.sparse_3.0-0  colorspace_2.0-3       rvest_1.0.3           
- [25] ggrepel_0.9.2          haven_2.5.1            xfun_0.34             
+ [25] ggrepel_0.9.2          haven_2.5.1            xfun_0.35             
  [28] crayon_1.5.2           RCurl_1.98-1.9         jsonlite_1.8.3        
  [31] progressr_0.11.0       spatstat.data_3.0-0    survival_3.4-0        
  [34] zoo_1.8-11             glue_1.6.2             polyclip_1.10-4       
@@ -765,13 +765,13 @@ loaded via a namespace (and not attached):
  [73] cli_3.4.1              generics_0.1.3         broom_1.0.1           
  [76] ggridges_0.5.4         evaluate_0.18          fastmap_1.1.0         
  [79] goftest_1.2-3          fs_1.5.2               fitdistrplus_1.1-8    
- [82] RANN_2.6.1             pbapply_1.5-0          future_1.29.0         
+ [82] RANN_2.6.1             pbapply_1.6-0          future_1.29.0         
  [85] nlme_3.1-160           mime_0.12              xml2_1.3.3            
  [88] compiler_4.1.2         plotly_4.10.1          png_0.1-7             
  [91] spatstat.utils_3.0-1   reprex_2.0.2           stringi_1.7.8         
- [94] highr_0.9              lattice_0.20-45        vctrs_0.5.0           
+ [94] highr_0.9              lattice_0.20-45        vctrs_0.5.1           
  [97] pillar_1.8.1           lifecycle_1.0.3        spatstat.geom_3.0-3   
-[100] lmtest_0.9-40          RcppAnnoy_0.0.20       data.table_1.14.4     
+[100] lmtest_0.9-40          RcppAnnoy_0.0.20       data.table_1.14.6     
 [103] cowplot_1.1.1          bitops_1.0-7           irlba_2.3.5.1         
 [106] httpuv_1.6.6           patchwork_1.1.2        R6_2.5.1              
 [109] promises_1.2.0.1       KernSmooth_2.23-20     gridExtra_2.3         
@@ -779,7 +779,7 @@ loaded via a namespace (and not attached):
 [115] assertthat_0.2.1       withr_2.5.0            sctransform_0.3.5     
 [118] GenomeInfoDbData_1.2.7 parallel_4.1.2         hms_1.1.2             
 [121] grid_4.1.2             googledrive_2.0.0      Rtsne_0.16            
-[124] pROC_1.18.0            spatstat.explore_3.0-3 shiny_1.7.3           
+[124] pROC_1.18.0            spatstat.explore_3.0-5 shiny_1.7.3           
 [127] lubridate_1.9.0       
 ~~~
 {: .output}
