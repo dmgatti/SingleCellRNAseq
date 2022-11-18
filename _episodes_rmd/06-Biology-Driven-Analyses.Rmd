@@ -21,6 +21,8 @@ knitr_fig_path("06-")
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(harmony))
+
+data_dir <- '../data'
 ```
 
 ```{r seed, echo = FALSE}
