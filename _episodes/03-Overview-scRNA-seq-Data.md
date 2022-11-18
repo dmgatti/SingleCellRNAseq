@@ -650,7 +650,7 @@ attached base packages:
 other attached packages:
  [1] SeuratObject_4.1.3 Seurat_4.2.1       forcats_0.5.2      stringr_1.4.1     
  [5] dplyr_1.0.10       purrr_0.3.5        readr_2.1.3        tidyr_1.2.1       
- [9] tibble_3.1.8       ggplot2_3.4.0      tidyverse_1.3.2    knitr_1.40        
+ [9] tibble_3.1.8       ggplot2_3.4.0      tidyverse_1.3.2    knitr_1.41        
 
 loaded via a namespace (and not attached):
   [1] googledrive_2.0.0      Rtsne_0.16             colorspace_2.0-3      

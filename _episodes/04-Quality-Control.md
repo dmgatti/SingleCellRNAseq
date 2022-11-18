@@ -93,8 +93,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7145182  381.6   12374987  660.9   9033586  482.5
-Vcells 179505584 1369.6  433982676 3311.1 433981999 3311.1
+Ncells   7144083  381.6   12373460  660.9   9032588  482.4
+Vcells 179502992 1369.5  433979576 3311.1 433979415 3311.1
 ~~~
 {: .output}
 
@@ -735,7 +735,7 @@ other attached packages:
 [17] dplyr_1.0.10                purrr_0.3.5                
 [19] readr_2.1.3                 tidyr_1.2.1                
 [21] tibble_3.1.8                ggplot2_3.4.0              
-[23] tidyverse_1.3.2             knitr_1.40                 
+[23] tidyverse_1.3.2             knitr_1.41                 
 
 loaded via a namespace (and not attached):
   [1] readxl_1.4.1           backports_1.4.1        plyr_1.8.8            
