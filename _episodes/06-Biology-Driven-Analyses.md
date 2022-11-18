@@ -290,28 +290,28 @@ This message will be shown once per session
 
 
 ~~~
-09:34:30 UMAP embedding parameters a = 0.9922 b = 1.112
+11:45:48 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-09:34:30 Read 44253 rows and found 24 numeric columns
+11:45:48 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-09:34:30 Using Annoy for neighbor search, n_neighbors = 30
+11:45:48 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-09:34:30 Building Annoy index with metric = cosine, n_trees = 50
+11:45:48 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -333,13 +333,13 @@ This message will be shown once per session
 
 ~~~
 **************************************************|
-09:34:34 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpEpb6t1\file2e84482f3543
-09:34:34 Searching Annoy index using 1 thread, search_k = 3000
-09:34:47 Annoy recall = 100%
-09:34:47 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-09:34:49 Initializing from normalized Laplacian + noise (using irlba)
-09:34:59 Commencing optimization for 200 epochs, with 1893320 positive edges
-09:35:36 Optimization finished
+11:45:52 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\Rtmpy8KJfn\file19c838da2e4a
+11:45:53 Searching Annoy index using 1 thread, search_k = 3000
+11:46:09 Annoy recall = 100%
+11:46:09 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+11:46:13 Initializing from normalized Laplacian + noise (using irlba)
+11:46:27 Commencing optimization for 200 epochs, with 1893320 positive edges
+11:47:18 Optimization finished
 ~~~
 {: .output}
 
