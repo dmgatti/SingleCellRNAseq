@@ -84,8 +84,9 @@ Let's look into this a little further.
 First we plot the cells in UMAP space colored by mouse of origin,
 demonstrating some fairly clear batch effects -- indicated by
 
-    * cell clusters that contain dots of only one or a few colors
-    * clusters of opposing colors that are near each other but not overlapping
+ * cell clusters that contain dots of only one or a few colors
+ * clusters of different colors that are near each other but not overlapping
+
 
 ```{r sample_effects, fig.width = 7, fig.height = 6}
 UMAPPlot(liver, group.by = 'sample', pt.size = 0.1)
@@ -99,6 +100,10 @@ markers13 <- FindMarkers(liver, '13', only.pos = TRUE, logfc.threshold = 1,
                          max.cells.per.ident = 500)
 head(markers13, 6)
 ```
+
+We'll talk in detail about the information in this type of table later.
+For now, just be aware that these are genes that are expressed much more
+highly in cluster 13 than in the other cells.
 
 Look at the genes we are finding. These genes are expressed in almost
 all cells of cluster 13 (column `pct.1`) and in few of the cells in other
@@ -145,7 +150,7 @@ We will run harmony on the subset of data that we are working with.
 We expect that a successful batch correction algorithm will bring the cells
 in clusters 13 and 21 together into a single cluster.
 
-Harmony is an algorithm that projects cells into a shared embedding.
+Harmony is an algorithm that projects cells into a shared low-dimensional embedding.
 In an iterative process, harmony learns cell-specific linear adjustment
 factors in order to integrate datasets in a way that favors clusters 
 containing cells from multiple datasets. At the same time, the method has
@@ -233,7 +238,10 @@ batches, or whether the cells are truly unique to that batch and
 
 Now we will find marker genes for our clusters. Finding marker genes takes a
 while so we will downsample our data to speed up the process.
-Even still this may take a few minutes.
+The `downsample` argument to the `subset()` function means that Seurat
+will take a random 300 (maximum) cells from each cluster in our
+`liver_mini` object.
+Even with the downsampled data this marker-finding will take a few minutes.
 
 ```{r markers, message=FALSE}
 liver_mini <- subset(liver, downsample = 300)
@@ -300,12 +308,136 @@ and more scRNA-Seq datasets.
 
 Let's plot the expression of some of the major cell type
 markers. Look at the data.frame `markers` for a summary of the
-markers we found above.
+markers we found above. We'll massage the `markers` data.frame into a
+more tidy format:
+
+```{r markers_massage}
+old_markers <- markers
+markers <- as_tibble(markers) %>% 
+  select(cluster, gene, avg_log2FC, pct.1, pct.2, p_val_adj)
+head(markers, 6)
+```
+
+In the `markers` tibble, the columns have the following meanings:
+
+ * cluster -- the cluster in which expression of the marker gene is enriched
+ * gene -- the gene that has high expression in this cluster
+ * avg_log2FC -- the log2 fold change difference in expression of the gene
+ between this cluster compared to *all* the rest of the cells
+ * pct.1 -- the fraction of cells in this cluster that express the gene 
+ (expression is just quantified as a nonzero count for this gene)
+ * pct.2 -- the fraction of cells *not* in this cluster (i.e. all other cells)
+ that express the gene 
+ * p_val_adj -- a multiple testing corrected p-value (Bonferroni 
+ corrected) for the marker indicating
+ the significance of expression enrichment in this cluster compared to all
+ other cells
+ 
+You should be aware of one weakness of finding cell types using this approach. 
+As mentioned above, this marker gene-finding function compares expression
+of a gene in cluster X to expression of the gene in all other cells. But 
+what if a gene is highly expressed in cluster X and in some other tiny 
+cluster, cluster Y? If we compare cluster X to all other cells, it will look 
+like the gene is specific to cluster X, when really the gene is
+specific to both clusters X and Y. One could modify the marker gene-finding
+function to compare all clusters in a pairwise fashion and then unify
+the results in order to get around this issue.
+Dan Skelly has some code available 
+[here](https://gist.github.com/daskelly/09c1d2ae8dc3b1de1fe2ec2dbd0dd44d)
+that implements such an approach in the Seurat framework, should you
+wish to try it.
+For this course we will not get into such a level of detail.
+
+Let's look at the top 3 markers for each cluster:
+
+```{r top_markers}
+group_by(markers, cluster) %>% arrange(desc(avg_log2FC)) %>%
+  mutate(rank = 1:n()) %>%
+  filter(rank <= 3) %>%
+  pivot_wider(-c(avg_log2FC, pct.1, pct.2, p_val_adj), 
+              names_from = 'rank', values_from = 'gene') %>%
+  arrange(cluster)
+```
+
+Recognizing these genes might be a big challenge if you are not 
+used to looking at single cell gene expression. Let's check out expression of 
+the very top genes in each cell cluster:
+
+```{r top_markers, fig.width = 8, fig.height = 10}
+top_markers <- group_by(markers, cluster) %>% 
+  arrange(desc(avg_log2FC)) %>%
+  top_n(1, avg_log2FC) %>% pull(gene)
+VlnPlot(liver, features = top_markers, stack = TRUE, flip = TRUE)
+```
+
+What does this tell us? Well, there are some genes here that are quite
+specific to one cluster (e.g. S100a9, Spp1, Ccl5, Siglech),
+but there are a few markers that are not very good markers at all
+(e.g. Fabp1, Cst3) and some that are not very specific 
+(e.g. Clec4f, Cd5l, Kdr, Clec4g).
+
+Let's look at one of these markers -- Kdr. Our violin plot above
+shows that this gene is expressed in clusters 0, 2, 6, and 12.
+If we look at a UMAP plot
 
 ```{r expr}
 UMAPPlot(liver, label = TRUE, label.size = 6) + NoLegend()
-FeaturePlot(liver, c("Lyve1", "Cdh5"), cols = c('lightgrey', 'red'))
 ```
+
+we see that these clusters are smaller bits of a large cloud of points
+in UMAP space. This is probably a relatively heterogenous cell type or
+or a continuum of cells (e.g. differentiating cells or cells being
+activated by some stimulus). Nevertheless it is fairly clear that
+these cells all express Kdr:
+
+```{r expr2}
+FeaturePlot(liver, "Kdr", cols = c('lightgrey', 'red'))
+```
+
+If we do some digging, we see that Kdr encodes
+[vascular endothelial growth factor receptor 2](https://www.uniprot.org/uniprotkb/P35968).
+In the liver, we would expect endothelial cells to be fairly 
+abundant. Therefore we can already say with relatively high
+confidence that clusters 0, 2, 6, and 12 are endothelial cells.
+
+Looking again at the violin plot above, there are some genes that
+are often seen in scRNA-Seq data and are excellent markers:
+
+ * *S100a9* is a marker for neutrophils (or the broader category of granulocytes)
+ * *Dcn* is a marker for fibroblasts
+ * *Ccl5* (which encodes RANTES) is a marker for T cells. The T cell cluster might also include some other related immune cell types (natural killer [NK] cells and innate lymphoid cells [ILCs])
+ * *Siglech* is a marker for plasmacytoid dendritic cells
+
+We have now identified (at least tentative) cell types for clusters
+0, 2, 4, 6, 9, 10, 12, and 14. Let's store our labels and look at
+what remains unidentified.
+
+```{r labelling}
+labels <- tibble(cluster_num = unique(liver$after_harmony_clusters)) %>%
+  mutate(cluster_num = as.character(cluster_num)) %>%
+  mutate(cluster_name = case_when(
+    cluster_num %in% c('0', '2', '6', '12') ~ 'ECs',   # endothelial cells
+    cluster_num == '4' ~ 'T cells',
+    cluster_num == '9' ~ 'pDCs',               # plasmacytoid dendritic cells
+    cluster_num == '10' ~ 'fibroblasts',
+    cluster_num == '14' ~ 'neutrophils',
+    TRUE ~ cluster_num))
+
+liver$labels <- deframe(labels)[as.character(liver$after_harmony_clusters)]
+UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
+```
+
+We could go through a somewhat similar exercise for the remaining
+clusters. We might do some more targeted comparisons between cell
+populations if we wanted to dig into differences.
+
+In order to save time we will use annotations from the original liver
+cell atlas to fill in our remaining unannotated cell populations.
+These labels are:
+
+
+
+
 
  * clusters 0, 2, 7 are endothelial cells (Pecam1) cluster 11 is also pos
  * cluster 8 is B cells (Cd79a)
