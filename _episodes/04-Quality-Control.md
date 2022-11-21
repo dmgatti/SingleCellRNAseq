@@ -93,8 +93,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7144176  381.6   12373592  660.9   9032681  482.4
-Vcells 179503405 1369.6  433980062 3311.1 433979820 3311.1
+Ncells   7146611  381.7   12380024  661.2   9035116  482.6
+Vcells 179507087 1369.6  433984480 3311.1 433983502 3311.1
 ~~~
 {: .output}
 
@@ -807,8 +807,8 @@ other attached packages:
  [5] GenomicRanges_1.46.1        GenomeInfoDb_1.30.1        
  [7] IRanges_2.28.0              S4Vectors_0.32.4           
  [9] BiocGenerics_0.40.0         MatrixGenerics_1.6.0       
-[11] matrixStats_0.62.0          SeuratObject_4.1.3         
-[13] Seurat_4.2.1                Matrix_1.5-1               
+[11] matrixStats_0.63.0          SeuratObject_4.1.3         
+[13] Seurat_4.3.0                Matrix_1.5-1               
 [15] forcats_0.5.2               stringr_1.4.1              
 [17] dplyr_1.0.10                purrr_0.3.5                
 [19] readr_2.1.3                 tidyr_1.2.1                

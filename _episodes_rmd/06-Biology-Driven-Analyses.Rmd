@@ -363,7 +363,7 @@ Recognizing these genes might be a big challenge if you are not
 used to looking at single cell gene expression. Let's check out expression of 
 the very top genes in each cell cluster:
 
-```{r top_markers, fig.width = 8, fig.height = 10}
+```{r top_markers2, fig.width = 8, fig.height = 10}
 top_markers <- group_by(markers, cluster) %>% 
   arrange(desc(avg_log2FC)) %>%
   top_n(1, avg_log2FC) %>% pull(gene)

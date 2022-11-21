@@ -295,6 +295,32 @@ Add on doublet predictions that we did earlier in this lesson.
 liver <- AddMetaData(liver, as.data.frame(doublet_preds))
 ```
 
+Let's briefly look at the structure of the Seurat object. The counts are stored 
+as an [assay](https://github.com/satijalab/seurat/wiki/Assay), which we can query using the `Assays()` function. 
+
+```{r get_assays}
+Seurat::Assays(liver)
+```
+
+The output of this function tells us that we have data in a "slot" called "data". We can access this using the [GetAssayData]() function.
+
+```{r get_assay_data}
+tmp = GetAssayData(object = liver, slot = 'data')
+tmp[1:5,1:5]
+```
+
+As you can see the data that we retrieved is a sparse matrix, just like the counts that we provided to the Seurat object.
+
+What about the metadata? We can access the metadata to using somewhat confusing syntax.
+
+```{r show_meta}
+head(liver[[]])
+```
+
+Notice that there are some columns that were not in our original metadata file; 
+specifically the 'nCount_RNA' and 'nFeature_RNA' columns. These were calculated 
+by Seurat when the Seurat object was created. We will use these later in the lesson.
+
 
 ## Typical filters for cell quality
 
