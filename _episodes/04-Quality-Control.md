@@ -93,8 +93,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7144083  381.6   12373460  660.9   9032588  482.4
-Vcells 179502992 1369.5  433979576 3311.1 433979415 3311.1
+Ncells   7144176  381.6   12373592  660.9   9032681  482.4
+Vcells 179503405 1369.6  433980062 3311.1 433979820 3311.1
 ~~~
 {: .output}
 
@@ -331,6 +331,84 @@ Add on doublet predictions that we did earlier in this lesson.
 liver <- AddMetaData(liver, as.data.frame(doublet_preds))
 ~~~
 {: .language-r}
+
+Let's briefly look at the structure of the Seurat object. The counts are stored 
+as an [assay](https://github.com/satijalab/seurat/wiki/Assay), which we can query using the `Assays()` function. 
+
+
+~~~
+Seurat::Assays(liver)
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] "RNA"
+~~~
+{: .output}
+
+The output of this function tells us that we have data in a "slot" called "data". We can access this using the [GetAssayData]() function.
+
+
+~~~
+tmp = GetAssayData(object = liver, slot = 'data')
+tmp[1:5,1:5]
+~~~
+{: .language-r}
+
+
+
+~~~
+5 x 5 sparse Matrix of class "dgCMatrix"
+        AAACGAATCCACTTCG-2 AAAGGTACAGGAAGTC-2 AACTTCTGTCATGGCC-2
+Xkr4                     .                  .                  .
+Rp1                      .                  .                  .
+Sox17                    .                  .                  2
+Gm37323                  .                  .                  .
+Mrpl15                   .                  .                  .
+        AATGGCTCAACGGTAG-2 ACACTGAAGTGCAGGT-2
+Xkr4                     .                  .
+Rp1                      .                  .
+Sox17                    4                  .
+Gm37323                  .                  .
+Mrpl15                   1                  1
+~~~
+{: .output}
+
+As you can see the data that we retrieved is a sparse matrix, just like the counts that we provided to the Seurat object.
+
+What about the metadata? We can access the metadata to using somewhat confusing syntax.
+
+
+~~~
+head(liver[[]])
+~~~
+{: .language-r}
+
+
+
+~~~
+                         orig.ident nCount_RNA nFeature_RNA sample digest
+AAACGAATCCACTTCG-2 liver: scRNA-Seq       8476         3264   CS48 inVivo
+AAAGGTACAGGAAGTC-2 liver: scRNA-Seq       8150         3185   CS48 inVivo
+AACTTCTGTCATGGCC-2 liver: scRNA-Seq       8139         3280   CS48 inVivo
+AATGGCTCAACGGTAG-2 liver: scRNA-Seq      10084         3717   CS48 inVivo
+ACACTGAAGTGCAGGT-2 liver: scRNA-Seq       9518         3544   CS48 inVivo
+ACCACAACAGTCTCTC-2 liver: scRNA-Seq       7189         3064   CS48 inVivo
+                   typeSample cxds_score bcds_score hybrid_score
+AAACGAATCCACTTCG-2   scRnaSeq         NA         NA           NA
+AAAGGTACAGGAAGTC-2   scRnaSeq         NA         NA           NA
+AACTTCTGTCATGGCC-2   scRnaSeq         NA         NA           NA
+AATGGCTCAACGGTAG-2   scRnaSeq         NA         NA           NA
+ACACTGAAGTGCAGGT-2   scRnaSeq         NA         NA           NA
+ACCACAACAGTCTCTC-2   scRnaSeq         NA         NA           NA
+~~~
+{: .output}
+
+Notice that there are some columns that were not in our original metadata file; 
+specifically the 'nCount_RNA' and 'nFeature_RNA' columns. These were calculated 
+by Seurat when the Seurat object was created. We will use these later in the lesson.
 
 
 ## Typical filters for cell quality
