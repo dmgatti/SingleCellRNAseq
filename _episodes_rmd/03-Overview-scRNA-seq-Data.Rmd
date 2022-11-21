@@ -107,7 +107,7 @@ visualization/exploration.
         * Seurat v4: Integrative multimodal analysis and mapping of user data 
         sets to cell identity reference database.
 
-* Python/[https://scanpy.readthedocs.io/en/stable/](scanpy) and [https://anndata.readthedocs.io/en/latest/](anndata)
+* Python/[scanpy](https://scanpy.readthedocs.io/en/stable/) and [anndata](https://anndata.readthedocs.io/en/latest/)
     * Scanpy is a python toolkit for analyzing single-cell gene expression data.
     * Scanpy is built jointly with anndata, which is a file format specification 
     and accompanying API for efficiently storing and accessing single cell data.
@@ -326,7 +326,7 @@ gene_sums <- data.frame(gene_id = rownames(counts),
 sum(gene_sums$sums == 0)
 ```
 
-We can see that `r sum(gene_sums$sums == 0)` (`r 100*mean(gene_sums$sums == 0)`%) 
+We can see that `r sum(gene_sums$sums == 0)` (`r format(100*mean(gene_sums$sums == 0), digits = 2)`%) 
 genes have no reads at all associated with them. In the next lesson, we will 
 remove genes that have no counts in any cells.
 
