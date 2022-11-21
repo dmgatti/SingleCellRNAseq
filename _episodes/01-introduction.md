@@ -103,11 +103,8 @@ the technologies and choosing which to utilize for your own experiment:
  * Genes without poly-A tail (e.g. some noncoding RNAs) might not be detected 
  in scRNA-Seq, but can be reliably assessed using bulk RNA-Seq.
  
-> DMG - make or find a figure for bulk vs SC 
-
 ![Single Cell vs. Bulk RNA-seq](../fig/singlecell-vs-bulk-image.png)
 https://www.10xgenomics.com/blog/single-cell-rna-seq-an-introductory-overview-and-tools-for-getting-started
-> DMG: May need to make our own figure.
 
 > ## Challenge
 > For each of these scenarios, choose between using bulk RNA-Seq and scRNA-Seq 
