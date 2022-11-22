@@ -30,8 +30,9 @@ installation was successful.
 In RStudio, copy and paste the following commands into the Console:
 
 ~~~
-install.packages(c("tidyverse", "Matrix", "Seurat", "BiocManager"), dependencies = TRUE)
-BiocManager::install(c("SingleCellExperiment", "scds", "harmony"))
+install.packages(c("tidyverse", "Matrix", "Seurat", "BiocManager", "harmony",
+                   "enrichR"), dependencies = TRUE)
+BiocManager::install(c("SingleCellExperiment", "scds", "DESeq2"))
 ~~~
 {: .r}
 
@@ -45,6 +46,8 @@ library(tidyverse)
 library(Matrix)
 library(Seurat)
 library(harmony)
+library(enrichR)
+library(DESeq2)
 ~~~
 {: .r}
 
