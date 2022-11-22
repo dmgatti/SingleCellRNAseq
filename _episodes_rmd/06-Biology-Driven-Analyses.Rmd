@@ -672,7 +672,7 @@ pick neutrophils in the hope that they give a clear and interpretable
 answer. We will query three databases: KEGG, Gene Ontology biological 
 process, and MSigDB Hallmark pathways:
 
-```{r pway, fig.width = 6, fig.height = 5}
+```{r pway, fig.width = 9, fig.height = 5}
 db_names <- c("KEGG"='KEGG_2019_Mouse',
               "GO"='GO_Biological_Process_2021',
               "MsigDB"='MSigDB_Hallmark_2020')
