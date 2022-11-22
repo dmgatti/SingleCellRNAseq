@@ -6,12 +6,13 @@ exercises: 2
 questions:
 - "What are some scRNA-Seq analyses that might provide me with biological insight?"
 objectives:
-- "Understand the ability (and limitations) of scRNA-Seq data for quantifying differences in gene expression and tissue cell composition."
-- "Be able to articulate the concept of pseudotime."
-- "Have basic ability to be able to conduct enrichment analyses of gene expression and look at how cells interact in scRNA-Seq"
+- "Gain an understanding of some of the important caveats for identifying major cell types in scRNA-Seq."
+- "Understand the ability (and limitations) of scRNA-Seq data for quantifying differences in gene expression."
+- "Have basic ability to be able to conduct enrichment analyses of gene expression in scRNA-Seq."
 keypoints:
-- "ADD"
-- "ADD"
+- "Identifying cell types is a major objective in scRNA-Seq and can be present challenges that are unique to each dataset."
+- "Statistically minded experimental design enables you to perform differential gene expression analyses that are likely to result in meaningful biological results."
+
 ---
 
 ```{r, include=FALSE}
@@ -199,7 +200,7 @@ ElbowPlot(liver, reduction = 'harmony', ndims = 40)
 
 Let's again pick 24 dimensions, just like we looked at 24 dimensions
 in PC space.
-```{r finish_harmony}
+```{r finish_harmony, warning = FALSE}
 liver <- FindNeighbors(liver, reduction='harmony', dims=1:24) %>%
     FindClusters(verbose=FALSE, resolution=0.3) %>%
     RunUMAP(dims=1:24, reduction='harmony')
