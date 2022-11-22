@@ -504,7 +504,7 @@ which are the macrophages of the liver. Clusters 3 and 8 may be
 Kupffer cells. Let's check a famous macrophage marker,
 F4/80 (gene name Adgre1):
 
-```{r vsig4}
+```{r adgre1}
 FeaturePlot(liver, "Adgre1", cols = c('lightgrey', 'red'), label = TRUE,
             label.size = 6)
 ```
@@ -541,10 +541,10 @@ UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 ```
 
 
-Exercise -- have students identify cell types
-Might direct them to the Panglao database at https://panglaodb.se/index.html
-They could ask: is it an immune cell? If yes it likely expresses
-CD45 (Ptprc)
+> Exercise -- have students identify cell types
+> Might direct them to the Panglao database at https://panglaodb.se/index.html
+> They could ask: is it an immune cell? If yes it likely expresses
+> CD45 (Ptprc)
 
 
 ## Differential expression 
@@ -672,7 +672,7 @@ pick neutrophils in the hope that they give a clear and interpretable
 answer. We will query three databases: KEGG, Gene Ontology biological 
 process, and MSigDB Hallmark pathways:
 
-```{r pway}
+```{r pway, fig.width = 6, fig.height = 5}
 db_names <- c("KEGG"='KEGG_2019_Mouse',
               "GO"='GO_Biological_Process_2021',
               "MsigDB"='MSigDB_Hallmark_2020')
