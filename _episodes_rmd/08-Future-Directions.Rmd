@@ -18,6 +18,66 @@ source("../bin/chunk-options.R")
 knitr_fig_path("08-")
 ```
 
+## Topics not covered in detail in this course
+
+Pseudotime
+RNA velocity
+cell-cell communication
+differences in cell composition
+
+### Differences in cell composition
+
+Single cell transcriptomics is a very powerful method for identifying
+differences in tissue cell composition. This sort of question was 
+usually addressed using methods like flow cytometry in the past, but flow
+cytometry requires knowing what you want to look for before you can
+quantify it. In scRNA-Seq we can take an entirely unbiased view of cell
+composition, and we can define cell subsets with more subtle changes in
+gene expression as opposed to only looking at broad classes of cell types.
+
+
+scCODA
+linear modeling
+propeller
+
+### Cell-cell communication 
+
+An analysis of possible cell-cell communication is one output that
+can be inferred from scRNA-Seq data. The basic idea is that we can 
+use databases of known receptor-ligand interactions in order to 
+predict cells that interact. Specifically, if cell type A expresses ligand X,
+and cell type B expresses the cognate receptor for ligand X, we can infer
+the possibility of communication between these two cell types.
+Of course scRNA-Seq data is not telling us whether that 
+receptor-ligand link is actually *active* at any particular moment in time,
+but it may be useful to understand which cells are communicating
+most/least and how lines of communication change in, say, a 
+drug-treated vs control condition.
+
+
+
+cellchat, cellphoneDB, etc.
+
+### Pseudotime and velocity
+
+What is pseudotime
+
+*slingshot*
+
+There are many, many algorithms and software packages for inferring 
+pseudotime. For a very nice list check out
+[Anthony Gitter's github list](https://github.com/agitter/single-cell-pseudotime).
+
+What is RNA velocity?
+
+monocle
+RNA velocity
+scvelo
+
+
+
+
+
 ## Multimodal molecular profiling
 
 RNA-Seq + ATAC 
