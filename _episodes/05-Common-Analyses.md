@@ -353,18 +353,16 @@ sessionInfo()
 
 
 ~~~
-R version 4.1.2 (2021-11-01)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19042)
+R version 4.1.0 (2021-05-18)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur 10.16
 
 Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
 
 locale:
-[1] LC_COLLATE=English_United States.1252 
-[2] LC_CTYPE=English_United States.1252   
-[3] LC_MONETARY=English_United States.1252
-[4] LC_NUMERIC=C                          
-[5] LC_TIME=English_United States.1252    
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -380,39 +378,39 @@ loaded via a namespace (and not attached):
   [7] fs_1.5.2               spatstat.data_3.0-0    farver_2.1.1          
  [10] leiden_0.4.3           listenv_0.8.0          ggrepel_0.9.2         
  [13] fansi_1.0.3            lubridate_1.9.0        xml2_1.3.3            
- [16] codetools_0.2-18       splines_4.1.2          polyclip_1.10-4       
+ [16] codetools_0.2-18       splines_4.1.0          polyclip_1.10-4       
  [19] jsonlite_1.8.3         broom_1.0.1            ica_1.0-3             
- [22] cluster_2.1.4          dbplyr_2.2.1           png_0.1-7             
+ [22] cluster_2.1.2          dbplyr_2.2.1           png_0.1-7             
  [25] uwot_0.1.14            spatstat.sparse_3.0-0  sctransform_0.3.5     
- [28] shiny_1.7.3            compiler_4.1.2         httr_1.4.4            
+ [28] shiny_1.7.3            compiler_4.1.0         httr_1.4.4            
  [31] backports_1.4.1        lazyeval_0.2.2         assertthat_0.2.1      
  [34] Matrix_1.5-1           fastmap_1.1.0          gargle_1.2.1          
  [37] cli_3.4.1              later_1.3.0            htmltools_0.5.3       
- [40] tools_4.1.2            igraph_1.3.5           gtable_0.3.1          
+ [40] tools_4.1.0            igraph_1.3.5           gtable_0.3.1          
  [43] glue_1.6.2             reshape2_1.4.4         RANN_2.6.1            
  [46] Rcpp_1.0.9             scattermore_0.8        cellranger_1.1.0      
- [49] vctrs_0.5.1            nlme_3.1-160           spatstat.explore_3.0-5
+ [49] vctrs_0.5.1            nlme_3.1-152           spatstat.explore_3.0-5
  [52] progressr_0.11.0       lmtest_0.9-40          spatstat.random_3.0-1 
- [55] xfun_0.35              globals_0.16.1         rvest_1.0.3           
+ [55] xfun_0.35              globals_0.16.2         rvest_1.0.3           
  [58] timechange_0.1.1       mime_0.12              miniUI_0.1.1.1        
  [61] lifecycle_1.0.3        irlba_2.3.5.1          goftest_1.2-3         
- [64] googlesheets4_1.0.1    future_1.29.0          MASS_7.3-58.1         
+ [64] googlesheets4_1.0.1    future_1.29.0          MASS_7.3-54           
  [67] zoo_1.8-11             scales_1.2.1           spatstat.utils_3.0-1  
- [70] hms_1.1.2              promises_1.2.0.1       parallel_4.1.2        
+ [70] hms_1.1.2              promises_1.2.0.1       parallel_4.1.0        
  [73] RColorBrewer_1.1-3     gridExtra_2.3          reticulate_1.26       
  [76] pbapply_1.6-0          stringi_1.7.8          highr_0.9             
  [79] rlang_1.0.6            pkgconfig_2.0.3        matrixStats_0.63.0    
- [82] evaluate_0.18          lattice_0.20-45        tensor_1.5            
+ [82] evaluate_0.18          lattice_0.20-44        tensor_1.5            
  [85] ROCR_1.0-11            labeling_0.4.2         patchwork_1.1.2       
  [88] htmlwidgets_1.5.4      cowplot_1.1.1          tidyselect_1.2.0      
  [91] parallelly_1.32.1      RcppAnnoy_0.0.20       plyr_1.8.8            
  [94] magrittr_2.0.3         R6_2.5.1               generics_0.1.3        
  [97] DBI_1.1.3              pillar_1.8.1           haven_2.5.1           
 [100] withr_2.5.0            fitdistrplus_1.1-8     abind_1.4-5           
-[103] survival_3.4-0         sp_1.5-1               future.apply_1.10.0   
+[103] survival_3.2-11        sp_1.5-1               future.apply_1.10.0   
 [106] modelr_0.1.10          crayon_1.5.2           KernSmooth_2.23-20    
 [109] utf8_1.2.2             spatstat.geom_3.0-3    plotly_4.10.1         
-[112] tzdb_0.3.0             grid_4.1.2             readxl_1.4.1          
+[112] tzdb_0.3.0             grid_4.1.0             readxl_1.4.1          
 [115] data.table_1.14.6      reprex_2.0.2           digest_0.6.30         
 [118] xtable_1.8-4           httpuv_1.6.6           munsell_0.5.0         
 [121] viridisLite_0.4.1     
