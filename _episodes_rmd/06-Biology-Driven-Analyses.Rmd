@@ -21,6 +21,9 @@ knitr_fig_path("06-")
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(harmony))
+suppressPackageStartupMessages(library(DESeq2))
+suppressPackageStartupMessages(library(enrichR))
+suppressPackageStartupMessages(library(Matrix.utils))  # for aggregate around line 526
 
 data_dir <- '../data'
 ```
@@ -376,7 +379,7 @@ but there are a few markers that are not very good markers at all
 (e.g. Fabp1, Cst3) and some that are not very specific 
 (e.g. Clec4f, Cd5l, Kdr, Clec4g).
 
-Let's look at one of these markers -- Kdr. Our violin plot above
+Let's look at one of these last kinds of markers -- Kdr. Our violin plot above
 shows that this gene is expressed in clusters 0, 2, 6, and 12.
 If we look at a UMAP plot
 
@@ -404,12 +407,120 @@ Looking again at the violin plot above, there are some genes that
 are often seen in scRNA-Seq data and are excellent markers:
 
  * *S100a9* is a marker for neutrophils (or the broader category of granulocytes)
- * *Dcn* is a marker for fibroblasts
  * *Ccl5* (which encodes RANTES) is a marker for T cells. The T cell cluster might also include some other related immune cell types (natural killer [NK] cells and innate lymphoid cells [ILCs])
  * *Siglech* is a marker for plasmacytoid dendritic cells
 
 We have now identified (at least tentative) cell types for clusters
-0, 2, 4, 6, 9, 10, 12, and 14. Let's store our labels and look at
+0, 2, 4, 6, 9, 12, and 14. 
+
+Let's turn to those markers that seemed to be expressed across
+all or almost all cell types (recall Cst3 and Fabp1). 
+Let's focus on cluster 1. This is a pretty large cluster.
+In our violin plot cluster 1 is marked only by Fabp1, which is much
+higher in cluster 1 than in any other cluster, but still has high background
+in ALL clusters. 
+
+Doing a bit of sleuthing, we find that Fabp1 is expressed in
+hepatocytes. For example,
+[this reference](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4655993/) 
+says that Fabp1 is found abundantly in the cytoplasm of hepatocytes.
+It also makes sense that cluster 1 is hepatocytes because this cluster 
+is large and we expect a lot of hepatocytes in the liver.
+
+However, why do we see high background levels of Fabp1?
+The reason might be due to ambient RNA. If a liver cell lyses and releases 
+its contents into the "soup", the cell's RNA molecules could tag along
+for the ride in any droplet with any other cell type.
+This ambient RNA would act as noise in the transcriptome of
+each cell. The problem of ambient RNA can vary considerably between
+samples. A recent paper by 
+[Caglayan et al](https://pubmed.ncbi.nlm.nih.gov/36240767/) gives a nice
+case study and examines the phenomenology of ambient RNA in single
+nucleus RNA-Seq.
+There are several methods to correct for high levels of
+ambient RNA, with [CellBender](https://cellbender.readthedocs.io/en/latest/)
+showing good performance in multiple studies. 
+
+To examine whether these data show evidence of a hepatocyte
+ambient RNA signature, we start by looking at our non-specific marker
+Fabp1:
+
+```{r expr3}
+FeaturePlot(liver, "Fabp1", cols = c('lightgrey', 'red'))
+```
+
+This seems consistent with our expectations based on what we know about
+ambient RNA. Let's look at another hepatocyte marker:
+
+```{r expr4}
+FeaturePlot(liver, "Serpina1a", cols = c('lightgrey', 'red'))
+```
+
+Very similar. We tentatively conclude that this dataset has a noticeable
+amount of hepatocyte ambient RNA contributing to all cell transcriptomes.
+Let's label cluster 1 as hepatocytes.
+
+Because of *Fabp1* and other noisy markers in our cluster-specific
+gene expression data.frame, 
+we'll try filtering our markers to grab only
+those that are not expressed too highly (on average) in
+all the other cells:
+
+```{r sp_markers, fig.width = 8, fig.height = 10}
+specific_markers <- group_by(markers, cluster) %>% 
+  arrange(desc(avg_log2FC)) %>%
+  filter(pct.2 < 0.2) %>%
+  arrange(cluster) %>%
+  top_n(1, avg_log2FC) %>% pull(gene)
+VlnPlot(liver, features = specific_markers, stack = TRUE, flip = TRUE)
+```
+
+This looks better -- the markers are more specific.
+We do have a marker for the hepatocytes (cluster 1) that looks better
+than before. However, this gene -- *Inmt* -- does not seem to be a very
+good hepatocyte marker according to the literature. Thus our filter
+to remove non-specific markers may have gotten rid of most of the 
+strongly hepatocyte-specific gene expression. 
+
+In this violin plot we do have
+some instances where a marker seems to be specific to two or three cell
+clusters (e.g. Vsig4, Stab2, etc).
+
+Stab2 is marking the endothelial cells we already identified (or at least
+some of them). Let's look at Vsig4:
+
+```{r vsig4}
+FeaturePlot(liver, "Vsig4", cols = c('lightgrey', 'red'), label = TRUE,
+            label.size = 6)
+```
+
+This is marking clusters 3, 8, and 15.
+Clusters 3 and 8 are very near each other. Vsig4 is an immune
+protein (V-set and immunoglobulin domain containing 4).
+The protein
+[is expressed](https://www.proteinatlas.org/ENSG00000155659-VSIG4/tissue)
+selectively in -- among other cell types -- Kupffer cells,
+which are the macrophages of the liver. Clusters 3 and 8 may be
+Kupffer cells. Let's check a famous macrophage marker,
+F4/80 (gene name Adgre1):
+
+```{r vsig4}
+FeaturePlot(liver, "Adgre1", cols = c('lightgrey', 'red'), label = TRUE,
+            label.size = 6)
+```
+
+Cluster 15 expresses *Adgre1* but is near the hepatocyte cluster
+we just discussed. In fact it is located between the hepatocyte and
+Kupffer cell clusters. Cluster 15 might represent hepatocyte-Kupffer cell
+doublets. Consistent with this theory, cluster 15 has intermediate expression
+of Kupffer cell-specific *Adgre1* and hepatocyte-specific *Fabp1*.
+
+```{r doublets, fig.width = 8, fig.height = 4}
+VlnPlot(liver, c("Adgre1", "Fabp1"), idents = c('3', '15', '1'), sort = T)
+```
+
+
+Let's store our labels and look at
 what remains unidentified.
 
 ```{r labelling}
@@ -417,36 +528,24 @@ labels <- tibble(cluster_num = unique(liver$after_harmony_clusters)) %>%
   mutate(cluster_num = as.character(cluster_num)) %>%
   mutate(cluster_name = case_when(
     cluster_num %in% c('0', '2', '6', '12') ~ 'ECs',   # endothelial cells
+    cluster_num == '1' ~ 'hepatocytes',
+    cluster_num %in% c('3', '8') ~ 'Kupffer cells',
     cluster_num == '4' ~ 'T cells',
     cluster_num == '9' ~ 'pDCs',               # plasmacytoid dendritic cells
-    cluster_num == '10' ~ 'fibroblasts',
     cluster_num == '14' ~ 'neutrophils',
+    cluster_num == '15' ~ 'KH doub.',          # Kupffer-hepatocyte doublets
     TRUE ~ cluster_num))
 
 liver$labels <- deframe(labels)[as.character(liver$after_harmony_clusters)]
 UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 ```
 
-We could go through a somewhat similar exercise for the remaining
-clusters. We might do some more targeted comparisons between cell
-populations if we wanted to dig into differences.
 
-In order to save time we will use annotations from the original liver
-cell atlas to fill in our remaining unannotated cell populations.
-These labels are:
+Exercise -- have students identify cell types
+Might direct them to the Panglao database at https://panglaodb.se/index.html
+They could ask: is it an immune cell? If yes it likely expresses
+CD45 (Ptprc)
 
-
-
-
-
- * clusters 0, 2, 7 are endothelial cells (Pecam1) cluster 11 is also pos
- * cluster 8 is B cells (Cd79a)
- * cluster 10 is fibroblasts (Pdgfra)
- * cluster 14 neutrophils (Retnlg, S100a8)
- * cluster 13 is cholangiocytes
- * cluster 9 is pDCs (Siglech)
- * cluster 12 is cDC1s (Xcr1)
- * cluster 4 is T, NK, ILC
 
 ## Differential expression 
 
@@ -469,75 +568,123 @@ comparison. Nevertheless, we will illustrate how a differential expression
 test could look by making up a fake experimental factor.
 
 
-```{r fake}
+```{r fake, fig.height = 4.5, fig.width = 10}
 libraries <- unique(liver$sample)
-grp <- setNames(c(rep('control', 5), rep('drug', 4)), libraries)
+treatment_group <- setNames(c(rep('control', 5), rep('drug', 4)), libraries)
+liver$trt <- treatment_group[liver$sample]
+
+hepatocytes <- subset(liver, labels == "hepatocytes")
+Idents(hepatocytes) <- "trt"
+UMAPPlot(hepatocytes, split.by = 'trt', group.by = 'labels', label = T,
+         label.size = 6)
 ```
 
-We will look for differential expression between the groups defined
+We will look for differential expression between the 
+control and drug administration groups defined
 by this fake drug/control factor.
+The differentially expressed genes (DEGs) can inform our understanding
+of how the drug affects the biology of cells in the tissue profiled.
+One quick and easy way to look for DEGs is to 
+use the marker gene-finding function in Seurat, because as discussed above
+the problem of differential expression is related to finding cell type 
+marker genes. 
 
-<!-- What do we look for differential expression between??? -->
+```{r deg1}
+deg1 <- FindMarkers(hepatocytes, ident.1 = 'drug', ident.2 = 'control',
+                    logfc.threshold = 0.2, only.pos = FALSE)
+```
+
+However this approach is not ideal. It may work OK if we only have on
+mouse sample from each treatment group, with thousands of cells profiled
+per mouse. However, when we have multiple mice, we are failing to 
+take into account
+the fact that cells from a single mouse are not fully independent.
+For example, if cells from one mouse are contributing the 
+majority of drug-treated hepatocyte cells, and this one mouse is an outlier
+that happened to have only minimal response to the drug, then we might
+be fooled into thinking that the drug does not perturb hepatocytes
+when in actuality the response is minimal only in that particular mouse.
+
+Let's look at our results:
+```{r deg_res}
+head(deg1, 10)
+```
+
+Wow! We have a lot of genes with apparently very strong statistically
+significant differences between the control and drug administered
+groups. Does this make sense? No, we just made up the control and drug
+groups!
+In fact, the results above are an indication of the caution that should be
+applied when applying a test that does not consider biological
+replicates.
+What are we finding here? The second top gene, *Cyp3a11*, is 
+a cytochrome P450-family gene and its transcript is higher in the 
+fake control mice than the fake drug treated mice. Maybe there is some
+biological meaning that could be extracted from this if we had more
+detailed information on the conditions under which the fake control and
+fake drug administered mouse groups were reared.
+
+Nevertheless, let's consider a more statistically robust approach
+to differential expression in scRNA-Seq. 
+This approach is to collapse all cells from
+each biological replicate to form a "pseudobulk" sample. Then one can
+use tools developed for bulk RNA-Seq samples (e.g. DESeq2 or edgeR)
+to identify DEGs.
+This could look like the following:
+
+```{r pseudobulk1}
+# Make pseudobulks.
+cts <- GetAssayData(hepatocytes, 'counts')
+pseudobulk <- aggregate(t(cts), hepatocytes$sample, fun = 'sum') %>% t()
+dim(pseudobulk)
+head(pseudobulk, 6)
+
+# Run DESeq2
+pseudobulk_metadata <- hepatocytes[[c("sample", "trt")]] %>%
+  as_tibble() %>% distinct() %>% as.data.frame() %>%
+  column_to_rownames('sample') %>%
+  mutate(trt = as.factor(trt))
+pseudobulk_metadata <- pseudobulk_metadata[colnames(pseudobulk), , drop = F]
+dds <- DESeqDataSetFromMatrix(pseudobulk, 
+                              colData = pseudobulk_metadata, 
+                              design = ~ trt)
+trt <- DESeq(dds, test = "LRT", reduced = ~ 1)
+res1 <- results(trt)
+head(res1)
+sum(!is.na(res1$padj) & res1$padj < 0.05)
+```
+
+No genes are significantly differentially expressed using this 
+pseudobulk + DESeq2 approach.
 
 ## Pathway enrichment 
 
 We may wish to look for enrichment of biological pathways 
-in a list of genes. Here we will show two examples of completing this 
+in a list of genes. Here we will show one example of completing this 
 task. There are many ways to do enrichment tests, and they are
 typically not conducted in a way that is unique to single cell data
 thus you have a wide range of options.
 
- * test for enrichment of biological function for neutrophil markers,
- endothelial cell markers, hepatocyte markers
- * test for enrichment for DE genes between in vivo and ex vivo
+Here we will test for enrichment of biological function using our
+neutrophil markers (our original cluster 14). 
+We could do this with any cell type but we
+pick neutrophils in the hope that they give a clear and interpretable
+answer. We will query three databases: KEGG, Gene Ontology biological 
+process, and MSigDB Hallmark pathways:
 
-## Differences in cell composition
+```{r pway}
+db_names <- c("KEGG"='KEGG_2019_Mouse',
+              "GO"='GO_Biological_Process_2021',
+              "MsigDB"='MSigDB_Hallmark_2020')
+genes <- filter(markers, cluster == '14') %>%
+  top_n(100, avg_log2FC) %>% pull(gene)
+enrich_genes <- enrichr(genes, databases = db_names)
+names(enrich_genes) <- names(db_names)
+e <- bind_rows(enrich_genes, .id = 'database') %>%
+  mutate(Term = paste0(database, ': ', Term))
+plotEnrich(e, title = "Neutrophil pathway enrichment", 
+           showTerms = 15, numChar = 50)
+```
 
-Single cell transcriptomics is a very powerful method for identifying
-differences in tissue cell composition. This sort of question was 
-usually addressed using methods like flow cytometry in the past, but flow
-cytometry requires knowing what you want to look for before you can
-quantify it. In scRNA-Seq we can take an entirely unbiased view of cell
-composition, and we can define cell subsets with more subtle changes in
-gene expression as opposed to only looking at broad classes of cell types.
-
-
-scCODA
-linear modeling
-propeller
-
-## Cell-cell communication 
-
-An analysis of possible cell-cell communication is one output that
-can be inferred from scRNA-Seq data. The basic idea is that we can 
-use databases of known receptor-ligand interactions in order to 
-predict cells that interact. Specifically, if cell type A expresses ligand X,
-and cell type B expresses the cognate receptor for ligand X, we can infer
-the possibility of communication between these two cell types.
-Of course scRNA-Seq data is not telling us whether that 
-receptor-ligand link is actually *active* at any particular moment in time,
-but it may be useful to understand which cells are communicating
-most/least and how lines of communication change in, say, a 
-drug-treated vs control condition.
-
-
-
-cellchat, cellphoneDB, etc.
-
-## Pseudotime and velocity
-
-What is pseudotime
-
-*slingshot*
-
-There are many, many algorithms and software packages for inferring 
-pseudotime. For a very nice list check out
-[Anthony Gitter's github list](https://github.com/agitter/single-cell-pseudotime).
-
-What is RNA velocity?
-
-monocle
-RNA velocity
-scvelo
-
+OK, these results look appropriate for neutrophil biological function!
 
