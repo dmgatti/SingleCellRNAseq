@@ -59,8 +59,8 @@ the relationship between the number of cells loaded and the doublet rate.
 This figure is derived from the 10X User Guide for their 
 Chromium Next GEM Single Cell 3ʹ Reagent Kits v3.1 product,
 but the basic trends should hold across other versions of this product as well.
-![Recovery and multiplet rate as a function of cells loaded](../fig/cell_loading.png)
-(Image provided by 10x Genomics).
+
+<img src="../fig/cell_loading.png" alt="Recovery and multiplet rate as a function of cells loaded" width="400px">
 
 In a future lesson we will discuss software options for trying to identify and 
 remove doublets prior to drawing biological conclusions from data. 

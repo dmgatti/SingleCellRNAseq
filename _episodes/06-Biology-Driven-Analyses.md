@@ -106,8 +106,9 @@ Let's look into this a little further.
 First we plot the cells in UMAP space colored by mouse of origin,
 demonstrating some fairly clear batch effects -- indicated by
 
-    * cell clusters that contain dots of only one or a few colors
-    * clusters of opposing colors that are near each other but not overlapping
+ * cell clusters that contain dots of only one or a few colors
+ * clusters of different colors that are near each other but not overlapping
+
 
 
 ~~~
@@ -140,6 +141,10 @@ Igkc  1.606549e-172   6.285021 0.974 0.058 3.812501e-168
 Iglc2 3.423270e-164   4.173198 0.939 0.015 8.123761e-160
 ~~~
 {: .output}
+
+We'll talk in detail about the information in this type of table later.
+For now, just be aware that these are genes that are expressed much more
+highly in cluster 13 than in the other cells.
 
 Look at the genes we are finding. These genes are expressed in almost
 all cells of cluster 13 (column `pct.1`) and in few of the cells in other
@@ -205,7 +210,7 @@ We will run harmony on the subset of data that we are working with.
 We expect that a successful batch correction algorithm will bring the cells
 in clusters 13 and 21 together into a single cluster.
 
-Harmony is an algorithm that projects cells into a shared embedding.
+Harmony is an algorithm that projects cells into a shared low-dimensional embedding.
 In an iterative process, harmony learns cell-specific linear adjustment
 factors in order to integrate datasets in a way that favors clusters 
 containing cells from multiple datasets. At the same time, the method has
@@ -290,28 +295,28 @@ This message will be shown once per session
 
 
 ~~~
-11:45:48 UMAP embedding parameters a = 0.9922 b = 1.112
+14:48:19 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-11:45:48 Read 44253 rows and found 24 numeric columns
+14:48:19 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-11:45:48 Using Annoy for neighbor search, n_neighbors = 30
+14:48:19 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-11:45:48 Building Annoy index with metric = cosine, n_trees = 50
+14:48:19 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -333,13 +338,13 @@ This message will be shown once per session
 
 ~~~
 **************************************************|
-11:45:52 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\Rtmpy8KJfn\file19c838da2e4a
-11:45:53 Searching Annoy index using 1 thread, search_k = 3000
-11:46:09 Annoy recall = 100%
-11:46:09 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-11:46:13 Initializing from normalized Laplacian + noise (using irlba)
-11:46:27 Commencing optimization for 200 epochs, with 1893320 positive edges
-11:47:18 Optimization finished
+14:48:23 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\Rtmpiu1eIf\file2e5448a51435
+14:48:23 Searching Annoy index using 1 thread, search_k = 3000
+14:48:35 Annoy recall = 100%
+14:48:35 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+14:48:37 Initializing from normalized Laplacian + noise (using irlba)
+14:48:47 Commencing optimization for 200 epochs, with 1893320 positive edges
+14:49:25 Optimization finished
 ~~~
 {: .output}
 
@@ -404,7 +409,10 @@ batches, or whether the cells are truly unique to that batch and
 
 Now we will find marker genes for our clusters. Finding marker genes takes a
 while so we will downsample our data to speed up the process.
-Even still this may take a few minutes.
+The `downsample` argument to the `subset()` function means that Seurat
+will take a random 300 (maximum) cells from each cluster in our
+`liver_mini` object.
+Even with the downsampled data this marker-finding will take a few minutes.
 
 
 ~~~
@@ -473,7 +481,126 @@ and more scRNA-Seq datasets.
 
 Let's plot the expression of some of the major cell type
 markers. Look at the data.frame `markers` for a summary of the
-markers we found above.
+markers we found above. We'll massage the `markers` data.frame into a
+more tidy format:
+
+
+~~~
+old_markers <- markers
+markers <- as_tibble(markers) %>% 
+  select(cluster, gene, avg_log2FC, pct.1, pct.2, p_val_adj)
+head(markers, 6)
+~~~
+{: .language-r}
+
+
+
+~~~
+# A tibble: 6 x 6
+  cluster gene    avg_log2FC pct.1 pct.2 p_val_adj
+  <fct>   <chr>        <dbl> <dbl> <dbl>     <dbl>
+1 0       Oit3          2.31 0.99  0.184 7.13e-253
+2 0       Adam23        2.17 0.93  0.16  4.57e-238
+3 0       Flt4          2.11 0.973 0.187 5.57e-236
+4 0       Fam167b       2.29 0.987 0.214 2.68e-228
+5 0       Cldn5         2.17 0.977 0.182 5.90e-227
+6 0       Stab2         2.44 0.973 0.22  2.58e-226
+~~~
+{: .output}
+
+In the `markers` tibble, the columns have the following meanings:
+
+ * cluster -- the cluster in which expression of the marker gene is enriched
+ * gene -- the gene that has high expression in this cluster
+ * avg_log2FC -- the log2 fold change difference in expression of the gene
+ between this cluster compared to *all* the rest of the cells
+ * pct.1 -- the fraction of cells in this cluster that express the gene 
+ (expression is just quantified as a nonzero count for this gene)
+ * pct.2 -- the fraction of cells *not* in this cluster (i.e. all other cells)
+ that express the gene 
+ * p_val_adj -- a multiple testing corrected p-value (Bonferroni 
+ corrected) for the marker indicating
+ the significance of expression enrichment in this cluster compared to all
+ other cells
+ 
+You should be aware of one weakness of finding cell types using this approach. 
+As mentioned above, this marker gene-finding function compares expression
+of a gene in cluster X to expression of the gene in all other cells. But 
+what if a gene is highly expressed in cluster X and in some other tiny 
+cluster, cluster Y? If we compare cluster X to all other cells, it will look 
+like the gene is specific to cluster X, when really the gene is
+specific to both clusters X and Y. One could modify the marker gene-finding
+function to compare all clusters in a pairwise fashion and then unify
+the results in order to get around this issue.
+Dan Skelly has some code available 
+[here](https://gist.github.com/daskelly/09c1d2ae8dc3b1de1fe2ec2dbd0dd44d)
+that implements such an approach in the Seurat framework, should you
+wish to try it.
+For this course we will not get into such a level of detail.
+
+Let's look at the top 3 markers for each cluster:
+
+
+~~~
+group_by(markers, cluster) %>% arrange(desc(avg_log2FC)) %>%
+  mutate(rank = 1:n()) %>%
+  filter(rank <= 3) %>%
+  pivot_wider(-c(avg_log2FC, pct.1, pct.2, p_val_adj), 
+              names_from = 'rank', values_from = 'gene') %>%
+  arrange(cluster)
+~~~
+{: .language-r}
+
+
+
+~~~
+# A tibble: 16 x 4
+# Groups:   cluster [16]
+   cluster `1`     `2`    `3`    
+   <fct>   <chr>   <chr>  <chr>  
+ 1 0       Clec4g  Bmp2   Fcgr2b 
+ 2 1       Kdr     Clec4g Bmp2   
+ 3 2       Fabp1   Aldob  Gnmt   
+ 4 3       Clec4f  Cd5l   C1qb   
+ 5 4       Ccl5    Gzma   Nkg7   
+ 6 5       Lyz2    S100a4 Chil3  
+ 7 6       Ly6a    Efnb1  Tm4sf1 
+ 8 7       Igkc    Cd79a  Iglc2  
+ 9 8       Siglech Klk1   Ly6d   
+10 9       Cd5l    Lgmn   Hmox1  
+11 10      Dcn     Ecm1   Colec11
+12 11      Rspo3   Fabp4  Vwf    
+13 12      Cst3    H2-Ab1 Naaa   
+14 13      Spp1    Clu    Tm4sf4 
+15 14      S100a9  S100a8 Il1b   
+16 15      C1qa    Cd5l   Slc40a1
+~~~
+{: .output}
+
+Recognizing these genes might be a big challenge if you are not 
+used to looking at single cell gene expression. Let's check out expression of 
+the very top genes in each cell cluster:
+
+
+~~~
+top_markers <- group_by(markers, cluster) %>% 
+  arrange(desc(avg_log2FC)) %>%
+  top_n(1, avg_log2FC) %>% pull(gene)
+VlnPlot(liver, features = top_markers, stack = TRUE, flip = TRUE)
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-06-top_markers2-1.png" alt="plot of chunk top_markers2" width="576" style="display: block; margin: auto;" />
+
+What does this tell us? Well, there are some genes here that are quite
+specific to one cluster (e.g. S100a9, Spp1, Ccl5, Siglech),
+but there are a few markers that are not very good markers at all
+(e.g. Fabp1, Cst3) and some that are not very specific 
+(e.g. Clec4f, Cd5l, Kdr, Clec4g).
+
+Let's look at one of these markers -- Kdr. Our violin plot above
+shows that this gene is expressed in clusters 0, 2, 6, and 12.
+If we look at a UMAP plot
 
 
 ~~~
@@ -483,12 +610,68 @@ UMAPPlot(liver, label = TRUE, label.size = 6) + NoLegend()
 
 <img src="../fig/rmd-06-expr-1.png" alt="plot of chunk expr" width="612" style="display: block; margin: auto;" />
 
+we see that these clusters are smaller bits of a large cloud of points
+in UMAP space. This is probably a relatively heterogenous cell type or
+or a continuum of cells (e.g. differentiating cells or cells being
+activated by some stimulus). Nevertheless it is fairly clear that
+these cells all express Kdr:
+
+
 ~~~
-FeaturePlot(liver, c("Lyve1", "Cdh5"), cols = c('lightgrey', 'red'))
+FeaturePlot(liver, "Kdr", cols = c('lightgrey', 'red'))
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-expr-2.png" alt="plot of chunk expr" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-06-expr2-1.png" alt="plot of chunk expr2" width="612" style="display: block; margin: auto;" />
+
+If we do some digging, we see that Kdr encodes
+[vascular endothelial growth factor receptor 2](https://www.uniprot.org/uniprotkb/P35968).
+In the liver, we would expect endothelial cells to be fairly 
+abundant. Therefore we can already say with relatively high
+confidence that clusters 0, 2, 6, and 12 are endothelial cells.
+
+Looking again at the violin plot above, there are some genes that
+are often seen in scRNA-Seq data and are excellent markers:
+
+ * *S100a9* is a marker for neutrophils (or the broader category of granulocytes)
+ * *Dcn* is a marker for fibroblasts
+ * *Ccl5* (which encodes RANTES) is a marker for T cells. The T cell cluster might also include some other related immune cell types (natural killer [NK] cells and innate lymphoid cells [ILCs])
+ * *Siglech* is a marker for plasmacytoid dendritic cells
+
+We have now identified (at least tentative) cell types for clusters
+0, 2, 4, 6, 9, 10, 12, and 14. Let's store our labels and look at
+what remains unidentified.
+
+
+~~~
+labels <- tibble(cluster_num = unique(liver$after_harmony_clusters)) %>%
+  mutate(cluster_num = as.character(cluster_num)) %>%
+  mutate(cluster_name = case_when(
+    cluster_num %in% c('0', '2', '6', '12') ~ 'ECs',   # endothelial cells
+    cluster_num == '4' ~ 'T cells',
+    cluster_num == '9' ~ 'pDCs',               # plasmacytoid dendritic cells
+    cluster_num == '10' ~ 'fibroblasts',
+    cluster_num == '14' ~ 'neutrophils',
+    TRUE ~ cluster_num))
+
+liver$labels <- deframe(labels)[as.character(liver$after_harmony_clusters)]
+UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-06-labelling-1.png" alt="plot of chunk labelling" width="612" style="display: block; margin: auto;" />
+
+We could go through a somewhat similar exercise for the remaining
+clusters. We might do some more targeted comparisons between cell
+populations if we wanted to dig into differences.
+
+In order to save time we will use annotations from the original liver
+cell atlas to fill in our remaining unannotated cell populations.
+These labels are:
+
+
+
+
 
  * clusters 0, 2, 7 are endothelial cells (Pecam1) cluster 11 is also pos
  * cluster 8 is B cells (Cd79a)
