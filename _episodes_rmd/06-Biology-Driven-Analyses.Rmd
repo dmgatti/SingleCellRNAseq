@@ -23,7 +23,6 @@ suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(harmony))
 suppressPackageStartupMessages(library(DESeq2))
 suppressPackageStartupMessages(library(enrichR))
-suppressPackageStartupMessages(library(Matrix.utils))  # for aggregate around line 526
 
 data_dir <- '../data'
 ```
@@ -634,8 +633,8 @@ This could look like the following:
 
 ```{r pseudobulk1}
 # Make pseudobulks.
-cts <- GetAssayData(hepatocytes, 'counts')
-pseudobulk <- aggregate(t(cts), hepatocytes$sample, fun = 'sum') %>% t()
+pseudobulk <- AggregateExpression(hepatocytes, slot = 'counts', 
+                                  group.by = 'sample')
 dim(pseudobulk)
 head(pseudobulk, 6)
 
