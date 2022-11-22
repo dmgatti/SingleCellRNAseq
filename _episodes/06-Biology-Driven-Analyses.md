@@ -287,28 +287,28 @@ Computing SNN
 
 
 ~~~
-10:26:54 UMAP embedding parameters a = 0.9922 b = 1.112
+14:49:22 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-10:26:54 Read 44253 rows and found 24 numeric columns
+14:49:22 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-10:26:54 Using Annoy for neighbor search, n_neighbors = 30
+14:49:22 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-10:26:54 Building Annoy index with metric = cosine, n_trees = 50
+14:49:22 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -330,13 +330,13 @@ Computing SNN
 
 ~~~
 **************************************************|
-10:26:58 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpCexyTT\file28a0114b5af5
-10:26:58 Searching Annoy index using 1 thread, search_k = 3000
-10:27:09 Annoy recall = 100%
-10:27:09 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-10:27:12 Initializing from normalized Laplacian + noise (using irlba)
-10:27:22 Commencing optimization for 200 epochs, with 1893320 positive edges
-10:27:57 Optimization finished
+14:49:27 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpquGeWc\file4cc86f9a1c41
+14:49:27 Searching Annoy index using 1 thread, search_k = 3000
+14:49:40 Annoy recall = 100%
+14:49:41 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+14:49:44 Initializing from normalized Laplacian + noise (using irlba)
+14:49:54 Commencing optimization for 200 epochs, with 1893320 positive edges
+14:50:37 Optimization finished
 ~~~
 {: .output}
 
@@ -534,9 +534,8 @@ Let's look at the top 3 markers for each cluster:
 
 
 ~~~
-group_by(markers, cluster) %>% arrange(desc(avg_log2FC)) %>%
-  mutate(rank = 1:n()) %>%
-  filter(rank <= 3) %>%
+group_by(markers, cluster) %>% 
+  top_n(3, avg_log2FC) %>%
   pivot_wider(-c(avg_log2FC, pct.1, pct.2, p_val_adj), 
               names_from = 'rank', values_from = 'gene') %>%
   arrange(cluster)
@@ -546,28 +545,11 @@ group_by(markers, cluster) %>% arrange(desc(avg_log2FC)) %>%
 
 
 ~~~
-# A tibble: 16 x 4
-# Groups:   cluster [16]
-   cluster `1`     `2`    `3`    
-   <fct>   <chr>   <chr>  <chr>  
- 1 0       Clec4g  Bmp2   Fcgr2b 
- 2 1       Kdr     Clec4g Bmp2   
- 3 2       Fabp1   Aldob  Gnmt   
- 4 3       Clec4f  Cd5l   C1qb   
- 5 4       Ccl5    Gzma   Nkg7   
- 6 5       Lyz2    S100a4 Chil3  
- 7 6       Ly6a    Efnb1  Tm4sf1 
- 8 7       Igkc    Cd79a  Iglc2  
- 9 8       Siglech Klk1   Ly6d   
-10 9       Cd5l    Lgmn   Hmox1  
-11 10      Dcn     Ecm1   Colec11
-12 11      Rspo3   Fabp4  Vwf    
-13 12      Cst3    H2-Ab1 Naaa   
-14 13      Spp1    Clu    Tm4sf4 
-15 14      S100a9  S100a8 Il1b   
-16 15      C1qa    Cd5l   Slc40a1
+Error in `build_wider_spec()`:
+! Can't subset columns that don't exist.
+x Column `rank` doesn't exist.
 ~~~
-{: .output}
+{: .error}
 
 Recognizing these genes might be a big challenge if you are not 
 used to looking at single cell gene expression. Let's check out expression of 
