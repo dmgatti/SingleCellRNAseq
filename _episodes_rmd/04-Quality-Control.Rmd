@@ -23,9 +23,9 @@ knitr_fig_path("04-")
 ```{r libs, warning=FALSE}
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Matrix))
-suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(SingleCellExperiment))
 suppressPackageStartupMessages(library(scds))
+suppressPackageStartupMessages(library(Seurat))
 
 data_dir <- '../data'
 ```
