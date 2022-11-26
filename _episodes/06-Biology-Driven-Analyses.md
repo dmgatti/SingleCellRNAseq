@@ -287,28 +287,28 @@ Computing SNN
 
 
 ~~~
-14:49:22 UMAP embedding parameters a = 0.9922 b = 1.112
+11:05:50 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-14:49:22 Read 44253 rows and found 24 numeric columns
+11:05:50 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-14:49:22 Using Annoy for neighbor search, n_neighbors = 30
+11:05:50 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-14:49:22 Building Annoy index with metric = cosine, n_trees = 50
+11:05:50 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -330,13 +330,13 @@ Computing SNN
 
 ~~~
 **************************************************|
-14:49:27 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpquGeWc\file4cc86f9a1c41
-14:49:27 Searching Annoy index using 1 thread, search_k = 3000
-14:49:40 Annoy recall = 100%
-14:49:41 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-14:49:44 Initializing from normalized Laplacian + noise (using irlba)
-14:49:54 Commencing optimization for 200 epochs, with 1893320 positive edges
-14:50:37 Optimization finished
+11:05:55 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\Rtmpsz5v2y\filec3c4f579a6
+11:05:55 Searching Annoy index using 1 thread, search_k = 3000
+11:06:11 Annoy recall = 100%
+11:06:12 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+11:06:16 Initializing from normalized Laplacian + noise (using irlba)
+11:06:27 Commencing optimization for 200 epochs, with 1893320 positive edges
+11:07:16 Optimization finished
 ~~~
 {: .output}
 
@@ -12154,12 +12154,33 @@ Parsing results... Done.
 names(enrich_genes) <- names(db_names)
 e <- bind_rows(enrich_genes, .id = 'database') %>%
   mutate(Term = paste0(database, ': ', Term))
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in `mutate()`:
+! Problem while computing `Term = paste0(database, ": ", Term)`.
+Caused by error in `paste0()`:
+! object 'Term' not found
+~~~
+{: .error}
+
+
+
+~~~
 plotEnrich(e, title = "Neutrophil pathway enrichment", 
            showTerms = 15, numChar = 50)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-pway-1.png" alt="plot of chunk pway" width="648" style="display: block; margin: auto;" />
+
+
+~~~
+Error in is.data.frame(df): object 'e' not found
+~~~
+{: .error}
 
 OK, these results look appropriate for neutrophil biological function!
 
