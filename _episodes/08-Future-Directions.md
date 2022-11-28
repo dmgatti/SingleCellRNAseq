@@ -6,23 +6,30 @@ title: "Future Directions"
 teaching: 10
 exercises: 2
 questions:
-- "How do I design a single cell RNAseq experiment?"
+- "What are some important concepts from the single cell field that we did not have time to discuss in this course?"
+- "What are some interesting future research directions in areas related to single cell transcriptomics?"
 objectives:
-- "Explain how to use RMarkdown with the new lesson template."
-- "Demonstrate how to include pieces of code, figures, and challenges."
+- "Discuss some of the complexities of inferring cell composition from scRNA-Seq."
+- "Explain what the concept of pseudotime is."
+- "Be able to give an example of what could be learned from analyzing cell-cell communication."
+- "Give examples of multimodal cell profiling and how it could help you understand a biological system."
+- "List examples of spatial profiling technologies that are beginning to become more widely available."
 keypoints:
-- "Edit the .Rmd files not the .md files"
-- "Run `make serve` to knit documents and preview lesson website locally"
+- "There exists a rich suite of concepts and methods for working with scRNA-Seq data that goes beyond cell type identification and into inference about how cells are changing and interacting with each other."
+- "Multimodal datasets and spatially resolved technologies will be key to future inquiry in single cell and related fields."
 ---
 
 
 
 ## Topics not covered in detail in this course
 
-Pseudotime
-RNA velocity
-cell-cell communication
-differences in cell composition
+There are a number of important topics in the field of single cell analysis
+that we have not had the time to cover in this course. In this lesson we
+will give a brief overview of some of these topics. We hope to give you
+enough of a background to begin your own research. We will point you to 
+one or a few resources or references
+that we feel are useful within the section on each 
+topic.
 
 ### Differences in cell composition
 
@@ -32,12 +39,36 @@ usually addressed using methods like flow cytometry in the past, but flow
 cytometry requires knowing what you want to look for before you can
 quantify it. In scRNA-Seq we can take an entirely unbiased view of cell
 composition, and we can define cell subsets with more subtle changes in
-gene expression as opposed to only looking at broad classes of cell types.
+gene expression as opposed to only looking at broad classes of cell types
+with "On/Off" changes in cell surface receptor protein expression.
 
+Nevertheless, there are many complexities to understanding tissue cell
+composition using scRNA-Seq. Typically we quantify on the order of 
+thousands of cells per biological specimen in scRNA-Seq. Therefore, 
+quantification of cell types can be subject to significant variability due to
+statistical sampling alone, especially for rare cell types.
+Moreover, it is possible -- and maybe even likely -- that 
+cell types are variably susceptible to lysis or death during the cell
+preparation process. Finally, there are difficulties that
+are largely mathematical in nature. Tissue cell composition
+measurements are inherently composed of a number of different cell types
+that sum up to the whole tissue. When one cell type decreases in
+abundance, other cell types must increase (at least on a relative basis). 
+This type of data is called _compositional_ data and requires
+special transformations in order to model changes in a
+statistically rigorous manner.
 
-scCODA
-linear modeling
-propeller
+Most single cell investigators use simple methods to look at changes
+in cell composition such as ANOVA or t-tests. 
+The 
+[propeller](https://academic.oup.com/bioinformatics/article/38/20/4720/6675456)
+method is a nice and simple option and available in an
+easy-to-use R package.
+[scCODA](https://www.nature.com/articles/s41467-021-27150-6) is a
+more complicated approach that uses a Bayesian model incorporating
+the compositional nature of the data. While the scCODA model is impressively
+comprehensive and rigorous, the software is more
+difficult to run and the output more difficult to interpret.
 
 ### Cell-cell communication 
 
@@ -53,9 +84,21 @@ but it may be useful to understand which cells are communicating
 most/least and how lines of communication change in, say, a 
 drug-treated vs control condition.
 
+Many groups have developed analytical methods and tools for
+exploring the cell-cell communication landscape. 
+The best tools are able to draw on large databases of receptor-ligand
+interactions and to properly consider interactions that involve
+multiple subunit receptor-ligand complexes.
+One major tool for carrying out analysis of cell-cell communication
+is [CellPhoneDB](https://www.cellphonedb.org/)
+published by 
+[Efremova et al. 2020](https://www.nature.com/articles/s41596-020-0292-x).
+This tool is widely used and has a web portal as well as a python
+package. Another option is [CellChat](http://www.cellchat.org/),
+published by 
+[Jin et al. 2021](https://www.nature.com/articles/s41467-021-21246-9)
+which has an accompanying R package.
 
-
-cellchat, cellphoneDB, etc.
 
 ### Pseudotime and velocity
 
@@ -79,18 +122,66 @@ scvelo
 
 ## Multimodal molecular profiling
 
-RNA-Seq + ATAC 
+An important area of future inquiry in the single cell arena is the extension
+to so-called *multi-modal* profiling. This simply means profiling cells
+using not just transcriptomics, but via multiple data modalities. Some 
+common examples of multimodal profiling include:
 
-RNA + protein (CITE-Seq)
+ * single cell transcriptomics + single nucleus ATAC-Seq (chromatin accessibility)
+ * single cell transcriptomics + single cell surface protein quantification (CITE-Seq)
+ * single cell transcriptomics + immune repertoire profiling 
 
-Immune repertoire profiling 
+There is already a large literature on these topics. 
+[Zhu et al. 2020](https://www.nature.com/articles/s41592-019-0691-5)
+wrote a nice commentary piece discussing methods and tools
+available for multimodel analysis in single cell genomics
+[Hao et al 2021](https://doi.org/10.1016%2Fj.cell.2021.04.048)
+published a landmark paper that developed methods for integrating across
+different data modalities and implementing these methods in version
+4 of the Seurat package.
 
 ## Spatial profiling 
 
-Visium
+Spatial profiling methods are an interesting and rapidly growing
+area of research and technology. 
+These approaches are not always truly single cell biology and
+in many cases blend the ethos of single cell genomics with approaches
+traditionally used in fields like pathology.
+Nevertheless we mention them here because these technologies are 
+revealing previously inaccessible information about the molecular properties
+of cells in their native tissue context, and the future 
+holds promise for increasingly more accurate and powerful technologies.
 
-Xenium
+10X Genomics offers the 
+[Visium platform](https://www.10xgenomics.com/products/spatial-gene-expression).
+This platform currently profiles
+a slice of tissue that is 6.5mm square using 5,000 spots each 50um in diameter.
+These spots are large enough that they are not truly single cell, 
+rather each spot typically captures between 1-10 cells. Thus in some
+ways the data from each spot can be thought of as a "mini" bulk RNA-Seq.
+Nevertheless it can be very useful to assay gene expression in this spatially
+resolved manner. 10X also will soon (end of 2022) offer the 
+[Xenium In Situ platform](https://www.10xgenomics.com/platforms/xenium)
+which can profile hundreds of RNA targets with subcellular resolution.
 
-AKOYA
+Another spatial profiling option is 
+[Nanostring's GeoMx Digital Spatial Profiler](https://nanostring.com/products/geomx-digital-spatial-profiler/geomx-dsp-overview/).
+This is a high-plex protein and RNA platform that uses indexing
+oligonucleotides assigned to targets of interest. This allows measuring
+hundreds of potential protein and RNA biomarkers.
 
+A final spatial profiling option is the 
+[PhenoCycler system from Akoya Biosciences](https://www.akoyabio.com/phenocycler/).
+This system (formerly known as CODEX) is a commercial implementation
+of a device that was pioneered in an academic lab
+(protocol reviewed in [ref](https://pubmed.ncbi.nlm.nih.gov/34215862/)).
+The system allows profiling of millions of cells across a whole slide
+with single-cell resolution. This system originally profiled 
+dozens of proteins but has expanded to include the capability to
+capture 100+ protein and RNA biomarkers.
 
+For each of these instruments tissue can be prepared in a variety
+of ways. In many cases the techology is moving towards profiling of
+Formalin-Fixed Paraffin-Embedded (FFPE) samples. The technological
+landscape is sure to change quickly and the future is bright for 
+spatial profiling!

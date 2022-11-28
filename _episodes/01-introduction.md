@@ -1,5 +1,5 @@
 ---
-title: "Introduction to single cell RNA-seq"
+title: "Introduction to Single Cell RNA-seq"
 teaching: 30
 exercises: 10
 questions:
