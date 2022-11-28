@@ -209,7 +209,7 @@ A second, alternative, approach is to use natural genetic variation as a
 built-in barcode and demultiplex cells using SNVs and indels unique to each 
 sample. 
 
-> DMG: (Figure?). 
+<img src="../fig/genetic_demultiplexing.png" alt="Genetic Deultiplexing" width="600px">
 
 This approach was pioneered by 
 [Kang et al.](https://www.nature.com/articles/nbt.4042). 
