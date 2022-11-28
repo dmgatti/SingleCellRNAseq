@@ -287,28 +287,28 @@ Computing SNN
 
 
 ~~~
-21:00:28 UMAP embedding parameters a = 0.9922 b = 1.112
+07:23:12 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-21:00:28 Read 44253 rows and found 24 numeric columns
+07:23:12 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-21:00:28 Using Annoy for neighbor search, n_neighbors = 30
+07:23:12 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-21:00:28 Building Annoy index with metric = cosine, n_trees = 50
+07:23:12 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -330,13 +330,13 @@ Computing SNN
 
 ~~~
 **************************************************|
-21:00:32 Writing NN index file to temp file /var/folders/42/vng3302d5jn562sj58fjzszwhbfnwc/T//Rtmp4q3mnc/filef73f66cc3726
-21:00:33 Searching Annoy index using 1 thread, search_k = 3000
-21:00:45 Annoy recall = 100%
-21:00:46 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-21:00:48 Initializing from normalized Laplacian + noise (using irlba)
-21:01:01 Commencing optimization for 200 epochs, with 1893512 positive edges
-21:01:27 Optimization finished
+07:23:17 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\Rtmp2D9H65\file35e862294b6a
+07:23:17 Searching Annoy index using 1 thread, search_k = 3000
+07:23:31 Annoy recall = 100%
+07:23:32 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+07:23:35 Initializing from normalized Laplacian + noise (using irlba)
+07:23:46 Commencing optimization for 200 epochs, with 1893320 positive edges
+07:24:33 Optimization finished
 ~~~
 {: .output}
 
@@ -12172,7 +12172,7 @@ e <- bind_rows(enrich_genes, .id = 'database') %>%
 Error in `mutate()`:
 ! Problem while computing `Term = paste0(database, ": ", Term)`.
 Caused by error in `paste0()`:
-! object 'database' not found
+! object 'Term' not found
 ~~~
 {: .error}
 

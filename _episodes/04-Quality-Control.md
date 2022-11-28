@@ -92,9 +92,9 @@ doublet_preds <- colData(sce)
 
 
 ~~~
-            used   (Mb) gc trigger   (Mb) limit (Mb)  max used   (Mb)
-Ncells   7216238  385.4   12096857  646.1         NA  11545903  616.7
-Vcells 179909108 1372.6  434467216 3314.8      32768 434466416 3314.8
+            used   (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells   7175986  383.3   12234692  653.5  10349944  552.8
+Vcells 179559967 1370.0  434010801 3311.3 434008114 3311.3
 ~~~
 {: .output}
 
