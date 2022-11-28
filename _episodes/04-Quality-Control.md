@@ -92,9 +92,9 @@ doublet_preds <- colData(sce)
 
 
 ~~~
-            used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7175986  383.3   12234692  653.5  10349946  552.8
-Vcells 179559967 1370.0  434010801 3311.3 434008114 3311.3
+            used   (Mb) gc trigger   (Mb) limit (Mb)  max used   (Mb)
+Ncells   7216238  385.4   12096857  646.1         NA  11545903  616.7
+Vcells 179909108 1372.6  434467216 3314.8      32768 434466416 3314.8
 ~~~
 {: .output}
 
@@ -784,31 +784,29 @@ sessionInfo()
 
 
 ~~~
-R version 4.1.2 (2021-11-01)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19042)
+R version 4.1.0 (2021-05-18)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur 10.16
 
 Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
 
 locale:
-[1] LC_COLLATE=English_United States.1252 
-[2] LC_CTYPE=English_United States.1252   
-[3] LC_MONETARY=English_United States.1252
-[4] LC_NUMERIC=C                          
-[5] LC_TIME=English_United States.1252    
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
 attached base packages:
-[1] stats4    stats     graphics  grDevices utils     datasets  methods  
-[8] base     
+[1] parallel  stats4    stats     graphics  grDevices utils     datasets 
+[8] methods   base     
 
 other attached packages:
  [1] SeuratObject_4.1.3          Seurat_4.3.0               
- [3] scds_1.10.0                 SingleCellExperiment_1.16.0
- [5] SummarizedExperiment_1.24.0 Biobase_2.54.0             
- [7] GenomicRanges_1.46.1        GenomeInfoDb_1.30.1        
- [9] IRanges_2.28.0              S4Vectors_0.32.4           
-[11] BiocGenerics_0.40.0         MatrixGenerics_1.6.0       
-[13] matrixStats_0.63.0          Matrix_1.5-3               
+ [3] scds_1.8.0                  SingleCellExperiment_1.14.1
+ [5] SummarizedExperiment_1.22.0 Biobase_2.52.0             
+ [7] GenomicRanges_1.44.0        GenomeInfoDb_1.28.4        
+ [9] IRanges_2.26.0              S4Vectors_0.30.2           
+[11] BiocGenerics_0.38.0         MatrixGenerics_1.4.3       
+[13] matrixStats_0.63.0          Matrix_1.5-1               
 [15] forcats_0.5.2               stringr_1.4.1              
 [17] dplyr_1.0.10                purrr_0.3.5                
 [19] readr_2.1.3                 tidyr_1.2.1                
@@ -818,18 +816,18 @@ other attached packages:
 loaded via a namespace (and not attached):
   [1] readxl_1.4.1           backports_1.4.1        plyr_1.8.8            
   [4] igraph_1.3.5           lazyeval_0.2.2         sp_1.5-1              
-  [7] splines_4.1.2          listenv_0.8.0          scattermore_0.8       
+  [7] splines_4.1.0          listenv_0.8.0          scattermore_0.8       
  [10] digest_0.6.30          htmltools_0.5.3        fansi_1.0.3           
  [13] magrittr_2.0.3         tensor_1.5             googlesheets4_1.0.1   
- [16] cluster_2.1.4          ROCR_1.0-11            tzdb_0.3.0            
+ [16] cluster_2.1.2          ROCR_1.0-11            tzdb_0.3.0            
  [19] globals_0.16.2         modelr_0.1.10          timechange_0.1.1      
  [22] spatstat.sparse_3.0-0  colorspace_2.0-3       rvest_1.0.3           
  [25] ggrepel_0.9.2          haven_2.5.1            xfun_0.35             
  [28] crayon_1.5.2           RCurl_1.98-1.9         jsonlite_1.8.3        
- [31] progressr_0.11.0       spatstat.data_3.0-0    survival_3.4-0        
+ [31] progressr_0.11.0       spatstat.data_3.0-0    survival_3.2-11       
  [34] zoo_1.8-11             glue_1.6.2             polyclip_1.10-4       
- [37] gtable_0.3.1           gargle_1.2.1           zlibbioc_1.40.0       
- [40] XVector_0.34.0         leiden_0.4.3           DelayedArray_0.20.0   
+ [37] gtable_0.3.1           gargle_1.2.1           zlibbioc_1.38.0       
+ [40] XVector_0.32.0         leiden_0.4.3           DelayedArray_0.18.0   
  [43] future.apply_1.10.0    abind_1.4-5            scales_1.2.1          
  [46] DBI_1.1.3              spatstat.random_3.0-1  miniUI_0.1.1.1        
  [49] Rcpp_1.0.9             viridisLite_0.4.1      xtable_1.8-4          
@@ -839,26 +837,24 @@ loaded via a namespace (and not attached):
  [61] deldir_1.0-6           dbplyr_2.2.1           utf8_1.2.2            
  [64] labeling_0.4.2         tidyselect_1.2.0       rlang_1.0.6           
  [67] reshape2_1.4.4         later_1.3.0            munsell_0.5.0         
- [70] cellranger_1.1.0       tools_4.1.2            xgboost_1.6.0.1       
+ [70] cellranger_1.1.0       tools_4.1.0            xgboost_1.6.0.1       
  [73] cli_3.4.1              generics_0.1.3         broom_1.0.1           
  [76] ggridges_0.5.4         evaluate_0.18          fastmap_1.1.0         
  [79] goftest_1.2-3          fs_1.5.2               fitdistrplus_1.1-8    
- [82] RANN_2.6.1             nlme_3.1-160           pbapply_1.6-0         
- [85] future_1.29.0          mime_0.12              ggrastr_1.0.1         
- [88] xml2_1.3.3             compiler_4.1.2         beeswarm_0.4.0        
- [91] plotly_4.10.1          png_0.1-7              spatstat.utils_3.0-1  
- [94] reprex_2.0.2           stringi_1.7.8          highr_0.9             
- [97] lattice_0.20-45        vctrs_0.5.1            pillar_1.8.1          
-[100] lifecycle_1.0.3        spatstat.geom_3.0-3    lmtest_0.9-40         
-[103] RcppAnnoy_0.0.20       data.table_1.14.6      cowplot_1.1.1         
-[106] bitops_1.0-7           irlba_2.3.5.1          httpuv_1.6.6          
-[109] patchwork_1.1.2        R6_2.5.1               promises_1.2.0.1      
-[112] KernSmooth_2.23-20     gridExtra_2.3          vipor_0.4.5           
-[115] parallelly_1.32.1      codetools_0.2-18       MASS_7.3-58.1         
-[118] assertthat_0.2.1       withr_2.5.0            sctransform_0.3.5     
-[121] GenomeInfoDbData_1.2.7 parallel_4.1.2         hms_1.1.2             
-[124] grid_4.1.2             googledrive_2.0.0      Rtsne_0.16            
-[127] spatstat.explore_3.0-5 pROC_1.18.0            shiny_1.7.3           
-[130] lubridate_1.9.0        ggbeeswarm_0.6.0      
+ [82] RANN_2.6.1             nlme_3.1-152           pbapply_1.6-0         
+ [85] future_1.29.0          mime_0.12              xml2_1.3.3            
+ [88] compiler_4.1.0         plotly_4.10.1          png_0.1-7             
+ [91] spatstat.utils_3.0-1   reprex_2.0.2           stringi_1.7.8         
+ [94] highr_0.9              lattice_0.20-44        vctrs_0.5.1           
+ [97] pillar_1.8.1           lifecycle_1.0.3        spatstat.geom_3.0-3   
+[100] lmtest_0.9-40          RcppAnnoy_0.0.20       data.table_1.14.6     
+[103] cowplot_1.1.1          bitops_1.0-7           irlba_2.3.5.1         
+[106] httpuv_1.6.6           patchwork_1.1.2        R6_2.5.1              
+[109] promises_1.2.0.1       KernSmooth_2.23-20     gridExtra_2.3         
+[112] parallelly_1.32.1      codetools_0.2-18       MASS_7.3-54           
+[115] assertthat_0.2.1       withr_2.5.0            sctransform_0.3.5     
+[118] GenomeInfoDbData_1.2.6 hms_1.1.2              grid_4.1.0            
+[121] googledrive_2.0.0      Rtsne_0.16             spatstat.explore_3.0-5
+[124] pROC_1.18.0            shiny_1.7.3            lubridate_1.9.0       
 ~~~
 {: .output}
