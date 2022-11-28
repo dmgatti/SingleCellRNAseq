@@ -100,24 +100,94 @@ published by
 which has an accompanying R package.
 
 
-### Pseudotime and velocity
+### Pseudotime and RNA velocity
 
-What is pseudotime
+Cells of various types differentiate from progenitor cells in ways
+that are as diverse as the cells themselves. Moreover, 
+cells can change state -- for example, in response to external
+cues. When cells transit between developmental or functional states,
+the cell's transcriptome is altered as some genes are turned on and
+others are turned off. In many cases the precise ordering of these
+intermediate
+changes is difficult or impossible to study as the cells cannot be
+cleanly isolated. 
+However, profiling a collection of cells that is changing state
+using scRNA-Seq can address this problem. Such a collection will
+have cells at different stages of the change in state. If we can 
+reconstruct the "transcriptional trajectory" connecting 
+states, it will allow us to better understand the transition.
 
-*slingshot*
+Pseudotime is the position of a cell along such a
+trajectory. Pseudotime is not necessarily equivalent to some
+real timescale, but 
+rather is "a latent (unobserved) dimension which measures the cells’ 
+progress through [a cellular] transition" 
+[Reid and Wernisch 2016](https://doi.org/10.1093%2Fbioinformatics%2Fbtw372). 
+[Monocle](https://cole-trapnell-lab.github.io/monocle3/) is the software
+package that introduced the concept of pseudotime and 
+popularized the use of algorithms for reconstructing cellular
+trajectories using scRNA-Seq. As the Monocle documentation puts it:
 
-There are many, many algorithms and software packages for inferring 
+> Monocle uses an algorithm to learn the sequence of gene expression 
+> changes each cell must go through as part of a dynamic biological 
+> process. Once it has learned the overall "trajectory" of gene 
+> expression changes, Monocle can place each cell at its proper position 
+> in the trajectory. You can then use Monocle's differential analysis 
+> toolkit to find genes regulated over the course of the trajectory ...
+> If there are multiple outcomes for the process, Monocle will reconstruct 
+> a "branched" trajectory. These branches correspond to cellular "decisions",
+> and Monocle provides powerful tools for identifying the genes affected 
+> by them and involved in making them.
+
+In addition to Monocle 
+there are many, many algorithms and software packages for inferring 
 pseudotime. For a very nice list check out
 [Anthony Gitter's github list](https://github.com/agitter/single-cell-pseudotime).
 
-What is RNA velocity?
+A very clever technique that is somewhat related
+to pseudotime is called RNA velocity.
+RNA velocity was introcduced by 
+[La Manno et al. 2018](https://www.nature.com/articles/s41586-018-0414-6).
+They defined RNA velocity as the time derivative
+of a cell's gene expression state. RNA velocity uses the 
+ratio of unspliced versus spliced RNAs in a cell to estimate
+whether a gene's expression is currently increasing
+(unspliced > spliced) or decreasing (spliced > unspliced).
+[scvelo](https://scvelo.readthedocs.io/) is a beautifully engineered
+toolkit that
+generalizes RNA velocity by relaxing previous model assumptions with a
+stochastic and a dynamical model that solves the full transcriptional dynamics. 
+See [Bergen et al. 2020](https://doi.org/10.1038/s41587-020-0591-3) for
+more details.
 
-monocle
-RNA velocity
-scvelo
+Pseudotime/trajectory analysis and RNA velocity are related but distinct
+methods. Trajectory analysis attempts to build a continuous transcriptional
+gradient representing a path between groups of cells, but does not
+automatically infer a direction. In contrast, RNA velocity also deals with
+transitions between cellular states, but explicitly considers the
+directionality of the transitions.
 
+## Very large datasets
 
+Not long ago it was very impressive to profile thousands of cells.
+Today larger labs are fairly routinely profiling around a million cells!
+From an analytical perspective, these very large datasets must be thought 
+of differently than smaller datasets. Very large datasets may often
+cause memory or disk space errors if one tries to use conventional methods
+to analyze them (e.g. the methods we have shown earlier in this course).
 
+Here are two possible solutions:
+
+ 1. Be clever in your analysis. Reduce dimensionality of subunits of your data
+ (e.g. samples) using something like PCA, and integrate in this 
+ reduced-dimensional subspace, which will be less computationally intensive
+ than trying to operate on all data simultaneously. For example, see the 
+ section on reciprocal PCA at 
+ [this link](https://satijalab.org/seurat/archive/v3.2/integration.html)
+ 2. Combine very similar cells into mini-bulk samples in order to 
+ drastically reduce the number of cells. Methods available to do this include
+ Metacells [Ben-Kiki et al. 2022](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-022-02667-1) 
+ and SuperCell [Bilous et al. 2022](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-022-04861-1).
 
 
 ## Multimodal molecular profiling
