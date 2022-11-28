@@ -634,7 +634,7 @@ This could look like the following:
 ```{r pseudobulk1}
 # Make pseudobulks.
 pseudobulk <- AggregateExpression(hepatocytes, slot = 'counts', 
-                                  group.by = 'sample')
+                                  group.by = 'sample', assays = 'RNA')[['RNA']]
 dim(pseudobulk)
 head(pseudobulk, 6)
 
