@@ -356,6 +356,7 @@ Let's look at the top 3 markers for each cluster:
 ```{r top_markers}
 group_by(markers, cluster) %>% 
   top_n(3, avg_log2FC) %>%
+  mutate(rank = 1:n()) %>%
   pivot_wider(-c(avg_log2FC, pct.1, pct.2, p_val_adj), 
               names_from = 'rank', values_from = 'gene') %>%
   arrange(cluster)
