@@ -284,7 +284,7 @@ closely at these quantities on a per-library basis to decide on
 our filtering thresholds. We will us the 'min.cells' argument to filter out
 genes that occur in less than 5 cells.
 
-```{r seed, echo = FALSE}
+```{r seed}
 # set a seed for reproducibility in case any randomness used below
 set.seed(1418)
 ```
