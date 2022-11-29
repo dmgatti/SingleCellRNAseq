@@ -81,8 +81,6 @@ dir.create("results")
 
 **Before the workshop**, please download the following files:
 
-TBD: Users will download a subset of the counts and metadata from somewhere (Box?). So far, 25% of the full data from liveratlas.org seems to work well. 
-
 Open the `scRNA.Rproj` project.
 
 ~~~

@@ -3,8 +3,8 @@
 # Instead, please edit 02-Experimental-Considerations.md in _episodes_rmd/
 source: Rmd
 title: "Experimental Considerations"
-teaching: 30
-exercises: 10
+teaching: 90
+exercises: 30
 questions:
 - "How do I design a rigorous and reproducible single cell RNAseq experiment?"
 objectives:
@@ -273,29 +273,3 @@ Mol Syst Biol [link](https://pubmed.ncbi.nlm.nih.gov/31217225/)
 sessionInfo()
 ~~~
 {: .language-r}
-
-
-
-~~~
-R version 4.1.0 (2021-05-18)
-Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Big Sur 10.16
-
-Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
-
-locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
-
-attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
-
-other attached packages:
-[1] knitr_1.41
-
-loaded via a namespace (and not attached):
-[1] compiler_4.1.0 magrittr_2.0.3 tools_4.1.0    stringi_1.7.8  stringr_1.4.1 
-[6] xfun_0.35      evaluate_0.18 
-~~~
-{: .output}
