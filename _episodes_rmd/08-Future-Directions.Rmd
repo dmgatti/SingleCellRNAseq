@@ -64,7 +64,11 @@ in cell composition such as ANOVA or t-tests.
 The 
 [propeller](https://academic.oup.com/bioinformatics/article/38/20/4720/6675456)
 method is a nice and simple option and available in an
-easy-to-use R package.
+easy-to-use R package. This figure is taken from Phipson et al 2022
+and shows an example of applying
+propeller to several different datasets:
+<img src="../fig/propeller.png" alt="Propeller changes in cell composition" width="600px">
+
 [scCODA](https://www.nature.com/articles/s41467-021-27150-6) is a
 more complicated approach that uses a Bayesian model incorporating
 the compositional nature of the data. While the scCODA model is impressively
@@ -95,7 +99,10 @@ is [CellPhoneDB](https://www.cellphonedb.org/)
 published by 
 [Efremova et al. 2020](https://www.nature.com/articles/s41596-020-0292-x).
 This tool is widely used and has a web portal as well as a python
-package. Another option is [CellChat](http://www.cellchat.org/),
+package:
+<img src="../fig/cellphonedb_splash.jpg" alt="Landing page of CellphoneDB" width="600px">
+
+Another option is [CellChat](http://www.cellchat.org/),
 published by 
 [Jin et al. 2021](https://www.nature.com/articles/s41467-021-21246-9)
 which has an accompanying R package.
@@ -160,6 +167,7 @@ generalizes RNA velocity by relaxing previous model assumptions with a
 stochastic and a dynamical model that solves the full transcriptional dynamics. 
 See [Bergen et al. 2020](https://doi.org/10.1038/s41587-020-0591-3) for
 more details.
+<img src="../fig/scvelo.jpg" alt="The scvelo website" width="600px">
 
 Pseudotime/trajectory analysis and RNA velocity are related but distinct
 methods. Trajectory analysis attempts to build a continuous transcriptional
@@ -201,6 +209,10 @@ common examples of multimodal profiling include:
  * single cell transcriptomics + single nucleus ATAC-Seq (chromatin accessibility)
  * single cell transcriptomics + single cell surface protein quantification (CITE-Seq)
  * single cell transcriptomics + immune repertoire profiling 
+ 
+<img src="../fig/multimodal_10x.jpg" alt="10x multimodal data option" width="600px">
+
+(Image courtesy of 10X Genomics webpage)
 
 There is already a large literature on these topics. 
 [Zhu et al. 2020](https://www.nature.com/articles/s41592-019-0691-5)
@@ -250,6 +262,9 @@ The system allows profiling of millions of cells across a whole slide
 with single-cell resolution. This system originally profiled 
 dozens of proteins but has expanded to include the capability to
 capture 100+ protein and RNA biomarkers.
+<img src="../fig/akoya.jpg" alt="Akoya PhenoCycler machine" width="600px">
+
+(Images courtesy of Akoya Biosciences webpage)
 
 For each of these instruments tissue can be prepared in a variety
 of ways. In many cases the techology is moving towards profiling of
