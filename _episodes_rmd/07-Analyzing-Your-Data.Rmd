@@ -1,8 +1,8 @@
 ---
 source: Rmd
 title: "Analyzing Your Data"
-teaching: 10
-exercises: 2
+teaching: 90
+exercises: 30
 questions:
 - "Can I analyze my own single cell RNA-Seq experiment?"
 objectives:

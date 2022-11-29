@@ -1,8 +1,8 @@
 ---
 source: Rmd
 title: "Common Analyses"
-teaching: 10
-exercises: 2
+teaching: 90
+exercises: 30
 questions:
 - "What are the most common single cell RNA-Seq analyses?"
 objectives:
