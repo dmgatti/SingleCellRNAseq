@@ -277,7 +277,7 @@ for convenience in a typical analysis, for this course we will look more
 closely at these quantities on a per-library basis to decide on
 our filtering thresholds.
 
-```{r seed, echo = FALSE}
+```{r seed}
 # set a seed for reproducibility in case any randomness used below
 set.seed(1418)
 ```

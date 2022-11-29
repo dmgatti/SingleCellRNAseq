@@ -28,7 +28,7 @@ suppressPackageStartupMessages(library(enrichR))
 data_dir <- '../data'
 ```
 
-```{r seed, echo = FALSE}
+```{r seed}
 # set a seed for reproducibility in case any randomness used below
 set.seed(1418)
 ```
