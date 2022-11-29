@@ -119,12 +119,11 @@ liver <- liver %>%
 top25 <- head(VariableFeatures(liver), 25)
 
 plot1 <- VariableFeaturePlot(liver)
-plot2 <- LabelPoints(plot = plot1, points = top25, xnudge = 0, 
-                     ynudge = 0, repel = TRUE)
-plot2
+LabelPoints(plot = plot1, points = top25, xnudge = 0, 
+            ynudge = 0, repel = TRUE)
 ```
 
-## Cell cycle assignment 
+## Cell Cycle Assignment 
 
 We will also show how to predict cell cycle state.
 This approach is outlined in the Seurat vignette at
@@ -134,11 +133,13 @@ This approach is outlined in the Seurat vignette at
 ```{r cellcycle}
 cc.genes <- readLines(file.path(data_dir,
   'regev_lab_cell_cycle_genes_mm.fixed.txt'))
-s.genes <- cc.genes[1:43]
+s.genes   <- cc.genes[1:43]
 g2m.genes <- cc.genes[44:98]
 
-liver <- CellCycleScoring(liver, s.features=s.genes, 
-  g2m.features=g2m.genes, set.ident=FALSE)
+liver <- CellCycleScoring(liver, 
+                          s.features   = s.genes, 
+                          g2m.features = g2m.genes, 
+                          set.ident    = FALSE)
 ```
 
 Seurat will provide a quantitative estimate of the cell's chance of being

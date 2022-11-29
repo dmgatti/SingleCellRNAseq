@@ -1,8 +1,8 @@
 ---
 source: Rmd
 title: "Biology Driven Analyses of scRNA-Seq"
-teaching: 10
-exercises: 2
+teaching: 90
+exercises: 30
 questions:
 - "What are some scRNA-Seq analyses that might provide me with biological insight?"
 objectives:
@@ -78,7 +78,7 @@ in the data we are looking at.
 Let's start by looking at whether specific cell clusters in our 
 clustering + UMAP are derived largely from one or a few samples.
 
-```{r table}
+```{r table_smple_clusters}
 table(liver$sample, liver$seurat_clusters)
 ```
 
@@ -95,8 +95,7 @@ demonstrating some fairly clear batch effects -- indicated by
 UMAPPlot(liver, group.by = 'sample', pt.size = 0.1)
 ```
 
-Digging into cluster 13, let's see what genes this cluster
-expresses
+Let's see which genes are expressed in cluster 13.
 
 ```{r find_markers1}
 markers13 <- FindMarkers(liver, '13', only.pos = TRUE, logfc.threshold = 1,
@@ -520,8 +519,7 @@ VlnPlot(liver, c("Adgre1", "Fabp1"), idents = c('3', '15', '1'), sort = T)
 ```
 
 
-Let's store our labels and look at
-what remains unidentified.
+Let's store our labels and look at what remains unidentified.
 
 ```{r labelling}
 labels <- tibble(cluster_num = unique(liver$after_harmony_clusters)) %>%
@@ -545,6 +543,16 @@ UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 > Might direct them to the Panglao database at https://panglaodb.se/index.html
 > They could ask: is it an immune cell? If yes it likely expresses
 > CD45 (Ptprc)
+
+
+> ## Challenge 1
+> We have identified the hepatocyte cluster 
+>
+> > ## Solution to Challenge 1
+> > 
+> > DMG: Add in solution to some cell types.
+> {: .solution}
+{: .challenge}
 
 
 ## Differential expression 

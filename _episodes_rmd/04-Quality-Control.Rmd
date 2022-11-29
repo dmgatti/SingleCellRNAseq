@@ -1,8 +1,8 @@
 ---
 source: Rmd
 title: "Quality Control of scRNA-Seq Data"
-teaching: 30
-exercises: 10
+teaching: 90
+exercises: 30
 questions:
 - "How do I determine if my single cell RNA-seq experiment data is high quality?"
 - "What are the common quality control metrics that I should check in my scRNA-seq data?"
@@ -148,18 +148,16 @@ an implementation of 'rowSums()' that is efficient, but you may have to specify
 that you want to used the `Matrix` version of 'rowSums()' explicitly.
 
 ```{r gene_count_hist}
-gene_counts <- Matrix::rowSums(counts > 0)
+gene_counts <- tibble(gene_id = rownames(counts), 
+                      counts  = Matrix::rowSums(counts > 0))
 
-tibble(gene_id = names(gene_counts), counts = gene_counts) %>% 
+gene_counts %>% 
   ggplot(aes(counts)) +
-    geom_histogram(bins = 100) +
-    labs(title = 'Number of Cells in which Gene was Detected',
+    geom_histogram(bins = 1000) +
+    labs(title = 'Histogram of Number of Cells in which Gene was Detected',
          x     = 'Number of Genes',
-         y     = 'Histogram of Number of Cells in which Gene was Detected') +
-  theme_bw(base_size = 14) #+ scale_x_log10()
-
-hist(gene_counts, breaks = 1000, las = 1, xlab = 'Number of Cells in which Gene was Detected', 
-     ylab = 'Number of Genes', main = 'Histogram of Number of Cells in which Gene was Detected')
+         y     = 'Number of Cells in which Gene was Detected') +
+  theme_bw(base_size = 14)
 ```
 
 As you can see, the number of cells in which each gene is detected spans several 
@@ -168,15 +166,18 @@ genes are detected in all cells while others are detected in only one cell.
 Let's zoom in on the part with lower gene counts.
 
 ```{r gene_count_hist_2}
-hist(gene_counts, breaks = -1:max(gene_counts), freq = TRUE, 
-     xlim = c(0, 100), las = 1, 
-     xlab = 'Number of Cells in which Gene was Detected', 
-     ylab = 'Number of Genes', 
-     main = 'Histogram of Number of Cells in which Gene was Detected')
-text(2, 1180, labels = paste(sum(gene_counts == 1), 
-  'genes were detected in only one cell'), adj = c(0, 0.5))
-text(3,  800, labels = paste(sum(gene_counts == 2), 
-  'genes were detected in two cells'), adj = c(0, 0.5))
+gene_counts %>%
+  ggplot(aes(counts)) +
+    geom_histogram(bins = 1000) +
+    labs(title = 'Histogram of Number of Cells in which Gene was Detected',
+         x     = 'Number of Genes',
+         y     = 'Number of Cells in which Gene was Detected') +
+    lims(x = c(0, 50)) +
+    theme_bw(base_size = 14) +
+    annotate('text', x = 2, y = 1500, hjust = 0,
+             label = str_c(sum(gene_counts == 1), 'genes were detected in only one cell')) +
+    annotate('text', x = 3, y = 900, hjust = 0,
+             label = str_c(sum(gene_counts == 2), 'genes were detected in two cells'))
 ```
 
 In the plot above, we can see that there are `r sum(gene_counts == 1)` 
@@ -246,14 +247,19 @@ should improve your final results.
 We will explicitly use the `Matrix` package's implementation of 'colSums()'.
 
 ```{r sum_cell_counts}
-cell_counts <- Matrix::colSums(counts > 0)
-hist(cell_counts, breaks = 1000, las = 1, xlab = 'Number of Genes with Counts > 0', 
-     ylab = 'Number of Cells')
+cell_counts <- tibble(cell_id = colnames(counts),
+                      counts  = Matrix::colSums(counts > 0))
+
+cell_counts %>%
+  ggplot(aes(counts)) +
+    geom_histogram(bins = 1000) +
+    labs(title = 'Histogram of Number of Gene per Cell',
+         x     = 'Number of Genes with Counts > 0',
+         y     = 'Number of Cells')
 ```
 
 Cells with way more genes expressed than the typical cell might be
 doublets/multiplets and should also be removed.
-
 
 ### Creating the Seurat Object
 
@@ -275,7 +281,8 @@ contains two arguments, 'min.cells' and 'min.features', that allow us to
 filter the genes and cells by counts. Although we might use these arguments
 for convenience in a typical analysis, for this course we will look more
 closely at these quantities on a per-library basis to decide on
-our filtering thresholds.
+our filtering thresholds. We will us the 'min.cells' argument to filter out
+genes that occur in less than 5 cells.
 
 ```{r seed, echo = FALSE}
 # set a seed for reproducibility in case any randomness used below
@@ -287,10 +294,14 @@ metadata <- as.data.frame(metadata) %>%
               column_to_rownames('cell')
 liver <- CreateSeuratObject(counts    = counts, 
                             project   = 'liver: scRNA-Seq',
-                            meta.data = metadata)
+                            meta.data = metadata,
+                            min.cells = 5)
 ```
 
+We now have a Seurat object with `r nrow(liver)` genes and `r ncol(liver)` cells.
+
 Add on doublet predictions that we did earlier in this lesson.
+
 ```{r add_doublets}
 liver <- AddMetaData(liver, as.data.frame(doublet_preds))
 ```
@@ -302,7 +313,7 @@ as an [assay](https://github.com/satijalab/seurat/wiki/Assay), which we can quer
 Seurat::Assays(liver)
 ```
 
-The output of this function tells us that we have data in a "slot" called "data". We can access this using the [GetAssayData]() function.
+The output of this function tells us that we have data in an "RNA assay. We can access this using the [GetAssayData](https://mojaveazure.github.io/seurat-object/reference/AssayData.html) function.
 
 ```{r get_assay_data}
 tmp = GetAssayData(object = liver, slot = 'data')
@@ -311,15 +322,20 @@ tmp[1:5,1:5]
 
 As you can see the data that we retrieved is a sparse matrix, just like the counts that we provided to the Seurat object.
 
-What about the metadata? We can access the metadata to using somewhat confusing syntax.
+What about the metadata? We can access the metadata to using somewhat confusing double square bracket syntax.
 
 ```{r show_meta}
 head(liver[[]])
 ```
 
 Notice that there are some columns that were not in our original metadata file; 
-specifically the 'nCount_RNA' and 'nFeature_RNA' columns. These were calculated 
-by Seurat when the Seurat object was created. We will use these later in the lesson.
+specifically the 'nCount_RNA' and 'nFeature_RNA' columns. 
+
+* *nCount_RNA* is the total counts for each cell. 
+* *nFeature_RNA* is the number of genes with counts > 0 in each cell.
+
+These were calculated by Seurat when the Seurat object was created. We will use 
+these later in the lesson.
 
 
 ## Typical filters for cell quality

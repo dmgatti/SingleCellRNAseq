@@ -8,7 +8,7 @@
    version="1.1"
    id="svg5"
    inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
-   sodipodi:docname="genetic_demiltiplexing.svg"
+   sodipodi:docname="genetic_demultiplexing.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.93859296"
-     inkscape:cx="872.05001"
-     inkscape:cy="346.26298"
+     inkscape:zoom="0.66368545"
+     inkscape:cx="1293.5345"
+     inkscape:cy="367.64404"
      inkscape:window-width="2560"
      inkscape:window-height="1506"
      inkscape:window-x="-11"
@@ -164,7 +164,7 @@
        id="rect13167"
        width="67.373154"
        height="42.656376"
-       x="232.41745"
+       x="242.47148"
        y="56.808723"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
@@ -726,7 +726,7 @@
        inkscape:export-ydpi="300"><tspan
          x="19.587891"
          y="0.33110329"
-         id="tspan34071">C57BL/6J</tspan></text>
+         id="tspan4937">C57BL/6J</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,1.3231919,88.787451)"
@@ -737,12 +737,12 @@
        inkscape:export-ydpi="300"><tspan
          x="19.587891"
          y="0.33110329"
-         id="tspan34075"><tspan
+         id="tspan4941"><tspan
            style="fill:#008000"
-           id="tspan34073">CAST/EiJ</tspan></tspan></text>
+           id="tspan4939">CAST/EiJ</tspan></tspan></text>
     <text
        xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,3.1892618,21.726845)"
+       transform="matrix(0.26458333,0,0,0.26458333,3.1892618,27.018515)"
        id="text11550"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect11552);fill:#000000;fill-opacity:1;stroke:none"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
@@ -750,10 +750,10 @@
        inkscape:export-ydpi="300"><tspan
          x="257.65234"
          y="452.35259"
-         id="tspan34077">Pool Cells</tspan></text>
+         id="tspan4943">Pool Cells</tspan></text>
     <text
        xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,75.454019,15.015109)"
+       transform="matrix(0.26458333,0,0,0.26458333,75.454019,20.306779)"
        id="text11550-4"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect11552-0);fill:#000000;fill-opacity:1;stroke:none"
        x="259.49219"
@@ -763,17 +763,17 @@
        inkscape:export-ydpi="300"><tspan
          x="324.38477"
          y="452.35259"
-         id="tspan34081"><tspan
+         id="tspan4947"><tspan
            style="text-align:center;text-anchor:middle"
-           id="tspan34079">Cell </tspan></tspan><tspan
+           id="tspan4945">Cell </tspan></tspan><tspan
          x="272.13867"
          y="502.35259"
-         id="tspan34085"><tspan
+         id="tspan4951"><tspan
            style="text-align:center;text-anchor:middle"
-           id="tspan34083">Labelling</tspan></tspan></text>
+           id="tspan4949">Labelling</tspan></tspan></text>
     <text
        xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,260.18512,14.769965)"
+       transform="matrix(0.26458333,0,0,0.26458333,273.41437,20.061635)"
        id="text11550-4-0"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;text-align:center;white-space:pre;shape-inside:url(#rect11552-0-1);fill:#000000;fill-opacity:1;stroke:none"
        x="407.1582"
@@ -783,13 +783,13 @@
        inkscape:export-ydpi="300"><tspan
          x="335.18164"
          y="452.35259"
-         id="tspan34087">Genetic </tspan><tspan
+         id="tspan4953">Genetic </tspan><tspan
          x="260.36719"
          y="502.35259"
-         id="tspan34089">Demultiplexing</tspan></text>
+         id="tspan4955">Demultiplexing</tspan></text>
     <text
        xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,165.09813,-52.074024)"
+       transform="matrix(0.26458333,0,0,0.26458333,175.15236,-52.074024)"
        id="text11550-4-4"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;text-align:center;white-space:pre;shape-inside:url(#rect11552-0-5);fill:#000000;fill-opacity:1;stroke:none"
        x="380.01953"
@@ -799,13 +799,13 @@
        inkscape:export-ydpi="300"><tspan
          x="262.19141"
          y="452.35259"
-         id="tspan34091">Library Prep </tspan><tspan
+         id="tspan4957">Library Prep </tspan><tspan
          x="369.31055"
          y="502.35259"
-         id="tspan34093">&amp; </tspan><tspan
+         id="tspan4959">&amp; </tspan><tspan
          x="267.54297"
          y="552.35259"
-         id="tspan34095">Sequencing</tspan></text>
+         id="tspan4961">Sequencing</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 83.153304,42.457047 V 94.880535 L 96.530949,118.0513 109.66152,95.308551 110.06274,42.257718"
@@ -949,7 +949,7 @@
          id="path1973-3-6-7-6-7-3" />
     </g>
     <path
-       style="fill:none;stroke:#808080;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       style="fill:none;stroke:#808080;stroke-width:1.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
        d="m 61.791946,45.446981 c 18.537585,11.959731 0,0 18.537585,11.959731"
        id="path174"
        sodipodi:nodetypes="cc"
@@ -957,7 +957,7 @@
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <path
-       style="fill:none;stroke:#808080;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       style="fill:none;stroke:#808080;stroke-width:1.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
        d="M 61.991276,117.80336 80.827852,105.14597"
        id="path176"
        sodipodi:nodetypes="cc"
@@ -965,7 +965,7 @@
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <path
-       style="fill:none;stroke:#808080;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-4)"
+       style="fill:none;stroke:#808080;stroke-width:1.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-4)"
        d="m 115.40392,78.583531 21.42784,-0.298997"
        id="path176-1"
        sodipodi:nodetypes="cc"
@@ -973,60 +973,64 @@
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <path
-       style="fill:none;stroke:#808080;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-4-7)"
-       d="m 206.90044,78.181761 21.42784,-0.298997"
+       style="fill:none;stroke:#808080;stroke-width:1.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-4-7)"
+       d="m 216.95467,78.181761 21.42784,-0.298997"
        id="path176-1-6"
        sodipodi:nodetypes="cc"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <path
-       style="fill:none;stroke:#808080;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-4-7-8)"
-       d="m 307.3622,77.384445 21.42784,-0.298997"
+       style="fill:none;stroke:#808080;stroke-width:1.365;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-4-7-8)"
+       d="m 317.41643,77.384445 21.42784,-0.298997"
        id="path176-1-6-0"
        sodipodi:nodetypes="cc"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <circle
-       style="fill:none;stroke:#000000;stroke-width:0.865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:0.967213;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path3762"
-       cx="154.67921"
-       cy="62.959404"
-       r="14"
+       cx="157.03975"
+       cy="59.568687"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
+       inkscape:export-ydpi="300"
+       rx="16.273577"
+       ry="15.058607" />
     <circle
-       style="fill:none;stroke:#000000;stroke-width:0.865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:0.967213;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path3762-5"
-       cx="188.31841"
-       cy="62.828896"
-       r="14"
+       cx="196.14189"
+       cy="59.42831"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
+       inkscape:export-ydpi="300"
+       rx="16.273577"
+       ry="15.058607" />
     <circle
-       style="fill:none;stroke:#000000;stroke-width:0.865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:0.967213;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path3762-7"
-       cx="154.45842"
-       cy="93.125496"
-       r="14"
+       cx="156.7831"
+       cy="92.015785"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
+       inkscape:export-ydpi="300"
+       rx="16.273577"
+       ry="15.058607" />
     <circle
-       style="fill:none;stroke:#000000;stroke-width:0.865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:0.967213;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path3762-5-2"
-       cx="188.09761"
-       cy="92.994987"
-       r="14"
+       cx="195.88524"
+       cy="91.875404"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
+       inkscape:export-ydpi="300"
+       rx="16.273577"
+       ry="15.058607" />
     <g
        id="g2932-35-0-5-4-1"
-       transform="matrix(0.59247486,0,0,0.59197249,82.856327,27.947736)"
+       transform="matrix(0.68869177,0,0,0.63673436,73.552951,21.909621)"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
@@ -1041,7 +1045,7 @@
     </g>
     <g
        id="g2932-35-0-5-4-6"
-       transform="matrix(0.59247486,0,0,0.59197249,120.72881,58.046394)"
+       transform="matrix(0.68869177,0,0,0.63673436,117.57586,54.284182)"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
@@ -1056,7 +1060,7 @@
     </g>
     <g
        id="g2932-35-0-5-4-6-5"
-       transform="matrix(0.59247486,0,0,0.59197249,86.643574,61.634314)"
+       transform="matrix(0.68869177,0,0,0.63673436,77.955241,58.143402)"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
@@ -1071,7 +1075,7 @@
     </g>
     <g
        id="g13520-0-5-5-6"
-       transform="matrix(0.59247486,0,0,0.59197249,104.38384,16.785317)"
+       transform="matrix(0.68869177,0,0,0.63673436,98.576496,9.9031578)"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
@@ -1086,7 +1090,7 @@
     </g>
     <g
        id="g13520-0-5-5-8"
-       transform="matrix(0.59247486,0,0,0.59197249,59.534848,37.316193)"
+       transform="matrix(0.68869177,0,0,0.63673436,46.444104,31.986471)"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
@@ -1103,7 +1107,8 @@
        id="g25002"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300">
+       inkscape:export-ydpi="300"
+       transform="matrix(1.2313551,0,0,1.1973182,-33.081174,-14.263613)">
       <circle
          style="fill:#f7d538;fill-opacity:1;stroke:none;stroke-width:0.865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          id="path22614"
@@ -1111,29 +1116,29 @@
          cy="55.911747"
          r="2" />
       <path
-         style="fill:none;stroke:#f7d538;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:none;stroke:#f7d538;stroke-width:0.75851327;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 157.22614,57.012977 c 0.21287,0.03601 0.64488,-0.119724 0.77521,0.140946 0.0798,0.159666 0.0123,0.318691 0.0705,0.493313 0.007,0.02228 0.0539,-0.01662 0.0705,0 0.008,0.0082 0,1.237919 0,1.40947 0,0.04301 0.0275,0.254434 0,0.281892 -0.0166,0.01662 -0.06,-0.02101 -0.0705,0 -0.065,0.1299 0,0.483203 0,0.634262 0,0.04698 -0.0332,0.107725 0,0.140946 0.0272,0.0272 0.37681,0.329351 0.42284,0.352367 0.0742,0.03709 1.51756,0.07047 1.76184,0.07047"
          id="path24726" />
       <path
-         style="fill:none;stroke:#f7d538;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:none;stroke:#f7d538;stroke-width:0.75851327;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 157.22614,54.828302 c 0.32295,-0.327549 0.59774,-0.444241 1.0571,-0.352367 0.29719,0.05944 0.40966,0.363823 0.70474,0.422838 0.0691,0.01381 0.14599,-0.02617 0.21142,0 0.33217,0.132872 -0.0403,0.146984 0.28189,0.211421 0.31843,0.06368 0.71209,-0.144626 0.98663,-0.281892 0.12587,-0.06293 0.2179,-0.318752 0.35237,-0.352367 0.18177,-0.04545 0.71979,-0.06545 0.91615,0 0.31109,0.103693 -0.25604,0.07047 0.21142,0.07047 0.17527,0 0.39585,0.04198 0.56379,0 0.14789,-0.03697 0.25829,-0.140946 0.42284,-0.140946"
          id="path24728" />
       <path
-         style="fill:none;stroke:#f7d538;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:none;stroke:#f7d538;stroke-width:0.75851327;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 155.57002,54.017857 c -0.51482,-0.637445 -0.13611,-1.455751 -0.28189,-2.184676 -0.0551,-0.275378 -0.12867,-0.554706 -0.0705,-0.845679 0.0295,-0.147331 0.2819,-0.564272 0.2819,-0.634262 0,-0.04698 -0.094,0 -0.14095,0 -0.14095,0 -0.28189,0 -0.42284,0 -0.30538,0 -0.61077,0 -0.91615,0"
          id="path24730" />
       <path
-         style="fill:none;stroke:#f7d538;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:none;stroke:#f7d538;stroke-width:0.75851327;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 154.09007,55.004485 c -0.77901,0.0615 -1.17921,-0.737545 -1.47994,-1.338995 -0.22481,-0.449628 0.0579,-0.711656 -0.70473,-0.775206 -0.25209,-0.02101 -2.04373,0.18895 -2.04373,0"
          id="path24732" />
       <path
-         style="fill:none;stroke:#f7d538;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:none;stroke:#f7d538;stroke-width:0.75851327;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 154.05484,56.66061 c -0.21142,0.09396 -0.42284,0.187928 -0.63426,0.281892 -0.18793,0.04698 -0.38299,0.07141 -0.56379,0.140947 -0.12784,0.04917 -0.23263,0.144899 -0.35236,0.21142 -0.0918,0.05102 -0.20761,0.06666 -0.2819,0.140949 -0.0551,0.05507 -0.2685,0.540512 -0.28189,0.634259 -0.0176,0.122973 0.088,0.343593 -0.0705,0.422841 -0.4306,0.2153 -0.97112,-0.579289 -1.33899,-0.21142 -0.0166,0.01662 0.0188,0.05638 0,0.07047 -0.27869,0.20902 -0.42284,0.08163 -0.42284,0.422841"
          id="path24734" />
     </g>
     <g
        id="g25002-6"
-       transform="translate(27.885522,4.3979734)"
+       transform="matrix(1.3063323,0,0,1.3365485,-12.529363,-18.88397)"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
@@ -1144,29 +1149,29 @@
          cy="55.911747"
          r="2" />
       <path
-         style="fill:none;stroke:#ca3500;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:none;stroke:#ca3500;stroke-width:0.71895947;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 157.22614,57.012977 c 0.21287,0.03601 0.64488,-0.119724 0.77521,0.140946 0.0798,0.159666 0.0123,0.318691 0.0705,0.493313 0.007,0.02228 0.0539,-0.01662 0.0705,0 0.008,0.0082 0,1.237919 0,1.40947 0,0.04301 0.0275,0.254434 0,0.281892 -0.0166,0.01662 -0.06,-0.02101 -0.0705,0 -0.065,0.1299 0,0.483203 0,0.634262 0,0.04698 -0.0332,0.107725 0,0.140946 0.0272,0.0272 0.37681,0.329351 0.42284,0.352367 0.0742,0.03709 1.51756,0.07047 1.76184,0.07047"
          id="path24726-1" />
       <path
-         style="fill:none;stroke:#ca3500;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:none;stroke:#ca3500;stroke-width:0.71895947;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 157.22614,54.828302 c 0.32295,-0.327549 0.59774,-0.444241 1.0571,-0.352367 0.29719,0.05944 0.40966,0.363823 0.70474,0.422838 0.0691,0.01381 0.14599,-0.02617 0.21142,0 0.33217,0.132872 -0.0403,0.146984 0.28189,0.211421 0.31843,0.06368 0.71209,-0.144626 0.98663,-0.281892 0.12587,-0.06293 0.2179,-0.318752 0.35237,-0.352367 0.18177,-0.04545 0.71979,-0.06545 0.91615,0 0.31109,0.103693 -0.25604,0.07047 0.21142,0.07047 0.17527,0 0.39585,0.04198 0.56379,0 0.14789,-0.03697 0.25829,-0.140946 0.42284,-0.140946"
          id="path24728-8" />
       <path
-         style="fill:none;stroke:#ca3500;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:none;stroke:#ca3500;stroke-width:0.71895947;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 155.57002,54.017857 c -0.51482,-0.637445 -0.13611,-1.455751 -0.28189,-2.184676 -0.0551,-0.275378 -0.12867,-0.554706 -0.0705,-0.845679 0.0295,-0.147331 0.2819,-0.564272 0.2819,-0.634262 0,-0.04698 -0.094,0 -0.14095,0 -0.14095,0 -0.28189,0 -0.42284,0 -0.30538,0 -0.61077,0 -0.91615,0"
          id="path24730-3" />
       <path
-         style="fill:none;stroke:#ca3500;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:none;stroke:#ca3500;stroke-width:0.71895947;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 154.09007,55.004485 c -0.77901,0.0615 -1.17921,-0.737545 -1.47994,-1.338995 -0.22481,-0.449628 0.0579,-0.711656 -0.70473,-0.775206 -0.25209,-0.02101 -2.04373,0.18895 -2.04373,0"
          id="path24732-2" />
       <path
-         style="fill:none;stroke:#ca3500;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:none;stroke:#ca3500;stroke-width:0.71895947;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 154.05484,56.66061 c -0.21142,0.09396 -0.42284,0.187928 -0.63426,0.281892 -0.18793,0.04698 -0.38299,0.07141 -0.56379,0.140947 -0.12784,0.04917 -0.23263,0.144899 -0.35236,0.21142 -0.0918,0.05102 -0.20761,0.06666 -0.2819,0.140949 -0.0551,0.05507 -0.2685,0.540512 -0.28189,0.634259 -0.0176,0.122973 0.088,0.343593 -0.0705,0.422841 -0.4306,0.2153 -0.97112,-0.579289 -1.33899,-0.21142 -0.0166,0.01662 0.0188,0.05638 0,0.07047 -0.27869,0.20902 -0.42284,0.08163 -0.42284,0.422841"
          id="path24734-6" />
     </g>
     <g
        id="g25002-2"
-       transform="translate(4.1359878,35.053901)"
+       transform="matrix(1.2205604,0,0,1.2042108,-27.431635,21.75504)"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
@@ -1177,73 +1182,39 @@
          cy="55.911747"
          r="2" />
       <path
-         style="fill:none;stroke:#2175ff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:none;stroke:#2175ff;stroke-width:0.75967657;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 157.22614,57.012977 c 0.21287,0.03601 0.64488,-0.119724 0.77521,0.140946 0.0798,0.159666 0.0123,0.318691 0.0705,0.493313 0.007,0.02228 0.0539,-0.01662 0.0705,0 0.008,0.0082 0,1.237919 0,1.40947 0,0.04301 0.0275,0.254434 0,0.281892 -0.0166,0.01662 -0.06,-0.02101 -0.0705,0 -0.065,0.1299 0,0.483203 0,0.634262 0,0.04698 -0.0332,0.107725 0,0.140946 0.0272,0.0272 0.37681,0.329351 0.42284,0.352367 0.0742,0.03709 1.51756,0.07047 1.76184,0.07047"
          id="path24726-5" />
       <path
-         style="fill:none;stroke:#2175ff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:none;stroke:#2175ff;stroke-width:0.75967657;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 157.22614,54.828302 c 0.32295,-0.327549 0.59774,-0.444241 1.0571,-0.352367 0.29719,0.05944 0.40966,0.363823 0.70474,0.422838 0.0691,0.01381 0.14599,-0.02617 0.21142,0 0.33217,0.132872 -0.0403,0.146984 0.28189,0.211421 0.31843,0.06368 0.71209,-0.144626 0.98663,-0.281892 0.12587,-0.06293 0.2179,-0.318752 0.35237,-0.352367 0.18177,-0.04545 0.71979,-0.06545 0.91615,0 0.31109,0.103693 -0.25604,0.07047 0.21142,0.07047 0.17527,0 0.39585,0.04198 0.56379,0 0.14789,-0.03697 0.25829,-0.140946 0.42284,-0.140946"
          id="path24728-4" />
       <path
-         style="fill:none;stroke:#2175ff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:none;stroke:#2175ff;stroke-width:0.75967657;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 155.57002,54.017857 c -0.51482,-0.637445 -0.13611,-1.455751 -0.28189,-2.184676 -0.0551,-0.275378 -0.12867,-0.554706 -0.0705,-0.845679 0.0295,-0.147331 0.2819,-0.564272 0.2819,-0.634262 0,-0.04698 -0.094,0 -0.14095,0 -0.14095,0 -0.28189,0 -0.42284,0 -0.30538,0 -0.61077,0 -0.91615,0"
          id="path24730-8" />
       <path
-         style="fill:none;stroke:#2175ff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:none;stroke:#2175ff;stroke-width:0.75967657;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 154.09007,55.004485 c -0.77901,0.0615 -1.17921,-0.737545 -1.47994,-1.338995 -0.22481,-0.449628 0.0579,-0.711656 -0.70473,-0.775206 -0.25209,-0.02101 -2.04373,0.18895 -2.04373,0"
          id="path24732-8" />
       <path
-         style="fill:none;stroke:#2175ff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         style="fill:none;stroke:#2175ff;stroke-width:0.75967657;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 154.05484,56.66061 c -0.21142,0.09396 -0.42284,0.187928 -0.63426,0.281892 -0.18793,0.04698 -0.38299,0.07141 -0.56379,0.140947 -0.12784,0.04917 -0.23263,0.144899 -0.35236,0.21142 -0.0918,0.05102 -0.20761,0.06666 -0.2819,0.140949 -0.0551,0.05507 -0.2685,0.540512 -0.28189,0.634259 -0.0176,0.122973 0.088,0.343593 -0.0705,0.422841 -0.4306,0.2153 -0.97112,-0.579289 -1.33899,-0.21142 -0.0166,0.01662 0.0188,0.05638 0,0.07047 -0.27869,0.20902 -0.42284,0.08163 -0.42284,0.422841"
          id="path24734-9" />
     </g>
     <circle
-       style="fill:#c800ff;fill-opacity:1;stroke:none;stroke-width:0.865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#c800ff;fill-opacity:1;stroke:none;stroke-width:0.967213;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path22614-7"
-       cx="188.52368"
-       cy="86.666771"
-       r="2"
+       cx="196.38051"
+       cy="85.06868"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
-    <path
-       style="fill:none;stroke:#c800ff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 189.97433,87.768 c 0.21287,0.03601 0.64488,-0.119724 0.77521,0.140946 0.0798,0.159666 0.0123,0.318691 0.0705,0.493313 0.007,0.02228 0.0539,-0.01662 0.0705,0 0.008,0.0082 0,1.237919 0,1.40947 0,0.04301 0.0275,0.254434 0,0.281892 -0.0166,0.01662 -0.06,-0.02101 -0.0705,0 -0.065,0.1299 0,0.483203 0,0.634262 0,0.04698 -0.0332,0.107725 0,0.140946 0.0272,0.0272 0.37681,0.329351 0.42284,0.352367 0.0742,0.03709 1.51756,0.07047 1.76184,0.07047"
-       id="path24726-7"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
-    <path
-       style="fill:none;stroke:#c800ff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 189.97433,85.583325 c 0.32295,-0.327549 0.59774,-0.444241 1.0571,-0.352367 0.29719,0.05944 0.40966,0.363823 0.70474,0.422838 0.0691,0.01381 0.14599,-0.02617 0.21142,0 0.33217,0.132872 -0.0403,0.146984 0.28189,0.211421 0.31843,0.06368 0.71209,-0.144626 0.98663,-0.281892 0.12587,-0.06293 0.2179,-0.318752 0.35237,-0.352367 0.18177,-0.04545 0.71979,-0.06545 0.91615,0 0.31109,0.103693 -0.25604,0.07047 0.21142,0.07047 0.17527,0 0.39585,0.04198 0.56379,0 0.14789,-0.03697 0.25829,-0.140946 0.42284,-0.140946"
-       id="path24728-5"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
-    <path
-       style="fill:none;stroke:#c800ff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 188.31821,84.77288 c -0.51482,-0.637445 -0.13611,-1.455751 -0.28189,-2.184676 -0.0551,-0.275378 -0.12867,-0.554706 -0.0705,-0.845679 0.0295,-0.147331 0.2819,-0.564272 0.2819,-0.634262 0,-0.04698 -0.094,0 -0.14095,0 -0.14095,0 -0.28189,0 -0.42284,0 -0.30538,0 -0.61077,0 -0.91615,0"
-       id="path24730-7"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
-    <path
-       style="fill:none;stroke:#c800ff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 186.83826,85.759508 c -0.77901,0.0615 -1.17921,-0.737545 -1.47994,-1.338995 -0.22481,-0.449628 0.0579,-0.711656 -0.70473,-0.775206 -0.25209,-0.02101 -2.04373,0.18895 -2.04373,0"
-       id="path24732-7"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
-    <path
-       style="fill:none;stroke:#c800ff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 186.80303,87.415633 c -0.21142,0.09396 -0.42284,0.187928 -0.63426,0.281892 -0.18793,0.04698 -0.38299,0.07141 -0.56379,0.140947 -0.12784,0.04917 -0.23263,0.144899 -0.35236,0.21142 -0.0918,0.05102 -0.20761,0.06666 -0.2819,0.140949 -0.0551,0.05507 -0.2685,0.540512 -0.28189,0.634259 -0.0176,0.122973 0.088,0.343593 -0.0705,0.422841 -0.4306,0.2153 -0.97112,-0.579289 -1.33899,-0.21142 -0.0166,0.01662 0.0188,0.05638 0,0.07047 -0.27869,0.20902 -0.42284,0.08163 -0.42284,0.422841"
-       id="path24734-68"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
+       inkscape:export-ydpi="300"
+       rx="2.3247967"
+       ry="2.1512296" />
     <path
        style="fill:none;stroke:#808080;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 334.60769,53.303876 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239 3.03729,0.08896 4.69137,-5.086098 7.82256,-5.215032 3.24634,-0.133675 5.35319,4.681881 8.52728,4.721717 3.17409,0.03984 5.27572,-4.356125 8.2454,-4.298876 2.96968,0.05725 4.47014,4.351432 7.39971,4.228401 2.92957,-0.123031 4.48614,-5.085734 7.47016,-5.144555 2.98402,-0.05882 4.63833,4.871505 7.4702,4.721717 2.83187,-0.149788 6.41307,-5.074087 6.41307,-5.074087"
+       d="m 347.83694,42.720536 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239 3.03729,0.08896 4.69137,-5.086098 7.82256,-5.215032 3.24634,-0.133675 5.35319,4.681881 8.52728,4.721717 3.17409,0.03984 5.27572,-4.356125 8.2454,-4.298876 2.96968,0.05725 4.47014,4.351432 7.39971,4.228401 2.92957,-0.123031 4.48614,-5.085734 7.47016,-5.144555 2.98402,-0.05882 4.63833,4.871505 7.4702,4.721717 2.83187,-0.149788 6.41307,-5.074087 6.41307,-5.074087"
        id="path28860"
        sodipodi:nodetypes="cssssssssc"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
@@ -1251,31 +1222,116 @@
        inkscape:export-ydpi="300" />
     <path
        style="fill:none;stroke:#f7d538;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 334.60769,53.303876 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239"
+       d="m 347.83694,42.720536 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239"
        id="path28860-9"
        sodipodi:nodetypes="csc"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <path
-       style="fill:none;stroke:#02c202;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 334.42855,70.464271 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239 3.03729,0.08896 4.69137,-5.086098 7.82256,-5.215032 3.24634,-0.133675 5.35319,4.681881 8.52728,4.721717 3.17409,0.03984 5.27572,-4.356125 8.2454,-4.298876 2.96968,0.05725 4.47014,4.351432 7.39971,4.228401 2.92957,-0.123031 4.48614,-5.085734 7.47016,-5.144555 2.98402,-0.05882 4.63833,4.871505 7.4702,4.721717 2.83187,-0.149788 6.41307,-5.074087 6.41307,-5.074087"
-       id="path28860-7"
-       sodipodi:nodetypes="cssssssssc"
+       style="fill:none;stroke:#808080;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 348.00205,47.607491 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239 3.03729,0.08896 4.69137,-5.086098 7.82256,-5.215032 3.24634,-0.133675 5.35319,4.681881 8.52728,4.721717 3.17409,0.03984 5.27572,-4.356125 8.2454,-4.298876 2.96968,0.05725 4.47014,4.351432 7.39971,4.228401 2.92957,-0.123031 4.48614,-5.085734 7.47016,-5.144555"
+       id="path28860-92"
+       sodipodi:nodetypes="cssssssc"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <path
-       style="fill:none;stroke:#ca3500;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 334.42855,70.464271 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239"
-       id="path28860-9-7"
+       style="fill:none;stroke:#f7d538;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 348.00205,47.607491 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239"
+       id="path28860-9-5"
        sodipodi:nodetypes="csc"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <path
        style="fill:none;stroke:#808080;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 334.62788,88.489273 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239 3.03729,0.08896 4.69137,-5.086098 7.82256,-5.215032 3.24634,-0.133675 5.35319,4.681881 8.52728,4.721717 3.17409,0.03984 5.27572,-4.356125 8.2454,-4.298876 2.96968,0.05725 4.47014,4.351432 7.39971,4.228401 2.92957,-0.123031 4.48614,-5.085734 7.47016,-5.144555 2.98402,-0.05882 4.63833,4.871505 7.4702,4.721717 2.83187,-0.149788 6.41307,-5.074087 6.41307,-5.074087"
+       d="m 348.143,52.399682 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239 3.03729,0.08896 4.69137,-5.086098 7.82256,-5.215032 3.24634,-0.133675 5.35319,4.681881 8.52728,4.721717 3.17409,0.03984 5.27572,-4.356125 8.2454,-4.298876 2.96968,0.05725 4.47014,4.351432 7.39971,4.228401"
+       id="path28860-73"
+       sodipodi:nodetypes="csssssc"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#f7d538;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 348.143,52.399682 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239"
+       id="path28860-9-52"
+       sodipodi:nodetypes="csc"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <g
+       id="g3281"
+       transform="translate(3.1750001)"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <path
+         style="fill:none;stroke:#02c202;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 344.48278,65.172601 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239 3.03729,0.08896 4.69137,-5.086098 7.82256,-5.215032 3.24634,-0.133675 5.35319,4.681881 8.52728,4.721717 3.17409,0.03984 5.27572,-4.356125 8.2454,-4.298876 2.96968,0.05725 4.47014,4.351432 7.39971,4.228401 2.92957,-0.123031 4.48614,-5.085734 7.47016,-5.144555 2.98402,-0.05882 4.63833,4.871505 7.4702,4.721717 2.83187,-0.149788 6.41307,-5.074087 6.41307,-5.074087"
+         id="path28860-7"
+         sodipodi:nodetypes="cssssssssc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:none;stroke:#ca3500;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 344.48278,65.172601 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239"
+         id="path28860-9-7"
+         sodipodi:nodetypes="csc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+    </g>
+    <g
+       id="g3281-8"
+       transform="translate(3.3783083,3.9997498)"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <path
+         style="fill:none;stroke:#02c202;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 344.48278,65.172601 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239 3.03729,0.08896 4.69137,-5.086098 7.82256,-5.215032 3.24634,-0.133675 5.35319,4.681881 8.52728,4.721717 3.17409,0.03984 5.27572,-4.356125 8.2454,-4.298876 2.96968,0.05725 4.47014,4.351432 7.39971,4.228401 2.92957,-0.123031 4.48614,-5.085734 7.47016,-5.144555 2.98402,-0.05882 4.63833,4.871505 7.4702,4.721717"
+         id="path28860-7-8"
+         sodipodi:nodetypes="csssssssc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:none;stroke:#ca3500;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 344.48278,65.172601 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239"
+         id="path28860-9-7-7"
+         sodipodi:nodetypes="csc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+    </g>
+    <g
+       id="g3281-1"
+       transform="translate(3.2373618,8.3691003)"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <path
+         style="fill:none;stroke:#02c202;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 344.48278,65.172601 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239 3.03729,0.08896 4.69137,-5.086098 7.82256,-5.215032 3.24634,-0.133675 5.35319,4.681881 8.52728,4.721717 3.17409,0.03984 5.27572,-4.356125 8.2454,-4.298876 2.96968,0.05725 4.47014,4.351432 7.39971,4.228401"
+         id="path28860-7-2"
+         sodipodi:nodetypes="csssssc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:none;stroke:#ca3500;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 344.48278,65.172601 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239"
+         id="path28860-9-7-8"
+         sodipodi:nodetypes="csc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+    </g>
+    <path
+       style="fill:none;stroke:#808080;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 347.85713,88.489273 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239 3.03729,0.08896 4.69137,-5.086098 7.82256,-5.215032 3.24634,-0.133675 5.35319,4.681881 8.52728,4.721717 3.17409,0.03984 5.27572,-4.356125 8.2454,-4.298876 2.96968,0.05725 4.47014,4.351432 7.39971,4.228401 2.92957,-0.123031 4.48614,-5.085734 7.47016,-5.144555 2.98402,-0.05882 4.63833,4.871505 7.4702,4.721717 2.83187,-0.149788 6.41307,-5.074087 6.41307,-5.074087"
        id="path28860-0"
        sodipodi:nodetypes="cssssssssc"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
@@ -1283,43 +1339,175 @@
        inkscape:export-ydpi="300" />
     <path
        style="fill:none;stroke:#c800ff;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 334.62788,88.489273 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239"
+       d="m 347.85713,88.489273 c 1.62089,-2.255149 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239"
        id="path28860-9-3"
        sodipodi:nodetypes="csc"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
-    <path
-       style="fill:none;stroke:#808080;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 335.1262,106.42175 c 1.62089,-2.25515 3.40333,-6.10625 6.27213,-5.91977 2.63236,0.1711 4.41053,5.91301 7.04732,5.99024 3.03729,0.089 4.69137,-5.0861 7.82256,-5.21503 3.24634,-0.13368 5.35319,4.68188 8.52728,4.72172 3.17409,0.0398 5.27572,-4.35613 8.2454,-4.29888 2.96968,0.0572 4.47014,4.35144 7.39971,4.2284 2.92957,-0.12303 4.48614,-5.08574 7.47016,-5.14456 2.98402,-0.0588 4.63833,4.87151 7.4702,4.72173 2.83187,-0.14979 6.41307,-5.0741 6.41307,-5.0741"
-       id="path28860-4"
-       sodipodi:nodetypes="cssssssssc"
+    <g
+       id="g3903"
+       transform="translate(3.1750001,-1.6942954)"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
-    <path
-       style="fill:none;stroke:#2175ff;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 335.1262,106.42175 c 1.62089,-2.25515 3.40333,-6.10625 6.27213,-5.91977 2.63236,0.1711 4.41053,5.91301 7.04732,5.99024"
-       id="path28860-9-0"
-       sodipodi:nodetypes="csc"
+       inkscape:export-ydpi="300">
+      <path
+         style="fill:none;stroke:#808080;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 344.96798,94.401827 c 1.62089,-2.25515 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239 3.03729,0.08896 4.69137,-5.086098 7.82256,-5.215032 3.24634,-0.133675 5.35319,4.681881 8.52728,4.721717 3.17409,0.03984 5.27572,-4.356125 8.2454,-4.298876 2.96968,0.05725 4.47014,4.351432 7.39971,4.228401"
+         id="path28860-0-0"
+         sodipodi:nodetypes="csssssc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:none;stroke:#c800ff;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 344.96798,94.401827 c 1.62089,-2.25515 3.40333,-6.106239 6.27213,-5.919765 2.63236,0.171104 4.41053,5.913008 7.04732,5.990239"
+         id="path28860-9-3-7"
+         sodipodi:nodetypes="csc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+    </g>
+    <g
+       id="g3535"
+       transform="translate(3.1750001)"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
-    <path
-       style="fill:none;stroke:#02c202;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 335.22586,114.8434 c 1.62089,-2.25515 3.40333,-6.10624 6.27213,-5.91977 2.63236,0.1711 4.41053,5.91301 7.04732,5.99024 3.03729,0.089 4.69137,-5.0861 7.82256,-5.21503 3.24634,-0.13368 5.35319,4.68188 8.52728,4.72171 3.17409,0.0398 5.27572,-4.35612 8.2454,-4.29887 2.96968,0.0572 4.47014,4.35143 7.39971,4.2284 2.92957,-0.12303 4.48614,-5.08573 7.47016,-5.14456 2.98402,-0.0588 4.63833,4.87151 7.4702,4.72172 2.83187,-0.14979 6.41307,-5.07409 6.41307,-5.07409"
-       id="path28860-1"
-       sodipodi:nodetypes="cssssssssc"
+       inkscape:export-ydpi="300">
+      <path
+         style="fill:none;stroke:#808080;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 345.18043,110.65511 c 1.62089,-2.25515 3.40333,-6.10625 6.27213,-5.91977 2.63236,0.1711 4.41053,5.91301 7.04732,5.99024 3.03729,0.089 4.69137,-5.0861 7.82256,-5.21503 3.24634,-0.13368 5.35319,4.68188 8.52728,4.72172 3.17409,0.0398 5.27572,-4.35613 8.2454,-4.29888 2.96968,0.0572 4.47014,4.35144 7.39971,4.2284 2.92957,-0.12303 4.48614,-5.08574 7.47016,-5.14456 2.98402,-0.0588 4.63833,4.87151 7.4702,4.72173 2.83187,-0.14979 6.41307,-5.0741 6.41307,-5.0741"
+         id="path28860-4"
+         sodipodi:nodetypes="cssssssssc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:none;stroke:#2175ff;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 345.18043,110.65511 c 1.62089,-2.25515 3.40333,-6.10625 6.27213,-5.91977 2.63236,0.1711 4.41053,5.91301 7.04732,5.99024"
+         id="path28860-9-0"
+         sodipodi:nodetypes="csc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+    </g>
+    <g
+       id="g3535-9"
+       transform="translate(3.3853926,3.4792717)"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
-    <path
-       style="fill:none;stroke:#2175ff;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 335.22586,114.8434 c 1.62089,-2.25515 3.40333,-6.10624 6.27213,-5.91977 2.63236,0.1711 4.41053,5.91301 7.04732,5.99024"
-       id="path28860-9-1"
-       sodipodi:nodetypes="csc"
+       inkscape:export-ydpi="300">
+      <path
+         style="fill:none;stroke:#808080;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 345.18043,110.65511 c 1.62089,-2.25515 3.40333,-6.10625 6.27213,-5.91977 2.63236,0.1711 4.41053,5.91301 7.04732,5.99024 3.03729,0.089 4.69137,-5.0861 7.82256,-5.21503 3.24634,-0.13368 5.35319,4.68188 8.52728,4.72172 3.17409,0.0398 5.27572,-4.35613 8.2454,-4.29888 2.96968,0.0572 4.47014,4.35144 7.39971,4.2284 2.92957,-0.12303 4.48614,-5.08574 7.47016,-5.14456 2.98402,-0.0588 4.63833,4.87151 7.4702,4.72173"
+         id="path28860-4-7"
+         sodipodi:nodetypes="csssssssc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:none;stroke:#2175ff;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 345.18043,110.65511 c 1.62089,-2.25515 3.40333,-6.10625 6.27213,-5.91977 2.63236,0.1711 4.41053,5.91301 7.04732,5.99024"
+         id="path28860-9-0-2"
+         sodipodi:nodetypes="csc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+    </g>
+    <g
+       id="g3593"
+       transform="translate(3.1750001)"
        inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
        inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300" />
+       inkscape:export-ydpi="300">
+      <path
+         style="fill:none;stroke:#02c202;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 344.43441,122.45948 c 1.62089,-2.25515 3.40333,-6.10624 6.27213,-5.91977 2.63236,0.1711 4.41053,5.91301 7.04732,5.99024 3.03729,0.089 4.69137,-5.0861 7.82256,-5.21503 3.24634,-0.13368 5.35319,4.68188 8.52728,4.72171 3.17409,0.0398 5.27572,-4.35612 8.2454,-4.29887 2.96968,0.0572 4.47014,4.35143 7.39971,4.2284 2.92957,-0.12303 4.48614,-5.08573 7.47016,-5.14456 2.98402,-0.0588 4.63833,4.87151 7.4702,4.72172 2.83187,-0.14979 6.41307,-5.07409 6.41307,-5.07409"
+         id="path28860-1"
+         sodipodi:nodetypes="cssssssssc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:none;stroke:#2175ff;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 344.44603,122.47606 c 1.62089,-2.25515 3.40333,-6.10624 6.27213,-5.91977 2.63236,0.1711 4.41053,5.91301 7.04732,5.99024"
+         id="path28860-9-1"
+         sodipodi:nodetypes="csc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+    </g>
+    <g
+       id="g3593-2"
+       transform="translate(3.4345748,2.9478316)"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <path
+         style="fill:none;stroke:#02c202;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 344.43441,122.45948 c 1.62089,-2.25515 3.40333,-6.10624 6.27213,-5.91977 2.63236,0.1711 4.41053,5.91301 7.04732,5.99024 3.03729,0.089 4.69137,-5.0861 7.82256,-5.21503 3.24634,-0.13368 5.35319,4.68188 8.52728,4.72171 3.17409,0.0398 5.27572,-4.35612 8.2454,-4.29887 2.96968,0.0572 4.47014,4.35143 7.39971,4.2284 2.92957,-0.12303 4.48614,-5.08573 7.47016,-5.14456 2.98402,-0.0588 4.63833,4.87151 7.4702,4.72172"
+         id="path28860-1-2"
+         sodipodi:nodetypes="csssssssc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:none;stroke:#2175ff;stroke-width:0.865;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 344.44603,122.47606 c 1.62089,-2.25515 3.40333,-6.10624 6.27213,-5.91977 2.63236,0.1711 4.41053,5.91301 7.04732,5.99024"
+         id="path28860-9-1-4"
+         sodipodi:nodetypes="csc"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+    </g>
+    <g
+       id="g1722"
+       transform="matrix(1.0366089,0,0,1.0564499,-6.9311702,-4.4559762)"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <path
+         style="fill:none;stroke:#c800ff;stroke-width:0.86957986;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 198.06674,86.253181 c 0.24744,0.03873 0.7496,-0.128777 0.9011,0.151603 0.0928,0.17174 0.0143,0.342789 0.082,0.530615 0.008,0.02396 0.0626,-0.01788 0.082,0 0.009,0.0088 0,1.331524 0,1.516047 0,0.04626 0.032,0.273673 0,0.303207 -0.0193,0.01788 -0.0697,-0.0226 -0.082,0 -0.0756,0.139723 0,0.51974 0,0.682222 0,0.05053 -0.0386,0.11587 0,0.151603 0.0316,0.02926 0.438,0.354255 0.49151,0.379012 0.0863,0.03989 1.76401,0.0758 2.04796,0.0758"
+         id="path24726-7"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:none;stroke:#c800ff;stroke-width:0.86957986;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 198.06674,83.903312 c 0.37539,-0.352316 0.69481,-0.477832 1.22877,-0.379011 0.34545,0.06394 0.47619,0.391333 0.81919,0.454811 0.0803,0.01485 0.16969,-0.02815 0.24575,0 0.38611,0.142919 -0.0468,0.158098 0.32767,0.227407 0.37014,0.06849 0.82773,-0.155562 1.14686,-0.303207 0.14631,-0.06769 0.25328,-0.342854 0.40959,-0.379011 0.21129,-0.04889 0.83668,-0.0704 1.06493,0 0.36161,0.111534 -0.29762,0.0758 0.24576,0.0758 0.20373,0 0.46013,0.04515 0.65534,0 0.17191,-0.03977 0.30024,-0.151604 0.49151,-0.151604"
+         id="path24728-5"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:none;stroke:#c800ff;stroke-width:0.86957986;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 196.14166,83.031586 c -0.59842,-0.685646 -0.15821,-1.565828 -0.32766,-2.34987 -0.064,-0.296201 -0.14957,-0.59665 -0.082,-0.909625 0.0343,-0.158472 0.32768,-0.606939 0.32768,-0.682222 0,-0.05053 -0.10927,0 -0.16384,0 -0.16384,0 -0.32767,0 -0.49151,0 -0.35497,0 -0.70996,0 -1.06493,0"
+         id="path24730-7"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:none;stroke:#c800ff;stroke-width:0.86957986;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 194.42137,84.092817 c -0.90552,0.06615 -1.37071,-0.793314 -1.72028,-1.440243 -0.26132,-0.483626 0.0673,-0.765467 -0.81917,-0.833823 -0.29303,-0.0226 -2.37563,0.203238 -2.37563,0"
+         id="path24732-7"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <path
+         style="fill:none;stroke:#c800ff;stroke-width:0.86957986;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 194.38042,85.87417 c -0.24575,0.101064 -0.49151,0.202138 -0.73726,0.303207 -0.21845,0.05053 -0.44519,0.07681 -0.65535,0.151605 -0.1486,0.05289 -0.27041,0.155855 -0.40958,0.227406 -0.10671,0.05488 -0.24133,0.0717 -0.32768,0.151607 -0.0641,0.05923 -0.31211,0.581383 -0.32767,0.682218 -0.0205,0.132272 0.10229,0.369574 -0.082,0.454814 -0.50053,0.23158 -1.12883,-0.623092 -1.55644,-0.227406 -0.0193,0.01788 0.0219,0.06064 0,0.0758 -0.32395,0.224825 -0.49151,0.0878 -0.49151,0.454814"
+         id="path24734-68"
+         inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\genetic_demultiplexing.png"
+         inkscape:export-xdpi="300"
+         inkscape:export-ydpi="300" />
+      <ellipse
+         style="fill:#c800ff;fill-opacity:1;stroke:none;stroke-width:1.04869;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path22614-1-3"
+         cx="196.47983"
+         cy="84.849976"
+         rx="2.4411209"
+         ry="2.4084215" />
+    </g>
   </g>
 </svg>
