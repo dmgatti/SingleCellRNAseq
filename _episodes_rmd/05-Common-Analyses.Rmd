@@ -315,6 +315,6 @@ saveRDS(liver, file = file.path(data_dir, 'lesson05.rds'))
 
 ## Session Info
 
-```{r session_info}
+```{r session_info, eval=FALSE}
 sessionInfo()
 ```

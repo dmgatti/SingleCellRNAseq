@@ -209,6 +209,11 @@ column in 'features.tsv.gz' as the gene identifier.
 
 Run the following command. This may take up to three minutes to complete.
 
+```{r set_working_dir, eval=FALSE}
+# first move into the scripts directory you created earlier
+setwd("scripts")
+```
+
 ```{r read_counts}
 # uses the Seurat function Read10X()
 counts <- Read10X(file.path(data_dir, 'mouseStSt_invivo'), gene.column = 1)
@@ -218,7 +223,7 @@ counts <- Read10X(file.path(data_dir, 'mouseStSt_invivo'), gene.column = 1)
 
 How many rows and columns are there in `counts`?
 
-```{r dim_counts}
+```{r dim_counts, message=FALSE}
 dim(counts)
 ```
 
@@ -357,7 +362,7 @@ The sample metadata file is a comma-separated variable (CSV) file, We will read
 it in using the readr 
 [read_csv](https://readr.tidyverse.org/reference/read_delim.html) function.
 
-```{r read_metadata}
+```{r read_metadata, message=FALSE}
 metadata <- read_csv(file.path(data_dir, 'mouseStSt_invivo', 'annot_metadata_first.csv'))
 ```
 
@@ -452,7 +457,7 @@ directory and save them to a file called 'lesson03_challenge.Rdata'.
 
 ### Session Info
 
-```{r session_info,collapse=TRUE}
+```{r session_info,collapse=TRUE, eval=FALSE}
 sessionInfo()
 ```
 

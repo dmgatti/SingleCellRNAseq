@@ -635,6 +635,6 @@ Filter the Seurat object by mitochondrial gene expression.
 
 ## Session Info
 
-```{r session_info,collapse=TRUE}
+```{r session_info,collapse=TRUE, eval=FALSE}
 sessionInfo()
 ```
