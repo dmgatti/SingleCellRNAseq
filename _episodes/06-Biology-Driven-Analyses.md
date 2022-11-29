@@ -3,8 +3,8 @@
 # Instead, please edit 06-Biology-Driven-Analyses.md in _episodes_rmd/
 source: Rmd
 title: "Biology Driven Analyses of scRNA-Seq"
-teaching: 10
-exercises: 2
+teaching: 90
+exercises: 30
 questions:
 - "What are some scRNA-Seq analyses that might provide me with biological insight?"
 objectives:
@@ -20,6 +20,11 @@ keypoints:
 
 
 
+~~~
+# set a seed for reproducibility in case any randomness used below
+set.seed(1418)
+~~~
+{: .language-r}
 
 
 ## Read Data from Previous Lesson
@@ -79,25 +84,25 @@ table(liver$sample, liver$seurat_clusters)
 ~~~
        
            0    1    2    3    4    5    6    7    8    9   10   11   12   13
-  CS144   73    9    1   20  866    4    2 1739   78    7  135  860   35    0
-  CS48     2    0   12    0    0   49 2026    2    0    0    8    0    0    0
-  CS52     1    0    1    0    0 3815  941    0    1    5   46    0   86   24
-  CS53     0    0    1 4294    4    5    8    0  657 1161    0    0    8  632
-  CS88  3854  218 1154    0    4    8    1    1    5    0  207    0    4    0
-  CS89   152  116  381    2  691    0    0    0  200    0   13    1  155    0
-  CS92  3589  111  980    1    4   10    6    2    1    0  195    0    4    0
-  CS96   346 4298 1965    0    3    0    1    0    4    0  310    0    3    0
-  CS97   107  276  309   10 2322    0    1    0  576    1   20    1  434    0
+  CS144   66   10    1   20    4  736    2 1747   77    8  990  135   35    0
+  CS48     3    0   10    0   49    0 2028    2    0    0    0    7    0    0
+  CS52     1    0    1    0 3815    0  941    0    1    5    0   46   86   24
+  CS53     0    0    1 4284    4   21    8    0  650 1159    1    0    8  632
+  CS88  3840  235 1154    0    8    4    1    1    5    0    0  206    4    0
+  CS89   148  119  381    2    0  691    0    0  200    0    1   13  155    0
+  CS92  3601  115  981    1    9    4    5    0    1    0    0  181    4    0
+  CS96   299 4342 1965    0    0    3    1    0    4    0    0  312    3    0
+  CS97    95  287  310   10    0 2321    1    0  575    1    3   20  434    0
        
           14   15   16   17   18   19   20   21   22
-  CS144  275   74   51    0   34   87   31  162   12
+  CS144  274   74   51    0   33   87   31  162   12
   CS48     0    0    5    0    0   10    0    0    0
   CS52     0    0   35    0    0   71    0    1    8
-  CS53     0    2    0  402  161    0   51    1    0
-  CS88     0    0  125    0    0   39    2    0   24
-  CS89   125  143    6    0   57    4   75   57    3
-  CS92     0    0  105    0    0   36    1    0   16
-  CS96     0    0  197    0    1   73    2    0   37
+  CS53     2    2    0  402  161    0   51    1    0
+  CS88     0    0  123    0    0   39    2    0   24
+  CS89   126  143    6    0   57    4   75   57    3
+  CS92     0    0  105    0    0   36    1    0   17
+  CS96     0    0  198    0    1   73    2    0   37
   CS97   246  330    9    0  141    7  153   90    1
 ~~~
 {: .output}
@@ -119,8 +124,7 @@ UMAPPlot(liver, group.by = 'sample', pt.size = 0.1)
 
 <img src="../fig/rmd-06-sample_effects-1.png" alt="plot of chunk sample_effects" width="504" style="display: block; margin: auto;" />
 
-Digging into cluster 13, let's see what genes this cluster
-expresses
+Let's see which genes are expressed in cluster 13.
 
 
 ~~~
@@ -134,12 +138,12 @@ head(markers13, 6)
 
 ~~~
               p_val avg_log2FC pct.1 pct.2     p_val_adj
-Cd79a 1.522095e-182   4.872052 0.998 0.011 3.612083e-178
-Ighm  9.665832e-180   4.590161 0.998 0.088 2.293798e-175
-Cd79b 4.198574e-177   4.266749 0.989 0.060 9.963636e-173
-Ebf1  2.315879e-175   3.988633 0.968 0.010 5.495813e-171
-Igkc  1.606549e-172   6.285021 0.974 0.058 3.812501e-168
-Iglc2 3.423270e-164   4.173198 0.939 0.015 8.123761e-160
+Cd79a 1.522138e-182   4.872144 0.998 0.011 3.062541e-178
+Ighm  9.697775e-180   4.590252 0.998 0.088 1.951192e-175
+Cd79b 4.198563e-177   4.266849 0.989 0.060 8.447508e-173
+Ebf1  2.315879e-175   3.988742 0.968 0.010 4.659549e-171
+Igkc  1.606549e-172   6.285070 0.974 0.058 3.232376e-168
+Iglc2 3.423234e-164   4.173284 0.939 0.015 6.887546e-160
 ~~~
 {: .output}
 
@@ -263,10 +267,11 @@ ElbowPlot(liver, reduction = 'harmony', ndims = 40)
 Let's again pick 24 dimensions, just like we looked at 24 dimensions
 in PC space.
 
+
 ~~~
-liver <- FindNeighbors(liver, reduction='harmony', dims=1:24) %>%
-    FindClusters(verbose=FALSE, resolution=0.3) %>%
-    RunUMAP(dims=1:24, reduction='harmony')
+liver <- FindNeighbors(liver, reduction = 'harmony', dims = 1:24) %>%
+         FindClusters(verbose = FALSE, resolution = 0.3) %>%
+         RunUMAP(dims = 1:24, reduction = 'harmony')
 ~~~
 {: .language-r}
 
@@ -287,28 +292,28 @@ Computing SNN
 
 
 ~~~
-10:22:54 UMAP embedding parameters a = 0.9922 b = 1.112
+17:23:56 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-10:22:54 Read 44253 rows and found 24 numeric columns
+17:23:56 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-10:22:54 Using Annoy for neighbor search, n_neighbors = 30
+17:23:56 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-10:22:54 Building Annoy index with metric = cosine, n_trees = 50
+17:23:56 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -330,13 +335,13 @@ Computing SNN
 
 ~~~
 **************************************************|
-10:22:58 Writing NN index file to temp file /var/folders/42/vng3302d5jn562sj58fjzszwhbfnwc/T//RtmpP8CzQz/file10b121c9d42ce
-10:22:58 Searching Annoy index using 1 thread, search_k = 3000
-10:23:07 Annoy recall = 100%
-10:23:08 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-10:23:10 Initializing from normalized Laplacian + noise (using irlba)
-10:23:20 Commencing optimization for 200 epochs, with 1893512 positive edges
-10:23:42 Optimization finished
+17:24:00 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpSS1XAh\file30a04eaf6945
+17:24:00 Searching Annoy index using 1 thread, search_k = 3000
+17:24:11 Annoy recall = 100%
+17:24:12 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+17:24:14 Initializing from normalized Laplacian + noise (using irlba)
+17:24:22 Commencing optimization for 200 epochs, with 1892644 positive edges
+17:24:58 Optimization finished
 ~~~
 {: .output}
 
@@ -349,6 +354,7 @@ liver$after_harmony_clusters <- liver$seurat_clusters
 
 Now let's see where the cells from the former
 clusters 13 and 21 appear in our new clustering.
+
 
 ~~~
 table(liver$before_harmony_clusters, 
@@ -379,6 +385,7 @@ FeaturePlot(liver, 'Cd79a', cols = c('lightgrey', 'red'), label = T,
 
 <img src="../fig/rmd-06-c8-1.png" alt="plot of chunk c8" width="504" style="display: block; margin: auto;" />
 
+
 ~~~
 VlnPlot(liver, 'Cd79a')
 ~~~
@@ -396,7 +403,6 @@ batches, or whether the cells are truly unique to that batch and
 *should not* be aligned with cells present in other batches.
 
 
-
 ## Finding marker genes 
 
 Now we will find marker genes for our clusters. Finding marker genes takes a
@@ -410,7 +416,7 @@ Even with the downsampled data this marker-finding will take a few minutes.
 ~~~
 liver_mini <- subset(liver, downsample = 300)
 markers <- FindAllMarkers(liver_mini, only.pos = TRUE, 
-    logfc.threshold	= log2(1.25), min.pct = 0.2) 
+                          logfc.threshold	= log2(1.25), min.pct = 0.2) 
 ~~~
 {: .language-r}
 
@@ -455,8 +461,8 @@ The advantages include:
  
 Disadvantages include:
 
- * This method can be slow and tedious
- * Your biological knowledge of the tissue might cause you to mislabel cells
+ * This method can be slow and tedious;
+ * Your biological knowledge of the tissue might cause you to mislabel cells.
 
 We will show an example of this type of cell type identification
 below.
@@ -480,7 +486,7 @@ more tidy format:
 ~~~
 old_markers <- markers
 markers <- as_tibble(markers) %>% 
-  select(cluster, gene, avg_log2FC, pct.1, pct.2, p_val_adj)
+              select(cluster, gene, avg_log2FC, pct.1, pct.2, p_val_adj)
 head(markers, 6)
 ~~~
 {: .language-r}
@@ -488,15 +494,15 @@ head(markers, 6)
 
 
 ~~~
-# A tibble: 6 × 6
-  cluster gene   avg_log2FC pct.1 pct.2 p_val_adj
-  <fct>   <chr>       <dbl> <dbl> <dbl>     <dbl>
-1 0       Oit3         2.40 0.99  0.176 2.08e-268
-2 0       Cyp4b1       2.15 0.977 0.168 7.00e-256
-3 0       Flt4         2.21 0.96  0.169 4.69e-255
-4 0       Stab2        2.50 0.987 0.194 1.60e-253
-5 0       Adam23       2.17 0.927 0.15  1.70e-245
-6 0       Cldn5        2.21 0.973 0.165 1.49e-241
+# A tibble: 6 x 6
+  cluster gene    avg_log2FC pct.1 pct.2 p_val_adj
+  <fct>   <chr>        <dbl> <dbl> <dbl>     <dbl>
+1 0       Lyve1         2.49 0.873 0.096 0        
+2 0       Flt4          2.34 0.987 0.18  2.23e-267
+3 0       Adam23        2.23 0.96  0.153 4.82e-265
+4 0       Oit3          2.33 0.983 0.181 2.67e-256
+5 0       Stab2         2.41 0.987 0.207 3.55e-246
+6 0       Col13a1       1.58 0.84  0.113 6.37e-244
 ~~~
 {: .output}
 
@@ -546,26 +552,26 @@ group_by(markers, cluster) %>%
 
 
 ~~~
-# A tibble: 16 × 4
+# A tibble: 16 x 4
 # Groups:   cluster [16]
-   cluster `1`     `2`    `3`     
-   <fct>   <chr>   <chr>  <chr>   
- 1 0       Kdr     Clec4g Dnase1l3
- 2 1       Gnmt    Aldob  Fabp1   
- 3 2       Kdr     Clec4g Dnase1l3
- 4 3       Vsig4   Cd5l   Clec4f  
- 5 4       Ccl5    Nkg7   Gzma    
- 6 5       S100a4  Ccr2   Lyz2    
- 7 6       Efnb1   Tm4sf1 Ly6a    
- 8 7       Igkc    Cd79a  Cd79b   
- 9 8       Siglech Ly6d   Klk1    
-10 9       Cd5l    Wfdc17 Lgmn    
-11 10      Dcn     Ecm1   Colec11 
-12 11      Naaa    H2-Ab1 Cst3    
-13 12      Rspo3   Vwf    Fabp4   
-14 13      Spp1    Tm4sf4 Clu     
-15 14      S100a9  S100a8 Il1b    
-16 15      Cd5l    C1qa   Slc40a1 
+   cluster `1`     `2`    `3`    
+   <fct>   <chr>   <chr>  <chr>  
+ 1 0       Kdr     Bmp2   Clec4g 
+ 2 1       Gnmt    Aldob  Fabp1  
+ 3 2       Bmp2    Clec4g Fcgr2b 
+ 4 3       Clec4f  Cd5l   C1qb   
+ 5 4       Ccl5    Nkg7   Gzma   
+ 6 5       S100a4  Chil3  Lyz2   
+ 7 6       Ednrb   Efnb1  Ly6a   
+ 8 7       Igkc    Cd79a  Cd79b  
+ 9 8       Siglech Klk1   Ly6d   
+10 9       Cd5l    Wfdc17 Lgmn   
+11 10      Dcn     Ecm1   Colec11
+12 11      Rspo3   Vwf    Fabp4  
+13 12      Naaa    H2-Ab1 Cst3   
+14 13      Spp1    Tm4sf4 Clu    
+15 14      S100a9  S100a8 Il1b   
+16 15      Cd5l    C1qa   Slc40a1
 ~~~
 {: .output}
 
@@ -576,8 +582,8 @@ the very top genes in each cell cluster:
 
 ~~~
 top_markers <- group_by(markers, cluster) %>% 
-  arrange(desc(avg_log2FC)) %>%
-  top_n(1, avg_log2FC) %>% pull(gene)
+                 arrange(desc(avg_log2FC)) %>%
+                 top_n(1, avg_log2FC) %>% pull(gene)
 VlnPlot(liver, features = top_markers, stack = TRUE, flip = TRUE)
 ~~~
 {: .language-r}
@@ -590,7 +596,7 @@ but there are a few markers that are not very good markers at all
 (e.g. Fabp1, Cst3) and some that are not very specific 
 (e.g. Clec4f, Cd5l, Kdr, Clec4g).
 
-Let's look at one of these last kinds of markers -- Kdr. Our violin plot above
+Let's look at one of these last kinds of markers -- *Kdr*. Our violin plot above
 shows that this gene is expressed in clusters 0, 2, 6, and 12.
 If we look at a UMAP plot
 
@@ -610,7 +616,7 @@ these cells all express Kdr:
 
 
 ~~~
-FeaturePlot(liver, "Kdr", cols = c('lightgrey', 'red'))
+FeaturePlot(liver, features = "Kdr", cols = c('lightgrey', 'red'))
 ~~~
 {: .language-r}
 
@@ -688,8 +694,7 @@ amount of hepatocyte ambient RNA contributing to all cell transcriptomes.
 Let's label cluster 1 as hepatocytes.
 
 Because of *Fabp1* and other noisy markers in our cluster-specific
-gene expression data.frame, 
-we'll try filtering our markers to grab only
+gene expression data.frame, we'll try filtering our markers to grab only
 those that are not expressed too highly (on average) in
 all the other cells:
 
@@ -735,7 +740,7 @@ protein (V-set and immunoglobulin domain containing 4).
 The protein
 [is expressed](https://www.proteinatlas.org/ENSG00000155659-VSIG4/tissue)
 selectively in -- among other cell types -- Kupffer cells,
-which are the macrophages of the liver. Clusters 3 and 8 may be
+which are the resident macrophages in the liver. Clusters 3 and 8 may be
 Kupffer cells. Let's check a famous macrophage marker,
 F4/80 (gene name Adgre1):
 
@@ -763,22 +768,21 @@ VlnPlot(liver, c("Adgre1", "Fabp1"), idents = c('3', '15', '1'), sort = T)
 <img src="../fig/rmd-06-doublets-1.png" alt="plot of chunk doublets" width="576" style="display: block; margin: auto;" />
 
 
-Let's store our labels and look at
-what remains unidentified.
+Let's store our labels and look at what remains unidentified.
 
 
 ~~~
 labels <- tibble(cluster_num = unique(liver$after_harmony_clusters)) %>%
   mutate(cluster_num = as.character(cluster_num)) %>%
   mutate(cluster_name = case_when(
-    cluster_num %in% c('0', '2', '6', '12') ~ 'ECs',   # endothelial cells
-    cluster_num == '1' ~ 'hepatocytes',
-    cluster_num %in% c('3', '8') ~ 'Kupffer cells',
-    cluster_num == '4' ~ 'T cells',
-    cluster_num == '9' ~ 'pDCs',               # plasmacytoid dendritic cells
-    cluster_num == '14' ~ 'neutrophils',
-    cluster_num == '15' ~ 'KH doub.',          # Kupffer-hepatocyte doublets
-    TRUE ~ cluster_num))
+         cluster_num %in% c('0', '2', '6', '12') ~ 'ECs',   # endothelial cells
+         cluster_num == '1' ~ 'hepatocytes',
+         cluster_num %in% c('3', '8') ~ 'Kupffer cells',
+         cluster_num == '4' ~ 'T cells',
+         cluster_num == '9' ~ 'pDCs',               # plasmacytoid dendritic cells
+         cluster_num == '14' ~ 'neutrophils',
+         cluster_num == '15' ~ 'KH doub.',          # Kupffer-hepatocyte doublets
+         TRUE ~ cluster_num))
 
 liver$labels <- deframe(labels)[as.character(liver$after_harmony_clusters)]
 UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
@@ -792,6 +796,24 @@ UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 > Might direct them to the Panglao database at https://panglaodb.se/index.html
 > They could ask: is it an immune cell? If yes it likely expresses
 > CD45 (Ptprc)
+
+
+> ## Challenge 1
+> We have identified the cell types for several large clusters. But there are
+> still several unlabelled clusters. We will divide the class into groups,
+> each of which will determine the cell type for one of the remaining clusters.
+> Go to: https://panglaodb.se/search.html and select "Mouse" in the "Species"
+> box. Then search for genes that appear as marker genes in each cluster.
+>
+> > ## Solution to Challenge 1
+> > 
+> > Cluster 5: S100a4, Macrophages  
+> > Cluster 7: Igkc, B cells  
+> > Cluster 10: Rspo3, Fibroblasts  
+> > Cluster 11: Oit3, Endothelial Cells  
+> > Cluster 13: Spp1, Unknown, possibly immune cell.  
+> {: .solution}
+{: .challenge}
 
 
 ## Differential expression 
@@ -869,16 +891,16 @@ head(deg1, 10)
 
 ~~~
                  p_val avg_log2FC pct.1 pct.2     p_val_adj
-Uox       0.000000e+00 -0.8535298 0.955 0.981  0.000000e+00
-Cyp3a11   0.000000e+00 -2.4063893 0.278 0.643  0.000000e+00
-Rpl36al   0.000000e+00 -0.8487476 0.701 0.898  0.000000e+00
-Gm42418   0.000000e+00  1.7097734 0.979 0.974  0.000000e+00
-AY036118  0.000000e+00  1.5513296 0.811 0.421  0.000000e+00
-Malat1    0.000000e+00  1.2907213 0.750 0.342  0.000000e+00
-Gstm1    6.966145e-290 -0.8142940 0.952 0.977 1.653136e-285
-Car3     7.153127e-268 -0.7219298 0.978 0.994 1.697508e-263
-Nme2     5.294664e-261 -1.0555592 0.046 0.338 1.256477e-256
-C3       4.252427e-251  0.8984725 0.909 0.717 1.009143e-246
+Uox       0.000000e+00 -0.8524468 0.954 0.980  0.000000e+00
+Cyp3a11   0.000000e+00 -2.4043269 0.278 0.642  0.000000e+00
+Rpl36al   0.000000e+00 -0.8477666 0.702 0.897  0.000000e+00
+Gm42418   0.000000e+00  1.7065876 0.979 0.974  0.000000e+00
+AY036118  0.000000e+00  1.5523341 0.811 0.421  0.000000e+00
+Malat1    0.000000e+00  1.3280833 0.750 0.342  0.000000e+00
+Gstm1    2.584267e-289 -0.8136483 0.952 0.977 5.199544e-285
+Car3     4.780180e-267 -0.7217111 0.978 0.994 9.617723e-263
+Nme2     9.466530e-261 -1.0548824 0.046 0.337 1.904666e-256
+C3       1.296036e-251  0.8992912 0.909 0.717 2.607623e-247
 ~~~
 {: .output}
 
@@ -916,7 +938,7 @@ dim(pseudobulk)
 
 
 ~~~
-[1] 23731     9
+[1] 20120     9
 ~~~
 {: .output}
 
@@ -934,9 +956,9 @@ head(pseudobulk, 6)
 Xkr4        0    0    0    0    0    0    0    0    0
 Rp1         0    0    0    0    0    0    0    0    0
 Sox17      11    1    5    0   11    2    7   34    0
-Gm37323     0    0    0    0    0    0    0    0    0
-Mrpl15    811 3053 1480   11 1595  228 1367 2752  203
-Lypla1    456 2157  826    3  622  164  536 1068  209
+Mrpl15    811 3054 1480   11 1595  229 1367 2752  203
+Lypla1    456 2157  826    3  622  165  536 1067  209
+Gm37988     1    8    8    0    1    0    2    3    1
 ~~~
 {: .output}
 
@@ -1000,15 +1022,6 @@ mean-dispersion relationship
 
 
 ~~~
--- note: fitType='parametric', but the dispersion trend was not well captured by the
-   function: y = a/x + b, and a local regression fit was automatically substituted.
-   specify fitType='local' or 'mean' to avoid this message next time.
-~~~
-{: .output}
-
-
-
-~~~
 final dispersion estimates
 ~~~
 {: .output}
@@ -1038,10 +1051,10 @@ DataFrame with 6 rows and 6 columns
         <numeric>      <numeric> <numeric> <numeric> <numeric> <numeric>
 Xkr4      0.00000             NA        NA        NA        NA        NA
 Rp1       0.00000             NA        NA        NA        NA        NA
-Sox17     3.90444      0.8938840  1.266125  0.691011  0.405821  0.974534
-Gm37323   0.00000             NA        NA        NA        NA        NA
-Mrpl15  621.89476      0.0606093  0.243247  0.160019  0.689139  1.000000
-Lypla1  336.56032     -0.0468563  0.254556  0.318102  0.572750  0.977402
+Sox17     3.90706      0.8969566   1.27239  0.688918  0.406533  0.998906
+Mrpl15  622.46298      0.0666814   0.25994  0.138222  0.710055  1.000000
+Lypla1  336.74696     -0.0315108   0.28632  0.191887  0.661351  1.000000
+Gm37988   1.21441     -0.8309801   1.59849  0.114956  0.734570  1.000000
 ~~~
 {: .output}
 
@@ -1091,7 +1104,11 @@ enrich_genes <- enrichr(genes, databases = db_names)
 
 
 ~~~
-Server error: (502) Bad Gateway
+Uploading data to Enrichr... Done.
+  Querying KEGG_2019_Mouse... Done.
+  Querying GO_Biological_Process_2021... Done.
+  Querying MSigDB_Hallmark_2020... Done.
+Parsing results... Done.
 ~~~
 {: .output}
 
@@ -1099,48 +1116,14 @@ Server error: (502) Bad Gateway
 
 ~~~
 names(enrich_genes) <- names(db_names)
-~~~
-{: .language-r}
-
-
-
-~~~
-Error in names(enrich_genes) <- names(db_names): attempt to set an attribute on NULL
-~~~
-{: .error}
-
-
-
-~~~
 e <- bind_rows(enrich_genes, .id = 'database') %>%
   mutate(Term = paste0(database, ': ', Term))
-~~~
-{: .language-r}
-
-
-
-~~~
-Error in `mutate()`:
-! Problem while computing `Term = paste0(database, ": ", Term)`.
-Caused by error in `paste0()`:
-! object 'database' not found
-~~~
-{: .error}
-
-
-
-~~~
 plotEnrich(e, title = "Neutrophil pathway enrichment", 
            showTerms = 15, numChar = 50)
 ~~~
 {: .language-r}
 
-
-
-~~~
-Error in is.data.frame(df): object 'e' not found
-~~~
-{: .error}
+<img src="../fig/rmd-06-pway-1.png" alt="plot of chunk pway" width="648" style="display: block; margin: auto;" />
 
 OK, these results look appropriate for neutrophil biological function!
 

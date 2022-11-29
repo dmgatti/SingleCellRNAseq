@@ -3,8 +3,8 @@
 # Instead, please edit 07-Analyzing-Your-Data.md in _episodes_rmd/
 source: Rmd
 title: "Analyzing Your Data"
-teaching: 10
-exercises: 2
+teaching: 90
+exercises: 30
 questions:
 - "Can I analyze my own single cell RNA-Seq experiment?"
 objectives:

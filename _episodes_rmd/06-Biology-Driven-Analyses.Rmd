@@ -555,11 +555,11 @@ UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 >
 > > ## Solution to Challenge 1
 > > 
-> > Cluster 5: S100a4, Macrophages
-> > Cluster 7: Igkc, B cells
-> > Cluster 10: Rspo3, Fibroblasts
-> > Cluster 11: Oit3, Endothelial Cells
-> > Cluster 13: Spp1, Unknown, possibly immune cell.
+> > Cluster 5: S100a4, Macrophages  
+> > Cluster 7: Igkc, B cells  
+> > Cluster 10: Rspo3, Fibroblasts  
+> > Cluster 11: Oit3, Endothelial Cells  
+> > Cluster 13: Spp1, Unknown, possibly immune cell.  
 > {: .solution}
 {: .challenge}
 

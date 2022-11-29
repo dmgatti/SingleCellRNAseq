@@ -3,8 +3,8 @@
 # Instead, please edit 02-Experimental-Considerations.md in _episodes_rmd/
 source: Rmd
 title: "Experimental Considerations"
-teaching: 30
-exercises: 10
+teaching: 90
+exercises: 30
 questions:
 - "How do I design a rigorous and reproducible single cell RNAseq experiment?"
 objectives:
@@ -208,7 +208,7 @@ A second, alternative, approach is to use natural genetic variation as a
 built-in barcode and demultiplex cells using SNVs and indels unique to each 
 sample. 
 
-<img src="../fig/genetic_demultiplexing.png" alt="Genetic Deultiplexing" width="600px">
+<img src="../fig/genetic_demultiplexing.png" alt="Genetic Deultiplexing" width="800px">
 
 This approach was pioneered by 
 [Kang et al.](https://www.nature.com/articles/nbt.4042). 
@@ -277,16 +277,18 @@ sessionInfo()
 
 
 ~~~
-R version 4.1.0 (2021-05-18)
-Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Big Sur 10.16
+R version 4.1.2 (2021-11-01)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19042)
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
 
 locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -295,7 +297,7 @@ other attached packages:
 [1] knitr_1.41
 
 loaded via a namespace (and not attached):
-[1] compiler_4.1.0 magrittr_2.0.3 tools_4.1.0    stringi_1.7.8  stringr_1.4.1 
+[1] compiler_4.1.2 magrittr_2.0.3 tools_4.1.2    stringi_1.7.8  stringr_1.4.1 
 [6] xfun_0.35      evaluate_0.18 
 ~~~
 {: .output}
