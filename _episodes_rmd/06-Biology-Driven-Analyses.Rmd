@@ -199,15 +199,17 @@ ElbowPlot(liver, reduction = 'harmony', ndims = 40)
 
 Let's again pick 24 dimensions, just like we looked at 24 dimensions
 in PC space.
+
 ```{r finish_harmony, warning = FALSE}
-liver <- FindNeighbors(liver, reduction='harmony', dims=1:24) %>%
-    FindClusters(verbose=FALSE, resolution=0.3) %>%
-    RunUMAP(dims=1:24, reduction='harmony')
+liver <- FindNeighbors(liver, reduction = 'harmony', dims = 1:24) %>%
+         FindClusters(verbose = FALSE, resolution = 0.3) %>%
+         RunUMAP(dims = 1:24, reduction = 'harmony')
 liver$after_harmony_clusters <- liver$seurat_clusters
 ```
 
 Now let's see where the cells from the former
 clusters 13 and 21 appear in our new clustering.
+
 ```{r c1321}
 table(liver$before_harmony_clusters, 
       liver$after_harmony_clusters)[c('13', '21'), ]
@@ -221,6 +223,7 @@ harmony batch correction has accomplished the task that we had hoped.
 FeaturePlot(liver, 'Cd79a', cols = c('lightgrey', 'red'), label = T, 
             label.size = 6)
 ```
+
 ```{r c9, fig.width = 8, fig.height = 4}
 VlnPlot(liver, 'Cd79a')
 ```
@@ -235,7 +238,6 @@ batches, or whether the cells are truly unique to that batch and
 *should not* be aligned with cells present in other batches.
 
 
-
 ## Finding marker genes 
 
 Now we will find marker genes for our clusters. Finding marker genes takes a
@@ -248,7 +250,7 @@ Even with the downsampled data this marker-finding will take a few minutes.
 ```{r markers, message=FALSE}
 liver_mini <- subset(liver, downsample = 300)
 markers <- FindAllMarkers(liver_mini, only.pos = TRUE, 
-    logfc.threshold	= log2(1.25), min.pct = 0.2) 
+                          logfc.threshold	= log2(1.25), min.pct = 0.2) 
 ```
 
 These cluster marker genes are very useful. By definition, the 
@@ -292,8 +294,8 @@ The advantages include:
  
 Disadvantages include:
 
- * This method can be slow and tedious
- * Your biological knowledge of the tissue might cause you to mislabel cells
+ * This method can be slow and tedious;
+ * Your biological knowledge of the tissue might cause you to mislabel cells.
 
 We will show an example of this type of cell type identification
 below.
@@ -316,7 +318,7 @@ more tidy format:
 ```{r markers_massage}
 old_markers <- markers
 markers <- as_tibble(markers) %>% 
-  select(cluster, gene, avg_log2FC, pct.1, pct.2, p_val_adj)
+              select(cluster, gene, avg_log2FC, pct.1, pct.2, p_val_adj)
 head(markers, 6)
 ```
 
@@ -367,8 +369,8 @@ the very top genes in each cell cluster:
 
 ```{r top_markers2, fig.width = 8, fig.height = 10}
 top_markers <- group_by(markers, cluster) %>% 
-  arrange(desc(avg_log2FC)) %>%
-  top_n(1, avg_log2FC) %>% pull(gene)
+                 arrange(desc(avg_log2FC)) %>%
+                 top_n(1, avg_log2FC) %>% pull(gene)
 VlnPlot(liver, features = top_markers, stack = TRUE, flip = TRUE)
 ```
 
@@ -378,7 +380,7 @@ but there are a few markers that are not very good markers at all
 (e.g. Fabp1, Cst3) and some that are not very specific 
 (e.g. Clec4f, Cd5l, Kdr, Clec4g).
 
-Let's look at one of these last kinds of markers -- Kdr. Our violin plot above
+Let's look at one of these last kinds of markers -- *Kdr*. Our violin plot above
 shows that this gene is expressed in clusters 0, 2, 6, and 12.
 If we look at a UMAP plot
 
@@ -393,7 +395,7 @@ activated by some stimulus). Nevertheless it is fairly clear that
 these cells all express Kdr:
 
 ```{r expr2}
-FeaturePlot(liver, "Kdr", cols = c('lightgrey', 'red'))
+FeaturePlot(liver, features = "Kdr", cols = c('lightgrey', 'red'))
 ```
 
 If we do some digging, we see that Kdr encodes
@@ -460,8 +462,7 @@ amount of hepatocyte ambient RNA contributing to all cell transcriptomes.
 Let's label cluster 1 as hepatocytes.
 
 Because of *Fabp1* and other noisy markers in our cluster-specific
-gene expression data.frame, 
-we'll try filtering our markers to grab only
+gene expression data.frame, we'll try filtering our markers to grab only
 those that are not expressed too highly (on average) in
 all the other cells:
 
@@ -499,7 +500,7 @@ protein (V-set and immunoglobulin domain containing 4).
 The protein
 [is expressed](https://www.proteinatlas.org/ENSG00000155659-VSIG4/tissue)
 selectively in -- among other cell types -- Kupffer cells,
-which are the macrophages of the liver. Clusters 3 and 8 may be
+which are the resident macrophages in the liver. Clusters 3 and 8 may be
 Kupffer cells. Let's check a famous macrophage marker,
 F4/80 (gene name Adgre1):
 
@@ -525,14 +526,14 @@ Let's store our labels and look at what remains unidentified.
 labels <- tibble(cluster_num = unique(liver$after_harmony_clusters)) %>%
   mutate(cluster_num = as.character(cluster_num)) %>%
   mutate(cluster_name = case_when(
-    cluster_num %in% c('0', '2', '6', '12') ~ 'ECs',   # endothelial cells
-    cluster_num == '1' ~ 'hepatocytes',
-    cluster_num %in% c('3', '8') ~ 'Kupffer cells',
-    cluster_num == '4' ~ 'T cells',
-    cluster_num == '9' ~ 'pDCs',               # plasmacytoid dendritic cells
-    cluster_num == '14' ~ 'neutrophils',
-    cluster_num == '15' ~ 'KH doub.',          # Kupffer-hepatocyte doublets
-    TRUE ~ cluster_num))
+         cluster_num %in% c('0', '2', '6', '12') ~ 'ECs',   # endothelial cells
+         cluster_num == '1' ~ 'hepatocytes',
+         cluster_num %in% c('3', '8') ~ 'Kupffer cells',
+         cluster_num == '4' ~ 'T cells',
+         cluster_num == '9' ~ 'pDCs',               # plasmacytoid dendritic cells
+         cluster_num == '14' ~ 'neutrophils',
+         cluster_num == '15' ~ 'KH doub.',          # Kupffer-hepatocyte doublets
+         TRUE ~ cluster_num))
 
 liver$labels <- deframe(labels)[as.character(liver$after_harmony_clusters)]
 UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
@@ -546,11 +547,19 @@ UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 
 
 > ## Challenge 1
-> We have identified the hepatocyte cluster 
+> We have identified the cell types for several large clusters. But there are
+> still several unlabelled clusters. We will divide the class into groups,
+> each of which will determine the cell type for one of the remaining clusters.
+> Go to: https://panglaodb.se/search.html and select "Mouse" in the "Species"
+> box. Then search for genes that appear as marker genes in each cluster.
 >
 > > ## Solution to Challenge 1
 > > 
-> > DMG: Add in solution to some cell types.
+> > Cluster 5: S100a4, Macrophages
+> > Cluster 7: Igkc, B cells
+> > Cluster 10: Rspo3, Fibroblasts
+> > Cluster 11: Oit3, Endothelial Cells
+> > Cluster 13: Spp1, Unknown, possibly immune cell.
 > {: .solution}
 {: .challenge}
 
