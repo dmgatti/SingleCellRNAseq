@@ -13,7 +13,7 @@ keypoints:
 - "Run `make serve` to knit documents and preview lesson website locally"
 ---
 
-```{r, include=FALSE}
+```{r libraries}
 source("../bin/chunk-options.R")
 knitr_fig_path("05-")
 

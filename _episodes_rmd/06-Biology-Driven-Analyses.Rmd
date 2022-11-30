@@ -599,7 +599,7 @@ UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 > > ## Solution to Challenge 1
 > > 
 > > Cluster c5: Cx3cr1, Monocytes and Monocyte-derived cells  
-> > Cluster c10: Dcn, Fibroblasts 
+> > Cluster c10: Dcn, Fibroblasts  
 > > Cluster c11: Xcr1+ Dendritic Cells (cDC1)  
 > > Cluster c13: Spp1, Cholangiocytes  
 > {: .solution}

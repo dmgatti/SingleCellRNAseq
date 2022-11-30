@@ -179,7 +179,7 @@ FeaturePlot(liver, "Cd79a", cols = c('lightgrey', 'red'),
 
 <img src="../fig/rmd-06-cd79a_fp-1.png" alt="plot of chunk cd79a_fp" width="504" style="display: block; margin: auto;" />
 
-Interesting. Clusters 13 and 21 are right next to each other. Recall that
+Interesting. Clusters 13 and 21 are near each other. Recall that
 we saw that cluster 13 cells are largely derived from a single mouse.
 Looking at cluster 21:
 
@@ -292,28 +292,28 @@ Computing SNN
 
 
 ~~~
-17:23:56 UMAP embedding parameters a = 0.9922 b = 1.112
+12:29:12 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-17:23:56 Read 44253 rows and found 24 numeric columns
+12:29:12 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-17:23:56 Using Annoy for neighbor search, n_neighbors = 30
+12:29:12 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-17:23:56 Building Annoy index with metric = cosine, n_trees = 50
+12:29:12 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -335,13 +335,13 @@ Computing SNN
 
 ~~~
 **************************************************|
-17:24:00 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpSS1XAh\file30a04eaf6945
-17:24:00 Searching Annoy index using 1 thread, search_k = 3000
-17:24:11 Annoy recall = 100%
-17:24:12 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-17:24:14 Initializing from normalized Laplacian + noise (using irlba)
-17:24:22 Commencing optimization for 200 epochs, with 1892644 positive edges
-17:24:58 Optimization finished
+12:29:16 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpElIqTf\file1ac048c64d29
+12:29:16 Searching Annoy index using 1 thread, search_k = 3000
+12:29:33 Annoy recall = 100%
+12:29:34 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+12:29:38 Initializing from normalized Laplacian + noise (using irlba)
+12:29:48 Commencing optimization for 200 epochs, with 1892644 positive edges
+12:30:35 Optimization finished
 ~~~
 {: .output}
 
@@ -372,7 +372,7 @@ table(liver$before_harmony_clusters,
 ~~~
 {: .output}
 
-These cells are *all* in the new cluster 8. This cluster
+These cells are nearly *all* in one new cluster. This cluster
 exclusively expresses the B cell gene Cd79a, suggesting that the
 harmony batch correction has accomplished the task that we had hoped.
 
@@ -401,6 +401,40 @@ were specific to one batch in an effort to determine whether they
 are like this B cell example and *should* be better aligned between 
 batches, or whether the cells are truly unique to that batch and 
 *should not* be aligned with cells present in other batches.
+
+
+Next we take a step specific to this lesson that would not normally
+be a part of your single cell data analysis. 
+While developing
+the course content we found some variability in the numbers
+assigned to clusters. This may be due to minor variations in
+package versions, because we do set a seed for random number 
+reproducibility. In the next chunk we rename clusters to ensure
+that we are all working with a common cluster numbering system.
+Don't worry about how we got this list of genes for now.
+
+
+~~~
+genes <- c('Socs3', 'Gnmt', 'Timd4', 'Ms4a4b', 'S100a4',
+           'Adgrg6', 'Cd79a', 'Dck', 'Siglech', 'Dcn', 
+           'Wdfy4', 'Vwf', 'Spp1', 'Hdc')
+Idents(liver) <- 'after_harmony_clusters'
+a <- AverageExpression(liver, features = genes)[['RNA']]
+highest_clu <- unname(colnames(a))[apply(a, 1, which.max)]
+
+cluster_converter <- setNames(paste0('c', c(0:1, 3:14)), highest_clu)
+remaining_clusters <- setdiff(as.character(unique(Idents(liver))),
+                              highest_clu)
+a <- AverageExpression(subset(liver, idents = remaining_clusters),
+                       features = c("Lyve1", "Cd5l"))[['RNA']]
+highest_clu <- unname(colnames(a))[apply(a, 1, which.max)]
+cluster_converter[highest_clu] <- c('c2', 'c15')
+
+liver$renamed_clusters <- cluster_converter[as.character(liver$after_harmony_clusters)]
+Idents(liver) <- 'renamed_clusters'
+~~~
+{: .language-r}
+
 
 
 ## Finding marker genes 
@@ -497,12 +531,12 @@ head(markers, 6)
 # A tibble: 6 x 6
   cluster gene    avg_log2FC pct.1 pct.2 p_val_adj
   <fct>   <chr>        <dbl> <dbl> <dbl>     <dbl>
-1 0       Lyve1         2.49 0.873 0.096 0        
-2 0       Flt4          2.34 0.987 0.18  2.23e-267
-3 0       Adam23        2.23 0.96  0.153 4.82e-265
-4 0       Oit3          2.33 0.983 0.181 2.67e-256
-5 0       Stab2         2.41 0.987 0.207 3.55e-246
-6 0       Col13a1       1.58 0.84  0.113 6.37e-244
+1 c0      Oit3          2.28 0.983 0.18  1.17e-251
+2 c0      Flt4          2.15 0.963 0.176 6.81e-246
+3 c0      Cldn5         2.24 0.983 0.173 5.80e-243
+4 c0      Adam23        2.20 0.917 0.155 1.90e-237
+5 c0      Fam167b       2.41 0.98  0.205 1.43e-234
+6 c0      Stab2         2.43 0.963 0.205 2.53e-230
 ~~~
 {: .output}
 
@@ -554,24 +588,24 @@ group_by(markers, cluster) %>%
 ~~~
 # A tibble: 16 x 4
 # Groups:   cluster [16]
-   cluster `1`     `2`    `3`    
-   <fct>   <chr>   <chr>  <chr>  
- 1 0       Kdr     Bmp2   Clec4g 
- 2 1       Gnmt    Aldob  Fabp1  
- 3 2       Bmp2    Clec4g Fcgr2b 
- 4 3       Clec4f  Cd5l   C1qb   
- 5 4       Ccl5    Nkg7   Gzma   
- 6 5       S100a4  Chil3  Lyz2   
- 7 6       Ednrb   Efnb1  Ly6a   
- 8 7       Igkc    Cd79a  Cd79b  
- 9 8       Siglech Klk1   Ly6d   
-10 9       Cd5l    Wfdc17 Lgmn   
-11 10      Dcn     Ecm1   Colec11
-12 11      Rspo3   Vwf    Fabp4  
-13 12      Naaa    H2-Ab1 Cst3   
-14 13      Spp1    Tm4sf4 Clu    
-15 14      S100a9  S100a8 Il1b   
-16 15      Cd5l    C1qa   Slc40a1
+   cluster `1`     `2`      `3`   
+   <fct>   <chr>   <chr>    <chr> 
+ 1 c0      Clec4g  Dnase1l3 Fcgr2b
+ 2 c6      Efnb1   Tm4sf1   Ly6a  
+ 3 c12     Rspo3   Vwf      Fabp4 
+ 4 c2      Kdr     Clec4g   Fcgr2b
+ 5 c1      Gnmt    Aldob    Fabp1 
+ 6 c13     Spp1    Tm4sf4   Clu   
+ 7 c10     Dcn     Colec11  Ecm1  
+ 8 c4      Ccl5    Nkg7     Gzma  
+ 9 c8      Vsig4   Cd5l     Lgmn  
+10 c7      Igkc    Cd79a    Cd79b 
+11 c5      S100a4  Lyz2     H2-Eb1
+12 c9      Siglech Klk1     Ccr9  
+13 c3      Clec4f  Cd5l     C1qb  
+14 c11     Naaa    H2-Ab1   Cst3  
+15 c15     Cd5l    C1qa     Clec4f
+16 c14     S100a9  S100a8   Il1b  
 ~~~
 {: .output}
 
@@ -597,7 +631,7 @@ but there are a few markers that are not very good markers at all
 (e.g. Clec4f, Cd5l, Kdr, Clec4g).
 
 Let's look at one of these last kinds of markers -- *Kdr*. Our violin plot above
-shows that this gene is expressed in clusters 0, 2, 6, and 12.
+shows that this gene is expressed in clusters c0, c6, c12, and c2.
 If we look at a UMAP plot
 
 
@@ -626,30 +660,30 @@ If we do some digging, we see that Kdr encodes
 [vascular endothelial growth factor receptor 2](https://www.uniprot.org/uniprotkb/P35968).
 In the liver, we would expect endothelial cells to be fairly 
 abundant. Therefore we can already say with relatively high
-confidence that clusters 0, 2, 6, and 12 are endothelial cells.
+confidence that clusters c0, c2, c6, and c12 are endothelial cells.
 
 Looking again at the violin plot above, there are some genes that
 are often seen in scRNA-Seq data and are excellent markers:
 
- * *S100a9* is a marker for neutrophils (or the broader category of granulocytes)
- * *Ccl5* (which encodes RANTES) is a marker for T cells. The T cell cluster might also include some other related immune cell types (natural killer [NK] cells and innate lymphoid cells [ILCs])
- * *Siglech* is a marker for plasmacytoid dendritic cells
+ * *S100a9* is a marker for neutrophils (or the broader category of granulocytes) - c14
+ * *Ccl5* (which encodes RANTES) is a marker for T cells. The T cell cluster might also include some other related immune cell types (natural killer [NK] cells and innate lymphoid cells [ILCs]) - c4
+ * *Siglech* is a marker for plasmacytoid dendritic cells - c9
 
 We have now identified (at least tentative) cell types for clusters
-0, 2, 4, 6, 9, 12, and 14. 
+c0, c2, c4, c6, c9, c12, and c14. 
 
 Let's turn to those markers that seemed to be expressed across
 all or almost all cell types (recall Cst3 and Fabp1). 
-Let's focus on cluster 1. This is a pretty large cluster.
-In our violin plot cluster 1 is marked only by Fabp1, which is much
-higher in cluster 1 than in any other cluster, but still has high background
+Let's focus on cluster c1. This is a pretty large cluster.
+In our violin plot cluster c1 is marked only by Fabp1, which is much
+higher in cluster c1 than in any other cluster, but still has high background
 in ALL clusters. 
 
 Doing a bit of sleuthing, we find that Fabp1 is expressed in
 hepatocytes. For example,
 [this reference](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4655993/) 
 says that Fabp1 is found abundantly in the cytoplasm of hepatocytes.
-It also makes sense that cluster 1 is hepatocytes because this cluster 
+It also makes sense that cluster c1 is hepatocytes because this cluster 
 is large and we expect a lot of hepatocytes in the liver.
 
 However, why do we see high background levels of Fabp1?
@@ -665,6 +699,7 @@ nucleus RNA-Seq.
 There are several methods to correct for high levels of
 ambient RNA, with [CellBender](https://cellbender.readthedocs.io/en/latest/)
 showing good performance in multiple studies. 
+We will not apply an ambient RNA correction for this course.
 
 To examine whether these data show evidence of a hepatocyte
 ambient RNA signature, we start by looking at our non-specific marker
@@ -672,7 +707,8 @@ Fabp1:
 
 
 ~~~
-FeaturePlot(liver, "Fabp1", cols = c('lightgrey', 'red'))
+FeaturePlot(liver, "Fabp1", cols = c('lightgrey', 'red'),
+            label = TRUE, label.size = 6)
 ~~~
 {: .language-r}
 
@@ -683,7 +719,8 @@ ambient RNA. Let's look at another hepatocyte marker:
 
 
 ~~~
-FeaturePlot(liver, "Serpina1a", cols = c('lightgrey', 'red'))
+FeaturePlot(liver, "Serpina1a", cols = c('lightgrey', 'red'),
+            label = TRUE, label.size = 6)
 ~~~
 {: .language-r}
 
@@ -691,7 +728,7 @@ FeaturePlot(liver, "Serpina1a", cols = c('lightgrey', 'red'))
 
 Very similar. We tentatively conclude that this dataset has a noticeable
 amount of hepatocyte ambient RNA contributing to all cell transcriptomes.
-Let's label cluster 1 as hepatocytes.
+Let's label cluster c1 as hepatocytes.
 
 Because of *Fabp1* and other noisy markers in our cluster-specific
 gene expression data.frame, we'll try filtering our markers to grab only
@@ -712,7 +749,7 @@ VlnPlot(liver, features = specific_markers, stack = TRUE, flip = TRUE)
 <img src="../fig/rmd-06-sp_markers-1.png" alt="plot of chunk sp_markers" width="576" style="display: block; margin: auto;" />
 
 This looks better -- the markers are more specific.
-We do have a marker for the hepatocytes (cluster 1) that looks better
+We do have a marker for the hepatocytes (cluster c1) that looks better
 than before. However, this gene -- *Inmt* -- does not seem to be a very
 good hepatocyte marker according to the literature. Thus our filter
 to remove non-specific markers may have gotten rid of most of the 
@@ -734,13 +771,13 @@ FeaturePlot(liver, "Vsig4", cols = c('lightgrey', 'red'), label = TRUE,
 
 <img src="../fig/rmd-06-vsig4-1.png" alt="plot of chunk vsig4" width="612" style="display: block; margin: auto;" />
 
-This is marking clusters 3, 8, and 15.
-Clusters 3 and 8 are very near each other. Vsig4 is an immune
+This is marking clusters c3, c8, and c15.
+Clusters c3 and c8 are very near each other. Vsig4 is an immune
 protein (V-set and immunoglobulin domain containing 4).
 The protein
 [is expressed](https://www.proteinatlas.org/ENSG00000155659-VSIG4/tissue)
 selectively in -- among other cell types -- Kupffer cells,
-which are the resident macrophages in the liver. Clusters 3 and 8 may be
+which are the resident macrophages in the liver. Clusters c3 and c8 may be
 Kupffer cells. Let's check a famous macrophage marker,
 F4/80 (gene name Adgre1):
 
@@ -753,15 +790,15 @@ FeaturePlot(liver, "Adgre1", cols = c('lightgrey', 'red'), label = TRUE,
 
 <img src="../fig/rmd-06-adgre1-1.png" alt="plot of chunk adgre1" width="612" style="display: block; margin: auto;" />
 
-Cluster 15 expresses *Adgre1* but is near the hepatocyte cluster
+Cluster c15 expresses *Adgre1* but is near the hepatocyte cluster
 we just discussed. In fact it is located between the hepatocyte and
-Kupffer cell clusters. Cluster 15 might represent hepatocyte-Kupffer cell
-doublets. Consistent with this theory, cluster 15 has intermediate expression
+Kupffer cell clusters. Cluster c15 might represent hepatocyte-Kupffer cell
+doublets. Consistent with this theory, cluster c15 has intermediate expression
 of Kupffer cell-specific *Adgre1* and hepatocyte-specific *Fabp1*.
 
 
 ~~~
-VlnPlot(liver, c("Adgre1", "Fabp1"), idents = c('3', '15', '1'), sort = T)
+VlnPlot(liver, c("Adgre1", "Fabp1"), idents = c('c3', 'c15', 'c1'), sort = T)
 ~~~
 {: .language-r}
 
@@ -772,19 +809,20 @@ Let's store our labels and look at what remains unidentified.
 
 
 ~~~
-labels <- tibble(cluster_num = unique(liver$after_harmony_clusters)) %>%
+labels <- tibble(cluster_num = unique(liver$renamed_clusters)) %>%
   mutate(cluster_num = as.character(cluster_num)) %>%
   mutate(cluster_name = case_when(
-         cluster_num %in% c('0', '2', '6', '12') ~ 'ECs',   # endothelial cells
-         cluster_num == '1' ~ 'hepatocytes',
-         cluster_num %in% c('3', '8') ~ 'Kupffer cells',
-         cluster_num == '4' ~ 'T cells',
-         cluster_num == '9' ~ 'pDCs',               # plasmacytoid dendritic cells
-         cluster_num == '14' ~ 'neutrophils',
-         cluster_num == '15' ~ 'KH doub.',          # Kupffer-hepatocyte doublets
+         cluster_num %in% c('c0', 'c2', 'c6', 'c12') ~ 'ECs',   # endothelial cells
+         cluster_num == 'c1' ~ 'hepatocytes',
+         cluster_num %in% c('c3', 'c8') ~ 'Kupffer cells',
+         cluster_num == 'c4' ~ 'T cells',
+         cluster_num == 'c7' ~ 'B cells',
+         cluster_num == 'c9' ~ 'pDCs',               # plasmacytoid dendritic cells
+         cluster_num == 'c14' ~ 'neutrophils',
+         cluster_num == 'c15' ~ 'KH doub.',          # Kupffer-hepatocyte doublets
          TRUE ~ cluster_num))
 
-liver$labels <- deframe(labels)[as.character(liver$after_harmony_clusters)]
+liver$labels <- deframe(labels)[as.character(liver$renamed_clusters)]
 UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 ~~~
 {: .language-r}
@@ -792,26 +830,32 @@ UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 <img src="../fig/rmd-06-labelling-1.png" alt="plot of chunk labelling" width="612" style="display: block; margin: auto;" />
 
 
-> Exercise -- have students identify cell types
-> Might direct them to the Panglao database at https://panglaodb.se/index.html
-> They could ask: is it an immune cell? If yes it likely expresses
-> CD45 (Ptprc)
-
-
 > ## Challenge 1
 > We have identified the cell types for several large clusters. But there are
 > still several unlabelled clusters. We will divide the class into groups,
 > each of which will determine the cell type for one of the remaining clusters.
-> Go to: https://panglaodb.se/search.html and select "Mouse" in the "Species"
-> box. Then search for genes that appear as marker genes in each cluster.
+> How should you do this? If you have a background in liver it
+> may be as simple as looking for genes you recognize as being 
+> involved in the tissue's biology. More likely you are not a liver
+> expert. Try doing a simple Google search. You could Google 
+> "*gene* cell type" or "liver *gene*". Look at the results
+> and see if you get any clues to the cell type.
+> This might include interpreting the results in light of the
+> biological functions of different cells in the tissue
+> (for example, the role of neutrophils in inflammation).
+> You can also ask simple questions about broad cell classifications.
+> For example, if it expresses CD45 (gene name Ptprc), the cell is likely
+> an immune cell of some kind.
+> You might also try going to 
+> https://panglaodb.se/search.html and selecting "Mouse" in the "Species"
+> box, then searching for genes that appear as marker genes in each cluster.
 >
 > > ## Solution to Challenge 1
 > > 
-> > Cluster 5: S100a4, Macrophages  
-> > Cluster 7: Igkc, B cells  
-> > Cluster 10: Rspo3, Fibroblasts  
-> > Cluster 11: Oit3, Endothelial Cells  
-> > Cluster 13: Spp1, Unknown, possibly immune cell.  
+> > Cluster c5: Cx3cr1, Monocytes and Monocyte-derived cells  
+> > Cluster c10: Dcn, Fibroblasts  
+> > Cluster c11: Xcr1+ Dendritic Cells (cDC1)  
+> > Cluster c13: Spp1, Cholangiocytes  
 > {: .solution}
 {: .challenge}
 
@@ -878,7 +922,8 @@ For example, if cells from one mouse are contributing the
 majority of drug-treated hepatocyte cells, and this one mouse is an outlier
 that happened to have only minimal response to the drug, then we might
 be fooled into thinking that the drug does not perturb hepatocytes
-when in actuality the response is minimal only in that particular mouse.
+when in actuality the response is minimal only in 
+*that one particular* mouse.
 
 Let's look at our results:
 
@@ -1084,7 +1129,7 @@ typically not conducted in a way that is unique to single cell data
 thus you have a wide range of options.
 
 Here we will test for enrichment of biological function using our
-neutrophil markers (our original cluster 14). 
+neutrophil markers (our original cluster c14). 
 We could do this with any cell type but we
 pick neutrophils in the hope that they give a clear and interpretable
 answer. We will query three databases: KEGG, Gene Ontology biological 
@@ -1095,7 +1140,7 @@ process, and MSigDB Hallmark pathways:
 db_names <- c("KEGG"='KEGG_2019_Mouse',
               "GO"='GO_Biological_Process_2021',
               "MsigDB"='MSigDB_Hallmark_2020')
-genes <- filter(markers, cluster == '14') %>%
+genes <- filter(markers, cluster == 'c14') %>%
   top_n(100, avg_log2FC) %>% pull(gene)
 enrich_genes <- enrichr(genes, databases = db_names)
 ~~~
@@ -1127,3 +1172,98 @@ plotEnrich(e, title = "Neutrophil pathway enrichment",
 
 OK, these results look appropriate for neutrophil biological function!
 
+### Session Info
+
+
+~~~
+sessionInfo()
+~~~
+{: .language-r}
+
+
+
+~~~
+R version 4.1.2 (2021-11-01)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19042)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
+
+attached base packages:
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] enrichR_3.1                 DESeq2_1.34.0              
+ [3] SummarizedExperiment_1.24.0 Biobase_2.54.0             
+ [5] MatrixGenerics_1.6.0        matrixStats_0.63.0         
+ [7] GenomicRanges_1.46.1        GenomeInfoDb_1.30.1        
+ [9] IRanges_2.28.0              S4Vectors_0.32.4           
+[11] BiocGenerics_0.40.0         harmony_0.1.1              
+[13] Rcpp_1.0.9                  SeuratObject_4.1.3         
+[15] Seurat_4.3.0                forcats_0.5.2              
+[17] stringr_1.4.1               dplyr_1.0.10               
+[19] purrr_0.3.5                 readr_2.1.3                
+[21] tidyr_1.2.1                 tibble_3.1.8               
+[23] ggplot2_3.4.0               tidyverse_1.3.2            
+[25] knitr_1.41                 
+
+loaded via a namespace (and not attached):
+  [1] utf8_1.2.2             spatstat.explore_3.0-5 reticulate_1.26       
+  [4] tidyselect_1.2.0       RSQLite_2.2.19         AnnotationDbi_1.56.2  
+  [7] htmlwidgets_1.5.4      grid_4.1.2             BiocParallel_1.28.3   
+ [10] Rtsne_0.16             munsell_0.5.0          codetools_0.2-18      
+ [13] ica_1.0-3              future_1.29.0          miniUI_0.1.1.1        
+ [16] withr_2.5.0            spatstat.random_3.0-1  colorspace_2.0-3      
+ [19] progressr_0.11.0       highr_0.9              ROCR_1.0-11           
+ [22] tensor_1.5             listenv_0.8.0          labeling_0.4.2        
+ [25] GenomeInfoDbData_1.2.7 polyclip_1.10-4        bit64_4.0.5           
+ [28] farver_2.1.1           parallelly_1.32.1      vctrs_0.5.1           
+ [31] generics_0.1.3         xfun_0.35              timechange_0.1.1      
+ [34] R6_2.5.1               ggbeeswarm_0.6.0       locfit_1.5-9.6        
+ [37] bitops_1.0-7           spatstat.utils_3.0-1   cachem_1.0.6          
+ [40] DelayedArray_0.20.0    assertthat_0.2.1       promises_1.2.0.1      
+ [43] scales_1.2.1           googlesheets4_1.0.1    beeswarm_0.4.0        
+ [46] gtable_0.3.1           globals_0.16.2         goftest_1.2-3         
+ [49] rlang_1.0.6            genefilter_1.76.0      splines_4.1.2         
+ [52] lazyeval_0.2.2         gargle_1.2.1           spatstat.geom_3.0-3   
+ [55] broom_1.0.1            reshape2_1.4.4         abind_1.4-5           
+ [58] modelr_0.1.10          backports_1.4.1        httpuv_1.6.6          
+ [61] tools_4.1.2            ellipsis_0.3.2         RColorBrewer_1.1-3    
+ [64] ggridges_0.5.4         plyr_1.8.8             zlibbioc_1.40.0       
+ [67] RCurl_1.98-1.9         deldir_1.0-6           pbapply_1.6-0         
+ [70] cowplot_1.1.1          zoo_1.8-11             haven_2.5.1           
+ [73] ggrepel_0.9.2          cluster_2.1.4          fs_1.5.2              
+ [76] magrittr_2.0.3         data.table_1.14.6      scattermore_0.8       
+ [79] lmtest_0.9-40          reprex_2.0.2           RANN_2.6.1            
+ [82] googledrive_2.0.0      fitdistrplus_1.1-8     hms_1.1.2             
+ [85] patchwork_1.1.2        mime_0.12              evaluate_0.18         
+ [88] xtable_1.8-4           XML_3.99-0.12          readxl_1.4.1          
+ [91] gridExtra_2.3          compiler_4.1.2         KernSmooth_2.23-20    
+ [94] crayon_1.5.2           htmltools_0.5.3        later_1.3.0           
+ [97] tzdb_0.3.0             geneplotter_1.72.0     lubridate_1.9.0       
+[100] DBI_1.1.3              dbplyr_2.2.1           MASS_7.3-58.1         
+[103] Matrix_1.5-3           cli_3.4.1              parallel_4.1.2        
+[106] igraph_1.3.5           pkgconfig_2.0.3        sp_1.5-1              
+[109] plotly_4.10.1          spatstat.sparse_3.0-0  xml2_1.3.3            
+[112] annotate_1.72.0        vipor_0.4.5            XVector_0.34.0        
+[115] rvest_1.0.3            digest_0.6.30          sctransform_0.3.5     
+[118] RcppAnnoy_0.0.20       spatstat.data_3.0-0    Biostrings_2.62.0     
+[121] cellranger_1.1.0       leiden_0.4.3           uwot_0.1.14           
+[124] curl_4.3.3             shiny_1.7.3            rjson_0.2.21          
+[127] lifecycle_1.0.3        nlme_3.1-160           jsonlite_1.8.3        
+[130] limma_3.50.3           viridisLite_0.4.1      fansi_1.0.3           
+[133] pillar_1.8.1           lattice_0.20-45        ggrastr_1.0.1         
+[136] KEGGREST_1.34.0        fastmap_1.1.0          httr_1.4.4            
+[139] survival_3.4-0         glue_1.6.2             png_0.1-8             
+[142] bit_4.0.5              stringi_1.7.8          blob_1.2.3            
+[145] memoise_2.0.1.9000     irlba_2.3.5.1          future.apply_1.10.0   
+~~~
+{: .output}

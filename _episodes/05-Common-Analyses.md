@@ -16,6 +16,78 @@ keypoints:
 ---
 
 
+~~~
+source("../bin/chunk-options.R")
+knitr_fig_path("05-")
+
+suppressPackageStartupMessages(library(tidyverse))
+~~~
+{: .language-r}
+
+
+
+~~~
+## Warning: package 'tidyverse' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+## Warning: package 'tibble' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+## Warning: package 'tidyr' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+## Warning: package 'readr' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+## Warning: package 'purrr' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+## Warning: package 'dplyr' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+## Warning: package 'stringr' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+## Warning: package 'forcats' was built under R version 4.1.3
+~~~
+{: .warning}
+
+
+
+~~~
+suppressPackageStartupMessages(library(Seurat))
+
+data_dir <- '../data'
+~~~
+{: .language-r}
 
 
 ~~~
