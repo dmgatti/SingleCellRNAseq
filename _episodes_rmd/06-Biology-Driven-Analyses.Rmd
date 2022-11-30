@@ -127,7 +127,7 @@ FeaturePlot(liver, "Cd79a", cols = c('lightgrey', 'red'),
             label = TRUE, label.size = 6)
 ```
 
-Interesting. Clusters 13 and 21 are right next to each other. Recall that
+Interesting. Clusters 13 and 21 are near each other. Recall that
 we saw that cluster 13 cells are largely derived from a single mouse.
 Looking at cluster 21:
 
@@ -215,7 +215,7 @@ table(liver$before_harmony_clusters,
       liver$after_harmony_clusters)[c('13', '21'), ]
 ```
 
-These cells are *all* in the new cluster 8. This cluster
+These cells are nearly *all* in one new cluster. This cluster
 exclusively expresses the B cell gene Cd79a, suggesting that the
 harmony batch correction has accomplished the task that we had hoped.
 
@@ -238,10 +238,12 @@ batches, or whether the cells are truly unique to that batch and
 *should not* be aligned with cells present in other batches.
 
 
-Next we take a step specific to this lesson. While developing
+Next we take a step specific to this lesson that would not normally
+be a part of your single cell data analysis. 
+While developing
 the course content we found some variability in the numbers
 assigned to clusters. This may be due to minor variations in
-package versions as we do set a seed for random number 
+package versions, because we do set a seed for random number 
 reproducibility. In the next chunk we rename clusters to ensure
 that we are all working with a common cluster numbering system.
 Don't worry about how we got this list of genes for now.
@@ -471,20 +473,23 @@ nucleus RNA-Seq.
 There are several methods to correct for high levels of
 ambient RNA, with [CellBender](https://cellbender.readthedocs.io/en/latest/)
 showing good performance in multiple studies. 
+We will not apply an ambient RNA correction for this course.
 
 To examine whether these data show evidence of a hepatocyte
 ambient RNA signature, we start by looking at our non-specific marker
 Fabp1:
 
 ```{r expr3}
-FeaturePlot(liver, "Fabp1", cols = c('lightgrey', 'red'))
+FeaturePlot(liver, "Fabp1", cols = c('lightgrey', 'red'),
+            label = TRUE, label.size = 6)
 ```
 
 This seems consistent with our expectations based on what we know about
 ambient RNA. Let's look at another hepatocyte marker:
 
 ```{r expr4}
-FeaturePlot(liver, "Serpina1a", cols = c('lightgrey', 'red'))
+FeaturePlot(liver, "Serpina1a", cols = c('lightgrey', 'red'),
+            label = TRUE, label.size = 6)
 ```
 
 Very similar. We tentatively conclude that this dataset has a noticeable
@@ -593,10 +598,10 @@ UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 >
 > > ## Solution to Challenge 1
 > > 
-> > Cluster c5: Cx3cr1, Monocytes and Monocyte-derived cells
-> > Cluster c10: Dcn, Fibroblasts  
-> > Cluster c11: Xcr1+ Dendritic Cells (cDC1)
-> > Cluster c13: Spp1, Cholangiocytes
+> > Cluster c5: Cx3cr1, Monocytes and Monocyte-derived cells  
+> > Cluster c10: Dcn, Fibroblasts 
+> > Cluster c11: Xcr1+ Dendritic Cells (cDC1)  
+> > Cluster c13: Spp1, Cholangiocytes  
 > {: .solution}
 {: .challenge}
 
@@ -657,7 +662,8 @@ For example, if cells from one mouse are contributing the
 majority of drug-treated hepatocyte cells, and this one mouse is an outlier
 that happened to have only minimal response to the drug, then we might
 be fooled into thinking that the drug does not perturb hepatocytes
-when in actuality the response is minimal only in that particular mouse.
+when in actuality the response is minimal only in 
+*that one particular* mouse.
 
 Let's look at our results:
 ```{r deg_res}
