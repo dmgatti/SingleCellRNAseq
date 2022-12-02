@@ -1,8 +1,8 @@
 ---
 source: Rmd
 title: "Biology Driven Analyses of scRNA-Seq"
-teaching: 90
-exercises: 30
+teaching: 120
+exercises: 10
 questions:
 - "What are some scRNA-Seq analyses that might provide me with biological insight?"
 objectives:
@@ -40,7 +40,11 @@ set.seed(1418)
 liver <- readRDS(file.path(data_dir, 'lesson05.rds'))
 ```
 
+> DMG: Overall process figure.
+
 ## Batch correction
+
+<img src="../fig/single_cell_flowchart_10.png" width="800px" alt="Single Cell Flowchart" >
 
 In bulk RNA-Seq experiments, it is usually vital that we apply a
 correction for samples profiled in different batches. In single cell
@@ -272,6 +276,8 @@ Idents(liver) <- 'renamed_clusters'
 
 ## Finding marker genes 
 
+<img src="../fig/single_cell_flowchart_11.png" width="800px" alt="Single Cell Flowchart" >
+
 Now we will find marker genes for our clusters. Finding marker genes takes a
 while so we will downsample our data to speed up the process.
 The `downsample` argument to the `subset()` function means that Seurat
@@ -341,6 +347,8 @@ increasingly useful as the scientific community accumulates more
 and more scRNA-Seq datasets.
 
 ## Identifying cell types
+
+> DAS & DMG: Should we load in the original study metadata with cell type assignments and compare?
 
 Let's plot the expression of some of the major cell type
 markers. Look at the data.frame `markers` for a summary of the
@@ -599,7 +607,7 @@ UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 > > ## Solution to Challenge 1
 > > 
 > > Cluster c5: Cx3cr1, Monocytes and Monocyte-derived cells  
-> > Cluster c10: Dcn, Fibroblasts  
+> > Cluster c10: Dcn, Fibroblasts and/or Hepatic Stellate cells 
 > > Cluster c11: Xcr1+ Dendritic Cells (cDC1)  
 > > Cluster c13: Spp1, Cholangiocytes  
 > {: .solution}

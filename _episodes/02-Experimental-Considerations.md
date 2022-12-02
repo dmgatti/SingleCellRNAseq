@@ -3,8 +3,8 @@
 # Instead, please edit 02-Experimental-Considerations.md in _episodes_rmd/
 source: Rmd
 title: "Experimental Considerations"
-teaching: 90
-exercises: 30
+teaching: 45
+exercises: 5
 questions:
 - "How do I design a rigorous and reproducible single cell RNAseq experiment?"
 objectives:
@@ -51,6 +51,8 @@ multiple-cell droplets contain two cells. The initial paper describing the
 
 ![Histogram showing the number of cells per droplet](../fig/Zhang_etal_2017_NatComm_Fig1_poisson.jpg)
 
+> DAS: Is this a doublet figure or a figure of beads per droplet?
+
 It is important to realize that the doublet rate is not fixed but rather 
 depends on the number of cells *loaded* into the 10X Chromium machine. 
 The more cells are loaded, the higher the doublet rate. The figure below shows 
@@ -60,6 +62,8 @@ Chromium Next GEM Single Cell 3ʹ Reagent Kits v3.1 product,
 but the basic trends should hold across other versions of this product as well.
 
 <img src="../fig/cell_loading.png" alt="Recovery and multiplet rate as a function of cells loaded" width="400px">
+
+> DAS & DMG: Is there a way to add a variance to these lines?
 
 In a future lesson we will discuss software options for trying to identify and 
 remove doublets prior to drawing biological conclusions from data. 
@@ -136,6 +140,8 @@ meaningful change in cell composition, the emergence of a particular cell
 subset, or difference in gene expression we need samples harvested from 
 multiple individuals.
 
+> DAS % DMG: Figure to show biological replicate vs. lots of cells?
+
 In a strict sense, biological replication would entail independently rearing 
 multiple genetically identical animals, subjecting them to identical conditions, 
 and harvesting cells in an identical manner. This is one strength of working in 
@@ -188,7 +194,7 @@ unique barcode ("hashtag") to all cells of each sample, typically using an
 oligonucleotide-tagged antibody to a ubiquitous cell surface protein or an 
 alternative (e.g. lipid-reactive) reagent.  
 
-<img src="../fig/smibert_etal_2018_Fig1A.jpg" alt="Overview of cell hashing approach" width="600px">
+<img src="../fig/smibert_etal_2018_Fig1A.jpg" alt="Overview of cell hashing approach" width="800px">
 
 (Figure from [Smibert et al. 2018](https://pubmed.ncbi.nlm.nih.gov/30567574/))
 This approach was pioneered by 
@@ -228,6 +234,8 @@ expect.
 
 ## Avoid Confounding Batch with Experimental Variables
 
+> DMG: Revise to be more about single cell and the 8-well cassette.
+
 When designing an experiment, it is tempting to lay samples out in some order 
 that is easy to remember. If you are performing a dose-response experiment, 
 you might order your samples from the lowest dose to the highest dose. If you 
@@ -256,6 +264,8 @@ The reads for each tissue can be combined from each flow cell using the cell
 barcodes after sequencing.
 
 <img src="../fig/flow_cell_batch.png" alt="Batch Confounding" width="600px">
+
+> DMG: Make figure with 8 channels. Brighter colors?
 
 > ## Recommended Reading
 >
@@ -297,7 +307,8 @@ other attached packages:
 [1] knitr_1.41
 
 loaded via a namespace (and not attached):
-[1] compiler_4.1.2 magrittr_2.0.3 tools_4.1.2    stringi_1.7.8  stringr_1.4.1 
-[6] xfun_0.35      evaluate_0.18 
+ [1] compiler_4.1.2  magrittr_2.0.3  cli_3.4.1       tools_4.1.2    
+ [5] glue_1.6.2      vctrs_0.5.1     stringi_1.7.8   stringr_1.5.0  
+ [9] xfun_0.35       lifecycle_1.0.3 rlang_1.0.6     evaluate_0.18  
 ~~~
 {: .output}

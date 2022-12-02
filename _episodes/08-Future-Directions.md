@@ -3,8 +3,8 @@
 # Instead, please edit 08-Future-Directions.md in _episodes_rmd/
 source: Rmd
 title: "Future Directions"
-teaching: 90
-exercises: 30
+teaching: 30
+exercises: 0
 questions:
 - "What are some important concepts from the single cell field that we did not have time to discuss in this course?"
 - "What are some interesting future research directions in areas related to single cell transcriptomics?"

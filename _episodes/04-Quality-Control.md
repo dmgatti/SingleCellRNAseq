@@ -32,15 +32,9 @@ data_dir <- '../data'
 {: .language-r}
 
 
-## Read Data from Previous Lesson
 
 
-~~~
-load(file.path(data_dir, 'lesson03.Rdata'))
-~~~
-{: .language-r}
-
-> Reminder: This code loads in your counts and cell metadata.
+> DMG: Overall process figure.
 
 ## Quality control in scRNA-seq
 
@@ -56,8 +50,10 @@ identification, clustering, and interpretation of the data.
 Some technical questions that you might ask include:
 
 1. Why is mitochondrial gene expression high in some cells?
-1. What is UMI, and why do we check numbers of UMI?
+1. What is a unique molecular identifier (UMI), and why do we check numbers of UMI?
 1. What happens to make gene counts low in a cell?
+
+> DAS & DMS: Add image for UMI? Too complicated?
 
 <!-- DASremoved ribosomal point here. Often we don't filter based on ribo, not clearly associated with poor quality cells -->
 
@@ -93,8 +89,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7175737  383.3   12234667  653.5  10349875  552.8
-Vcells 179559629 1370.0  434010395 3311.3 434007776 3311.3
+Ncells   7178003  383.4   12256614  654.6  10298202  550.0
+Vcells 179563850 1370.0  520898552 3974.2 474561048 3620.7
 ~~~
 {: .output}
 
@@ -118,7 +114,7 @@ sparse matrices.
 
 
 ~~~
-gene_counts <- Matrix::rowSums(counts, na.rm = TRUE)
+gene_counts <- Matrix::rowSums(counts)
 sum(gene_counts == 0)
 ~~~
 {: .language-r}
@@ -129,6 +125,8 @@ sum(gene_counts == 0)
 [1] 7322
 ~~~
 {: .output}
+
+DMG: Figure for row-summing???
 
 Of the 31053 genes, 7322 have zero counts across 
 all cells. These genes do not inform us about the mean, variance, or covariance 
@@ -168,8 +166,7 @@ that you want to used the `Matrix` version of 'rowSums()' explicitly.
 
 
 ~~~
-gene_counts <- tibble(gene_id = rownames(counts), 
-                      counts  = Matrix::rowSums(counts > 0))
+gene_counts <- tibble(counts  = Matrix::rowSums(counts > 0))
 
 gene_counts %>% 
   ggplot(aes(counts)) +
@@ -199,9 +196,9 @@ gene_counts %>%
     lims(x = c(0, 50)) +
     theme_bw(base_size = 14) +
     annotate('text', x = 2, y = 1500, hjust = 0,
-             label = str_c(sum(gene_counts == 1), 'genes were detected in only one cell')) +
+             label = str_c(sum(gene_counts == 1), ' genes were detected in only one cell')) +
     annotate('text', x = 3, y = 900, hjust = 0,
-             label = str_c(sum(gene_counts == 2), 'genes were detected in two cells'))
+             label = str_c(sum(gene_counts == 2), ' genes were detected in two cells'))
 ~~~
 {: .language-r}
 
@@ -249,7 +246,7 @@ How would this affect your ability to discriminate between cell types?
 cell types. The degree to which this problem affects your analyses depends on
 the degree of strictness of your filtering. Let's take the situation to its
 logical extreme -- what if we keep only genes expressed in at least 95% of cells.
-If we did this, we would end up with only 23210
+If we did this, we would end up with only 41
 genes! By definition these genes will be highly expressed in all cell types,
 therefore eliminating our ability to clearly distinguish between cell types.
 > {: .solution}
@@ -260,17 +257,18 @@ therefore eliminating our ability to clearly distinguish between cell types.
 > What total count threshold would you choose to filter genes? Remember that 
 there are 47743 cells.
 >
-> > ## Solution to Challenge 1
+> > ## Solution to Challenge 2
 > >
 > > This is a question that has a somewhat imprecise answer. Following from
 challenge one, we do not want to be *too* strict in our filtering. However,
 we do want to remove genes that will not provide much information about
 gene expression variability among the cells in our dataset. Our recommendation
-would be to filter genes expressed in <5 cells, but one could reasonably
+would be to filter genes expressed in < 5 cells, but one could reasonably
 justify a threshold between, say, 3 and 20 cells.
 > {: .solution}
 {: .challenge}
 
+> DAS & DMG: Should we have some kind of challenge later in the lesson in which the students do no filtering vs. filtering by genes that occur in 100+ cells?
 
 ### Filtering Cells by Counts
 
@@ -289,13 +287,10 @@ We will explicitly use the `Matrix` package's implementation of 'colSums()'.
 
 
 ~~~
-cell_counts <- tibble(cell_id = colnames(counts),
-                      counts  = Matrix::colSums(counts > 0))
-
-cell_counts %>%
+tibble(counts  = Matrix::colSums(counts > 0)) %>%
   ggplot(aes(counts)) +
-    geom_histogram(bins = 1000) +
-    labs(title = 'Histogram of Number of Gene per Cell',
+    geom_histogram(bins = 500) +
+    labs(title = 'Histogram of Number of Genes per Cell',
          x     = 'Number of Genes with Counts > 0',
          y     = 'Number of Cells')
 ~~~
@@ -307,6 +302,8 @@ Cells with way more genes expressed than the typical cell might be
 doublets/multiplets and should also be removed.
 
 ### Creating the Seurat Object
+
+<img src="../fig/single_cell_flowchart_2.png" width="800px" alt="Single Cell Flowchart" >
 
 In order to use Seurat, we must take the sample metadata and gene counts and 
 create a 
@@ -348,6 +345,26 @@ liver <- CreateSeuratObject(counts    = counts,
 {: .language-r}
 
 We now have a Seurat object with 20120 genes and 47743 cells.
+
+We will remove the counts object to save some memory because it is now stored 
+inside of the Seurat object.
+
+
+~~~
+rm(counts)
+gc()
+~~~
+{: .language-r}
+
+
+
+~~~
+            used   (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells   7294191  389.6   12256614  654.6  12256614  654.6
+Vcells 180143017 1374.4  500126610 3815.7 519296051 3962.0
+~~~
+{: .output}
+
 
 Add on doublet predictions that we did earlier in this lesson.
 
@@ -449,6 +466,8 @@ use for these data.
 
 ### Filtering by Mitochondrial Gene Content
 
+<img src="../fig/single_cell_flowchart_3.png" width="800px" alt="Single Cell Flowchart" >
+
 During apoptosis, the cell membrane may break and release transcripts into 
 the surrounding media. However, the mitochondrial transcripts may remain inside 
 of the mitochondria. This will lead to an apparent, but spurious, increase in 
@@ -459,7 +478,6 @@ sample processing. See
 from 10X Genomics for additional information.
 
 First we compute the percentage mitochondrial gene expression in each cell.
-
 
 
 ~~~
@@ -497,7 +515,7 @@ VlnPlot(liver, features = "percent.mt", group.by = 'sample', pt.size = 0)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-seurat_counts_plots2-1.png" alt="plot of chunk seurat_counts_plots2" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-04-seurat_counts_plots2-1.png" alt="plot of chunk seurat_counts_plots2" width="432" style="display: block; margin: auto;" />
 
 Library "CS89" (and maybe CS144) have a "long tail" of cells with high
 mitochondrial
@@ -543,7 +561,7 @@ VlnPlot(liver, 'nFeature_RNA', group.by = 'sample', pt.size = 0)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-filter_gene_counts-1.png" alt="plot of chunk filter_gene_counts" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-04-filter_gene_counts-1.png" alt="plot of chunk filter_gene_counts" width="432" style="display: block; margin: auto;" />
 
 Like with the mitochondrial expression percentage, we will strive
 to find a threshold that works reasonably well across all samples.
@@ -577,7 +595,7 @@ Adding another scale for y, which will replace the existing scale.
 ~~~
 {: .output}
 
-<img src="../fig/rmd-04-filter_gene_counts_5k-1.png" alt="plot of chunk filter_gene_counts_5k" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-04-filter_gene_counts_5k-1.png" alt="plot of chunk filter_gene_counts_5k" width="432" style="display: block; margin: auto;" />
 
 ~~~
 #liver <- subset(liver, nFeature_RNA > 600 & nFeature_RNA < 5000)
@@ -653,7 +671,7 @@ Adding another scale for y, which will replace the existing scale.
 ~~~
 {: .output}
 
-<img src="../fig/rmd-04-filter_umi-1.png" alt="plot of chunk filter_umi" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-04-filter_umi-1.png" alt="plot of chunk filter_umi" width="432" style="display: block; margin: auto;" />
 
 ~~~
 #liver <- subset(liver, nCount_RNA > 900 & nCount_RNA < 25000)
@@ -674,11 +692,10 @@ which is indicated
 by high mitochondrial gene expression because the mitochondrial 
 transcripts are contained within the mitochondria, while other transcripts
 in the cytoplasm may leak out. Use the mitochondrial percentage filter to 
-try to remove these cells.
+try to remove these cells.  
 > > 2 ). Cells may be doublets of two different cell types. In this case
 they might express many more genes than either cell type alone. Use the
-"number of genes expressed" filter to try to remove these cells.
-> > 3 ). Cells 
+"number of genes expressed" filter to try to remove these cells.  
 > {: .solution}
 {: .challenge}
 
@@ -695,17 +712,24 @@ by scds?
 
 
 ~~~
-liver$keep <- with(liver@meta.data, percent.mt < 14 & nFeature_RNA > 600 &
+liver$keep <- with(liver, percent.mt < 14 & nFeature_RNA > 600 &
   nFeature_RNA < 5000 & nCount_RNA > 900 & nCount_RNA < 25000)
 ~~~
 {: .language-r}
+
+
+
+~~~
+Error in eval(substitute(expr), data, enclos = parent.frame()): object 'percent.mt' not found
+~~~
+{: .error}
 
 Using the scds hybrid_score method, the scores range between 0 and 2.
 Higher scores should be more likely to be doublets.
 
 
 ~~~
-ggplot(mutate(liver@meta.data, class = ifelse(keep, 'QC singlet', 'QC doublet')),
+ggplot(mutate(liver[[]], class = ifelse(keep, 'QC singlet', 'QC doublet')),
   aes(x = class, y = hybrid_score)) + 
   geom_violin() + theme_bw(base_size = 18) +
   xlab("") + ylab("SCDS hybrid score")
@@ -715,11 +739,12 @@ ggplot(mutate(liver@meta.data, class = ifelse(keep, 'QC singlet', 'QC doublet'))
 
 
 ~~~
-Warning: Removed 42388 rows containing non-finite values (`stat_ydensity()`).
+Error in `mutate()`:
+! Problem while computing `class = ifelse(keep, "QC singlet", "QC doublet")`.
+Caused by error in `as.logical()`:
+! cannot coerce type 'closure' to vector of type 'logical'
 ~~~
-{: .warning}
-
-<img src="../fig/rmd-04-doublet_plot-1.png" alt="plot of chunk doublet_plot" width="612" style="display: block; margin: auto;" />
+{: .error}
 
 Somewhat unsatisfyingly, the scds hybrid scores aren't wildly
 different between the cells we've used QC thresholds to call as doublets
@@ -752,20 +777,7 @@ liver <- subset(liver, subset = percent.mt < 14 & nFeature_RNA > 600 &
 <!-- DAS recommends using harmony if we want to do batch correction -->
 <!-- Should probably do batch correction across sample -->
 
-## Save Data for Next Lesson
 
-We will use the Seurat object in the next lesson. Save it now and we will 
-load it at the beginning of the next lesson. We will use R's
-[saveRDS](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html)
-command to save the Seurat object. 
-The `saveRDS` function is useful when you want to save one object in 
-compressed, binary format.
-
-
-~~~
-saveRDS(liver, file = file.path(data_dir, 'lesson04.rds'))
-~~~
-{: .language-r}
 
 > ## Challenge 3
 > Delete the existing counts and metadata objects. Read in the  *ex-vivo* data 
@@ -839,7 +851,7 @@ other attached packages:
  [9] IRanges_2.28.0              S4Vectors_0.32.4           
 [11] BiocGenerics_0.40.0         MatrixGenerics_1.6.0       
 [13] matrixStats_0.63.0          Matrix_1.5-3               
-[15] forcats_0.5.2               stringr_1.4.1              
+[15] forcats_0.5.2               stringr_1.5.0              
 [17] dplyr_1.0.10                purrr_0.3.5                
 [19] readr_2.1.3                 tidyr_1.2.1                
 [21] tibble_3.1.8                ggplot2_3.4.0              

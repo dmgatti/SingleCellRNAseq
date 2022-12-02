@@ -3,8 +3,8 @@
 # Instead, please edit 06-Biology-Driven-Analyses.md in _episodes_rmd/
 source: Rmd
 title: "Biology Driven Analyses of scRNA-Seq"
-teaching: 90
-exercises: 30
+teaching: 120
+exercises: 10
 questions:
 - "What are some scRNA-Seq analyses that might provide me with biological insight?"
 objectives:
@@ -35,7 +35,11 @@ liver <- readRDS(file.path(data_dir, 'lesson05.rds'))
 ~~~
 {: .language-r}
 
+> DMG: Overall process figure.
+
 ## Batch correction
+
+<img src="../fig/single_cell_flowchart_10.png" width="800px" alt="Single Cell Flowchart" >
 
 In bulk RNA-Seq experiments, it is usually vital that we apply a
 correction for samples profiled in different batches. In single cell
@@ -292,28 +296,28 @@ Computing SNN
 
 
 ~~~
-12:29:12 UMAP embedding parameters a = 0.9922 b = 1.112
+15:50:46 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-12:29:12 Read 44253 rows and found 24 numeric columns
+15:50:46 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-12:29:12 Using Annoy for neighbor search, n_neighbors = 30
+15:50:46 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-12:29:12 Building Annoy index with metric = cosine, n_trees = 50
+15:50:46 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -335,13 +339,13 @@ Computing SNN
 
 ~~~
 **************************************************|
-12:29:16 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpElIqTf\file1ac048c64d29
-12:29:16 Searching Annoy index using 1 thread, search_k = 3000
-12:29:33 Annoy recall = 100%
-12:29:34 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-12:29:38 Initializing from normalized Laplacian + noise (using irlba)
-12:29:48 Commencing optimization for 200 epochs, with 1892644 positive edges
-12:30:35 Optimization finished
+15:50:49 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\Rtmp8Af0qA\file263c24793b28
+15:50:49 Searching Annoy index using 1 thread, search_k = 3000
+15:51:00 Annoy recall = 100%
+15:51:00 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+15:51:03 Initializing from normalized Laplacian + noise (using irlba)
+15:51:10 Commencing optimization for 200 epochs, with 1892644 positive edges
+15:51:51 Optimization finished
 ~~~
 {: .output}
 
@@ -439,6 +443,8 @@ Idents(liver) <- 'renamed_clusters'
 
 ## Finding marker genes 
 
+<img src="../fig/single_cell_flowchart_11.png" width="800px" alt="Single Cell Flowchart" >
+
 Now we will find marker genes for our clusters. Finding marker genes takes a
 while so we will downsample our data to speed up the process.
 The `downsample` argument to the `subset()` function means that Seurat
@@ -510,6 +516,8 @@ increasingly useful as the scientific community accumulates more
 and more scRNA-Seq datasets.
 
 ## Identifying cell types
+
+> DAS & DMG: Should we load in the original study metadata with cell type assignments and compare?
 
 Let's plot the expression of some of the major cell type
 markers. Look at the data.frame `markers` for a summary of the
@@ -853,7 +861,7 @@ UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 > > ## Solution to Challenge 1
 > > 
 > > Cluster c5: Cx3cr1, Monocytes and Monocyte-derived cells  
-> > Cluster c10: Dcn, Fibroblasts  
+> > Cluster c10: Dcn, Fibroblasts and/or Hepatic Stellate cells 
 > > Cluster c11: Xcr1+ Dendritic Cells (cDC1)  
 > > Cluster c13: Spp1, Cholangiocytes  
 > {: .solution}
@@ -1209,7 +1217,7 @@ other attached packages:
 [11] BiocGenerics_0.40.0         harmony_0.1.1              
 [13] Rcpp_1.0.9                  SeuratObject_4.1.3         
 [15] Seurat_4.3.0                forcats_0.5.2              
-[17] stringr_1.4.1               dplyr_1.0.10               
+[17] stringr_1.5.0               dplyr_1.0.10               
 [19] purrr_0.3.5                 readr_2.1.3                
 [21] tidyr_1.2.1                 tibble_3.1.8               
 [23] ggplot2_3.4.0               tidyverse_1.3.2            

@@ -31,13 +31,13 @@ data_dir <- '../data'
 ```
 
 
-## Read Data from Previous Lesson
-
-```{r load_data}
+```{r load_data,include=FALSE}
+# Only needed to build lessons.
+# Don't use in course.
 load(file.path(data_dir, 'lesson03.Rdata'))
 ```
 
-> Reminder: This code loads in your counts and cell metadata.
+> DMG: Overall process figure.
 
 ## Quality control in scRNA-seq
 
@@ -53,8 +53,10 @@ identification, clustering, and interpretation of the data.
 Some technical questions that you might ask include:
 
 1. Why is mitochondrial gene expression high in some cells?
-1. What is UMI, and why do we check numbers of UMI?
+1. What is a unique molecular identifier (UMI), and why do we check numbers of UMI?
 1. What happens to make gene counts low in a cell?
+
+> DAS & DMS: Add image for UMI? Too complicated?
 
 <!-- DASremoved ribosomal point here. Often we don't filter based on ribo, not clearly associated with poor quality cells -->
 
@@ -109,9 +111,11 @@ has a special implementation of
 sparse matrices.
 
 ```{r zero_gene_counts}
-gene_counts <- Matrix::rowSums(counts, na.rm = TRUE)
+gene_counts <- Matrix::rowSums(counts)
 sum(gene_counts == 0)
 ```
+
+DMG: Figure for row-summing???
 
 Of the `r nrow(counts)` genes, `r sum(gene_counts == 0)` have zero counts across 
 all cells. These genes do not inform us about the mean, variance, or covariance 
@@ -148,8 +152,7 @@ an implementation of 'rowSums()' that is efficient, but you may have to specify
 that you want to used the `Matrix` version of 'rowSums()' explicitly.
 
 ```{r gene_count_hist}
-gene_counts <- tibble(gene_id = rownames(counts), 
-                      counts  = Matrix::rowSums(counts > 0))
+gene_counts <- tibble(counts  = Matrix::rowSums(counts > 0))
 
 gene_counts %>% 
   ggplot(aes(counts)) +
@@ -175,9 +178,9 @@ gene_counts %>%
     lims(x = c(0, 50)) +
     theme_bw(base_size = 14) +
     annotate('text', x = 2, y = 1500, hjust = 0,
-             label = str_c(sum(gene_counts == 1), 'genes were detected in only one cell')) +
+             label = str_c(sum(gene_counts == 1), ' genes were detected in only one cell')) +
     annotate('text', x = 3, y = 900, hjust = 0,
-             label = str_c(sum(gene_counts == 2), 'genes were detected in two cells'))
+             label = str_c(sum(gene_counts == 2), ' genes were detected in two cells'))
 ```
 
 In the plot above, we can see that there are `r sum(gene_counts == 1)` 
@@ -208,7 +211,7 @@ How would this affect your ability to discriminate between cell types?
 cell types. The degree to which this problem affects your analyses depends on
 the degree of strictness of your filtering. Let's take the situation to its
 logical extreme -- what if we keep only genes expressed in at least 95% of cells.
-If we did this, we would end up with only `r sum(gene_counts > ncol(counts)*0.95)`
+If we did this, we would end up with only `r sum(gene_counts$counts > ncol(counts) * 0.95)`
 genes! By definition these genes will be highly expressed in all cell types,
 therefore eliminating our ability to clearly distinguish between cell types.
 > {: .solution}
@@ -219,17 +222,18 @@ therefore eliminating our ability to clearly distinguish between cell types.
 > What total count threshold would you choose to filter genes? Remember that 
 there are `r ncol(counts)` cells.
 >
-> > ## Solution to Challenge 1
+> > ## Solution to Challenge 2
 > >
 > > This is a question that has a somewhat imprecise answer. Following from
 challenge one, we do not want to be *too* strict in our filtering. However,
 we do want to remove genes that will not provide much information about
 gene expression variability among the cells in our dataset. Our recommendation
-would be to filter genes expressed in <5 cells, but one could reasonably
+would be to filter genes expressed in < 5 cells, but one could reasonably
 justify a threshold between, say, 3 and 20 cells.
 > {: .solution}
 {: .challenge}
 
+> DAS & DMG: Should we have some kind of challenge later in the lesson in which the students do no filtering vs. filtering by genes that occur in 100+ cells?
 
 ### Filtering Cells by Counts
 
@@ -247,13 +251,10 @@ should improve your final results.
 We will explicitly use the `Matrix` package's implementation of 'colSums()'.
 
 ```{r sum_cell_counts}
-cell_counts <- tibble(cell_id = colnames(counts),
-                      counts  = Matrix::colSums(counts > 0))
-
-cell_counts %>%
+tibble(counts  = Matrix::colSums(counts > 0)) %>%
   ggplot(aes(counts)) +
-    geom_histogram(bins = 1000) +
-    labs(title = 'Histogram of Number of Gene per Cell',
+    geom_histogram(bins = 500) +
+    labs(title = 'Histogram of Number of Genes per Cell',
          x     = 'Number of Genes with Counts > 0',
          y     = 'Number of Cells')
 ```
@@ -262,6 +263,8 @@ Cells with way more genes expressed than the typical cell might be
 doublets/multiplets and should also be removed.
 
 ### Creating the Seurat Object
+
+<img src="../fig/single_cell_flowchart_2.png" width="800px" alt="Single Cell Flowchart" >
 
 In order to use Seurat, we must take the sample metadata and gene counts and 
 create a 
@@ -299,6 +302,15 @@ liver <- CreateSeuratObject(counts    = counts,
 ```
 
 We now have a Seurat object with `r nrow(liver)` genes and `r ncol(liver)` cells.
+
+We will remove the counts object to save some memory because it is now stored 
+inside of the Seurat object.
+
+```{r rm_counts}
+rm(counts)
+gc()
+```
+
 
 Add on doublet predictions that we did earlier in this lesson.
 
@@ -346,6 +358,8 @@ use for these data.
 
 ### Filtering by Mitochondrial Gene Content
 
+<img src="../fig/single_cell_flowchart_3.png" width="800px" alt="Single Cell Flowchart" >
+
 During apoptosis, the cell membrane may break and release transcripts into 
 the surrounding media. However, the mitochondrial transcripts may remain inside 
 of the mitochondria. This will lead to an apparent, but spurious, increase in 
@@ -356,7 +370,6 @@ sample processing. See
 from 10X Genomics for additional information.
 
 First we compute the percentage mitochondrial gene expression in each cell.
-
 
 ```{r pct_mito}
 liver <- liver %>% 
@@ -382,7 +395,7 @@ VlnPlot(liver, features = "percent.mt", group.by = 'sample')
 It is hard to see with so many dots! Let's try another version where we just
 plot the violins:
 
-```{r seurat_counts_plots2}
+```{r seurat_counts_plots2,fig.height=4,fig.width=6}
 VlnPlot(liver, features = "percent.mt", group.by = 'sample', pt.size = 0)
 ```
 
@@ -429,7 +442,7 @@ the mouse ID so we can see if there are particular samples that are
 very different from the rest.
 Again we will show only the violins for clarity.
 
-```{r filter_gene_counts}
+```{r filter_gene_counts,fig.height=4,fig.width=6}
 VlnPlot(liver, 'nFeature_RNA', group.by = 'sample', pt.size = 0)
 ```
 
@@ -448,7 +461,7 @@ greater than 5,000 genes is a reasonable compromise across our samples.
 (Note the log scale in this plot, which is necessary for seeing the violin
 densities at low numbers of genes expressed).
 
-```{r filter_gene_counts_5k}
+```{r filter_gene_counts_5k,fig.height=4,fig.width=6}
 VlnPlot(liver, 'nFeature_RNA', group.by = 'sample', pt.size = 0) +
   scale_y_log10() + 
   geom_hline(yintercept = 600) + 
@@ -504,7 +517,7 @@ ggplot(liver@meta.data, aes(x = nCount_RNA, y = nFeature_RNA)) +
 
 
 
-```{r filter_umi}
+```{r filter_umi,fig.height=4,fig.width=6}
 VlnPlot(liver, 'nCount_RNA', group.by = 'sample', pt.size = 0) +
   scale_y_log10() + 
   geom_hline(yintercept = 900) + 
@@ -526,11 +539,10 @@ which is indicated
 by high mitochondrial gene expression because the mitochondrial 
 transcripts are contained within the mitochondria, while other transcripts
 in the cytoplasm may leak out. Use the mitochondrial percentage filter to 
-try to remove these cells.
+try to remove these cells.  
 > > 2 ). Cells may be doublets of two different cell types. In this case
 they might express many more genes than either cell type alone. Use the
-"number of genes expressed" filter to try to remove these cells.
-> > 3 ). Cells 
+"number of genes expressed" filter to try to remove these cells.  
 > {: .solution}
 {: .challenge}
 
@@ -557,7 +569,7 @@ are going to be filtered out of our data were predicted to be doublets
 by scds?
 
 ```{r filtering}
-liver$keep <- with(liver@meta.data, percent.mt < 14 & nFeature_RNA > 600 &
+liver$keep <- with(liver, percent.mt < 14 & nFeature_RNA > 600 &
   nFeature_RNA < 5000 & nCount_RNA > 900 & nCount_RNA < 25000)
 ```
 
@@ -565,7 +577,7 @@ Using the scds hybrid_score method, the scores range between 0 and 2.
 Higher scores should be more likely to be doublets.
 
 ```{r doublet_plot}
-ggplot(mutate(liver@meta.data, class = ifelse(keep, 'QC singlet', 'QC doublet')),
+ggplot(mutate(liver[[]], class = ifelse(keep, 'QC singlet', 'QC doublet')),
   aes(x = class, y = hybrid_score)) + 
   geom_violin() + theme_bw(base_size = 18) +
   xlab("") + ylab("SCDS hybrid score")
@@ -600,16 +612,9 @@ liver <- subset(liver, subset = percent.mt < 14 & nFeature_RNA > 600 &
 <!-- DAS recommends using harmony if we want to do batch correction -->
 <!-- Should probably do batch correction across sample -->
 
-## Save Data for Next Lesson
-
-We will use the Seurat object in the next lesson. Save it now and we will 
-load it at the beginning of the next lesson. We will use R's
-[saveRDS](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html)
-command to save the Seurat object. 
-The `saveRDS` function is useful when you want to save one object in 
-compressed, binary format.
-
-```{r save_seurat}
+```{r save_seurat,include=FALSE}
+# Only needed to build lessons.
+# Don't use in course.
 saveRDS(liver, file = file.path(data_dir, 'lesson04.rds'))
 ```
 

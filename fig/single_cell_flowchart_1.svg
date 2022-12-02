@@ -7,7 +7,7 @@
    viewBox="0 0 210 297"
    version="1.1"
    id="svg5"
-   sodipodi:docname="single_cell_flowchart_0.svg"
+   sodipodi:docname="single_cell_flowchart_1.svg"
    inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -25,7 +25,7 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="1"
-     inkscape:cx="474.5"
+     inkscape:cx="740.5"
      inkscape:cy="563"
      inkscape:window-width="2560"
      inkscape:window-height="1506"
@@ -469,21 +469,21 @@
          y="0"><tspan
            x="307.73133"
            y="42.645431"
-           id="tspan8278"><tspan
+           id="tspan9867"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan8276">matrix.mtz.gz
+             id="tspan9865">matrix.mtz.gz
 </tspan></tspan><tspan
            x="300.40775"
            y="65.978805"
-           id="tspan8282"><tspan
+           id="tspan9871"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan8280">barcodes.tsv.gz
+             id="tspan9869">barcodes.tsv.gz
 </tspan></tspan><tspan
            x="304.14017"
            y="89.312179"
-           id="tspan8286"><tspan
+           id="tspan9875"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan8284">features.tsv.gz</tspan></tspan></text>
+             id="tspan9873">features.tsv.gz</tspan></tspan></text>
     </g>
     <g
        id="g23541-1"
@@ -526,7 +526,7 @@
          y="0"><tspan
            x="310.06011"
            y="42.645431"
-           id="tspan8288">metadata.csv</tspan></text>
+           id="tspan9877">metadata.csv</tspan></text>
     </g>
     <g
        id="g837"
@@ -548,7 +548,7 @@
          style="font-style:normal;font-weight:normal;font-size:18.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect18960);fill:#000000;fill-opacity:1;stroke:none"><tspan
            x="264.43164"
            y="161.67668"
-           id="tspan8290">CreateSeuratObject()</tspan></text>
+           id="tspan9879">CreateSeuratObject()</tspan></text>
     </g>
     <g
        id="g48961"
@@ -582,26 +582,26 @@
                  y="0"><tspan
                    x="268.65474"
                    y="161.67668"
-                   id="tspan8294"><tspan
+                   id="tspan9883"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan8292">Filter by mitochondrial &amp; </tspan></tspan><tspan
+                     id="tspan9881">Filter by mitochondrial &amp; </tspan></tspan><tspan
                    x="298.44125"
                    y="185.01006"
-                   id="tspan8298"><tspan
+                   id="tspan9887"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan8296">total gene counts:
+                     id="tspan9885">total gene counts:
 </tspan></tspan><tspan
                    x="272.69706"
                    y="208.34343"
-                   id="tspan8302"><tspan
+                   id="tspan9891"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan8300">PercentageFeatureSet()
+                     id="tspan9889">PercentageFeatureSet()
 </tspan></tspan><tspan
                    x="344.98951"
                    y="231.6768"
-                   id="tspan8306"><tspan
+                   id="tspan9895"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan8304">subset()</tspan></tspan></text>
+                     id="tspan9893">subset()</tspan></tspan></text>
             </g>
             <g
                id="g77506-7"
@@ -623,15 +623,15 @@
                  y="0"><tspan
                    x="279.79278"
                    y="161.67668"
-                   id="tspan8310"><tspan
+                   id="tspan9899"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan8308">Log Normalize counts.
+                     id="tspan9897">Log Normalize counts.
 </tspan></tspan><tspan
                    x="306.74921"
                    y="185.01006"
-                   id="tspan8314"><tspan
+                   id="tspan9903"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan8312">NormalizeData()</tspan></tspan></text>
+                     id="tspan9901">NormalizeData()</tspan></tspan></text>
             </g>
           </g>
         </g>
@@ -661,15 +661,15 @@
            y="0"><tspan
              x="267.44285"
              y="161.67668"
-             id="tspan8318"><tspan
+             id="tspan9907"><tspan
                style="text-align:center;text-anchor:middle;fill-opacity:1"
-               id="tspan8316">Read CellRanger Data
+               id="tspan9905">Read CellRanger Data
 </tspan></tspan><tspan
              x="319.72419"
              y="185.01006"
-             id="tspan8322"><tspan
+             id="tspan9911"><tspan
                style="text-align:center;text-anchor:middle;fill-opacity:1"
-               id="tspan8320">Read10X() </tspan></tspan></text>
+               id="tspan9909">Read10X() </tspan></tspan></text>
       </g>
       <text
          xml:space="preserve"
@@ -708,9 +708,9 @@
            y="0"><tspan
              x="328.67115"
              y="161.67668"
-             id="tspan8326"><tspan
+             id="tspan9915"><tspan
                style="text-align:center;text-anchor:middle;fill-opacity:1"
-               id="tspan8324">VlnPlot() </tspan></tspan></text>
+               id="tspan9913">VlnPlot() </tspan></tspan></text>
       </g>
     </g>
     <g
@@ -738,9 +738,9 @@
            y="0"><tspan
              x="328.67115"
              y="161.67668"
-             id="tspan8330"><tspan
+             id="tspan9919"><tspan
                style="text-align:center;text-anchor:middle;fill-opacity:1"
-               id="tspan8328">VlnPlot() </tspan></tspan></text>
+               id="tspan9917">VlnPlot() </tspan></tspan></text>
       </g>
     </g>
     <path
@@ -793,11 +793,11 @@
          style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;text-align:center;white-space:pre;shape-inside:url(#rect36614)"><tspan
            x="325.62071"
            y="318.15129"
-           id="tspan8332">counts
+           id="tspan9921">counts
 </tspan><tspan
            x="283.31985"
            y="341.48466"
-           id="tspan8334">(Sparse Matrix)</tspan></text>
+           id="tspan9923">(Sparse Matrix)</tspan></text>
     </g>
     <path
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9-0-5)"
@@ -853,17 +853,17 @@
                  y="0"><tspan
                    x="291.1997"
                    y="161.67668"
-                   id="tspan8338"><tspan
+                   id="tspan9927"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan8336">Find Variable Genes
+                     id="tspan9925">Find Variable Genes
 </tspan></tspan><tspan
                    x="278.12025"
                    y="185.01006"
-                   id="tspan8344"><tspan
+                   id="tspan9933"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan8340">FindVariableFeatures</tspan><tspan
+                     id="tspan9929">FindVariableFeatures</tspan><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan8342">()</tspan></tspan></text>
+                     id="tspan9931">()</tspan></tspan></text>
             </g>
           </g>
         </g>
@@ -895,15 +895,15 @@
            y="0"><tspan
              x="270.40277"
              y="161.67668"
-             id="tspan8348"><tspan
+             id="tspan9937"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan8346">Standarize Variable Genes
+               id="tspan9935">Standarize Variable Genes
 </tspan></tspan><tspan
              x="338.12425"
              y="185.01006"
-             id="tspan8352"><tspan
+             id="tspan9941"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan8350">ScaleData()</tspan></tspan></text>
+               id="tspan9939">ScaleData()</tspan></tspan></text>
       </g>
     </g>
     <path
@@ -941,21 +941,21 @@
              y="0"><tspan
                x="272.47634"
                y="161.67668"
-               id="tspan8356"><tspan
+               id="tspan9945"><tspan
                  style="text-align:center;text-anchor:middle"
-                 id="tspan8354">Get Principal Components
+                 id="tspan9943">Get Principal Components
 </tspan></tspan><tspan
                x="348.43742"
                y="185.01006"
-               id="tspan8360"><tspan
+               id="tspan9949"><tspan
                  style="text-align:center;text-anchor:middle"
-                 id="tspan8358">RunPCA()
+                 id="tspan9947">RunPCA()
 </tspan></tspan><tspan
                x="293.00242"
                y="208.34343"
-               id="tspan8364"><tspan
+               id="tspan9953"><tspan
                  style="text-align:center;text-anchor:middle"
-                 id="tspan8362">Select number of PCs</tspan></tspan></text>
+                 id="tspan9951">Select number of PCs</tspan></tspan></text>
         </g>
       </g>
     </g>
@@ -994,15 +994,15 @@
              y="0"><tspan
                x="274.9783"
                y="161.67668"
-               id="tspan8368"><tspan
+               id="tspan9957"><tspan
                  style="text-align:center;text-anchor:middle"
-                 id="tspan8366">Dimensionality Reduction
+                 id="tspan9955">Dimensionality Reduction
 </tspan></tspan><tspan
                x="340.25707"
                y="185.01006"
-               id="tspan8372"><tspan
+               id="tspan9961"><tspan
                  style="text-align:center;text-anchor:middle"
-                 id="tspan8370">RunUMAP()</tspan></tspan></text>
+                 id="tspan9959">RunUMAP()</tspan></tspan></text>
         </g>
       </g>
     </g>
@@ -1036,21 +1036,21 @@
          y="0"><tspan
            x="346.30004"
            y="161.67668"
-           id="tspan8376"><tspan
+           id="tspan9965"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan8374">Clustering
+             id="tspan9963">Clustering
 </tspan></tspan><tspan
            x="318.37747"
            y="185.01006"
-           id="tspan8380"><tspan
+           id="tspan9969"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan8378">FindNeighbors()
+             id="tspan9967">FindNeighbors()
 </tspan></tspan><tspan
            x="327.59689"
            y="208.34343"
-           id="tspan8384"><tspan
+           id="tspan9973"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan8382">FindClusters()</tspan></tspan></text>
+             id="tspan9971">FindClusters()</tspan></tspan></text>
     </g>
     <path
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9-0-5-4-6-1-4-3-8-8)"
@@ -1082,15 +1082,15 @@
          y="0"><tspan
            x="315.53827"
            y="161.67668"
-           id="tspan8388"><tspan
+           id="tspan9977"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan8386">Batch Correction
+             id="tspan9975">Batch Correction
 </tspan></tspan><tspan
            x="324.27917"
            y="185.01006"
-           id="tspan8392"><tspan
+           id="tspan9981"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan8390">RunHarmony()</tspan></tspan></text>
+             id="tspan9979">RunHarmony()</tspan></tspan></text>
     </g>
     <path
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9-0-5-4-6-1-4-3-8-8-9)"
@@ -1122,17 +1122,17 @@
          y="0"><tspan
            x="305.88591"
            y="161.67668"
-           id="tspan8396"><tspan
+           id="tspan9985"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan8394">Find Marker Genes
+             id="tspan9983">Find Marker Genes
 </tspan></tspan><tspan
            x="316.73228"
            y="185.01006"
-           id="tspan8402"><tspan
+           id="tspan9991"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan8398">FindAllMarkers</tspan><tspan
+             id="tspan9987">FindAllMarkers</tspan><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan8400">()</tspan></tspan></text>
+             id="tspan9989">()</tspan></tspan></text>
     </g>
     <path
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9-0-5-4-6-1-4-3-8-8-9-8)"
@@ -1166,7 +1166,7 @@
            style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;text-align:center;white-space:pre;shape-inside:url(#rect36614-8)"><tspan
              x="306.44359"
              y="318.15129"
-             id="tspan8404">seurat_obj</tspan></text>
+             id="tspan9993">seurat_obj</tspan></text>
       </g>
     </g>
     <image
@@ -1208,9 +1208,9 @@
              y="0"><tspan
                x="315.93805"
                y="161.67668"
-               id="tspan8408"><tspan
+               id="tspan9997"><tspan
                  style="text-align:center;text-anchor:middle;fill-opacity:1"
-                 id="tspan8406">ElbowPlot() </tspan></tspan></text>
+                 id="tspan9995">ElbowPlot() </tspan></tspan></text>
         </g>
       </g>
     </g>
@@ -1242,9 +1242,9 @@
              y="0"><tspan
                x="316.81306"
                y="161.67668"
-               id="tspan8412"><tspan
+               id="tspan10001"><tspan
                  style="text-align:center;text-anchor:middle;fill-opacity:1"
-                 id="tspan8410">UMAPPlot() </tspan></tspan></text>
+                 id="tspan9999">UMAPPlot() </tspan></tspan></text>
         </g>
       </g>
     </g>
@@ -1278,9 +1278,9 @@
                y="0"><tspan
                  x="308.09038"
                  y="161.67668"
-                 id="tspan8416"><tspan
+                 id="tspan10005"><tspan
                    style="fill-opacity:1"
-                   id="tspan8414">FeaturePlot() </tspan></tspan></text>
+                   id="tspan10003">FeaturePlot() </tspan></tspan></text>
           </g>
         </g>
       </g>
@@ -1345,5 +1345,12 @@
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"
        sodipodi:nodetypes="ccccc" />
+    <rect
+       style="fill:none;stroke:#ff0000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect8440"
+       width="79.110413"
+       height="119.0625"
+       x="56.885414"
+       y="-0.52916664" />
   </g>
 </svg>

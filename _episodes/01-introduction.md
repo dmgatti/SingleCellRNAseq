@@ -1,6 +1,6 @@
 ---
 title: "Introduction to Single Cell RNA-seq"
-teaching: 30
+teaching: 45
 exercises: 10
 questions:
 - "What is single cell RNA-seq?"

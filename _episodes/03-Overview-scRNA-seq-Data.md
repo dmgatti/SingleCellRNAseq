@@ -28,6 +28,10 @@ data_dir <- '../data'
 ~~~
 {: .language-r}
 
+## Overview of Single Cell Analysis Process
+
+<img src="../fig/single_cell_flowchart_0.png" width="800px" alt="Single Cell Flowchart" >
+
 ## Open Project File
 
 In the Setup section of this workshop, you created an RStudio Project. 
@@ -125,6 +129,8 @@ interactive exploration of single cell data.
 
 ## Reading in CellRanger Data
 
+<img src="../fig/single_cell_flowchart_1.png" width="800px" alt="Single Cell Flowchart" >
+
 As described above,
 [CellRanger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) 
 is software which preprocesses Chromium single cell data to 
@@ -196,6 +202,8 @@ the `mouseStSt_invivo` directory.  Which one is the largest?
 > >     'matrix.mtx.gz' is the largest file.     
 > {: .solution}
 {: .challenge}
+
+> DAS & DMG: Show the directory structure from the core? Or at least raw vs filtered? Also, add the HTML summary file from CellRanger to the repo and show it.
 
 ### Reading a CellRanger Gene Expression Count Matrix using Seurat
 
@@ -594,10 +602,8 @@ command to save the objects in compressed, binary format. The `save` command is
 useful when you want to save multiple objects in one file.
 
 
-~~~
-save(counts, metadata, file = file.path(data_dir, 'lesson03.Rdata'))
-~~~
-{: .language-r}
+
+> DMG: Rework this challenge.
 
 > ## Challenge 5
 > In the lesson above, you read in the scRNASeq data. There is 
@@ -648,7 +654,7 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] SeuratObject_4.1.3 Seurat_4.3.0       forcats_0.5.2      stringr_1.4.1     
+ [1] SeuratObject_4.1.3 Seurat_4.3.0       forcats_0.5.2      stringr_1.5.0     
  [5] dplyr_1.0.10       purrr_0.3.5        readr_2.1.3        tidyr_1.2.1       
  [9] tibble_3.1.8       ggplot2_3.4.0      tidyverse_1.3.2    knitr_1.41        
 

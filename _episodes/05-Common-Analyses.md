@@ -4,7 +4,7 @@
 source: Rmd
 title: "Common Analyses"
 teaching: 90
-exercises: 30
+exercises: 10
 questions:
 - "What are the most common single cell RNA-Seq analyses?"
 objectives:
@@ -69,13 +69,6 @@ suppressPackageStartupMessages(library(tidyverse))
 
 
 ~~~
-## Warning: package 'stringr' was built under R version 4.1.3
-~~~
-{: .warning}
-
-
-
-~~~
 ## Warning: package 'forcats' was built under R version 4.1.3
 ~~~
 {: .warning}
@@ -100,10 +93,6 @@ set.seed(1418)
 ## Read Data from Previous Lesson
 
 
-~~~
-liver <- readRDS(file.path(data_dir, 'lesson04.rds'))
-~~~
-{: .language-r}
 
 ## A Note on Seurat Functions
 
@@ -137,7 +126,11 @@ these slightly different coding styles. Please ask us for clarification
 if you are having difficulty seeing how our example code is 
 doing what it is supposed to do.
 
+> DMG: Overall process figure.
+
 ### Normalization
+
+<img src="../fig/single_cell_flowchart_4.png" width="800px" alt="Single Cell Flowchart" >
 
 Instead of working with raw count data measured across cells
 that were sequenced to highly variable depths, we conduct
@@ -177,7 +170,11 @@ may outperform the log normalization method. Two examples are:
 However, no normalization method has been demonstrated to be universally
 and unambiguously better than simple log normalization.
 
+> Show what just changed in the Seurat Object.
+
 ### Finding Variable Features
+
+<img src="../fig/single_cell_flowchart_5.png" width="800px" alt="Single Cell Flowchart" >
 
 Next we will find a subset of features showing high cell-to-cell variation 
 in the dataset (that is, they are highly expressed in some cells and lowly
@@ -198,6 +195,8 @@ LabelPoints(plot = plot1, points = top25, xnudge = 0,
 {: .language-r}
 
 <img src="../fig/rmd-05-var_features-1.png" alt="plot of chunk var_features" width="612" style="display: block; margin: auto;" />
+
+> Show what just changed in the Seurat Object.
 
 ## Cell Cycle Assignment 
 
@@ -225,7 +224,11 @@ in different phases of the cell cycle `S.Score` and `G2M.Score`, as well as
 a categorical prediction of which phase the cell is in 
 (`Phase` -- G1, G2M, S).
 
+> Show what just changed in the Seurat Object.
+
 ### Scale Data
+
+<img src="../fig/single_cell_flowchart_6.png" width="800px" alt="Single Cell Flowchart" >
 
 Now we apply a linear transformation that is often used in initial 
 scRNA-Seq processing. This transformation standardizes the expression of
@@ -247,7 +250,11 @@ liver <- liver %>%
 ~~~
 {: .language-r}
 
+> Show what just changed in the Seurat Object.
+
 ### Principal Component Analysis
+
+<img src="../fig/single_cell_flowchart_7.png" width="800px" alt="Single Cell Flowchart" >
 
 Next we reduce the dimensionality of the data. You have probably heard
 of PCA as a technique for summarizing major axes of variation in a dataset.
@@ -341,7 +348,11 @@ liver cell atlas did it ...
 See https://github.com/guilliottslab/scripts_GuilliamsEtAll_Cell2022/blob/main/3b_Harmony.R
 -->
 
+> Show what just changed in the Seurat Object.
+
 ## Dimensionality reduction (UMAP, tSNE, etc) 
+
+<img src="../fig/single_cell_flowchart_8.png" width="800px" alt="Single Cell Flowchart" >
 
 As mentioned above, dimensionality reduction allows you to actually 
 visualize your data! The two methods below are widely used in the
@@ -368,6 +379,8 @@ liver <- RunUMAP(liver, reduction = 'pca', dims = 1:num_pc,
 {: .language-r}
 
 ## Clustering 
+
+<img src="../fig/single_cell_flowchart_9.png" width="800px" alt="Single Cell Flowchart" >
 
 Seurat uses a graph-based approach to cluster cells with similar
 transcriptomic profiles. 
@@ -397,6 +410,8 @@ UMAPPlot(liver, label = TRUE, label.size = 6)
 {: .language-r}
 
 <img src="../fig/rmd-05-seurat3-1.png" alt="plot of chunk seurat3" width="612" style="display: block; margin: auto;" />
+
+> Show what just changed in the Seurat Object.
 
 Note that we are using the principal components computed from 
 normalized gene expression to compute UMAP
@@ -448,7 +463,7 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] SeuratObject_4.1.3 Seurat_4.3.0       forcats_0.5.2      stringr_1.4.1     
+ [1] SeuratObject_4.1.3 Seurat_4.3.0       forcats_0.5.2      stringr_1.5.0     
  [5] dplyr_1.0.10       purrr_0.3.5        readr_2.1.3        tidyr_1.2.1       
  [9] tibble_3.1.8       ggplot2_3.4.0      tidyverse_1.3.2    knitr_1.41        
 
