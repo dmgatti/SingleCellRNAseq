@@ -25,8 +25,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="1"
-     inkscape:cx="534.5"
-     inkscape:cy="601"
+     inkscape:cx="702.5"
+     inkscape:cy="723"
      inkscape:window-width="2560"
      inkscape:window-height="1506"
      inkscape:window-x="-11"
@@ -426,13 +426,13 @@
        height="339.91205"
        x="22.45064"
        y="-0.74835467"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <g
        id="g23541"
        transform="translate(136.525,-19.579167)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <g
@@ -469,26 +469,26 @@
          y="0"><tspan
            x="307.73133"
            y="42.645431"
-           id="tspan11169"><tspan
+           id="tspan12108"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan11167">matrix.mtz.gz
+             id="tspan12106">matrix.mtz.gz
 </tspan></tspan><tspan
            x="300.40775"
            y="65.978805"
-           id="tspan11173"><tspan
+           id="tspan12112"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan11171">barcodes.tsv.gz
+             id="tspan12110">barcodes.tsv.gz
 </tspan></tspan><tspan
            x="304.14017"
            y="89.312179"
-           id="tspan11177"><tspan
+           id="tspan12116"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan11175">features.tsv.gz</tspan></tspan></text>
+             id="tspan12114">features.tsv.gz</tspan></tspan></text>
     </g>
     <g
        id="g23541-1"
        transform="translate(38.100004,46.368233)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <g
@@ -526,12 +526,12 @@
          y="0"><tspan
            x="310.06011"
            y="42.645431"
-           id="tspan11179">metadata.csv</tspan></text>
+           id="tspan12118">metadata.csv</tspan></text>
     </g>
     <g
        id="g837"
        transform="translate(-2.3338228,95.609777)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <rect
@@ -548,12 +548,12 @@
          style="font-style:normal;font-weight:normal;font-size:18.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect18960);fill:#000000;fill-opacity:1;stroke:none"><tspan
            x="264.43164"
            y="161.67668"
-           id="tspan11181">CreateSeuratObject()</tspan></text>
+           id="tspan12120">CreateSeuratObject()</tspan></text>
     </g>
     <g
        id="g48961"
        transform="translate(-5.7337837,158.6536)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <g
@@ -582,26 +582,26 @@
                  y="0"><tspan
                    x="268.65474"
                    y="161.67668"
-                   id="tspan11185"><tspan
+                   id="tspan12124"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan11183">Filter by mitochondrial &amp; </tspan></tspan><tspan
+                     id="tspan12122">Filter by mitochondrial &amp; </tspan></tspan><tspan
                    x="298.44125"
                    y="185.01006"
-                   id="tspan11189"><tspan
+                   id="tspan12128"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan11187">total gene counts:
+                     id="tspan12126">total gene counts:
 </tspan></tspan><tspan
                    x="272.69706"
                    y="208.34343"
-                   id="tspan11193"><tspan
+                   id="tspan12132"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan11191">PercentageFeatureSet()
+                     id="tspan12130">PercentageFeatureSet()
 </tspan></tspan><tspan
                    x="344.98951"
                    y="231.6768"
-                   id="tspan11197"><tspan
+                   id="tspan12136"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan11195">subset()</tspan></tspan></text>
+                     id="tspan12134">subset()</tspan></tspan></text>
             </g>
             <g
                id="g77506-7"
@@ -623,15 +623,15 @@
                  y="0"><tspan
                    x="279.79278"
                    y="161.67668"
-                   id="tspan11201"><tspan
+                   id="tspan12140"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan11199">Log Normalize counts.
+                     id="tspan12138">Log Normalize counts.
 </tspan></tspan><tspan
                    x="306.74921"
                    y="185.01006"
-                   id="tspan11205"><tspan
+                   id="tspan12144"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan11203">NormalizeData()</tspan></tspan></text>
+                     id="tspan12142">NormalizeData()</tspan></tspan></text>
             </g>
           </g>
         </g>
@@ -640,7 +640,7 @@
     <g
        id="g837-7"
        transform="translate(-0.47817433,38.180763)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <g
@@ -661,15 +661,15 @@
            y="0"><tspan
              x="267.44285"
              y="161.67668"
-             id="tspan11209"><tspan
+             id="tspan12148"><tspan
                style="text-align:center;text-anchor:middle;fill-opacity:1"
-               id="tspan11207">Read CellRanger Data
+               id="tspan12146">Read CellRanger Data
 </tspan></tspan><tspan
              x="319.72419"
              y="185.01006"
-             id="tspan11213"><tspan
+             id="tspan12152"><tspan
                style="text-align:center;text-anchor:middle;fill-opacity:1"
-               id="tspan11211">Read10X() </tspan></tspan></text>
+               id="tspan12150">Read10X() </tspan></tspan></text>
       </g>
       <text
          xml:space="preserve"
@@ -686,7 +686,7 @@
     <g
        id="g837-7-5"
        transform="translate(78.932886,152.56818)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <g
@@ -708,15 +708,15 @@
            y="0"><tspan
              x="328.67115"
              y="161.67668"
-             id="tspan11217"><tspan
+             id="tspan12156"><tspan
                style="text-align:center;text-anchor:middle;fill-opacity:1"
-               id="tspan11215">VlnPlot() </tspan></tspan></text>
+               id="tspan12154">VlnPlot() </tspan></tspan></text>
       </g>
     </g>
     <g
        id="g837-7-5-3"
        transform="translate(299.72677,252.18713)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <g
@@ -738,43 +738,43 @@
            y="0"><tspan
              x="328.67115"
              y="161.67668"
-             id="tspan11221"><tspan
+             id="tspan12160"><tspan
                style="text-align:center;text-anchor:middle;fill-opacity:1"
-               id="tspan11219">VlnPlot() </tspan></tspan></text>
+               id="tspan12158">VlnPlot() </tspan></tspan></text>
       </g>
     </g>
     <path
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS)"
        d="m 95.471395,42.802225 v 10.16577"
        id="path872"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <path
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9)"
        d="m 95.779167,79.942783 v 10.16577"
        id="path872-8"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <path
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9-0)"
        d="m 96.04375,115.39698 v 10.16577"
        id="path872-8-5"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <path
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9-0-4)"
        d="m 144.95216,137.99325 -10.16461,0.15351"
        id="path872-8-5-4"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <g
        id="g43482"
        transform="translate(1.5875,18.256253)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <rect
@@ -793,37 +793,37 @@
          style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;text-align:center;white-space:pre;shape-inside:url(#rect36614)"><tspan
            x="325.62071"
            y="318.15129"
-           id="tspan11223">counts
+           id="tspan12162">counts
 </tspan><tspan
            x="283.31985"
            y="341.48466"
-           id="tspan11225">(Sparse Matrix)</tspan></text>
+           id="tspan12164">(Sparse Matrix)</tspan></text>
     </g>
     <path
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9-0-5)"
        d="m 95.911399,147.39607 v 10.16577"
        id="path872-8-5-1"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <path
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9-0-5-4)"
        d="m 96.308332,179.16157 v 10.16577"
        id="path872-8-5-1-3"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <path
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9-0-5-4-6)"
        d="m 96.308333,229.16781 v 10.16577"
        id="path872-8-5-1-3-9"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <g
        id="g48961-3"
        transform="translate(215.061,-85.787383)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <g
@@ -853,17 +853,17 @@
                  y="0"><tspan
                    x="291.1997"
                    y="161.67668"
-                   id="tspan11229"><tspan
+                   id="tspan12168"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan11227">Find Variable Genes
+                     id="tspan12166">Find Variable Genes
 </tspan></tspan><tspan
                    x="278.12025"
                    y="185.01006"
-                   id="tspan11235"><tspan
+                   id="tspan12174"><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan11231">FindVariableFeatures</tspan><tspan
+                     id="tspan12170">FindVariableFeatures</tspan><tspan
                      style="text-align:center;text-anchor:middle"
-                     id="tspan11233">()</tspan></tspan></text>
+                     id="tspan12172">()</tspan></tspan></text>
             </g>
           </g>
         </g>
@@ -872,7 +872,7 @@
     <g
        id="g77506-7-5-2"
        transform="translate(213.4735,5.6587979)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <g
@@ -895,28 +895,28 @@
            y="0"><tspan
              x="270.40277"
              y="161.67668"
-             id="tspan11239"><tspan
+             id="tspan12178"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan11237">Standarize Variable Genes
+               id="tspan12176">Standarize Variable Genes
 </tspan></tspan><tspan
              x="338.12425"
              y="185.01006"
-             id="tspan11243"><tspan
+             id="tspan12182"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan11241">ScaleData()</tspan></tspan></text>
+               id="tspan12180">ScaleData()</tspan></tspan></text>
       </g>
     </g>
     <path
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9-0-5-4-6-1-4)"
        d="m 316.30938,24.446967 v 10.16577"
        id="path872-8-5-1-3-9-1-0"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <g
        id="g77506-7-5-2-6"
        transform="translate(213.87027,46.140047)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <g
@@ -941,21 +941,21 @@
              y="0"><tspan
                x="272.47634"
                y="161.67668"
-               id="tspan11247"><tspan
+               id="tspan12186"><tspan
                  style="text-align:center;text-anchor:middle"
-                 id="tspan11245">Get Principal Components
+                 id="tspan12184">Get Principal Components
 </tspan></tspan><tspan
                x="348.43742"
                y="185.01006"
-               id="tspan11251"><tspan
+               id="tspan12190"><tspan
                  style="text-align:center;text-anchor:middle"
-                 id="tspan11249">RunPCA()
+                 id="tspan12188">RunPCA()
 </tspan></tspan><tspan
                x="293.00242"
                y="208.34343"
-               id="tspan11255"><tspan
+               id="tspan12194"><tspan
                  style="text-align:center;text-anchor:middle"
-                 id="tspan11253">Select number of PCs</tspan></tspan></text>
+                 id="tspan12192">Select number of PCs</tspan></tspan></text>
         </g>
       </g>
     </g>
@@ -963,13 +963,13 @@
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9-0-5-4-6-1-4-3)"
        d="m 316.70615,64.928217 v 10.16577"
        id="path872-8-5-1-3-9-1-0-1"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <g
        id="g77506-7-5-2-6-7"
        transform="translate(213.87027,92.442127)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <g
@@ -994,15 +994,15 @@
              y="0"><tspan
                x="274.9783"
                y="161.67668"
-               id="tspan11259"><tspan
+               id="tspan12198"><tspan
                  style="text-align:center;text-anchor:middle"
-                 id="tspan11257">Dimensionality Reduction
+                 id="tspan12196">Dimensionality Reduction
 </tspan></tspan><tspan
                x="340.25707"
                y="185.01006"
-               id="tspan11263"><tspan
+               id="tspan12202"><tspan
                  style="text-align:center;text-anchor:middle"
-                 id="tspan11261">RunUMAP()</tspan></tspan></text>
+                 id="tspan12200">RunUMAP()</tspan></tspan></text>
         </g>
       </g>
     </g>
@@ -1010,13 +1010,13 @@
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9-0-5-4-6-1-4-3-8)"
        d="m 316.70615,111.23029 v 10.16577"
        id="path872-8-5-1-3-9-1-0-1-9"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <g
        id="g18448-6-9"
        transform="translate(211.11484,132.92337)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <rect
@@ -1036,33 +1036,33 @@
          y="0"><tspan
            x="346.30004"
            y="161.67668"
-           id="tspan11267"><tspan
+           id="tspan12206"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan11265">Clustering
+             id="tspan12204">Clustering
 </tspan></tspan><tspan
            x="318.37747"
            y="185.01006"
-           id="tspan11271"><tspan
+           id="tspan12210"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan11269">FindNeighbors()
+             id="tspan12208">FindNeighbors()
 </tspan></tspan><tspan
            x="327.59689"
            y="208.34343"
-           id="tspan11275"><tspan
+           id="tspan12214"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan11273">FindClusters()</tspan></tspan></text>
+             id="tspan12212">FindClusters()</tspan></tspan></text>
     </g>
     <path
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9-0-5-4-6-1-4-3-8-8)"
        d="M 316.59655,151.71153 V 161.8773"
        id="path872-8-5-1-3-9-1-0-1-9-1"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <g
        id="g18448-6-9-9"
        transform="translate(210.95994,178.4473)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <rect
@@ -1082,27 +1082,27 @@
          y="0"><tspan
            x="315.53827"
            y="161.67668"
-           id="tspan11279"><tspan
+           id="tspan12218"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan11277">Batch Correction
+             id="tspan12216">Batch Correction
 </tspan></tspan><tspan
            x="324.27917"
            y="185.01006"
-           id="tspan11283"><tspan
+           id="tspan12222"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan11281">RunHarmony()</tspan></tspan></text>
+             id="tspan12220">RunHarmony()</tspan></tspan></text>
     </g>
     <path
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9-0-5-4-6-1-4-3-8-8-9)"
        d="m 316.44166,197.23546 v 10.16577"
        id="path872-8-5-1-3-9-1-0-1-9-1-8"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <g
        id="g18448-6-9-9-0"
        transform="translate(210.81509,217.44088)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <rect
@@ -1122,29 +1122,29 @@
          y="0"><tspan
            x="305.88591"
            y="161.67668"
-           id="tspan11287"><tspan
+           id="tspan12226"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan11285">Find Marker Genes
+             id="tspan12224">Find Marker Genes
 </tspan></tspan><tspan
            x="316.73228"
            y="185.01006"
-           id="tspan11293"><tspan
+           id="tspan12232"><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan11289">FindAllMarkers</tspan><tspan
+             id="tspan12228">FindAllMarkers</tspan><tspan
              style="text-align:center;text-anchor:middle"
-             id="tspan11291">()</tspan></tspan></text>
+             id="tspan12230">()</tspan></tspan></text>
     </g>
     <path
        style="fill:none;fill-opacity:1;stroke:#a4a4a4;stroke-width:3.965;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS-9-0-5-4-6-1-4-3-8-8-9-8)"
        d="m 316.29681,236.22904 v 10.16577"
        id="path872-8-5-1-3-9-1-0-1-9-1-8-0"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <g
        id="g43482-7"
        transform="translate(2.2488992,91.265762)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <g
@@ -1166,7 +1166,7 @@
            style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;text-align:center;white-space:pre;shape-inside:url(#rect36614-8)"><tspan
              x="306.44359"
              y="318.15129"
-             id="tspan11295">seurat_obj</tspan></text>
+             id="tspan12234">seurat_obj</tspan></text>
       </g>
     </g>
     <image
@@ -1177,13 +1177,13 @@
        id="image70702"
        x="142.61041"
        y="196.84991"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <g
        id="g837-7-5-4"
        transform="translate(302.5058,38.051798)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <g
@@ -1208,16 +1208,16 @@
              y="0"><tspan
                x="315.93805"
                y="161.67668"
-               id="tspan11299"><tspan
+               id="tspan12238"><tspan
                  style="text-align:center;text-anchor:middle;fill-opacity:1"
-                 id="tspan11297">ElbowPlot() </tspan></tspan></text>
+                 id="tspan12236">ElbowPlot() </tspan></tspan></text>
         </g>
       </g>
     </g>
     <g
        id="g837-7-5-4-9"
        transform="translate(299.3526,130.12783)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <g
@@ -1242,16 +1242,16 @@
              y="0"><tspan
                x="316.81306"
                y="161.67668"
-               id="tspan11303"><tspan
+               id="tspan12242"><tspan
                  style="text-align:center;text-anchor:middle;fill-opacity:1"
-                 id="tspan11301">UMAPPlot() </tspan></tspan></text>
+                 id="tspan12240">UMAPPlot() </tspan></tspan></text>
         </g>
       </g>
     </g>
     <g
        id="g837-7-5-4-9-1"
        transform="translate(298.41715,211.13722)"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
       <g
@@ -1278,9 +1278,9 @@
                y="0"><tspan
                  x="308.09038"
                  y="161.67668"
-                 id="tspan11307"><tspan
+                 id="tspan12246"><tspan
                    style="fill-opacity:1"
-                   id="tspan11305">FeaturePlot() </tspan></tspan></text>
+                   id="tspan12244">FeaturePlot() </tspan></tspan></text>
           </g>
         </g>
       </g>
@@ -1293,7 +1293,7 @@
        id="image16124"
        x="366.18332"
        y="83.047043"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <image
@@ -1304,7 +1304,7 @@
        id="image23218"
        x="363.76062"
        y="171.23271"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <path
@@ -1312,7 +1312,7 @@
        d="m 276.42042,224.95895 h -18.52177 v -41.53369 h 13.0962"
        id="path31888"
        sodipodi:nodetypes="cccc"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <image
@@ -1323,7 +1323,7 @@
        id="image3192"
        x="366.16537"
        y="253.96892"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <image
@@ -1334,25 +1334,25 @@
        id="image5520"
        x="367.04312"
        y="293.76379"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <path
        style="fill:none;stroke:#a4a4a4;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutS)"
        d="m 96.043746,269.08124 0,14.28751 H 228.07083 V 13.229166 h 46.83125"
        id="path1719"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300"
        sodipodi:nodetypes="ccccc" />
     <rect
        style="fill:none;stroke:#ff0000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect8440"
-       width="78.581261"
-       height="24.077091"
-       x="277.28333"
-       y="39.950893"
-       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_5.png"
+       width="135.79442"
+       height="101.38064"
+       x="276.16187"
+       y="235.69652"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\single_cell_flowchart_11.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
   </g>
