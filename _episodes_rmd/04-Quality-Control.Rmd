@@ -56,7 +56,7 @@ Some technical questions that you might ask include:
 1. What is a unique molecular identifier (UMI), and why do we check numbers of UMI?
 1. What happens to make gene counts low in a cell?
 
-> DAS & DMS: Add image for UMI? Too complicated?
+> DMG: Add image for UMI? Too complicated? Yes.
 
 <!-- DASremoved ribosomal point here. Often we don't filter based on ribo, not clearly associated with poor quality cells -->
 
@@ -82,8 +82,8 @@ We will return to the doublet predictions later in this lesson.
 
 ```{r scds1}
 cell_ids <- filter(metadata, sample == 'CS52') %>% pull(cell)
-sce <- SingleCellExperiment(list(counts = counts[, cell_ids]))
-sce <- cxds_bcds_hybrid(sce)
+sce      <- SingleCellExperiment(list(counts = counts[, cell_ids]))
+sce      <- cxds_bcds_hybrid(sce)
 doublet_preds <- colData(sce)
 ```
 
@@ -115,7 +115,7 @@ gene_counts <- Matrix::rowSums(counts)
 sum(gene_counts == 0)
 ```
 
-DMG: Figure for row-summing???
+> DMG: Figure for row-summing???
 
 Of the `r nrow(counts)` genes, `r sum(gene_counts == 0)` have zero counts across 
 all cells. These genes do not inform us about the mean, variance, or covariance 
@@ -233,7 +233,7 @@ justify a threshold between, say, 3 and 20 cells.
 > {: .solution}
 {: .challenge}
 
-> DAS & DMG: Should we have some kind of challenge later in the lesson in which the students do no filtering vs. filtering by genes that occur in 100+ cells?
+> DAS & DMG: Should we have some kind of challenge later in the lesson in which the students do no filtering vs. filtering by genes that occur in 100+ cells? Should the challenge be later in the clusering lesson? Filter more strictly and redo analysis?
 
 ### Filtering Cells by Counts
 
@@ -432,8 +432,6 @@ remove around half the cells.
 #liver <- subset(liver, subset = percent.mt < 14)
 ```
 
-
-
 ### Filtering Cells by Total Gene Counts
 
 Let's look at how many genes are expressed in each cell. 
@@ -602,8 +600,11 @@ putative doublet clusters.
 ## Subset based on %MT, number of genes, and number of UMI thresholds
 
 ```{r subsetting}
-liver <- subset(liver, subset = percent.mt < 14 & nFeature_RNA > 600 &
-  nFeature_RNA < 5000 & nCount_RNA > 900 & nCount_RNA < 25000)
+liver <- subset(liver, subset = percent.mt   < 14 & 
+                                nFeature_RNA > 600 &
+                                nFeature_RNA < 5000 & 
+                                nCount_RNA   > 900 & 
+                                nCount_RNA   < 25000)
 ```
 
 

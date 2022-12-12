@@ -50,7 +50,7 @@ These are called *multiplets* -- or doublets, since the vast majority of
 multiple-cell droplets contain two cells. The initial paper describing the 
 10X technology, published in 2017, showed the following histogram:
 
-![Histogram showing the number of cells per droplet](../fig/Zhang_etal_2017_NatComm_Fig1_poisson.jpg)
+![Histogram showing the number of gel beads per droplet](../fig/Zhang_etal_2017_NatComm_Fig1_poisson.jpg)
 
 > DAS: Is this a doublet figure or a figure of beads per droplet?
 
@@ -63,8 +63,6 @@ Chromium Next GEM Single Cell 3ʹ Reagent Kits v3.1 product,
 but the basic trends should hold across other versions of this product as well.
 
 <img src="../fig/cell_loading.png" alt="Recovery and multiplet rate as a function of cells loaded" width="400px">
-
-> DAS & DMG: Is there a way to add a variance to these lines?
 
 In a future lesson we will discuss software options for trying to identify and 
 remove doublets prior to drawing biological conclusions from data. 
@@ -141,7 +139,7 @@ meaningful change in cell composition, the emergence of a particular cell
 subset, or difference in gene expression we need samples harvested from 
 multiple individuals.
 
-> DAS % DMG: Figure to show biological replicate vs. lots of cells?
+> DMG: Figure to show biological replicate vs. lots of cells? Show UMAP of reps? 
 
 In a strict sense, biological replication would entail independently rearing 
 multiple genetically identical animals, subjecting them to identical conditions, 
@@ -235,7 +233,7 @@ expect.
 
 ## Avoid Confounding Batch with Experimental Variables
 
-> DMG: Revise to be more about single cell and the 8-well cassette.
+> DMG: Revise to be more about single cell and the 8-well cassette. Maybe show groups of mice being processed on different days (control: day 1, treated: day 2)
 
 When designing an experiment, it is tempting to lay samples out in some order 
 that is easy to remember. If you are performing a dose-response experiment, 

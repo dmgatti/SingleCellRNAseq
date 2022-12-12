@@ -202,7 +202,8 @@ the `mouseStSt_invivo` directory.  Which one is the largest?
 > {: .solution}
 {: .challenge}
 
-> DAS & DMG: Show the directory structure from the core? Or at least raw vs filtered? Also, add the HTML summary file from CellRanger to the repo and show it.
+> DMG: Also, add the HTML summary file from CellRanger to the repo and show it.
+> DAS: Find one good and one bad summary file (or screen shot).
 
 ### Reading a CellRanger Gene Expression Count Matrix using Seurat
 
@@ -437,7 +438,7 @@ useful when you want to save multiple objects in one file.
 save(counts, metadata, file = file.path(data_dir, 'lesson03.Rdata'))
 ```
 
-> DMG: Rework this challenge.
+> DMG: Rework this challenge. Maybe leave for someone to do on thier own??
 
 > ## Challenge 5
 > In the lesson above, you read in the scRNASeq data. There is 
