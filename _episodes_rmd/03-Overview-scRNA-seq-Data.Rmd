@@ -152,6 +152,8 @@ analysis using Seurat.
 
 ### Liver Atlas
 
+#### Cell Ranger Files
+
 In this lesson, we will read in a subset of data from the 
 [Liver Atlas](https://livercellatlas.org/index.php), which is described in their 
 [Cell paper](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1). 
@@ -183,8 +185,6 @@ files are:
 
 <img src="../fig/counts_matrix.png" width="800px" alt="Count Matrix" >
 
-<!-- ![Counts Matrix](../fig/counts_matrix.png) -->
-
 > ## Challenge 1
 > 1). R has a function called [file.size](https://stat.ethz.ch/R-manual/R-devel/library/base/html/file.info.html). 
 Look at the help for this function and get the size of each of the files in 
@@ -202,7 +202,24 @@ the `mouseStSt_invivo` directory.  Which one is the largest?
 > {: .solution}
 {: .challenge}
 
-> DMG: Also, add the HTML summary file from CellRanger to the repo and show it.
+#### Cell Ranger Quality Control Report
+
+Call Ranger also produces a Quality Control (QC) report as a PDF. We do not have
+the QC report from the Liver Atlas study, but the figure below shows an 
+example report. The report highlights three numbers:
+
+> DAS: Is there one report per chip or one report per channel?
+> DAS: Check text below.
+
+1. Estimated Number of Cells: This indicates the number of cells in your 
+experiment. Ideally, this number should be between ??? and ???.
+1. Mean Reads per Cell: This indicates the number of reads in each cell. 
+Ideally this number should be between ??? and ???.
+1. Median Genes per Cell: This indicates the median number of genes detected
+in each cell. Note that this is much lower than in bulk RNA-Seq.
+
+<img src="../fig/10X_QC_report_example.jpeg" width="800px" alt="10X Genomics QC Report" >
+
 > DAS: Find one good and one bad summary file (or screen shot).
 
 ### Reading a CellRanger Gene Expression Count Matrix using Seurat
@@ -423,9 +440,7 @@ the mouse identifier for each cell.
 In this workshop, we will attempt to reproduce some of the results of the 
 [Liver Atlas](https://livercellatlas.org/index.php) using Seurat. We will 
 analyze the *in-vivo* single **cell** RNA-Seq 
-together and you will analyze some separate *ex-vivo* data during 
-Challenges.
-
+together.
 
 ### Save Data for Next Lesson
 
@@ -437,8 +452,6 @@ useful when you want to save multiple objects in one file.
 ```{r save_data,include=FALSE}
 save(counts, metadata, file = file.path(data_dir, 'lesson03.Rdata'))
 ```
-
-> DMG: Rework this challenge. Maybe leave for someone to do on thier own??
 
 > ## Challenge 5
 > In the lesson above, you read in the scRNASeq data. There is 

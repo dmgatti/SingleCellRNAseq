@@ -53,7 +53,7 @@ Some technical questions that you might ask include:
 1. What is a unique molecular identifier (UMI), and why do we check numbers of UMI?
 1. What happens to make gene counts low in a cell?
 
-> DAS & DMS: Add image for UMI? Too complicated?
+> DMG: Add image for UMI? Too complicated? Yes.
 
 <!-- DASremoved ribosomal point here. Often we don't filter based on ribo, not clearly associated with poor quality cells -->
 
@@ -80,8 +80,8 @@ We will return to the doublet predictions later in this lesson.
 
 ~~~
 cell_ids <- filter(metadata, sample == 'CS52') %>% pull(cell)
-sce <- SingleCellExperiment(list(counts = counts[, cell_ids]))
-sce <- cxds_bcds_hybrid(sce)
+sce      <- SingleCellExperiment(list(counts = counts[, cell_ids]))
+sce      <- cxds_bcds_hybrid(sce)
 doublet_preds <- colData(sce)
 ~~~
 {: .language-r}
@@ -89,8 +89,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7178003  383.4   12256614  654.6  10298202  550.0
-Vcells 179563850 1370.0  520898552 3974.2 474561048 3620.7
+Ncells   7178123  383.4   12256651  654.6  10304895  550.4
+Vcells 179563964 1370.0  520898732 3974.2 474752800 3622.1
 ~~~
 {: .output}
 
@@ -126,7 +126,7 @@ sum(gene_counts == 0)
 ~~~
 {: .output}
 
-DMG: Figure for row-summing???
+> DMG: Figure for row-summing???
 
 Of the 31053 genes, 7322 have zero counts across 
 all cells. These genes do not inform us about the mean, variance, or covariance 
@@ -268,7 +268,7 @@ justify a threshold between, say, 3 and 20 cells.
 > {: .solution}
 {: .challenge}
 
-> DAS & DMG: Should we have some kind of challenge later in the lesson in which the students do no filtering vs. filtering by genes that occur in 100+ cells?
+> DAS & DMG: Should we have some kind of challenge later in the lesson in which the students do no filtering vs. filtering by genes that occur in 100+ cells? Should the challenge be later in the clusering lesson? Filter more strictly and redo analysis?
 
 ### Filtering Cells by Counts
 
@@ -360,8 +360,8 @@ gc()
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7294191  389.6   12256614  654.6  12256614  654.6
-Vcells 180143017 1374.4  500126610 3815.7 519296051 3962.0
+Ncells   7294230  389.6   12256651  654.6  12256651  654.6
+Vcells 180142929 1374.4  500126783 3815.7 519296195 3962.0
 ~~~
 {: .output}
 
@@ -544,8 +544,6 @@ remove around half the cells.
 #liver <- subset(liver, subset = percent.mt < 14)
 ~~~
 {: .language-r}
-
-
 
 ### Filtering Cells by Total Gene Counts
 
@@ -766,8 +764,11 @@ putative doublet clusters.
 
 
 ~~~
-liver <- subset(liver, subset = percent.mt < 14 & nFeature_RNA > 600 &
-  nFeature_RNA < 5000 & nCount_RNA > 900 & nCount_RNA < 25000)
+liver <- subset(liver, subset = percent.mt   < 14 & 
+                                nFeature_RNA > 600 &
+                                nFeature_RNA < 5000 & 
+                                nCount_RNA   > 900 & 
+                                nCount_RNA   < 25000)
 ~~~
 {: .language-r}
 
@@ -868,7 +869,7 @@ loaded via a namespace (and not attached):
  [22] spatstat.sparse_3.0-0  colorspace_2.0-3       rvest_1.0.3           
  [25] ggrepel_0.9.2          haven_2.5.1            xfun_0.35             
  [28] crayon_1.5.2           RCurl_1.98-1.9         jsonlite_1.8.3        
- [31] progressr_0.11.0       spatstat.data_3.0-0    survival_3.4-0        
+ [31] progressr_0.12.0       spatstat.data_3.0-0    survival_3.4-0        
  [34] zoo_1.8-11             glue_1.6.2             polyclip_1.10-4       
  [37] gtable_0.3.1           gargle_1.2.1           zlibbioc_1.40.0       
  [40] XVector_0.34.0         leiden_0.4.3           DelayedArray_0.20.0   
@@ -883,7 +884,7 @@ loaded via a namespace (and not attached):
  [67] reshape2_1.4.4         later_1.3.0            munsell_0.5.0         
  [70] cellranger_1.1.0       tools_4.1.2            xgboost_1.6.0.1       
  [73] cli_3.4.1              generics_0.1.3         broom_1.0.1           
- [76] ggridges_0.5.4         evaluate_0.18          fastmap_1.1.0         
+ [76] ggridges_0.5.4         evaluate_0.19          fastmap_1.1.0         
  [79] goftest_1.2-3          fs_1.5.2               fitdistrplus_1.1-8    
  [82] RANN_2.6.1             nlme_3.1-160           pbapply_1.6-0         
  [85] future_1.29.0          mime_0.12              ggrastr_1.0.1         

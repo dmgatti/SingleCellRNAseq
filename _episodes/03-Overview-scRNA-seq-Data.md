@@ -184,8 +184,6 @@ files are:
 
 <img src="../fig/counts_matrix.png" width="800px" alt="Count Matrix" >
 
-<!-- ![Counts Matrix](../fig/counts_matrix.png) -->
-
 > ## Challenge 1
 > 1). R has a function called [file.size](https://stat.ethz.ch/R-manual/R-devel/library/base/html/file.info.html). 
 Look at the help for this function and get the size of each of the files in 
@@ -203,7 +201,10 @@ the `mouseStSt_invivo` directory.  Which one is the largest?
 > {: .solution}
 {: .challenge}
 
-> DAS & DMG: Show the directory structure from the core? Or at least raw vs filtered? Also, add the HTML summary file from CellRanger to the repo and show it.
+
+
+> DMG: Also, add the HTML summary file from CellRanger to the repo and show it.
+> DAS: Find one good and one bad summary file (or screen shot).
 
 ### Reading a CellRanger Gene Expression Count Matrix using Seurat
 
@@ -603,7 +604,7 @@ useful when you want to save multiple objects in one file.
 
 
 
-> DMG: Rework this challenge.
+> DMG: Rework this challenge. Maybe leave for someone to do on thier own??
 
 > ## Challenge 5
 > In the lesson above, you read in the scRNASeq data. There is 
@@ -669,7 +670,7 @@ loaded via a namespace (and not attached):
  [22] R.utils_2.12.2         vroom_1.6.0            timechange_0.1.1      
  [25] spatstat.sparse_3.0-0  colorspace_2.0-3       rvest_1.0.3           
  [28] ggrepel_0.9.2          haven_2.5.1            xfun_0.35             
- [31] crayon_1.5.2           jsonlite_1.8.3         progressr_0.11.0      
+ [31] crayon_1.5.2           jsonlite_1.8.3         progressr_0.12.0      
  [34] spatstat.data_3.0-0    survival_3.4-0         zoo_1.8-11            
  [37] glue_1.6.2             polyclip_1.10-4        gtable_0.3.1          
  [40] gargle_1.2.1           leiden_0.4.3           future.apply_1.10.0   
@@ -684,7 +685,7 @@ loaded via a namespace (and not attached):
  [67] rlang_1.0.6            reshape2_1.4.4         later_1.3.0           
  [70] munsell_0.5.0          cellranger_1.1.0       tools_4.1.2           
  [73] cli_3.4.1              generics_0.1.3         broom_1.0.1           
- [76] ggridges_0.5.4         evaluate_0.18          fastmap_1.1.0         
+ [76] ggridges_0.5.4         evaluate_0.19          fastmap_1.1.0         
  [79] goftest_1.2-3          bit64_4.0.5            fs_1.5.2              
  [82] fitdistrplus_1.1-8     RANN_2.6.1             pbapply_1.6-0         
  [85] future_1.29.0          nlme_3.1-160           mime_0.12             

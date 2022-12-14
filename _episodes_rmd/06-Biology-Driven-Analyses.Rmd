@@ -40,8 +40,6 @@ set.seed(1418)
 liver <- readRDS(file.path(data_dir, 'lesson05.rds'))
 ```
 
-> DMG: Overall process figure.
-
 ## Batch correction
 
 <img src="../fig/single_cell_flowchart_10.png" width="800px" alt="Single Cell Flowchart" >
@@ -271,8 +269,6 @@ cluster_converter[highest_clu] <- c('c2', 'c15')
 liver$renamed_clusters <- cluster_converter[as.character(liver$after_harmony_clusters)]
 Idents(liver) <- 'renamed_clusters'
 ```
-
-
 
 ## Finding marker genes 
 

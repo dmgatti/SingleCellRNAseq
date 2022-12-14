@@ -1,7 +1,7 @@
 ---
 source: Rmd
 title: "Common Analyses"
-teaching: 180
+teaching: 120
 exercises: 10
 questions:
 - "What are the most common single cell RNA-Seq analyses?"
@@ -68,8 +68,6 @@ In this lesson (and elsewhere in the course) we may alternate between
 these slightly different coding styles. Please ask us for clarification
 if you are having difficulty seeing how our example code is 
 doing what it is supposed to do.
-
-> DMG: Overall process figure.
 
 ### Normalization
 
@@ -185,14 +183,16 @@ liver <- liver %>%
     ScaleData(vars.to.regress = c("percent.mt", "nFeature_RNA"))
 ```
 
-### Principal Component Analysis
-
-> DMG or DAS: Find web tutorial on PCA? (https://setosa.io/ev/principal-component-analysis/)
+### Principal Component Analysis (PCA)
 
 <img src="../fig/single_cell_flowchart_7.png" width="800px" alt="Single Cell Flowchart" >
 
 Next we reduce the dimensionality of the data. You have probably heard
 of PCA as a technique for summarizing major axes of variation in a dataset.
+
+Here is a brief [tutorial](https://setosa.io/ev/principal-component-analysis/) 
+if PCA is new to you.
+
 Here, we perform PCA on the single cell gene expression data in order to
 place each cell in a multidimensional space with lower dimension (say 20-40)
 than the complete expression matrix (~20,000 genes).
@@ -265,36 +265,9 @@ liver cell atlas did it ...
 See https://github.com/guilliottslab/scripts_GuilliamsEtAll_Cell2022/blob/main/3b_Harmony.R
 -->
 
-
-## Dimensionality reduction (UMAP, tSNE, etc) 
-
-<img src="../fig/single_cell_flowchart_8.png" width="800px" alt="Single Cell Flowchart" >
-
-As mentioned above, dimensionality reduction allows you to actually 
-visualize your data! The two methods below are widely used in the
-single cell community.
-
-> Uniform Manifold Approximation and Projection (UMAP) [van der Maaten & Hinton, 2008](https://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf).
-
-> t-Distributed Stochastic Neighbor Embedding (t-SNE) [McUnnes et al](https://arxiv.org/abs/1802.03426) 
-
-These methods generally do a very effective job of putting similar points near each other in the reduced-dimensionality space. Thus cells from 
-the same clusters are likely to be placed in the same region of the UMAP/t-SNE.
-
-UMAP is more widely used the t-SNE at the current time.
-Note that you should caution yourself not to overinterpret UMAP plots.
-Although UMAP does optimize both local and global similarity for points
-being projected onto a 2D space, UMAP contains no guarantee that similar points
-must be near each other.
-
-```{r umap, warning=FALSE}
-liver <- RunUMAP(liver, reduction = 'pca', dims = 1:num_pc, 
-    verbose = FALSE)
-```
-
 ## Clustering 
 
-<img src="../fig/single_cell_flowchart_9.png" width="800px" alt="Single Cell Flowchart" >
+<img src="../fig/single_cell_flowchart_8.png" width="800px" alt="Single Cell Flowchart" >
 
 Seurat uses a graph-based approach to cluster cells with similar
 transcriptomic profiles. 
@@ -317,11 +290,36 @@ further details of this clustering procedure.
 ```{r seurat3, message=FALSE}
 liver <- FindNeighbors(liver, reduction = 'pca', 
                        dims = 1:num_pc, verbose = FALSE) %>%
-           FindClusters(verbose = FALSE, resolution = 0.3)
-UMAPPlot(liver, label = TRUE, label.size = 6)
+         FindClusters(verbose = FALSE, resolution = 0.3)
 ```
 
 > Show what just changed in the Seurat Object.
+
+## Dimensionality reduction (UMAP, tSNE, etc) 
+
+<img src="../fig/single_cell_flowchart_9.png" width="800px" alt="Single Cell Flowchart" >
+
+As mentioned above, dimensionality reduction allows you to actually 
+visualize your data! The two methods below are widely used in the
+single cell community.
+
+> Uniform Manifold Approximation and Projection (UMAP) [van der Maaten & Hinton, 2008](https://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf).
+
+> t-Distributed Stochastic Neighbor Embedding (t-SNE) [McUnnes et al](https://arxiv.org/abs/1802.03426) 
+
+These methods generally do a very effective job of putting similar points near each other in the reduced-dimensionality space. Thus cells from 
+the same clusters are likely to be placed in the same region of the UMAP/t-SNE.
+
+UMAP is more widely used the t-SNE at the current time.
+Note that you should caution yourself not to overinterpret UMAP plots.
+Although UMAP does optimize both local and global similarity for points
+being projected onto a 2D space, UMAP contains no guarantee that similar points
+must be near each other.
+
+```{r umap, warning=FALSE}
+liver <- RunUMAP(liver, reduction = 'pca', dims = 1:num_pc, 
+                 verbose = FALSE)
+```
 
 Note that we are using the principal components computed from 
 normalized gene expression to compute UMAP
@@ -331,6 +329,14 @@ find clusters. These two tasks are independent and could be done in
 either order. Very often the points that are near each other in
 UMAP space are also near neighbors and belong to the same cluster,
 but this is not always the case.
+
+Finally, we plot the clusters which we found using the principal components in
+UMAP space.
+
+```{r plot_umap}
+UMAPPlot(liver, label = TRUE, label.size = 6)
+```
+
 
 
 ## Saving

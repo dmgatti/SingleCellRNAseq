@@ -49,7 +49,7 @@ These are called *multiplets* -- or doublets, since the vast majority of
 multiple-cell droplets contain two cells. The initial paper describing the 
 10X technology, published in 2017, showed the following histogram:
 
-![Histogram showing the number of cells per droplet](../fig/Zhang_etal_2017_NatComm_Fig1_poisson.jpg)
+![Histogram showing the number of gel beads per droplet](../fig/Zhang_etal_2017_NatComm_Fig1_poisson.jpg)
 
 > DAS: Is this a doublet figure or a figure of beads per droplet?
 
@@ -62,8 +62,6 @@ Chromium Next GEM Single Cell 3ʹ Reagent Kits v3.1 product,
 but the basic trends should hold across other versions of this product as well.
 
 <img src="../fig/cell_loading.png" alt="Recovery and multiplet rate as a function of cells loaded" width="400px">
-
-> DAS & DMG: Is there a way to add a variance to these lines?
 
 In a future lesson we will discuss software options for trying to identify and 
 remove doublets prior to drawing biological conclusions from data. 
@@ -140,7 +138,7 @@ meaningful change in cell composition, the emergence of a particular cell
 subset, or difference in gene expression we need samples harvested from 
 multiple individuals.
 
-> DAS % DMG: Figure to show biological replicate vs. lots of cells?
+<img src="../fig/replicate_single_cell.png" alt="Biological Replication" width="600px">
 
 In a strict sense, biological replication would entail independently rearing 
 multiple genetically identical animals, subjecting them to identical conditions, 
@@ -234,38 +232,29 @@ expect.
 
 ## Avoid Confounding Batch with Experimental Variables
 
-> DMG: Revise to be more about single cell and the 8-well cassette.
-
 When designing an experiment, it is tempting to lay samples out in some order 
 that is easy to remember. If you are performing a dose-response experiment, 
 you might order your samples from the lowest dose to the highest dose. If you 
 are assaying transcript levels in different tissues, you might sort the 
 samples by tissue. However, if you maintain this order, you risk confounding 
-RNA-Seq batches with your experimental batches. This is called "confounding" 
+single cell batches with your experimental batches. This is called "confounding" 
 and it makes it impossible to statistically disentangle the batch effect 
 from your experimental question.
 
-Let's look at an example. Suppose that you have analyzed cells from kidney, 
-liver, spleen, and heart. In the lab, you would process each tissue type 
-independently because each tissue is distinct. If you maintain the tissues 
-separately as you perform library preparation and sequencing, you will be 
-unable to determine whether the differences that you observe are due to 
-tissue differences or RNA-Seq batch differences. 
+Let's look at an example, illustrated in the figure below. Suppose that you have
+analyzed cells from control and treated mice, which you keep in separate cages,
+as shown in the left panel below. 
+At euthanasia, you might isolate cells from the mice in each cage sequentially. 
+If you isolate cells from the control mice first, then those cells will sit 
+longer than the treated cells before being delivered to the single cell core. 
+Also, you might place the control cells in the first set of tubes and the 
+treated cells in the last set of tubes. When you deliver your tubes to the core,
+they may be placed on the 10X instrument in the same order. This will confound 
+holding time and instrument channel with the control and treated groups. A 
+better design is shown in the right panel, in which treatment is not
+confounded with time and chip channel.
 
-In order to reduce the effect of batch structure on your experiment is it 
-crucial to employ **randomization**. This involves randomizing tissues across 
-library preparation and sequencing batches. The figure below shows examples of 
-poor and good batch design. In the left panel, the library from each tissue is 
-placed in a separate flow cell. This means that, if there are differences 
-between flow cells, there will be no way to distinguish or correct these 
-differences. On the right, we show the recommended flow cell design. The 
-library from each tissue should be distributed evenly across each flow cell. 
-The reads for each tissue can be combined from each flow cell using the cell 
-barcodes after sequencing.
-
-<img src="../fig/flow_cell_batch.png" alt="Batch Confounding" width="600px">
-
-> DMG: Make figure with 8 channels. Brighter colors?
+<img src="../fig/flow_cell_batch.png" alt="Batch Confounding" width="1000px">
 
 > ## Recommended Reading
 >
@@ -309,6 +298,6 @@ other attached packages:
 loaded via a namespace (and not attached):
  [1] compiler_4.1.2  magrittr_2.0.3  cli_3.4.1       tools_4.1.2    
  [5] glue_1.6.2      vctrs_0.5.1     stringi_1.7.8   stringr_1.5.0  
- [9] xfun_0.35       lifecycle_1.0.3 rlang_1.0.6     evaluate_0.18  
+ [9] xfun_0.35       lifecycle_1.0.3 rlang_1.0.6     evaluate_0.19  
 ~~~
 {: .output}

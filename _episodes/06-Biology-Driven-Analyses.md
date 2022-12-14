@@ -35,8 +35,6 @@ liver <- readRDS(file.path(data_dir, 'lesson05.rds'))
 ~~~
 {: .language-r}
 
-> DMG: Overall process figure.
-
 ## Batch correction
 
 <img src="../fig/single_cell_flowchart_10.png" width="800px" alt="Single Cell Flowchart" >
@@ -296,28 +294,28 @@ Computing SNN
 
 
 ~~~
-15:50:46 UMAP embedding parameters a = 0.9922 b = 1.112
+09:44:18 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-15:50:46 Read 44253 rows and found 24 numeric columns
+09:44:18 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-15:50:46 Using Annoy for neighbor search, n_neighbors = 30
+09:44:18 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-15:50:46 Building Annoy index with metric = cosine, n_trees = 50
+09:44:18 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -339,13 +337,13 @@ Computing SNN
 
 ~~~
 **************************************************|
-15:50:49 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\Rtmp8Af0qA\file263c24793b28
-15:50:49 Searching Annoy index using 1 thread, search_k = 3000
-15:51:00 Annoy recall = 100%
-15:51:00 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-15:51:03 Initializing from normalized Laplacian + noise (using irlba)
-15:51:10 Commencing optimization for 200 epochs, with 1892644 positive edges
-15:51:51 Optimization finished
+09:44:22 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\Rtmp6BsyhO\file307c11cb7ac4
+09:44:22 Searching Annoy index using 1 thread, search_k = 3000
+09:44:32 Annoy recall = 100%
+09:44:33 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+09:44:36 Initializing from normalized Laplacian + noise (using irlba)
+09:44:44 Commencing optimization for 200 epochs, with 1892644 positive edges
+09:45:20 Optimization finished
 ~~~
 {: .output}
 
@@ -438,8 +436,6 @@ liver$renamed_clusters <- cluster_converter[as.character(liver$after_harmony_clu
 Idents(liver) <- 'renamed_clusters'
 ~~~
 {: .language-r}
-
-
 
 ## Finding marker genes 
 
@@ -1230,7 +1226,7 @@ loaded via a namespace (and not attached):
  [10] Rtsne_0.16             munsell_0.5.0          codetools_0.2-18      
  [13] ica_1.0-3              future_1.29.0          miniUI_0.1.1.1        
  [16] withr_2.5.0            spatstat.random_3.0-1  colorspace_2.0-3      
- [19] progressr_0.11.0       highr_0.9              ROCR_1.0-11           
+ [19] progressr_0.12.0       highr_0.9              ROCR_1.0-11           
  [22] tensor_1.5             listenv_0.8.0          labeling_0.4.2        
  [25] GenomeInfoDbData_1.2.7 polyclip_1.10-4        bit64_4.0.5           
  [28] farver_2.1.1           parallelly_1.32.1      vctrs_0.5.1           
@@ -1252,8 +1248,8 @@ loaded via a namespace (and not attached):
  [76] magrittr_2.0.3         data.table_1.14.6      scattermore_0.8       
  [79] lmtest_0.9-40          reprex_2.0.2           RANN_2.6.1            
  [82] googledrive_2.0.0      fitdistrplus_1.1-8     hms_1.1.2             
- [85] patchwork_1.1.2        mime_0.12              evaluate_0.18         
- [88] xtable_1.8-4           XML_3.99-0.12          readxl_1.4.1          
+ [85] patchwork_1.1.2        mime_0.12              evaluate_0.19         
+ [88] xtable_1.8-4           XML_3.99-0.13          readxl_1.4.1          
  [91] gridExtra_2.3          compiler_4.1.2         KernSmooth_2.23-20    
  [94] crayon_1.5.2           htmltools_0.5.3        later_1.3.0           
  [97] tzdb_0.3.0             geneplotter_1.72.0     lubridate_1.9.0       
