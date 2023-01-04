@@ -202,23 +202,46 @@ the `mouseStSt_invivo` directory.  Which one is the largest?
 > {: .solution}
 {: .challenge}
 
-#### Cell Ranger Quality Control Report
+#### CellRanger Quality Control Report
 
-Call Ranger also produces a Quality Control (QC) report as a PDF. We do not have
+CellRanger also produces a Quality Control (QC) report as an HTML
+document. It produces one report for each sample we run (each
+channel of the 10X chip). We do not have
 the QC report from the Liver Atlas study, but the figure below shows an 
 example report. The report highlights three numbers:
 
-> DAS: Is there one report per chip or one report per channel?
-> DAS: Check text below.
-
-1. Estimated Number of Cells: This indicates the number of cells in your 
-experiment. Ideally, this number should be between ??? and ???.
+1. Estimated Number of Cells: This indicates the number of cells recovered
+in your experiment. As we previously discussed this will be less than the
+number of cells you loaded. The number of cells recovered
+will almost never be the exact number of cells you had hoped to recover,
+but we might like to see a number within approximately +/-20% of your goal.
 1. Mean Reads per Cell: This indicates the number of reads in each cell. 
-Ideally this number should be between ??? and ???.
+This will be a function of how deeply you choose to sequence your library.
 1. Median Genes per Cell: This indicates the median number of genes detected
-in each cell. Note that this is much lower than in bulk RNA-Seq.
+in each cell. Note that this is much lower than in bulk RNA-Seq. This 
+number will also be lower for single nucleus than for single cell
+RNA-Seq, and is also likely to vary between cell types.
 
 <img src="../fig/10X_QC_report_example.jpeg" width="800px" alt="10X Genomics QC Report" >
+
+When you run a sample that has a problem of some kind, the CellRanger 
+report might be able to detect something anomalous about your data and
+present you with a warning. Here are two examples of reports with
+warning flags highlighted.
+
+In the report below, CellRanger notes that a low fraction of reads are within
+cells. This might be caused by, for example, very high levels of ambient
+RNA.
+
+<img src="../fig/cellranger_bad1.png" width="600px" alt="Bad 10X Genomics QC Report 1" >
+
+In the report below, CellRanger notes that a low fraction of reads are 
+confidently mapped to the transcriptome, and a high fraction of reads map
+antisense to genes. Note that in this sample we are seeing only 249 genes
+per cell despite a mean of over 90,000 reads per cell. This likely indicates
+a poor quality library.
+
+<img src="../fig/cellranger_bad2.png" width="600px" alt="Bad 10X Genomics QC Report 1" >
 
 > DAS: Find one good and one bad summary file (or screen shot).
 
