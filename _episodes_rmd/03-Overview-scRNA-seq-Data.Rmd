@@ -243,7 +243,6 @@ a poor quality library.
 
 <img src="../fig/cellranger_bad2.png" width="600px" alt="Bad 10X Genomics QC Report 1" >
 
-> DAS: Find one good and one bad summary file (or screen shot).
 
 ### Reading a CellRanger Gene Expression Count Matrix using Seurat
 

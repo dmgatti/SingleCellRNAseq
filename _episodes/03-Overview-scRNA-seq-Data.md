@@ -244,7 +244,6 @@ a poor quality library.
 
 <img src="../fig/cellranger_bad2.png" width="600px" alt="Bad 10X Genomics QC Report 1" >
 
-> DAS: Find one good and one bad summary file (or screen shot).
 
 ### Reading a CellRanger Gene Expression Count Matrix using Seurat
 
@@ -717,7 +716,7 @@ loaded via a namespace (and not attached):
  [55] RColorBrewer_1.1-3     ellipsis_0.3.2         ica_1.0-3             
  [58] pkgconfig_2.0.3        R.methodsS3_1.8.2      farver_2.1.1          
  [61] uwot_0.1.14            dbplyr_2.3.0           deldir_1.0-6          
- [64] utf8_1.2.2             tidyselect_1.2.0       labeling_0.4.2        
+ [64] utf8_1.2.3             tidyselect_1.2.0       labeling_0.4.2        
  [67] rlang_1.0.6            reshape2_1.4.4         later_1.3.0           
  [70] munsell_0.5.0          cellranger_1.1.0       tools_4.1.2           
  [73] cli_3.4.1              generics_0.1.3         broom_1.0.3           

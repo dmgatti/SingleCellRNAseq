@@ -459,7 +459,7 @@ loaded via a namespace (and not attached):
 [100] withr_2.5.0            fitdistrplus_1.1-8     abind_1.4-5           
 [103] survival_3.4-0         sp_1.6-0               future.apply_1.10.0   
 [106] modelr_0.1.10          crayon_1.5.2           KernSmooth_2.23-20    
-[109] utf8_1.2.2             spatstat.geom_3.0-6    plotly_4.10.1         
+[109] utf8_1.2.3             spatstat.geom_3.0-6    plotly_4.10.1         
 [112] tzdb_0.3.0             grid_4.1.2             readxl_1.4.1          
 [115] data.table_1.14.6      reprex_2.0.2           digest_0.6.31         
 [118] xtable_1.8-4           httpuv_1.6.8           munsell_0.5.0         

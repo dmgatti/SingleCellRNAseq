@@ -89,8 +89,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7186753  383.9   12272785  655.5  10437615  557.5
-Vcells 179573309 1370.1  434022440 3311.4 434017813 3311.3
+Ncells   7186753  383.9   12272774  655.5  10437647  557.5
+Vcells 179573301 1370.1  434022430 3311.4 434017805 3311.3
 ~~~
 {: .output}
 
@@ -360,8 +360,8 @@ gc()
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7300243  389.9   12272785  655.5  12272785  655.5
-Vcells 180146851 1374.5  520906928 3974.3 464216252 3541.7
+Ncells   7300243  389.9   12272774  655.5  12272774  655.5
+Vcells 180146843 1374.5  520906916 3974.3 464216236 3541.7
 ~~~
 {: .output}
 
@@ -879,7 +879,7 @@ loaded via a namespace (and not attached):
  [52] reticulate_1.28        htmlwidgets_1.6.1      httr_1.4.4            
  [55] RColorBrewer_1.1-3     ellipsis_0.3.2         ica_1.0-3             
  [58] farver_2.1.1           pkgconfig_2.0.3        uwot_0.1.14           
- [61] deldir_1.0-6           dbplyr_2.3.0           utf8_1.2.2            
+ [61] deldir_1.0-6           dbplyr_2.3.0           utf8_1.2.3            
  [64] labeling_0.4.2         tidyselect_1.2.0       rlang_1.0.6           
  [67] reshape2_1.4.4         later_1.3.0            munsell_0.5.0         
  [70] cellranger_1.1.0       tools_4.1.2            xgboost_1.7.3.1       

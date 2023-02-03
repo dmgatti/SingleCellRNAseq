@@ -294,28 +294,28 @@ Computing SNN
 
 
 ~~~
-09:26:12 UMAP embedding parameters a = 0.9922 b = 1.112
+10:41:06 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-09:26:12 Read 44253 rows and found 24 numeric columns
+10:41:06 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-09:26:12 Using Annoy for neighbor search, n_neighbors = 30
+10:41:06 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-09:26:12 Building Annoy index with metric = cosine, n_trees = 50
+10:41:06 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -337,13 +337,13 @@ Computing SNN
 
 ~~~
 **************************************************|
-09:26:16 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpwzRDpe\file41d845ad164e
-09:26:16 Searching Annoy index using 1 thread, search_k = 3000
-09:26:27 Annoy recall = 100%
-09:26:27 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-09:26:30 Initializing from normalized Laplacian + noise (using irlba)
-09:26:38 Commencing optimization for 200 epochs, with 1892644 positive edges
-09:27:15 Optimization finished
+10:41:11 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpmePOfN\file341818333f46
+10:41:11 Searching Annoy index using 1 thread, search_k = 3000
+10:41:24 Annoy recall = 100%
+10:41:25 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+10:41:28 Initializing from normalized Laplacian + noise (using irlba)
+10:41:37 Commencing optimization for 200 epochs, with 1892644 positive edges
+10:42:21 Optimization finished
 ~~~
 {: .output}
 
@@ -1228,7 +1228,7 @@ other attached packages:
 [25] knitr_1.42                 
 
 loaded via a namespace (and not attached):
-  [1] utf8_1.2.2             spatstat.explore_3.0-6 reticulate_1.28       
+  [1] utf8_1.2.3             spatstat.explore_3.0-6 reticulate_1.28       
   [4] tidyselect_1.2.0       RSQLite_2.2.20         AnnotationDbi_1.56.2  
   [7] htmlwidgets_1.6.1      grid_4.1.2             BiocParallel_1.28.3   
  [10] Rtsne_0.16             munsell_0.5.0          codetools_0.2-18      

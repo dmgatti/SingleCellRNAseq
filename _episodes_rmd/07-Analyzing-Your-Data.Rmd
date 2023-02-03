@@ -33,6 +33,12 @@ cell clusters. If you are working with data from a publication, you might
 try to reproduce -- as best you can -- one of the main figures from the
 paper.
 
+> DMG & DAS: Change filtering parameters based on mito content & num reads.
+
+> DMG & DAS: Add text to tell students to adjust number of variable genes,
+number of PCs, clustering resolution.
+
+> DMG & DAS: Change normalization method: log vs scTransform (neg binom). 
 
 ## Points to keep in mind as you work with your data
 
