@@ -89,8 +89,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7178123  383.4   12256651  654.6  10304895  550.4
-Vcells 179563964 1370.0  520898732 3974.2 474752800 3622.1
+Ncells   7186753  383.9   12272785  655.5  10437615  557.5
+Vcells 179573309 1370.1  434022440 3311.4 434017813 3311.3
 ~~~
 {: .output}
 
@@ -360,8 +360,8 @@ gc()
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7294230  389.6   12256651  654.6  12256651  654.6
-Vcells 180142929 1374.4  500126783 3815.7 519296195 3962.0
+Ncells   7300243  389.9   12272785  655.5  12272785  655.5
+Vcells 180146851 1374.5  520906928 3974.3 464216252 3541.7
 ~~~
 {: .output}
 
@@ -738,7 +738,7 @@ ggplot(mutate(liver[[]], class = ifelse(keep, 'QC singlet', 'QC doublet')),
 
 ~~~
 Error in `mutate()`:
-! Problem while computing `class = ifelse(keep, "QC singlet", "QC doublet")`.
+i In argument: `class = ifelse(keep, "QC singlet", "QC doublet")`.
 Caused by error in `as.logical()`:
 ! cannot coerce type 'closure' to vector of type 'logical'
 ~~~
@@ -852,56 +852,56 @@ other attached packages:
  [9] IRanges_2.28.0              S4Vectors_0.32.4           
 [11] BiocGenerics_0.40.0         MatrixGenerics_1.6.0       
 [13] matrixStats_0.63.0          Matrix_1.5-3               
-[15] forcats_0.5.2               stringr_1.5.0              
-[17] dplyr_1.0.10                purrr_0.3.5                
-[19] readr_2.1.3                 tidyr_1.2.1                
+[15] forcats_1.0.0               stringr_1.5.0              
+[17] dplyr_1.1.0                 purrr_1.0.1                
+[19] readr_2.1.3                 tidyr_1.3.0                
 [21] tibble_3.1.8                ggplot2_3.4.0              
-[23] tidyverse_1.3.2             knitr_1.41                 
+[23] tidyverse_1.3.2             knitr_1.42                 
 
 loaded via a namespace (and not attached):
   [1] readxl_1.4.1           backports_1.4.1        plyr_1.8.8            
-  [4] igraph_1.3.5           lazyeval_0.2.2         sp_1.5-1              
-  [7] splines_4.1.2          listenv_0.8.0          scattermore_0.8       
- [10] digest_0.6.30          htmltools_0.5.3        fansi_1.0.3           
+  [4] igraph_1.3.5           lazyeval_0.2.2         sp_1.6-0              
+  [7] splines_4.1.2          listenv_0.9.0          scattermore_0.8       
+ [10] digest_0.6.31          htmltools_0.5.4        fansi_1.0.4           
  [13] magrittr_2.0.3         tensor_1.5             googlesheets4_1.0.1   
  [16] cluster_2.1.4          ROCR_1.0-11            tzdb_0.3.0            
- [19] globals_0.16.2         modelr_0.1.10          timechange_0.1.1      
- [22] spatstat.sparse_3.0-0  colorspace_2.0-3       rvest_1.0.3           
- [25] ggrepel_0.9.2          haven_2.5.1            xfun_0.35             
- [28] crayon_1.5.2           RCurl_1.98-1.9         jsonlite_1.8.3        
- [31] progressr_0.12.0       spatstat.data_3.0-0    survival_3.4-0        
+ [19] globals_0.16.2         modelr_0.1.10          timechange_0.2.0      
+ [22] spatstat.sparse_3.0-0  colorspace_2.1-0       rvest_1.0.3           
+ [25] ggrepel_0.9.3          haven_2.5.1            xfun_0.37             
+ [28] crayon_1.5.2           RCurl_1.98-1.10        jsonlite_1.8.4        
+ [31] progressr_0.13.0       spatstat.data_3.0-0    survival_3.4-0        
  [34] zoo_1.8-11             glue_1.6.2             polyclip_1.10-4       
- [37] gtable_0.3.1           gargle_1.2.1           zlibbioc_1.40.0       
+ [37] gtable_0.3.1           gargle_1.3.0           zlibbioc_1.40.0       
  [40] XVector_0.34.0         leiden_0.4.3           DelayedArray_0.20.0   
  [43] future.apply_1.10.0    abind_1.4-5            scales_1.2.1          
- [46] DBI_1.1.3              spatstat.random_3.0-1  miniUI_0.1.1.1        
- [49] Rcpp_1.0.9             viridisLite_0.4.1      xtable_1.8-4          
- [52] reticulate_1.26        htmlwidgets_1.5.4      httr_1.4.4            
+ [46] DBI_1.1.3              spatstat.random_3.1-3  miniUI_0.1.1.1        
+ [49] Rcpp_1.0.10            viridisLite_0.4.1      xtable_1.8-4          
+ [52] reticulate_1.28        htmlwidgets_1.6.1      httr_1.4.4            
  [55] RColorBrewer_1.1-3     ellipsis_0.3.2         ica_1.0-3             
  [58] farver_2.1.1           pkgconfig_2.0.3        uwot_0.1.14           
- [61] deldir_1.0-6           dbplyr_2.2.1           utf8_1.2.2            
+ [61] deldir_1.0-6           dbplyr_2.3.0           utf8_1.2.2            
  [64] labeling_0.4.2         tidyselect_1.2.0       rlang_1.0.6           
  [67] reshape2_1.4.4         later_1.3.0            munsell_0.5.0         
- [70] cellranger_1.1.0       tools_4.1.2            xgboost_1.6.0.1       
- [73] cli_3.4.1              generics_0.1.3         broom_1.0.1           
- [76] ggridges_0.5.4         evaluate_0.19          fastmap_1.1.0         
- [79] goftest_1.2-3          fs_1.5.2               fitdistrplus_1.1-8    
- [82] RANN_2.6.1             nlme_3.1-160           pbapply_1.6-0         
- [85] future_1.29.0          mime_0.12              ggrastr_1.0.1         
+ [70] cellranger_1.1.0       tools_4.1.2            xgboost_1.7.3.1       
+ [73] cli_3.4.1              generics_0.1.3         broom_1.0.3           
+ [76] ggridges_0.5.4         evaluate_0.20          fastmap_1.1.0         
+ [79] goftest_1.2-3          fs_1.6.0               fitdistrplus_1.1-8    
+ [82] RANN_2.6.1             nlme_3.1-160           pbapply_1.7-0         
+ [85] future_1.31.0          mime_0.12              ggrastr_1.0.1         
  [88] xml2_1.3.3             compiler_4.1.2         beeswarm_0.4.0        
  [91] plotly_4.10.1          png_0.1-8              spatstat.utils_3.0-1  
- [94] reprex_2.0.2           stringi_1.7.8          highr_0.9             
- [97] lattice_0.20-45        vctrs_0.5.1            pillar_1.8.1          
-[100] lifecycle_1.0.3        spatstat.geom_3.0-3    lmtest_0.9-40         
+ [94] reprex_2.0.2           stringi_1.7.12         highr_0.10            
+ [97] lattice_0.20-45        vctrs_0.5.2            pillar_1.8.1          
+[100] lifecycle_1.0.3        spatstat.geom_3.0-6    lmtest_0.9-40         
 [103] RcppAnnoy_0.0.20       data.table_1.14.6      cowplot_1.1.1         
-[106] bitops_1.0-7           irlba_2.3.5.1          httpuv_1.6.6          
+[106] bitops_1.0-7           irlba_2.3.5.1          httpuv_1.6.8          
 [109] patchwork_1.1.2        R6_2.5.1               promises_1.2.0.1      
 [112] KernSmooth_2.23-20     gridExtra_2.3          vipor_0.4.5           
-[115] parallelly_1.32.1      codetools_0.2-18       MASS_7.3-58.1         
+[115] parallelly_1.34.0      codetools_0.2-18       MASS_7.3-58.1         
 [118] assertthat_0.2.1       withr_2.5.0            sctransform_0.3.5     
 [121] GenomeInfoDbData_1.2.7 parallel_4.1.2         hms_1.1.2             
 [124] grid_4.1.2             googledrive_2.0.0      Rtsne_0.16            
-[127] spatstat.explore_3.0-5 pROC_1.18.0            shiny_1.7.3           
-[130] lubridate_1.9.0        ggbeeswarm_0.6.0      
+[127] spatstat.explore_3.0-6 pROC_1.18.0            shiny_1.7.4           
+[130] lubridate_1.9.1        ggbeeswarm_0.7.1      
 ~~~
 {: .output}

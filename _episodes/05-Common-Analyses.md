@@ -21,61 +21,6 @@ source("../bin/chunk-options.R")
 knitr_fig_path("05-")
 
 suppressPackageStartupMessages(library(tidyverse))
-~~~
-{: .language-r}
-
-
-
-~~~
-## Warning: package 'tidyverse' was built under R version 4.1.3
-~~~
-{: .warning}
-
-
-
-~~~
-## Warning: package 'tibble' was built under R version 4.1.3
-~~~
-{: .warning}
-
-
-
-~~~
-## Warning: package 'tidyr' was built under R version 4.1.3
-~~~
-{: .warning}
-
-
-
-~~~
-## Warning: package 'readr' was built under R version 4.1.3
-~~~
-{: .warning}
-
-
-
-~~~
-## Warning: package 'purrr' was built under R version 4.1.3
-~~~
-{: .warning}
-
-
-
-~~~
-## Warning: package 'dplyr' was built under R version 4.1.3
-~~~
-{: .warning}
-
-
-
-~~~
-## Warning: package 'forcats' was built under R version 4.1.3
-~~~
-{: .warning}
-
-
-
-~~~
 suppressPackageStartupMessages(library(Seurat))
 
 data_dir <- '../data'
@@ -89,8 +34,6 @@ set.seed(1418)
 ~~~
 {: .language-r}
 
-
-## Read Data from Previous Lesson
 
 
 
@@ -110,15 +53,18 @@ Seurat object, we can also pipe together multiple commands to do
 multiple things to our object. That could look something like:
 ```
 liver <- DoSomething(liver, param1 = TRUE, param2 = 0.3) %>%
-    DoSomethingElse(param1 = 3) %>%
-    DoAThirdThing(param1 = c(1, 4, 6))
+           DoSomethingElse(param1 = 3) %>%
+           DoAThirdThing(param1 = c(1, 4, 6))
 ```
+
+The pipe operator passes the results of the first command as the argument 
+to the next command.
 
 We can just as well use the piping operator `%>%` even if 
 we are calling only one function:
 ```
 liver <- liver %>%
-    DoSomething(param1 = TRUE, param2 = 0.3)
+           DoSomething(param1 = TRUE, param2 = 0.3)
 ```
 
 In this lesson (and elsewhere in the course) we may alternate between
@@ -472,51 +418,51 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] SeuratObject_4.1.3 Seurat_4.3.0       forcats_0.5.2      stringr_1.5.0     
- [5] dplyr_1.0.10       purrr_0.3.5        readr_2.1.3        tidyr_1.2.1       
- [9] tibble_3.1.8       ggplot2_3.4.0      tidyverse_1.3.2    knitr_1.41        
+ [1] SeuratObject_4.1.3 Seurat_4.3.0       forcats_1.0.0      stringr_1.5.0     
+ [5] dplyr_1.1.0        purrr_1.0.1        readr_2.1.3        tidyr_1.3.0       
+ [9] tibble_3.1.8       ggplot2_3.4.0      tidyverse_1.3.2    knitr_1.42        
 
 loaded via a namespace (and not attached):
-  [1] googledrive_2.0.0      Rtsne_0.16             colorspace_2.0-3      
+  [1] googledrive_2.0.0      Rtsne_0.16             colorspace_2.1-0      
   [4] deldir_1.0-6           ellipsis_0.3.2         ggridges_0.5.4        
-  [7] fs_1.5.2               spatstat.data_3.0-0    farver_2.1.1          
- [10] leiden_0.4.3           listenv_0.8.0          ggrepel_0.9.2         
- [13] fansi_1.0.3            lubridate_1.9.0        xml2_1.3.3            
+  [7] fs_1.6.0               spatstat.data_3.0-0    farver_2.1.1          
+ [10] leiden_0.4.3           listenv_0.9.0          ggrepel_0.9.3         
+ [13] fansi_1.0.4            lubridate_1.9.1        xml2_1.3.3            
  [16] codetools_0.2-18       splines_4.1.2          polyclip_1.10-4       
- [19] jsonlite_1.8.3         broom_1.0.1            ica_1.0-3             
- [22] cluster_2.1.4          dbplyr_2.2.1           png_0.1-8             
+ [19] jsonlite_1.8.4         broom_1.0.3            ica_1.0-3             
+ [22] cluster_2.1.4          dbplyr_2.3.0           png_0.1-8             
  [25] uwot_0.1.14            spatstat.sparse_3.0-0  sctransform_0.3.5     
- [28] shiny_1.7.3            compiler_4.1.2         httr_1.4.4            
+ [28] shiny_1.7.4            compiler_4.1.2         httr_1.4.4            
  [31] backports_1.4.1        lazyeval_0.2.2         assertthat_0.2.1      
- [34] Matrix_1.5-3           fastmap_1.1.0          gargle_1.2.1          
- [37] cli_3.4.1              later_1.3.0            htmltools_0.5.3       
+ [34] Matrix_1.5-3           fastmap_1.1.0          gargle_1.3.0          
+ [37] cli_3.4.1              later_1.3.0            htmltools_0.5.4       
  [40] tools_4.1.2            igraph_1.3.5           gtable_0.3.1          
  [43] glue_1.6.2             reshape2_1.4.4         RANN_2.6.1            
- [46] Rcpp_1.0.9             scattermore_0.8        cellranger_1.1.0      
- [49] vctrs_0.5.1            nlme_3.1-160           spatstat.explore_3.0-5
- [52] progressr_0.12.0       lmtest_0.9-40          spatstat.random_3.0-1 
- [55] xfun_0.35              globals_0.16.2         rvest_1.0.3           
- [58] timechange_0.1.1       mime_0.12              miniUI_0.1.1.1        
+ [46] Rcpp_1.0.10            scattermore_0.8        cellranger_1.1.0      
+ [49] vctrs_0.5.2            nlme_3.1-160           spatstat.explore_3.0-6
+ [52] progressr_0.13.0       lmtest_0.9-40          spatstat.random_3.1-3 
+ [55] xfun_0.37              globals_0.16.2         rvest_1.0.3           
+ [58] timechange_0.2.0       mime_0.12              miniUI_0.1.1.1        
  [61] lifecycle_1.0.3        irlba_2.3.5.1          goftest_1.2-3         
- [64] googlesheets4_1.0.1    future_1.29.0          MASS_7.3-58.1         
+ [64] googlesheets4_1.0.1    future_1.31.0          MASS_7.3-58.1         
  [67] zoo_1.8-11             scales_1.2.1           spatstat.utils_3.0-1  
  [70] hms_1.1.2              promises_1.2.0.1       parallel_4.1.2        
- [73] RColorBrewer_1.1-3     gridExtra_2.3          reticulate_1.26       
- [76] pbapply_1.6-0          stringi_1.7.8          highr_0.9             
+ [73] RColorBrewer_1.1-3     gridExtra_2.3          reticulate_1.28       
+ [76] pbapply_1.7-0          stringi_1.7.12         highr_0.10            
  [79] rlang_1.0.6            pkgconfig_2.0.3        matrixStats_0.63.0    
- [82] evaluate_0.19          lattice_0.20-45        tensor_1.5            
+ [82] evaluate_0.20          lattice_0.20-45        tensor_1.5            
  [85] ROCR_1.0-11            labeling_0.4.2         patchwork_1.1.2       
- [88] htmlwidgets_1.5.4      cowplot_1.1.1          tidyselect_1.2.0      
- [91] parallelly_1.32.1      RcppAnnoy_0.0.20       plyr_1.8.8            
+ [88] htmlwidgets_1.6.1      cowplot_1.1.1          tidyselect_1.2.0      
+ [91] parallelly_1.34.0      RcppAnnoy_0.0.20       plyr_1.8.8            
  [94] magrittr_2.0.3         R6_2.5.1               generics_0.1.3        
  [97] DBI_1.1.3              pillar_1.8.1           haven_2.5.1           
 [100] withr_2.5.0            fitdistrplus_1.1-8     abind_1.4-5           
-[103] survival_3.4-0         sp_1.5-1               future.apply_1.10.0   
+[103] survival_3.4-0         sp_1.6-0               future.apply_1.10.0   
 [106] modelr_0.1.10          crayon_1.5.2           KernSmooth_2.23-20    
-[109] utf8_1.2.2             spatstat.geom_3.0-3    plotly_4.10.1         
+[109] utf8_1.2.2             spatstat.geom_3.0-6    plotly_4.10.1         
 [112] tzdb_0.3.0             grid_4.1.2             readxl_1.4.1          
-[115] data.table_1.14.6      reprex_2.0.2           digest_0.6.30         
-[118] xtable_1.8-4           httpuv_1.6.6           munsell_0.5.0         
+[115] data.table_1.14.6      reprex_2.0.2           digest_0.6.31         
+[118] xtable_1.8-4           httpuv_1.6.8           munsell_0.5.0         
 [121] viridisLite_0.4.1     
 ~~~
 {: .output}

@@ -153,6 +153,8 @@ analysis using Seurat.
 
 ### Liver Atlas
 
+#### Cell Ranger Files
+
 In this lesson, we will read in a subset of data from the 
 [Liver Atlas](https://livercellatlas.org/index.php), which is described in their 
 [Cell paper](https://www.cell.com/cell/fulltext/S0092-8674(21)01481-1). 
@@ -201,9 +203,47 @@ the `mouseStSt_invivo` directory.  Which one is the largest?
 > {: .solution}
 {: .challenge}
 
+#### CellRanger Quality Control Report
 
+CellRanger also produces a Quality Control (QC) report as an HTML
+document. It produces one report for each sample we run (each
+channel of the 10X chip). We do not have
+the QC report from the Liver Atlas study, but the figure below shows an 
+example report. The report highlights three numbers:
 
-> DMG: Also, add the HTML summary file from CellRanger to the repo and show it.
+1. Estimated Number of Cells: This indicates the number of cells recovered
+in your experiment. As we previously discussed this will be less than the
+number of cells you loaded. The number of cells recovered
+will almost never be the exact number of cells you had hoped to recover,
+but we might like to see a number within approximately +/-20% of your goal.
+1. Mean Reads per Cell: This indicates the number of reads in each cell. 
+This will be a function of how deeply you choose to sequence your library.
+1. Median Genes per Cell: This indicates the median number of genes detected
+in each cell. Note that this is much lower than in bulk RNA-Seq. This 
+number will also be lower for single nucleus than for single cell
+RNA-Seq, and is also likely to vary between cell types.
+
+<img src="../fig/10X_QC_report_example.jpeg" width="800px" alt="10X Genomics QC Report" >
+
+When you run a sample that has a problem of some kind, the CellRanger 
+report might be able to detect something anomalous about your data and
+present you with a warning. Here are two examples of reports with
+warning flags highlighted.
+
+In the report below, CellRanger notes that a low fraction of reads are within
+cells. This might be caused by, for example, very high levels of ambient
+RNA.
+
+<img src="../fig/cellranger_bad1.png" width="600px" alt="Bad 10X Genomics QC Report 1" >
+
+In the report below, CellRanger notes that a low fraction of reads are 
+confidently mapped to the transcriptome, and a high fraction of reads map
+antisense to genes. Note that in this sample we are seeing only 249 genes
+per cell despite a mean of over 90,000 reads per cell. This likely indicates
+a poor quality library.
+
+<img src="../fig/cellranger_bad2.png" width="600px" alt="Bad 10X Genomics QC Report 1" >
+
 > DAS: Find one good and one bad summary file (or screen shot).
 
 ### Reading a CellRanger Gene Expression Count Matrix using Seurat
@@ -591,9 +631,7 @@ the mouse identifier for each cell.
 In this workshop, we will attempt to reproduce some of the results of the 
 [Liver Atlas](https://livercellatlas.org/index.php) using Seurat. We will 
 analyze the *in-vivo* single **cell** RNA-Seq 
-together and you will analyze some separate *ex-vivo* data during 
-Challenges.
-
+together.
 
 ### Save Data for Next Lesson
 
@@ -603,8 +641,6 @@ command to save the objects in compressed, binary format. The `save` command is
 useful when you want to save multiple objects in one file.
 
 
-
-> DMG: Rework this challenge. Maybe leave for someone to do on thier own??
 
 > ## Challenge 5
 > In the lesson above, you read in the scRNASeq data. There is 
@@ -655,54 +691,54 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] SeuratObject_4.1.3 Seurat_4.3.0       forcats_0.5.2      stringr_1.5.0     
- [5] dplyr_1.0.10       purrr_0.3.5        readr_2.1.3        tidyr_1.2.1       
- [9] tibble_3.1.8       ggplot2_3.4.0      tidyverse_1.3.2    knitr_1.41        
+ [1] SeuratObject_4.1.3 Seurat_4.3.0       forcats_1.0.0      stringr_1.5.0     
+ [5] dplyr_1.1.0        purrr_1.0.1        readr_2.1.3        tidyr_1.3.0       
+ [9] tibble_3.1.8       ggplot2_3.4.0      tidyverse_1.3.2    knitr_1.42        
 
 loaded via a namespace (and not attached):
   [1] readxl_1.4.1           backports_1.4.1        plyr_1.8.8            
-  [4] igraph_1.3.5           lazyeval_0.2.2         sp_1.5-1              
-  [7] splines_4.1.2          listenv_0.8.0          scattermore_0.8       
- [10] digest_0.6.30          htmltools_0.5.3        fansi_1.0.3           
+  [4] igraph_1.3.5           lazyeval_0.2.2         sp_1.6-0              
+  [7] splines_4.1.2          listenv_0.9.0          scattermore_0.8       
+ [10] digest_0.6.31          htmltools_0.5.4        fansi_1.0.4           
  [13] magrittr_2.0.3         tensor_1.5             googlesheets4_1.0.1   
  [16] cluster_2.1.4          ROCR_1.0-11            tzdb_0.3.0            
  [19] globals_0.16.2         modelr_0.1.10          matrixStats_0.63.0    
- [22] R.utils_2.12.2         vroom_1.6.0            timechange_0.1.1      
- [25] spatstat.sparse_3.0-0  colorspace_2.0-3       rvest_1.0.3           
- [28] ggrepel_0.9.2          haven_2.5.1            xfun_0.35             
- [31] crayon_1.5.2           jsonlite_1.8.3         progressr_0.12.0      
+ [22] R.utils_2.12.2         vroom_1.6.1            timechange_0.2.0      
+ [25] spatstat.sparse_3.0-0  colorspace_2.1-0       rvest_1.0.3           
+ [28] ggrepel_0.9.3          haven_2.5.1            xfun_0.37             
+ [31] crayon_1.5.2           jsonlite_1.8.4         progressr_0.13.0      
  [34] spatstat.data_3.0-0    survival_3.4-0         zoo_1.8-11            
  [37] glue_1.6.2             polyclip_1.10-4        gtable_0.3.1          
- [40] gargle_1.2.1           leiden_0.4.3           future.apply_1.10.0   
+ [40] gargle_1.3.0           leiden_0.4.3           future.apply_1.10.0   
  [43] abind_1.4-5            scales_1.2.1           DBI_1.1.3             
- [46] spatstat.random_3.0-1  miniUI_0.1.1.1         Rcpp_1.0.9            
- [49] viridisLite_0.4.1      xtable_1.8-4           reticulate_1.26       
- [52] bit_4.0.5              htmlwidgets_1.5.4      httr_1.4.4            
+ [46] spatstat.random_3.1-3  miniUI_0.1.1.1         Rcpp_1.0.10           
+ [49] viridisLite_0.4.1      xtable_1.8-4           reticulate_1.28       
+ [52] bit_4.0.5              htmlwidgets_1.6.1      httr_1.4.4            
  [55] RColorBrewer_1.1-3     ellipsis_0.3.2         ica_1.0-3             
  [58] pkgconfig_2.0.3        R.methodsS3_1.8.2      farver_2.1.1          
- [61] uwot_0.1.14            dbplyr_2.2.1           deldir_1.0-6          
+ [61] uwot_0.1.14            dbplyr_2.3.0           deldir_1.0-6          
  [64] utf8_1.2.2             tidyselect_1.2.0       labeling_0.4.2        
  [67] rlang_1.0.6            reshape2_1.4.4         later_1.3.0           
  [70] munsell_0.5.0          cellranger_1.1.0       tools_4.1.2           
- [73] cli_3.4.1              generics_0.1.3         broom_1.0.1           
- [76] ggridges_0.5.4         evaluate_0.19          fastmap_1.1.0         
- [79] goftest_1.2-3          bit64_4.0.5            fs_1.5.2              
- [82] fitdistrplus_1.1-8     RANN_2.6.1             pbapply_1.6-0         
- [85] future_1.29.0          nlme_3.1-160           mime_0.12             
+ [73] cli_3.4.1              generics_0.1.3         broom_1.0.3           
+ [76] ggridges_0.5.4         evaluate_0.20          fastmap_1.1.0         
+ [79] goftest_1.2-3          bit64_4.0.5            fs_1.6.0              
+ [82] fitdistrplus_1.1-8     RANN_2.6.1             pbapply_1.7-0         
+ [85] future_1.31.0          nlme_3.1-160           mime_0.12             
  [88] R.oo_1.25.0            xml2_1.3.3             compiler_4.1.2        
  [91] plotly_4.10.1          png_0.1-8              spatstat.utils_3.0-1  
- [94] reprex_2.0.2           stringi_1.7.8          highr_0.9             
- [97] lattice_0.20-45        Matrix_1.5-3           vctrs_0.5.1           
-[100] pillar_1.8.1           lifecycle_1.0.3        spatstat.geom_3.0-3   
+ [94] reprex_2.0.2           stringi_1.7.12         highr_0.10            
+ [97] lattice_0.20-45        Matrix_1.5-3           vctrs_0.5.2           
+[100] pillar_1.8.1           lifecycle_1.0.3        spatstat.geom_3.0-6   
 [103] lmtest_0.9-40          RcppAnnoy_0.0.20       data.table_1.14.6     
-[106] cowplot_1.1.1          irlba_2.3.5.1          httpuv_1.6.6          
+[106] cowplot_1.1.1          irlba_2.3.5.1          httpuv_1.6.8          
 [109] patchwork_1.1.2        R6_2.5.1               promises_1.2.0.1      
-[112] KernSmooth_2.23-20     gridExtra_2.3          parallelly_1.32.1     
+[112] KernSmooth_2.23-20     gridExtra_2.3          parallelly_1.34.0     
 [115] codetools_0.2-18       MASS_7.3-58.1          assertthat_0.2.1      
 [118] withr_2.5.0            sctransform_0.3.5      parallel_4.1.2        
 [121] hms_1.1.2              grid_4.1.2             googledrive_2.0.0     
-[124] Rtsne_0.16             spatstat.explore_3.0-5 shiny_1.7.3           
-[127] lubridate_1.9.0       
+[124] Rtsne_0.16             spatstat.explore_3.0-6 shiny_1.7.4           
+[127] lubridate_1.9.1       
 ~~~
 {: .output}
 

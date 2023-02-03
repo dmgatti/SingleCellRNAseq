@@ -294,28 +294,28 @@ Computing SNN
 
 
 ~~~
-09:44:18 UMAP embedding parameters a = 0.9922 b = 1.112
+09:26:12 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-09:44:18 Read 44253 rows and found 24 numeric columns
+09:26:12 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-09:44:18 Using Annoy for neighbor search, n_neighbors = 30
+09:26:12 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-09:44:18 Building Annoy index with metric = cosine, n_trees = 50
+09:26:12 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -337,13 +337,13 @@ Computing SNN
 
 ~~~
 **************************************************|
-09:44:22 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\Rtmp6BsyhO\file307c11cb7ac4
-09:44:22 Searching Annoy index using 1 thread, search_k = 3000
-09:44:32 Annoy recall = 100%
-09:44:33 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-09:44:36 Initializing from normalized Laplacian + noise (using irlba)
-09:44:44 Commencing optimization for 200 epochs, with 1892644 positive edges
-09:45:20 Optimization finished
+09:26:16 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpwzRDpe\file41d845ad164e
+09:26:16 Searching Annoy index using 1 thread, search_k = 3000
+09:26:27 Annoy recall = 100%
+09:26:27 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+09:26:30 Initializing from normalized Laplacian + noise (using irlba)
+09:26:38 Commencing optimization for 200 epochs, with 1892644 positive edges
+09:27:15 Optimization finished
 ~~~
 {: .output}
 
@@ -586,6 +586,14 @@ group_by(markers, cluster) %>%
   arrange(cluster)
 ~~~
 {: .language-r}
+
+
+
+~~~
+Warning: Specifying the `id_cols` argument by position was deprecated in tidyr 1.3.0.
+i Please explicitly name `id_cols`, like `id_cols = -c(avg_log2FC, pct.1, pct.2, p_val_adj)`.
+~~~
+{: .warning}
 
 
 
@@ -1211,63 +1219,63 @@ other attached packages:
  [7] GenomicRanges_1.46.1        GenomeInfoDb_1.30.1        
  [9] IRanges_2.28.0              S4Vectors_0.32.4           
 [11] BiocGenerics_0.40.0         harmony_0.1.1              
-[13] Rcpp_1.0.9                  SeuratObject_4.1.3         
-[15] Seurat_4.3.0                forcats_0.5.2              
-[17] stringr_1.5.0               dplyr_1.0.10               
-[19] purrr_0.3.5                 readr_2.1.3                
-[21] tidyr_1.2.1                 tibble_3.1.8               
+[13] Rcpp_1.0.10                 SeuratObject_4.1.3         
+[15] Seurat_4.3.0                forcats_1.0.0              
+[17] stringr_1.5.0               dplyr_1.1.0                
+[19] purrr_1.0.1                 readr_2.1.3                
+[21] tidyr_1.3.0                 tibble_3.1.8               
 [23] ggplot2_3.4.0               tidyverse_1.3.2            
-[25] knitr_1.41                 
+[25] knitr_1.42                 
 
 loaded via a namespace (and not attached):
-  [1] utf8_1.2.2             spatstat.explore_3.0-5 reticulate_1.26       
-  [4] tidyselect_1.2.0       RSQLite_2.2.19         AnnotationDbi_1.56.2  
-  [7] htmlwidgets_1.5.4      grid_4.1.2             BiocParallel_1.28.3   
+  [1] utf8_1.2.2             spatstat.explore_3.0-6 reticulate_1.28       
+  [4] tidyselect_1.2.0       RSQLite_2.2.20         AnnotationDbi_1.56.2  
+  [7] htmlwidgets_1.6.1      grid_4.1.2             BiocParallel_1.28.3   
  [10] Rtsne_0.16             munsell_0.5.0          codetools_0.2-18      
- [13] ica_1.0-3              future_1.29.0          miniUI_0.1.1.1        
- [16] withr_2.5.0            spatstat.random_3.0-1  colorspace_2.0-3      
- [19] progressr_0.12.0       highr_0.9              ROCR_1.0-11           
- [22] tensor_1.5             listenv_0.8.0          labeling_0.4.2        
+ [13] ica_1.0-3              future_1.31.0          miniUI_0.1.1.1        
+ [16] withr_2.5.0            spatstat.random_3.1-3  colorspace_2.1-0      
+ [19] progressr_0.13.0       highr_0.10             ROCR_1.0-11           
+ [22] tensor_1.5             listenv_0.9.0          labeling_0.4.2        
  [25] GenomeInfoDbData_1.2.7 polyclip_1.10-4        bit64_4.0.5           
- [28] farver_2.1.1           parallelly_1.32.1      vctrs_0.5.1           
- [31] generics_0.1.3         xfun_0.35              timechange_0.1.1      
- [34] R6_2.5.1               ggbeeswarm_0.6.0       locfit_1.5-9.6        
+ [28] farver_2.1.1           parallelly_1.34.0      vctrs_0.5.2           
+ [31] generics_0.1.3         xfun_0.37              timechange_0.2.0      
+ [34] R6_2.5.1               ggbeeswarm_0.7.1       locfit_1.5-9.7        
  [37] bitops_1.0-7           spatstat.utils_3.0-1   cachem_1.0.6          
  [40] DelayedArray_0.20.0    assertthat_0.2.1       promises_1.2.0.1      
  [43] scales_1.2.1           googlesheets4_1.0.1    beeswarm_0.4.0        
  [46] gtable_0.3.1           globals_0.16.2         goftest_1.2-3         
  [49] rlang_1.0.6            genefilter_1.76.0      splines_4.1.2         
- [52] lazyeval_0.2.2         gargle_1.2.1           spatstat.geom_3.0-3   
- [55] broom_1.0.1            reshape2_1.4.4         abind_1.4-5           
- [58] modelr_0.1.10          backports_1.4.1        httpuv_1.6.6          
+ [52] lazyeval_0.2.2         gargle_1.3.0           spatstat.geom_3.0-6   
+ [55] broom_1.0.3            reshape2_1.4.4         abind_1.4-5           
+ [58] modelr_0.1.10          backports_1.4.1        httpuv_1.6.8          
  [61] tools_4.1.2            ellipsis_0.3.2         RColorBrewer_1.1-3    
  [64] ggridges_0.5.4         plyr_1.8.8             zlibbioc_1.40.0       
- [67] RCurl_1.98-1.9         deldir_1.0-6           pbapply_1.6-0         
+ [67] RCurl_1.98-1.10        deldir_1.0-6           pbapply_1.7-0         
  [70] cowplot_1.1.1          zoo_1.8-11             haven_2.5.1           
- [73] ggrepel_0.9.2          cluster_2.1.4          fs_1.5.2              
+ [73] ggrepel_0.9.3          cluster_2.1.4          fs_1.6.0              
  [76] magrittr_2.0.3         data.table_1.14.6      scattermore_0.8       
  [79] lmtest_0.9-40          reprex_2.0.2           RANN_2.6.1            
  [82] googledrive_2.0.0      fitdistrplus_1.1-8     hms_1.1.2             
- [85] patchwork_1.1.2        mime_0.12              evaluate_0.19         
+ [85] patchwork_1.1.2        mime_0.12              evaluate_0.20         
  [88] xtable_1.8-4           XML_3.99-0.13          readxl_1.4.1          
  [91] gridExtra_2.3          compiler_4.1.2         KernSmooth_2.23-20    
- [94] crayon_1.5.2           htmltools_0.5.3        later_1.3.0           
- [97] tzdb_0.3.0             geneplotter_1.72.0     lubridate_1.9.0       
-[100] DBI_1.1.3              dbplyr_2.2.1           MASS_7.3-58.1         
+ [94] crayon_1.5.2           htmltools_0.5.4        later_1.3.0           
+ [97] tzdb_0.3.0             geneplotter_1.72.0     lubridate_1.9.1       
+[100] DBI_1.1.3              dbplyr_2.3.0           MASS_7.3-58.1         
 [103] Matrix_1.5-3           cli_3.4.1              parallel_4.1.2        
-[106] igraph_1.3.5           pkgconfig_2.0.3        sp_1.5-1              
+[106] igraph_1.3.5           pkgconfig_2.0.3        sp_1.6-0              
 [109] plotly_4.10.1          spatstat.sparse_3.0-0  xml2_1.3.3            
 [112] annotate_1.72.0        vipor_0.4.5            XVector_0.34.0        
-[115] rvest_1.0.3            digest_0.6.30          sctransform_0.3.5     
+[115] rvest_1.0.3            digest_0.6.31          sctransform_0.3.5     
 [118] RcppAnnoy_0.0.20       spatstat.data_3.0-0    Biostrings_2.62.0     
 [121] cellranger_1.1.0       leiden_0.4.3           uwot_0.1.14           
-[124] curl_4.3.3             shiny_1.7.3            rjson_0.2.21          
-[127] lifecycle_1.0.3        nlme_3.1-160           jsonlite_1.8.3        
-[130] limma_3.50.3           viridisLite_0.4.1      fansi_1.0.3           
+[124] curl_4.3.3             shiny_1.7.4            rjson_0.2.21          
+[127] lifecycle_1.0.3        nlme_3.1-160           jsonlite_1.8.4        
+[130] limma_3.50.3           viridisLite_0.4.1      fansi_1.0.4           
 [133] pillar_1.8.1           lattice_0.20-45        ggrastr_1.0.1         
 [136] KEGGREST_1.34.0        fastmap_1.1.0          httr_1.4.4            
 [139] survival_3.4-0         glue_1.6.2             png_0.1-8             
-[142] bit_4.0.5              stringi_1.7.8          blob_1.2.3            
+[142] bit_4.0.5              stringi_1.7.12         blob_1.2.3            
 [145] memoise_2.0.1.9000     irlba_2.3.5.1          future.apply_1.10.0   
 ~~~
 {: .output}

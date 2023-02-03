@@ -13,7 +13,7 @@ keypoints:
 - "Run `make serve` to knit documents and preview lesson website locally"
 ---
 
-```{r libraries}
+```{r libraries,warning=FALSE}
 source("../bin/chunk-options.R")
 knitr_fig_path("05-")
 
@@ -29,9 +29,8 @@ set.seed(1418)
 ```
 
 
-## Read Data from Previous Lesson
-
 ```{r load_data,include=FALSE}
+# Read in data from previous lesson.
 # Only needed for lesson building.
 # Don't run in class.
 liver <- readRDS(file.path(data_dir, 'lesson04.rds'))
@@ -53,15 +52,18 @@ Seurat object, we can also pipe together multiple commands to do
 multiple things to our object. That could look something like:
 ```
 liver <- DoSomething(liver, param1 = TRUE, param2 = 0.3) %>%
-    DoSomethingElse(param1 = 3) %>%
-    DoAThirdThing(param1 = c(1, 4, 6))
+           DoSomethingElse(param1 = 3) %>%
+           DoAThirdThing(param1 = c(1, 4, 6))
 ```
+
+The pipe operator passes the results of the first command as the argument 
+to the next command.
 
 We can just as well use the piping operator `%>%` even if 
 we are calling only one function:
 ```
 liver <- liver %>%
-    DoSomething(param1 = TRUE, param2 = 0.3)
+           DoSomething(param1 = TRUE, param2 = 0.3)
 ```
 
 In this lesson (and elsewhere in the course) we may alternate between
