@@ -1,0 +1,1239 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="297mm"
+   height="210mm"
+   viewBox="0 0 297 210"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   sodipodi:docname="rowsums.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.90583672"
+     inkscape:cx="902.48053"
+     inkscape:cy="495.67432"
+     inkscape:window-width="2560"
+     inkscape:window-height="1506"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient64024">
+      <stop
+         style="stop-color:#000000;stop-opacity:0.25"
+         offset="0"
+         id="stop64020" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop64022" />
+    </linearGradient>
+    <inkscape:path-effect
+       effect="powerstroke"
+       id="path-effect63438"
+       is_visible="true"
+       lpeversion="1"
+       offset_points="3,4.99214"
+       not_jump="false"
+       sort_points="true"
+       interpolator_type="CubicBezierJohan"
+       interpolator_beta="0.2"
+       start_linecap_type="zerowidth"
+       linejoin_type="extrp_arc"
+       miter_limit="4"
+       scale_width="1"
+       end_linecap_type="zerowidth" />
+    <inkscape:path-effect
+       effect="powerstroke"
+       id="path-effect62990"
+       is_visible="true"
+       lpeversion="1"
+       offset_points="0,4.99214"
+       not_jump="false"
+       sort_points="true"
+       interpolator_type="CubicBezierJohan"
+       interpolator_beta="0.2"
+       start_linecap_type="zerowidth"
+       linejoin_type="extrp_arc"
+       miter_limit="4"
+       scale_width="1"
+       end_linecap_type="zerowidth" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect62500"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect62374"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <marker
+       style="overflow:visible"
+       id="TriangleOutL"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="TriangleOutL"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.8)"
+         style="fill-rule:evenodd;fill:context-stroke;stroke:context-stroke;stroke-width:1.0pt"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         id="path59869" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow2Lend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(1.1) rotate(180) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round;"
+         id="path59748" />
+    </marker>
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect59668"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect59017"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect54293"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <rect
+       x="37.469364"
+       y="33.566305"
+       width="790.7597"
+       height="700.98934"
+       id="rect6119" />
+    <rect
+       x="37.469364"
+       y="33.566303"
+       width="183.44378"
+       height="610.43835"
+       id="rect6119-5" />
+    <rect
+       x="37.469364"
+       y="33.566303"
+       width="183.44379"
+       height="610.43835"
+       id="rect6119-5-2" />
+    <rect
+       x="37.469364"
+       y="33.566303"
+       width="183.44379"
+       height="610.43835"
+       id="rect6119-5-5" />
+    <rect
+       x="37.469364"
+       y="33.566303"
+       width="183.44379"
+       height="610.43835"
+       id="rect6119-5-53" />
+    <rect
+       x="37.469364"
+       y="33.566303"
+       width="183.44379"
+       height="610.43835"
+       id="rect6119-5-3" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect54293-4"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect54293-2"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect54293-0"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect54293-9"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <rect
+       x="37.469364"
+       y="33.566303"
+       width="183.44379"
+       height="610.43835"
+       id="rect6119-5-3-7" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect59017-9"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect59017-4"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect59017-40"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect59017-0"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect59017-6"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect59017-7"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect59017-96"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient64024"
+       id="linearGradient64026"
+       x1="70.738876"
+       y1="23.028858"
+       x2="387.66966"
+       y2="23.545201"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-521.91862)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient64024"
+       id="linearGradient65500"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-521.91862)"
+       x1="70.738876"
+       y1="23.028858"
+       x2="387.66966"
+       y2="23.545201" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient64024"
+       id="linearGradient65531"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-521.91862)"
+       x1="70.738876"
+       y1="23.028858"
+       x2="387.66966"
+       y2="23.545201" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient64024"
+       id="linearGradient65562"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-521.91862)"
+       x1="70.738876"
+       y1="23.028858"
+       x2="387.66966"
+       y2="23.545201" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient64024"
+       id="linearGradient65593"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-521.91862)"
+       x1="70.738876"
+       y1="23.028858"
+       x2="387.66966"
+       y2="23.545201" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient64024"
+       id="linearGradient65624"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-521.91862)"
+       x1="70.738876"
+       y1="23.028858"
+       x2="387.66966"
+       y2="23.545201" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient64024"
+       id="linearGradient65655"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-521.91862)"
+       x1="70.738876"
+       y1="23.028858"
+       x2="387.66966"
+       y2="23.545201" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient64024"
+       id="linearGradient65686"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-521.91862)"
+       x1="70.738876"
+       y1="23.028858"
+       x2="387.66966"
+       y2="23.545201" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.5"
+       id="rect68557"
+       width="454.89804"
+       height="143.54311"
+       x="0.41307372"
+       y="0.82614744"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-53.079972,-8.2614742)"
+       id="text6117"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.5;font-family:sans-serif;white-space:pre;shape-inside:url(#rect6119);fill:#000000;fill-opacity:1;stroke:none"
+       x="443.125"
+       y="0"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         x="361.66699"
+         y="75.059619"
+         id="tspan68981"><tspan
+           style="text-align:center;text-anchor:middle"
+           id="tspan68977">gene_id</tspan><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial"
+           id="tspan68979">
+</tspan></tspan><tspan
+         x="209.37207"
+         y="135.52265"
+         id="tspan68985"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial"
+           id="tspan68983">ENSMUSG00000000001
+</tspan></tspan><tspan
+         x="209.37207"
+         y="195.98569"
+         id="tspan68989"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial"
+           id="tspan68987">ENSMUSG00000000002
+</tspan></tspan><tspan
+         x="209.37207"
+         y="256.44872"
+         id="tspan68993"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial"
+           id="tspan68991">ENSMUSG00000000003
+</tspan></tspan><tspan
+         x="209.37207"
+         y="316.91176"
+         id="tspan68997"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial"
+           id="tspan68995">ENSMUSG00000000004
+</tspan></tspan><tspan
+         x="209.37207"
+         y="377.3748"
+         id="tspan69001"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial"
+           id="tspan68999">ENSMUSG00000000005
+</tspan></tspan><tspan
+         x="209.37207"
+         y="437.83785"
+         id="tspan69005"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial"
+           id="tspan69003">ENSMUSG00000000006
+</tspan></tspan><tspan
+         x="209.37207"
+         y="498.30089"
+         id="tspan69009"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial"
+           id="tspan69007">ENSMUSG00000000007
+</tspan></tspan><tspan
+         x="209.37207"
+         y="558.7639"
+         id="tspan69013"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial"
+           id="tspan69011">ENSMUSG00000000008</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,117.13136,-8.4319851)"
+       id="text6117-1"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.5;font-family:sans-serif;white-space:pre;shape-inside:url(#rect6119-5);fill:#000000;fill-opacity:1;stroke:none"
+       x="525.91797"
+       y="0"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         x="42.472656"
+         y="75.059619"
+         id="tspan69017"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69015">sample_1
+</tspan></tspan><tspan
+         x="106.94531"
+         y="135.52265"
+         id="tspan69021"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69019">12
+</tspan></tspan><tspan
+         x="106.94531"
+         y="195.98569"
+         id="tspan69025"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69023">14
+</tspan></tspan><tspan
+         x="118.06836"
+         y="256.44872"
+         id="tspan69029"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69027">0
+</tspan></tspan><tspan
+         x="118.06836"
+         y="316.91176"
+         id="tspan69033"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69031">5
+</tspan></tspan><tspan
+         x="106.94531"
+         y="377.3748"
+         id="tspan69037"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69035">17
+</tspan></tspan><tspan
+         x="118.06836"
+         y="437.83785"
+         id="tspan69041"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69039">0
+</tspan></tspan><tspan
+         x="106.94531"
+         y="498.30089"
+         id="tspan69045"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69043">17
+</tspan></tspan><tspan
+         x="118.06836"
+         y="558.7639"
+         id="tspan69049"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69047">5</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,166.95412,-8.6233779)"
+       id="text6117-1-4"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.5;font-family:sans-serif;white-space:pre;shape-inside:url(#rect6119-5-2);fill:#000000;fill-opacity:1;stroke:none"
+       x="525.91797"
+       y="0"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         x="42.472656"
+         y="75.059619"
+         id="tspan69053"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69051">sample_2
+</tspan></tspan><tspan
+         x="106.94531"
+         y="135.52265"
+         id="tspan69057"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69055">18
+</tspan></tspan><tspan
+         x="118.06836"
+         y="195.98569"
+         id="tspan69063"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69059">9</tspan><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69061">
+</tspan></tspan><tspan
+         x="118.06836"
+         y="256.44872"
+         id="tspan69067"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69065">0
+</tspan></tspan><tspan
+         x="118.06836"
+         y="316.91176"
+         id="tspan69073"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69069">0</tspan><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69071">
+</tspan></tspan><tspan
+         x="118.06836"
+         y="377.3748"
+         id="tspan69079"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69075">9</tspan><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69077">
+</tspan></tspan><tspan
+         x="118.06836"
+         y="437.83785"
+         id="tspan69083"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69081">0
+</tspan></tspan><tspan
+         x="106.94531"
+         y="498.30089"
+         id="tspan69087"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69085">16
+</tspan></tspan><tspan
+         x="106.94531"
+         y="558.7639"
+         id="tspan69091"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69089">17</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,217.04955,-8.5329338)"
+       id="text6117-1-5"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.5;font-family:sans-serif;white-space:pre;shape-inside:url(#rect6119-5-5);fill:#000000;fill-opacity:1;stroke:none"
+       x="525.91797"
+       y="0"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         x="42.472656"
+         y="75.059619"
+         id="tspan69095"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69093">sample_3
+</tspan></tspan><tspan
+         x="106.94531"
+         y="135.52265"
+         id="tspan69099"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69097">16
+</tspan></tspan><tspan
+         x="106.94531"
+         y="195.98569"
+         id="tspan69103"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69101">10
+</tspan></tspan><tspan
+         x="118.06836"
+         y="256.44872"
+         id="tspan69107"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69105">0
+</tspan></tspan><tspan
+         x="118.06836"
+         y="316.91176"
+         id="tspan69111"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69109">5
+</tspan></tspan><tspan
+         x="106.94531"
+         y="377.3748"
+         id="tspan69115"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69113">13
+</tspan></tspan><tspan
+         x="118.06836"
+         y="437.83785"
+         id="tspan69119"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69117">0
+</tspan></tspan><tspan
+         x="118.06836"
+         y="498.30089"
+         id="tspan69125"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69121">4</tspan><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69123">
+</tspan></tspan><tspan
+         x="106.94531"
+         y="558.7639"
+         id="tspan69131"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69127">1</tspan><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69129">5</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,267.96024,-8.5329338)"
+       id="text6117-1-7"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.5;font-family:sans-serif;white-space:pre;shape-inside:url(#rect6119-5-53);fill:#000000;fill-opacity:1;stroke:none"
+       x="525.91797"
+       y="0"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         x="42.472656"
+         y="75.059619"
+         id="tspan69135"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69133">sample_4
+</tspan></tspan><tspan
+         x="106.94531"
+         y="135.52265"
+         id="tspan69139"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69137">13
+</tspan></tspan><tspan
+         x="118.06836"
+         y="195.98569"
+         id="tspan69145"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69141">2</tspan><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69143">
+</tspan></tspan><tspan
+         x="118.06836"
+         y="256.44872"
+         id="tspan69149"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69147">0
+</tspan></tspan><tspan
+         x="118.06836"
+         y="316.91176"
+         id="tspan69155"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69151">4</tspan><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69153">
+</tspan></tspan><tspan
+         x="106.94531"
+         y="377.3748"
+         id="tspan69159"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69157">14
+</tspan></tspan><tspan
+         x="118.06836"
+         y="437.83785"
+         id="tspan69163"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69161">0
+</tspan></tspan><tspan
+         x="118.06836"
+         y="498.30089"
+         id="tspan69167"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69165">7
+</tspan></tspan><tspan
+         x="118.06836"
+         y="558.7639"
+         id="tspan69171"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69169">2</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,318.53612,-8.5329339)"
+       id="text6117-1-6"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.5;font-family:sans-serif;white-space:pre;shape-inside:url(#rect6119-5-3);fill:#000000;fill-opacity:1;stroke:none"
+       x="525.91797"
+       y="0"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         x="42.472656"
+         y="75.059619"
+         id="tspan69175"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69173">sample_5
+</tspan></tspan><tspan
+         x="106.94531"
+         y="135.52265"
+         id="tspan69179"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69177">15
+</tspan></tspan><tspan
+         x="106.94531"
+         y="195.98569"
+         id="tspan69183"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69181">10
+</tspan></tspan><tspan
+         x="118.06836"
+         y="256.44872"
+         id="tspan69187"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69185">0
+</tspan></tspan><tspan
+         x="118.06836"
+         y="316.91176"
+         id="tspan69193"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69189">3</tspan><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69191">
+</tspan></tspan><tspan
+         x="106.94531"
+         y="377.3748"
+         id="tspan69197"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69195">16
+</tspan></tspan><tspan
+         x="118.06836"
+         y="437.83785"
+         id="tspan69201"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69199">0
+</tspan></tspan><tspan
+         x="118.06836"
+         y="498.30089"
+         id="tspan69207"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69203">3</tspan><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69205">
+</tspan></tspan><tspan
+         x="106.94531"
+         y="558.7639"
+         id="tspan69211"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69209">12</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,394.52735,-8.5999343)"
+       id="text6117-1-6-1"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.5;font-family:sans-serif;white-space:pre;shape-inside:url(#rect6119-5-3-7);fill:#000000;fill-opacity:1;stroke:none"
+       x="525.91797"
+       y="0"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
+         x="53.625"
+         y="75.059619"
+         id="tspan69215"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69213">row sum
+</tspan></tspan><tspan
+         x="106.94531"
+         y="135.52265"
+         id="tspan69221"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69217">74</tspan><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69219">
+</tspan></tspan><tspan
+         x="106.94531"
+         y="195.98569"
+         id="tspan69227"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69223">45</tspan><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69225">
+</tspan></tspan><tspan
+         x="118.06836"
+         y="256.44872"
+         id="tspan69231"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69229">0
+</tspan></tspan><tspan
+         x="106.94531"
+         y="316.91176"
+         id="tspan69237"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69233">17</tspan><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69235">
+</tspan></tspan><tspan
+         x="106.94531"
+         y="377.3748"
+         id="tspan69243"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69239">69</tspan><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69241">
+</tspan></tspan><tspan
+         x="118.06836"
+         y="437.83785"
+         id="tspan69247"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69245">0
+</tspan></tspan><tspan
+         x="106.94531"
+         y="498.30089"
+         id="tspan69253"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69249">47</tspan><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69251">
+</tspan></tspan><tspan
+         x="106.94531"
+         y="558.7639"
+         id="tspan69257"><tspan
+           style="font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle"
+           id="tspan69255">51</tspan></tspan></text>
+    <rect
+       style="fill:none;stroke:#040000;stroke-width:0.499999"
+       id="rect52801"
+       width="378.37552"
+       height="143.54312"
+       x="0.41307372"
+       y="0.82614744"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 378.37551,15.283727 H 0 c 0,0 0,0 0,0"
+       id="path52916"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 378.62053,32.21975 H 0.24501628 c 0,0 0,0 0,0"
+       id="path52916-0"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 378.77512,47.916551 H 0.39958301 c 0,0 0,0 0,0"
+       id="path52916-5"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 379.09775,65.05911 H 0.72221278 c 0,0 0,0 0,0"
+       id="path52916-58"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 378.76164,81.375522 H 0.38608641 c 0,0 0,0 0,0"
+       id="path52916-1"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 378.90339,96.194876 H 0.52782851 c 0,0 0,0 0,0"
+       id="path52916-2"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 378.74817,111.95645 H 0.37258991 c 0,0 0,0 0,0"
+       id="path52916-7"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 378.74817,128.23374 H 0.37258991 c 0,0 0,0 0,0"
+       id="path52916-76"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 125.36787,0.82614743 c 0,47.84796957 0,95.69567457 0,143.54311257"
+       id="path54291"
+       inkscape:path-effect="#path-effect54293"
+       inkscape:original-d="m 125.36787,0.82614743 c 2.7e-4,47.84796957 2.7e-4,95.69567457 0,143.54311257"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 176.03419,0.98071538 c 0,47.84797062 0,95.69567562 0,143.54312462"
+       id="path54291-5"
+       inkscape:path-effect="#path-effect54293-4"
+       inkscape:original-d="m 176.03419,0.98071538 c 2.7e-4,47.84797062 2.7e-4,95.69567562 0,143.54312462"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 226.57093,0.98071538 c 0,47.84797062 0,95.69567562 0,143.54312462"
+       id="path54291-7"
+       inkscape:path-effect="#path-effect54293-2"
+       inkscape:original-d="m 226.57093,0.98071538 c 2.7e-4,47.84797062 2.7e-4,95.69567562 0,143.54312462"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 276.78504,0.90242418 c 0,47.84797382 0,95.69567882 0,143.54315582"
+       id="path54291-73"
+       inkscape:path-effect="#path-effect54293-0"
+       inkscape:original-d="m 276.78504,0.90242418 c 2.7e-4,47.84797382 2.7e-4,95.69567882 0,143.54315582"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 328.36795,0.92941733 c 0,47.84796967 0,95.69567467 0,143.54311267"
+       id="path54291-0"
+       inkscape:path-effect="#path-effect54293-9"
+       inkscape:original-d="m 328.36795,0.92941733 c 2.7e-4,47.84796967 2.7e-4,95.69567467 0,143.54311267"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <rect
+       style="fill:none;stroke:#040000;stroke-width:0.499999;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect58626"
+       width="52.873432"
+       height="143.54312"
+       x="402.43768"
+       y="0.82614744"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 402.55868,15.193284 c 17.65327,0 35.30626,0 52.95899,0"
+       id="path59015"
+       inkscape:path-effect="#path-effect59017"
+       inkscape:original-d="m 402.55868,15.193284 c 17.65327,2.65e-4 35.30626,2.65e-4 52.95899,0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 402.14969,32.129306 c 17.5559,0 35.11153,0 52.6669,0"
+       id="path59015-0"
+       inkscape:path-effect="#path-effect59017-9"
+       inkscape:original-d="m 402.14969,32.129306 c 17.5559,2.64e-4 35.11153,2.64e-4 52.6669,0"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 402.56765,47.942201 c 17.65327,0 35.30626,0 52.95899,0"
+       id="path59015-3"
+       inkscape:path-effect="#path-effect59017-4"
+       inkscape:original-d="m 402.56765,47.942201 c 17.65327,2.65e-4 35.30626,2.65e-4 52.95899,0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 402.35622,64.787779 c 17.5559,0 35.11153,0 52.6669,0"
+       id="path59015-7"
+       inkscape:path-effect="#path-effect59017-40"
+       inkscape:original-d="m 402.35622,64.787779 c 17.5559,2.64e-4 35.11153,2.64e-4 52.6669,0"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 402.58842,81.491615 c 17.6776,0 35.35494,0 53.03201,0"
+       id="path59015-6"
+       inkscape:path-effect="#path-effect59017-0"
+       inkscape:original-d="m 402.58842,81.491615 c 17.6776,2.65e-4 35.35494,2.65e-4 53.03201,0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 402.24013,96.181381 c 17.70194,0 35.40362,0 53.10503,0"
+       id="path59015-9"
+       inkscape:path-effect="#path-effect59017-6"
+       inkscape:original-d="m 402.24013,96.181381 c 17.70194,2.65e-4 35.40362,2.65e-4 53.10503,0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 402.38188,112.05907 c 17.5559,0 35.11153,0 52.6669,0"
+       id="path59015-35"
+       inkscape:path-effect="#path-effect59017-7"
+       inkscape:original-d="m 402.38188,112.05907 c 17.5559,2.7e-4 35.11153,2.7e-4 52.6669,0"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 402.35622,128.1946 c 17.5559,0 35.11153,0 52.6669,0"
+       id="path59015-8"
+       inkscape:path-effect="#path-effect59017-96"
+       inkscape:original-d="m 402.35622,128.1946 c 17.5559,2.7e-4 35.11153,2.7e-4 52.6669,0"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
+    <g
+       id="path59666"
+       style="fill:#000000;fill-opacity:0.50819671"
+       inkscape:export-filename="C:\Users\c-dgatti\Documents\classes\JAX\scRNAseq\SingleCellRNAseq\fig\rowsums.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <g
+         id="g65011">
+        <path
+           style="fill:#000000;fill-opacity:0.23;stroke:none;stroke-width:0.280645px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 391.79312,16.145311 v 15.104396 l 7.28045,-7.842666 z"
+           id="path63633"
+           sodipodi:nodetypes="cccc" />
+        <rect
+           style="fill:url(#linearGradient64026);fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.5"
+           id="rect63961"
+           width="257.58286"
+           height="9.0876217"
+           x="-391.83191"
+           y="19.00139"
+           transform="scale(-1,1)" />
+      </g>
+      <g
+         id="g65011-1"
+         style="fill:#000000;fill-opacity:0.508197"
+         transform="translate(-0.05821542,15.954296)">
+        <path
+           style="fill:#000000;fill-opacity:0.23;stroke:none;stroke-width:0.280645px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 391.79312,16.145311 v 15.104396 l 7.28045,-7.842666 z"
+           id="path63633-4"
+           sodipodi:nodetypes="cccc" />
+        <rect
+           style="fill:url(#linearGradient65500);fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.5"
+           id="rect63961-0"
+           width="257.58286"
+           height="9.0876217"
+           x="-391.83191"
+           y="19.00139"
+           transform="scale(-1,1)" />
+      </g>
+      <g
+         id="g65011-4"
+         style="fill:#000000;fill-opacity:0.508197"
+         transform="translate(-0.13172007,32.000598)">
+        <path
+           style="fill:#000000;fill-opacity:0.23;stroke:none;stroke-width:0.280645px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 391.79312,16.145311 v 15.104396 l 7.28045,-7.842666 z"
+           id="path63633-3"
+           sodipodi:nodetypes="cccc" />
+        <rect
+           style="fill:url(#linearGradient65531);fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.5"
+           id="rect63961-8"
+           width="257.58286"
+           height="9.0876217"
+           x="-391.83191"
+           y="19.00139"
+           transform="scale(-1,1)" />
+      </g>
+      <g
+         id="g65011-0"
+         style="fill:#000000;fill-opacity:0.508197"
+         transform="translate(-0.22323873,48.046895)">
+        <path
+           style="fill:#000000;fill-opacity:0.23;stroke:none;stroke-width:0.280645px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 391.79312,16.145311 v 15.104396 l 7.28045,-7.842666 z"
+           id="path63633-7"
+           sodipodi:nodetypes="cccc" />
+        <rect
+           style="fill:url(#linearGradient65562);fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.5"
+           id="rect63961-9"
+           width="257.58286"
+           height="9.0876217"
+           x="-391.83191"
+           y="19.00139"
+           transform="scale(-1,1)" />
+      </g>
+      <g
+         id="g65011-9"
+         style="fill:#000000;fill-opacity:0.508197"
+         transform="translate(-0.24221841,64.095126)">
+        <path
+           style="fill:#000000;fill-opacity:0.23;stroke:none;stroke-width:0.280645px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 391.79312,16.145311 v 15.104396 l 7.28045,-7.842666 z"
+           id="path63633-78"
+           sodipodi:nodetypes="cccc" />
+        <rect
+           style="fill:url(#linearGradient65593);fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.5"
+           id="rect63961-90"
+           width="257.58286"
+           height="9.0876217"
+           x="-391.83191"
+           y="19.00139"
+           transform="scale(-1,1)" />
+      </g>
+      <g
+         id="g65011-5"
+         style="fill:#000000;fill-opacity:0.508197"
+         transform="translate(-0.24221843,80.030449)">
+        <path
+           style="fill:#000000;fill-opacity:0.23;stroke:none;stroke-width:0.280645px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 391.79312,16.145311 v 15.104396 l 7.28045,-7.842666 z"
+           id="path63633-0"
+           sodipodi:nodetypes="cccc" />
+        <rect
+           style="fill:url(#linearGradient65624);fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.5"
+           id="rect63961-3"
+           width="257.58286"
+           height="9.0876217"
+           x="-391.83191"
+           y="19.00139"
+           transform="scale(-1,1)" />
+      </g>
+      <g
+         id="g65011-6"
+         style="fill:#000000;fill-opacity:0.508197"
+         transform="translate(-0.3322886,96.058251)">
+        <path
+           style="fill:#000000;fill-opacity:0.23;stroke:none;stroke-width:0.280645px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 391.79312,16.145311 v 15.104396 l 7.28045,-7.842666 z"
+           id="path63633-41"
+           sodipodi:nodetypes="cccc" />
+        <rect
+           style="fill:url(#linearGradient65655);fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.5"
+           id="rect63961-07"
+           width="257.58286"
+           height="9.0876217"
+           x="-391.83191"
+           y="19.00139"
+           transform="scale(-1,1)" />
+      </g>
+      <g
+         id="g65011-46"
+         style="fill:#000000;fill-opacity:0.508197"
+         transform="translate(-0.37024796,112.01304)">
+        <path
+           style="fill:#000000;fill-opacity:0.23;stroke:none;stroke-width:0.280645px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 391.79312,16.145311 v 15.104396 l 7.28045,-7.842666 z"
+           id="path63633-1"
+           sodipodi:nodetypes="cccc" />
+        <rect
+           style="fill:url(#linearGradient65686);fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.5"
+           id="rect63961-1"
+           width="257.58286"
+           height="9.0876217"
+           x="-391.83191"
+           y="19.00139"
+           transform="scale(-1,1)" />
+      </g>
+    </g>
+  </g>
+</svg>

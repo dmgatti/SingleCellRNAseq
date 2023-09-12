@@ -34,7 +34,7 @@ data_dir <- '../data'
 
 
 
-> DMG: Overall process figure.
+<img src="../fig/single_cell_flowchart_3.png" width="800px" alt="Single Cell Flowchart" >
 
 ## Quality control in scRNA-seq
 
@@ -52,8 +52,6 @@ Some technical questions that you might ask include:
 1. Why is mitochondrial gene expression high in some cells?
 1. What is a unique molecular identifier (UMI), and why do we check numbers of UMI?
 1. What happens to make gene counts low in a cell?
-
-> DMG: Add image for UMI? Too complicated? Yes.
 
 <!-- DASremoved ribosomal point here. Often we don't filter based on ribo, not clearly associated with poor quality cells -->
 
@@ -89,8 +87,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7186753  383.9   12272774  655.5  10437647  557.5
-Vcells 179573301 1370.1  434022430 3311.4 434017805 3311.3
+Ncells   7293521  389.6   11719412  625.9  10647663  568.7
+Vcells 179824345 1372.0  434324494 3313.7 434323281 3313.7
 ~~~
 {: .output}
 
@@ -126,7 +124,7 @@ sum(gene_counts == 0)
 ~~~
 {: .output}
 
-> DMG: Figure for row-summing???
+<img src="../fig/rowsums.png" width="800px" alt="Summing Rows of Counts Matrix" >
 
 Of the 31053 genes, 7322 have zero counts across 
 all cells. These genes do not inform us about the mean, variance, or covariance 
@@ -178,7 +176,10 @@ gene_counts %>%
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-gene_count_hist-1.png" alt="plot of chunk gene_count_hist" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-04-gene_count_hist-1.png" alt="plot of chunk gene_count_hist" width="612" />
+<p class="caption">plot of chunk gene_count_hist</p>
+</div>
 
 As you can see, the number of cells in which each gene is detected spans several 
 orders of magnitude and this makes it difficult to interpret the plot. Some 
@@ -216,7 +217,10 @@ Warning: Removed 2 rows containing missing values (`geom_bar()`).
 ~~~
 {: .warning}
 
-<img src="../fig/rmd-04-gene_count_hist_2-1.png" alt="plot of chunk gene_count_hist_2" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-04-gene_count_hist_2-1.png" alt="plot of chunk gene_count_hist_2" width="612" />
+<p class="caption">plot of chunk gene_count_hist_2</p>
+</div>
 
 In the plot above, we can see that there are 1596 
 genes that were detected in only one cell, 924 
@@ -268,8 +272,6 @@ justify a threshold between, say, 3 and 20 cells.
 > {: .solution}
 {: .challenge}
 
-> DAS & DMG: Should we have some kind of challenge later in the lesson in which the students do no filtering vs. filtering by genes that occur in 100+ cells? Should the challenge be later in the clusering lesson? Filter more strictly and redo analysis?
-
 ### Filtering Cells by Counts
 
 Next we will look at the number of genes expressed in each cell. 
@@ -296,7 +298,10 @@ tibble(counts  = Matrix::colSums(counts > 0)) %>%
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-sum_cell_counts-1.png" alt="plot of chunk sum_cell_counts" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-04-sum_cell_counts-1.png" alt="plot of chunk sum_cell_counts" width="612" />
+<p class="caption">plot of chunk sum_cell_counts</p>
+</div>
 
 Cells with way more genes expressed than the typical cell might be
 doublets/multiplets and should also be removed.
@@ -360,8 +365,8 @@ gc()
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7300243  389.9   12272774  655.5  12272774  655.5
-Vcells 180146843 1374.5  520906916 3974.3 464216236 3541.7
+Ncells   7416112  396.1   11719412  625.9  11719412  625.9
+Vcells 180414086 1376.5  521269392 3977.0 464844919 3546.5
 ~~~
 {: .output}
 
@@ -504,7 +509,10 @@ VlnPlot(liver, features = "percent.mt", group.by = 'sample')
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-seurat_counts_plots-1.png" alt="plot of chunk seurat_counts_plots" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-04-seurat_counts_plots-1.png" alt="plot of chunk seurat_counts_plots" width="612" />
+<p class="caption">plot of chunk seurat_counts_plots</p>
+</div>
 
 It is hard to see with so many dots! Let's try another version where we just
 plot the violins:
@@ -515,7 +523,10 @@ VlnPlot(liver, features = "percent.mt", group.by = 'sample', pt.size = 0)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-seurat_counts_plots2-1.png" alt="plot of chunk seurat_counts_plots2" width="432" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-04-seurat_counts_plots2-1.png" alt="plot of chunk seurat_counts_plots2" width="432" />
+<p class="caption">plot of chunk seurat_counts_plots2</p>
+</div>
 
 Library "CS89" (and maybe CS144) have a "long tail" of cells with high
 mitochondrial
@@ -559,7 +570,10 @@ VlnPlot(liver, 'nFeature_RNA', group.by = 'sample', pt.size = 0)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-filter_gene_counts-1.png" alt="plot of chunk filter_gene_counts" width="432" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-04-filter_gene_counts-1.png" alt="plot of chunk filter_gene_counts" width="432" />
+<p class="caption">plot of chunk filter_gene_counts</p>
+</div>
 
 Like with the mitochondrial expression percentage, we will strive
 to find a threshold that works reasonably well across all samples.
@@ -593,7 +607,10 @@ Adding another scale for y, which will replace the existing scale.
 ~~~
 {: .output}
 
-<img src="../fig/rmd-04-filter_gene_counts_5k-1.png" alt="plot of chunk filter_gene_counts_5k" width="432" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-04-filter_gene_counts_5k-1.png" alt="plot of chunk filter_gene_counts_5k" width="432" />
+<p class="caption">plot of chunk filter_gene_counts_5k</p>
+</div>
 
 ~~~
 #liver <- subset(liver, nFeature_RNA > 600 & nFeature_RNA < 5000)
@@ -647,7 +664,10 @@ ggplot(liver@meta.data, aes(x = nCount_RNA, y = nFeature_RNA)) +
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-04-genes_umi-1.png" alt="plot of chunk genes_umi" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-04-genes_umi-1.png" alt="plot of chunk genes_umi" width="612" />
+<p class="caption">plot of chunk genes_umi</p>
+</div>
 
 
 
@@ -669,7 +689,10 @@ Adding another scale for y, which will replace the existing scale.
 ~~~
 {: .output}
 
-<img src="../fig/rmd-04-filter_umi-1.png" alt="plot of chunk filter_umi" width="432" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-04-filter_umi-1.png" alt="plot of chunk filter_umi" width="432" />
+<p class="caption">plot of chunk filter_umi</p>
+</div>
 
 ~~~
 #liver <- subset(liver, nCount_RNA > 900 & nCount_RNA < 25000)
@@ -738,7 +761,7 @@ ggplot(mutate(liver[[]], class = ifelse(keep, 'QC singlet', 'QC doublet')),
 
 ~~~
 Error in `mutate()`:
-i In argument: `class = ifelse(keep, "QC singlet", "QC doublet")`.
+ℹ In argument: `class = ifelse(keep, "QC singlet", "QC doublet")`.
 Caused by error in `as.logical()`:
 ! cannot coerce type 'closure' to vector of type 'logical'
 ~~~
@@ -827,81 +850,74 @@ sessionInfo()
 
 
 ~~~
-R version 4.1.2 (2021-11-01)
+R version 4.2.3 (2023-03-15 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19042)
+Running under: Windows 10 x64 (build 19045)
 
 Matrix products: default
 
 locale:
-[1] LC_COLLATE=English_United States.1252 
-[2] LC_CTYPE=English_United States.1252   
-[3] LC_MONETARY=English_United States.1252
+[1] LC_COLLATE=English_United States.utf8 
+[2] LC_CTYPE=en_US.UTF-8                  
+[3] LC_MONETARY=English_United States.utf8
 [4] LC_NUMERIC=C                          
-[5] LC_TIME=English_United States.1252    
+[5] LC_TIME=English_United States.utf8    
 
 attached base packages:
 [1] stats4    stats     graphics  grDevices utils     datasets  methods  
 [8] base     
 
 other attached packages:
- [1] SeuratObject_4.1.3          Seurat_4.3.0               
- [3] scds_1.10.0                 SingleCellExperiment_1.16.0
- [5] SummarizedExperiment_1.24.0 Biobase_2.54.0             
- [7] GenomicRanges_1.46.1        GenomeInfoDb_1.30.1        
- [9] IRanges_2.28.0              S4Vectors_0.32.4           
-[11] BiocGenerics_0.40.0         MatrixGenerics_1.6.0       
-[13] matrixStats_0.63.0          Matrix_1.5-3               
-[15] forcats_1.0.0               stringr_1.5.0              
-[17] dplyr_1.1.0                 purrr_1.0.1                
-[19] readr_2.1.3                 tidyr_1.3.0                
-[21] tibble_3.1.8                ggplot2_3.4.0              
-[23] tidyverse_1.3.2             knitr_1.42                 
+ [1] SeuratObject_4.1.3          Seurat_4.3.0.1             
+ [3] scds_1.14.0                 SingleCellExperiment_1.20.1
+ [5] SummarizedExperiment_1.28.0 Biobase_2.58.0             
+ [7] GenomicRanges_1.50.2        GenomeInfoDb_1.34.9        
+ [9] IRanges_2.32.0              S4Vectors_0.36.2           
+[11] BiocGenerics_0.44.0         MatrixGenerics_1.10.0      
+[13] matrixStats_1.0.0           Matrix_1.6-0               
+[15] lubridate_1.9.2             forcats_1.0.0              
+[17] stringr_1.5.0               dplyr_1.1.2                
+[19] purrr_1.0.1                 readr_2.1.4                
+[21] tidyr_1.3.0                 tibble_3.2.1               
+[23] ggplot2_3.4.3               tidyverse_2.0.0            
+[25] knitr_1.44                 
 
 loaded via a namespace (and not attached):
-  [1] readxl_1.4.1           backports_1.4.1        plyr_1.8.8            
-  [4] igraph_1.3.5           lazyeval_0.2.2         sp_1.6-0              
-  [7] splines_4.1.2          listenv_0.9.0          scattermore_0.8       
- [10] digest_0.6.31          htmltools_0.5.4        fansi_1.0.4           
- [13] magrittr_2.0.3         tensor_1.5             googlesheets4_1.0.1   
- [16] cluster_2.1.4          ROCR_1.0-11            tzdb_0.3.0            
- [19] globals_0.16.2         modelr_0.1.10          timechange_0.2.0      
- [22] spatstat.sparse_3.0-0  colorspace_2.1-0       rvest_1.0.3           
- [25] ggrepel_0.9.3          haven_2.5.1            xfun_0.37             
- [28] crayon_1.5.2           RCurl_1.98-1.10        jsonlite_1.8.4        
- [31] progressr_0.13.0       spatstat.data_3.0-0    survival_3.4-0        
- [34] zoo_1.8-11             glue_1.6.2             polyclip_1.10-4       
- [37] gtable_0.3.1           gargle_1.3.0           zlibbioc_1.40.0       
- [40] XVector_0.34.0         leiden_0.4.3           DelayedArray_0.20.0   
- [43] future.apply_1.10.0    abind_1.4-5            scales_1.2.1          
- [46] DBI_1.1.3              spatstat.random_3.1-3  miniUI_0.1.1.1        
- [49] Rcpp_1.0.10            viridisLite_0.4.1      xtable_1.8-4          
- [52] reticulate_1.28        htmlwidgets_1.6.1      httr_1.4.4            
- [55] RColorBrewer_1.1-3     ellipsis_0.3.2         ica_1.0-3             
- [58] farver_2.1.1           pkgconfig_2.0.3        uwot_0.1.14           
- [61] deldir_1.0-6           dbplyr_2.3.0           utf8_1.2.3            
- [64] labeling_0.4.2         tidyselect_1.2.0       rlang_1.0.6           
- [67] reshape2_1.4.4         later_1.3.0            munsell_0.5.0         
- [70] cellranger_1.1.0       tools_4.1.2            xgboost_1.7.3.1       
- [73] cli_3.4.1              generics_0.1.3         broom_1.0.3           
- [76] ggridges_0.5.4         evaluate_0.20          fastmap_1.1.0         
- [79] goftest_1.2-3          fs_1.6.0               fitdistrplus_1.1-8    
- [82] RANN_2.6.1             nlme_3.1-160           pbapply_1.7-0         
- [85] future_1.31.0          mime_0.12              ggrastr_1.0.1         
- [88] xml2_1.3.3             compiler_4.1.2         beeswarm_0.4.0        
- [91] plotly_4.10.1          png_0.1-8              spatstat.utils_3.0-1  
- [94] reprex_2.0.2           stringi_1.7.12         highr_0.10            
- [97] lattice_0.20-45        vctrs_0.5.2            pillar_1.8.1          
-[100] lifecycle_1.0.3        spatstat.geom_3.0-6    lmtest_0.9-40         
-[103] RcppAnnoy_0.0.20       data.table_1.14.6      cowplot_1.1.1         
-[106] bitops_1.0-7           irlba_2.3.5.1          httpuv_1.6.8          
-[109] patchwork_1.1.2        R6_2.5.1               promises_1.2.0.1      
-[112] KernSmooth_2.23-20     gridExtra_2.3          vipor_0.4.5           
-[115] parallelly_1.34.0      codetools_0.2-18       MASS_7.3-58.1         
-[118] assertthat_0.2.1       withr_2.5.0            sctransform_0.3.5     
-[121] GenomeInfoDbData_1.2.7 parallel_4.1.2         hms_1.1.2             
-[124] grid_4.1.2             googledrive_2.0.0      Rtsne_0.16            
-[127] spatstat.explore_3.0-6 pROC_1.18.0            shiny_1.7.4           
-[130] lubridate_1.9.1        ggbeeswarm_0.7.1      
+  [1] Rtsne_0.16             colorspace_2.1-0       deldir_1.0-9          
+  [4] ellipsis_0.3.2         ggridges_0.5.4         XVector_0.38.0        
+  [7] spatstat.data_3.0-1    farver_2.1.1           leiden_0.4.3          
+ [10] listenv_0.9.0          ggrepel_0.9.3          fansi_1.0.4           
+ [13] codetools_0.2-19       splines_4.2.3          polyclip_1.10-4       
+ [16] jsonlite_1.8.7         pROC_1.18.4            ica_1.0-3             
+ [19] cluster_2.1.4          png_0.1-8              uwot_0.1.16           
+ [22] spatstat.sparse_3.0-2  sctransform_0.3.5      shiny_1.7.5           
+ [25] compiler_4.2.3         httr_1.4.7             lazyeval_0.2.2        
+ [28] fastmap_1.1.1          cli_3.6.1              later_1.3.1           
+ [31] htmltools_0.5.5        tools_4.2.3            igraph_1.5.0.1        
+ [34] gtable_0.3.4           glue_1.6.2             GenomeInfoDbData_1.2.9
+ [37] reshape2_1.4.4         RANN_2.6.1             Rcpp_1.0.11           
+ [40] scattermore_1.2        vctrs_0.6.3            nlme_3.1-162          
+ [43] spatstat.explore_3.2-1 progressr_0.14.0       lmtest_0.9-40         
+ [46] spatstat.random_3.1-5  xfun_0.39              globals_0.16.2        
+ [49] timechange_0.2.0       mime_0.12              miniUI_0.1.1.1        
+ [52] lifecycle_1.0.3        irlba_2.3.5.1          goftest_1.2-3         
+ [55] future_1.33.0          zlibbioc_1.44.0        MASS_7.3-60           
+ [58] zoo_1.8-12             scales_1.2.1           spatstat.utils_3.0-3  
+ [61] hms_1.1.3              promises_1.2.0.1       parallel_4.2.3        
+ [64] RColorBrewer_1.1-3     gridExtra_2.3          pbapply_1.7-2         
+ [67] reticulate_1.30        stringi_1.7.12         rlang_1.1.1           
+ [70] pkgconfig_2.0.3        bitops_1.0-7           evaluate_0.21         
+ [73] lattice_0.21-8         tensor_1.5             ROCR_1.0-11           
+ [76] labeling_0.4.3         htmlwidgets_1.6.2      patchwork_1.1.3       
+ [79] cowplot_1.1.1          tidyselect_1.2.0       parallelly_1.36.0     
+ [82] RcppAnnoy_0.0.21       plyr_1.8.8             magrittr_2.0.3        
+ [85] R6_2.5.1               generics_0.1.3         DelayedArray_0.24.0   
+ [88] pillar_1.9.0           withr_2.5.0            fitdistrplus_1.1-11   
+ [91] abind_1.4-5            survival_3.5-5         RCurl_1.98-1.12       
+ [94] sp_2.0-0               future.apply_1.11.0    xgboost_1.7.5.1       
+ [97] KernSmooth_2.23-22     utf8_1.2.3             spatstat.geom_3.2-4   
+[100] plotly_4.10.2          tzdb_0.4.0             grid_4.2.3            
+[103] data.table_1.14.8      digest_0.6.33          xtable_1.8-4          
+[106] httpuv_1.6.11          munsell_0.5.0          viridisLite_0.4.2     
 ~~~
 {: .output}

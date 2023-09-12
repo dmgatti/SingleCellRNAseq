@@ -37,7 +37,7 @@ data_dir <- '../data'
 load(file.path(data_dir, 'lesson03.Rdata'))
 ```
 
-> DMG: Overall process figure.
+<img src="../fig/single_cell_flowchart_3.png" width="800px" alt="Single Cell Flowchart" >
 
 ## Quality control in scRNA-seq
 
@@ -55,8 +55,6 @@ Some technical questions that you might ask include:
 1. Why is mitochondrial gene expression high in some cells?
 1. What is a unique molecular identifier (UMI), and why do we check numbers of UMI?
 1. What happens to make gene counts low in a cell?
-
-> DMG: Add image for UMI? Too complicated? Yes.
 
 <!-- DASremoved ribosomal point here. Often we don't filter based on ribo, not clearly associated with poor quality cells -->
 
@@ -115,7 +113,7 @@ gene_counts <- Matrix::rowSums(counts)
 sum(gene_counts == 0)
 ```
 
-> DMG: Figure for row-summing???
+<img src="../fig/rowsums.png" width="800px" alt="Summing Rows of Counts Matrix" >
 
 Of the `r nrow(counts)` genes, `r sum(gene_counts == 0)` have zero counts across 
 all cells. These genes do not inform us about the mean, variance, or covariance 
@@ -232,8 +230,6 @@ would be to filter genes expressed in < 5 cells, but one could reasonably
 justify a threshold between, say, 3 and 20 cells.
 > {: .solution}
 {: .challenge}
-
-> DAS & DMG: Should we have some kind of challenge later in the lesson in which the students do no filtering vs. filtering by genes that occur in 100+ cells? Should the challenge be later in the clusering lesson? Filter more strictly and redo analysis?
 
 ### Filtering Cells by Counts
 

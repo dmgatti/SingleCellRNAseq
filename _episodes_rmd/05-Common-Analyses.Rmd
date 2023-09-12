@@ -111,7 +111,40 @@ may outperform the log normalization method. Two examples are:
 However, no normalization method has been demonstrated to be universally
 and unambiguously better than simple log normalization.
 
-> DMG: Show what just changed in the Seurat Object. Use str() function with max.level argument. Maybe give.attr = FALSE.
+> ## Challenge 1
+> Where is the log-normaliztion stored? Try using the str() command to look at 
+> the structure of the liver object (i.e. str(liver)).
+>
+> > ## Solution to Challenge 1
+> > 
+> > str(liver)
+> > Formal class 'Seurat' [package "SeuratObject"] with 13 slots
+> >   ..@ assays      :List of 1
+> >   ...
+> >   ...
+> >   ...
+> >   ..@ commands    :List of 1
+> >   .. ..$ NormalizeData.RNA:Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
+> >   .. .. .. ..@ name       : chr "NormalizeData.RNA"
+> >   .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-09-12 09:43:16"
+> >   .. .. .. ..@ assay.used : chr "RNA"
+> >   .. .. .. ..@ call.string: chr "NormalizeData(., normalization.method = \"LogNormalize\")"
+> >   .. .. .. ..@ params     :List of 5
+> >   .. .. .. .. ..$ assay               : chr "RNA"
+> >   .. .. .. .. ..$ normalization.method: chr "LogNormalize"
+> >   .. .. .. .. ..$ scale.factor        : num 10000
+> >   .. .. .. .. ..$ margin              : num 1
+> >   .. .. .. .. ..$ verbose             : logi TRUE
+> >   ..@ tools       : list()
+> >  
+> > This is a lot to absorb! Look for a line containing "@ commands" toward the 
+> > bottom of the object which you printed out. Notice that the next line 
+> > says "NomalizeData". Further down, you can see a line which says 
+> > "$ normalization.method: chr "LogNormalize". This is the line which tells
+> > you that the liver object has stored the log-normalized information.
+> {: .solution}
+{: .challenge}
+
 
 ### Finding Variable Features
 

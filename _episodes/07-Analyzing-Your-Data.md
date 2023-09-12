@@ -32,6 +32,10 @@ cell clusters. If you are working with data from a publication, you might
 try to reproduce -- as best you can -- one of the main figures from the
 paper.
 
+> DAS take a crack at writing this up.
+
+> DMG will then go over it with a less details-embedded perspective
+
 > DMG & DAS: Change filtering parameters based on mito content & num reads.
 
 > DMG & DAS: Add text to tell students to adjust number of variable genes,
@@ -60,8 +64,9 @@ number of PCs, clustering resolution.
 
 ```{}
 obj <- CreateSeuratObject(counts, project = 'my project',
-        meta.data = metadata) %>%
+        meta.data = metadata, min.cells = 5) %>%
         PercentageFeatureSet(pattern = "^mt-", col.name = "percent.mt")
+obj <- subset(obj, subset = nFeature_RNA > 250 & nFeature_RNA < 5000 & nCount_RNA > 500)
 ```
 
 Analyze using base Seurat workflow

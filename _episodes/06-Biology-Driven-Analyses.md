@@ -124,7 +124,10 @@ UMAPPlot(liver, group.by = 'sample', pt.size = 0.1)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-sample_effects-1.png" alt="plot of chunk sample_effects" width="504" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-sample_effects-1.png" alt="plot of chunk sample_effects" width="504" />
+<p class="caption">plot of chunk sample_effects</p>
+</div>
 
 Let's see which genes are expressed in cluster 13.
 
@@ -166,7 +169,10 @@ VlnPlot(liver, 'Cd79a')
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-cd79a_vln-1.png" alt="plot of chunk cd79a_vln" width="504" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-cd79a_vln-1.png" alt="plot of chunk cd79a_vln" width="504" />
+<p class="caption">plot of chunk cd79a_vln</p>
+</div>
 
 Expression of this gene is very clearly **ON** in clusters 13 and 21, 
 and **OFF** in all other clusters. Let's look at where clusters 13 and 21
@@ -179,7 +185,10 @@ FeaturePlot(liver, "Cd79a", cols = c('lightgrey', 'red'),
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-cd79a_fp-1.png" alt="plot of chunk cd79a_fp" width="504" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-cd79a_fp-1.png" alt="plot of chunk cd79a_fp" width="504" />
+<p class="caption">plot of chunk cd79a_fp</p>
+</div>
 
 Interesting. Clusters 13 and 21 are near each other. Recall that
 we saw that cluster 13 cells are largely derived from a single mouse.
@@ -264,7 +273,10 @@ ElbowPlot(liver, reduction = 'harmony', ndims = 40)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-harmony-1.png" alt="plot of chunk harmony" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-harmony-1.png" alt="plot of chunk harmony" width="612" />
+<p class="caption">plot of chunk harmony</p>
+</div>
 
 Let's again pick 24 dimensions, just like we looked at 24 dimensions
 in PC space.
@@ -294,28 +306,28 @@ Computing SNN
 
 
 ~~~
-10:41:06 UMAP embedding parameters a = 0.9922 b = 1.112
+09:41:12 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-10:41:06 Read 44253 rows and found 24 numeric columns
+09:41:12 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-10:41:06 Using Annoy for neighbor search, n_neighbors = 30
+09:41:12 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-10:41:06 Building Annoy index with metric = cosine, n_trees = 50
+09:41:12 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -337,13 +349,13 @@ Computing SNN
 
 ~~~
 **************************************************|
-10:41:11 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpmePOfN\file341818333f46
-10:41:11 Searching Annoy index using 1 thread, search_k = 3000
-10:41:24 Annoy recall = 100%
-10:41:25 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-10:41:28 Initializing from normalized Laplacian + noise (using irlba)
-10:41:37 Commencing optimization for 200 epochs, with 1892644 positive edges
-10:42:21 Optimization finished
+09:41:16 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpMByHt7\fileccd85c7e1cf6
+09:41:16 Searching Annoy index using 1 thread, search_k = 3000
+09:41:27 Annoy recall = 100%
+09:41:28 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+09:41:31 Initializing from normalized Laplacian + noise (using irlba)
+09:41:39 Commencing optimization for 200 epochs, with 1892644 positive edges
+09:42:26 Optimization finished
 ~~~
 {: .output}
 
@@ -385,7 +397,10 @@ FeaturePlot(liver, 'Cd79a', cols = c('lightgrey', 'red'), label = T,
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-c8-1.png" alt="plot of chunk c8" width="504" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-c8-1.png" alt="plot of chunk c8" width="504" />
+<p class="caption">plot of chunk c8</p>
+</div>
 
 
 ~~~
@@ -393,7 +408,10 @@ VlnPlot(liver, 'Cd79a')
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-c9-1.png" alt="plot of chunk c9" width="576" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-c9-1.png" alt="plot of chunk c9" width="576" />
+<p class="caption">plot of chunk c9</p>
+</div>
 
 We will work with the harmony clusters from this point forward.
 In a real analysis we should spend more time trying different
@@ -532,7 +550,7 @@ head(markers, 6)
 
 
 ~~~
-# A tibble: 6 x 6
+# A tibble: 6 × 6
   cluster gene    avg_log2FC pct.1 pct.2 p_val_adj
   <fct>   <chr>        <dbl> <dbl> <dbl>     <dbl>
 1 c0      Oit3          2.28 0.983 0.18  1.17e-251
@@ -591,14 +609,17 @@ group_by(markers, cluster) %>%
 
 ~~~
 Warning: Specifying the `id_cols` argument by position was deprecated in tidyr 1.3.0.
-i Please explicitly name `id_cols`, like `id_cols = -c(avg_log2FC, pct.1, pct.2, p_val_adj)`.
+ℹ Please explicitly name `id_cols`, like `id_cols = -c(avg_log2FC, pct.1,
+  pct.2, p_val_adj)`.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+generated.
 ~~~
 {: .warning}
 
 
 
 ~~~
-# A tibble: 16 x 4
+# A tibble: 16 × 4
 # Groups:   cluster [16]
    cluster `1`     `2`      `3`   
    <fct>   <chr>   <chr>    <chr> 
@@ -634,7 +655,10 @@ VlnPlot(liver, features = top_markers, stack = TRUE, flip = TRUE)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-top_markers2-1.png" alt="plot of chunk top_markers2" width="576" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-top_markers2-1.png" alt="plot of chunk top_markers2" width="576" />
+<p class="caption">plot of chunk top_markers2</p>
+</div>
 
 What does this tell us? Well, there are some genes here that are quite
 specific to one cluster (e.g. S100a9, Spp1, Ccl5, Siglech),
@@ -652,7 +676,10 @@ UMAPPlot(liver, label = TRUE, label.size = 6) + NoLegend()
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-expr-1.png" alt="plot of chunk expr" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-expr-1.png" alt="plot of chunk expr" width="612" />
+<p class="caption">plot of chunk expr</p>
+</div>
 
 we see that these clusters are smaller bits of a large cloud of points
 in UMAP space. This is probably a relatively heterogenous cell type or
@@ -666,7 +693,10 @@ FeaturePlot(liver, features = "Kdr", cols = c('lightgrey', 'red'))
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-expr2-1.png" alt="plot of chunk expr2" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-expr2-1.png" alt="plot of chunk expr2" width="612" />
+<p class="caption">plot of chunk expr2</p>
+</div>
 
 If we do some digging, we see that Kdr encodes
 [vascular endothelial growth factor receptor 2](https://www.uniprot.org/uniprotkb/P35968).
@@ -724,7 +754,10 @@ FeaturePlot(liver, "Fabp1", cols = c('lightgrey', 'red'),
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-expr3-1.png" alt="plot of chunk expr3" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-expr3-1.png" alt="plot of chunk expr3" width="612" />
+<p class="caption">plot of chunk expr3</p>
+</div>
 
 This seems consistent with our expectations based on what we know about
 ambient RNA. Let's look at another hepatocyte marker:
@@ -736,7 +769,10 @@ FeaturePlot(liver, "Serpina1a", cols = c('lightgrey', 'red'),
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-expr4-1.png" alt="plot of chunk expr4" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-expr4-1.png" alt="plot of chunk expr4" width="612" />
+<p class="caption">plot of chunk expr4</p>
+</div>
 
 Very similar. We tentatively conclude that this dataset has a noticeable
 amount of hepatocyte ambient RNA contributing to all cell transcriptomes.
@@ -758,7 +794,10 @@ VlnPlot(liver, features = specific_markers, stack = TRUE, flip = TRUE)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-sp_markers-1.png" alt="plot of chunk sp_markers" width="576" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-sp_markers-1.png" alt="plot of chunk sp_markers" width="576" />
+<p class="caption">plot of chunk sp_markers</p>
+</div>
 
 This looks better -- the markers are more specific.
 We do have a marker for the hepatocytes (cluster c1) that looks better
@@ -781,7 +820,10 @@ FeaturePlot(liver, "Vsig4", cols = c('lightgrey', 'red'), label = TRUE,
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-vsig4-1.png" alt="plot of chunk vsig4" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-vsig4-1.png" alt="plot of chunk vsig4" width="612" />
+<p class="caption">plot of chunk vsig4</p>
+</div>
 
 This is marking clusters c3, c8, and c15.
 Clusters c3 and c8 are very near each other. Vsig4 is an immune
@@ -800,7 +842,10 @@ FeaturePlot(liver, "Adgre1", cols = c('lightgrey', 'red'), label = TRUE,
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-adgre1-1.png" alt="plot of chunk adgre1" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-adgre1-1.png" alt="plot of chunk adgre1" width="612" />
+<p class="caption">plot of chunk adgre1</p>
+</div>
 
 Cluster c15 expresses *Adgre1* but is near the hepatocyte cluster
 we just discussed. In fact it is located between the hepatocyte and
@@ -814,7 +859,10 @@ VlnPlot(liver, c("Adgre1", "Fabp1"), idents = c('c3', 'c15', 'c1'), sort = T)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-doublets-1.png" alt="plot of chunk doublets" width="576" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-doublets-1.png" alt="plot of chunk doublets" width="576" />
+<p class="caption">plot of chunk doublets</p>
+</div>
 
 
 Let's store our labels and look at what remains unidentified.
@@ -839,7 +887,10 @@ UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-labelling-1.png" alt="plot of chunk labelling" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-labelling-1.png" alt="plot of chunk labelling" width="612" />
+<p class="caption">plot of chunk labelling</p>
+</div>
 
 
 > ## Challenge 1
@@ -906,7 +957,10 @@ UMAPPlot(hepatocytes, split.by = 'trt', group.by = 'labels', label = T,
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-fake-1.png" alt="plot of chunk fake" width="720" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-fake-1.png" alt="plot of chunk fake" width="720" />
+<p class="caption">plot of chunk fake</p>
+</div>
 
 We will look for differential expression between the 
 control and drug administration groups defined
@@ -1180,7 +1234,10 @@ plotEnrich(e, title = "Neutrophil pathway enrichment",
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-06-pway-1.png" alt="plot of chunk pway" width="648" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-06-pway-1.png" alt="plot of chunk pway" width="648" />
+<p class="caption">plot of chunk pway</p>
+</div>
 
 OK, these results look appropriate for neutrophil biological function!
 
@@ -1195,87 +1252,80 @@ sessionInfo()
 
 
 ~~~
-R version 4.1.2 (2021-11-01)
+R version 4.2.3 (2023-03-15 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19042)
+Running under: Windows 10 x64 (build 19045)
 
 Matrix products: default
 
 locale:
-[1] LC_COLLATE=English_United States.1252 
-[2] LC_CTYPE=English_United States.1252   
-[3] LC_MONETARY=English_United States.1252
+[1] LC_COLLATE=English_United States.utf8 
+[2] LC_CTYPE=en_US.UTF-8                  
+[3] LC_MONETARY=English_United States.utf8
 [4] LC_NUMERIC=C                          
-[5] LC_TIME=English_United States.1252    
+[5] LC_TIME=English_United States.utf8    
 
 attached base packages:
 [1] stats4    stats     graphics  grDevices utils     datasets  methods  
 [8] base     
 
 other attached packages:
- [1] enrichR_3.1                 DESeq2_1.34.0              
- [3] SummarizedExperiment_1.24.0 Biobase_2.54.0             
- [5] MatrixGenerics_1.6.0        matrixStats_0.63.0         
- [7] GenomicRanges_1.46.1        GenomeInfoDb_1.30.1        
- [9] IRanges_2.28.0              S4Vectors_0.32.4           
-[11] BiocGenerics_0.40.0         harmony_0.1.1              
-[13] Rcpp_1.0.10                 SeuratObject_4.1.3         
-[15] Seurat_4.3.0                forcats_1.0.0              
-[17] stringr_1.5.0               dplyr_1.1.0                
-[19] purrr_1.0.1                 readr_2.1.3                
-[21] tidyr_1.3.0                 tibble_3.1.8               
-[23] ggplot2_3.4.0               tidyverse_1.3.2            
-[25] knitr_1.42                 
+ [1] enrichR_3.2                 DESeq2_1.38.3              
+ [3] SummarizedExperiment_1.28.0 Biobase_2.58.0             
+ [5] MatrixGenerics_1.10.0       matrixStats_1.0.0          
+ [7] GenomicRanges_1.50.2        GenomeInfoDb_1.34.9        
+ [9] IRanges_2.32.0              S4Vectors_0.36.2           
+[11] BiocGenerics_0.44.0         harmony_0.1.1              
+[13] Rcpp_1.0.11                 SeuratObject_4.1.3         
+[15] Seurat_4.3.0.1              lubridate_1.9.2            
+[17] forcats_1.0.0               stringr_1.5.0              
+[19] dplyr_1.1.2                 purrr_1.0.1                
+[21] readr_2.1.4                 tidyr_1.3.0                
+[23] tibble_3.2.1                ggplot2_3.4.3              
+[25] tidyverse_2.0.0             knitr_1.44                 
 
 loaded via a namespace (and not attached):
-  [1] utf8_1.2.3             spatstat.explore_3.0-6 reticulate_1.28       
-  [4] tidyselect_1.2.0       RSQLite_2.2.20         AnnotationDbi_1.56.2  
-  [7] htmlwidgets_1.6.1      grid_4.1.2             BiocParallel_1.28.3   
- [10] Rtsne_0.16             munsell_0.5.0          codetools_0.2-18      
- [13] ica_1.0-3              future_1.31.0          miniUI_0.1.1.1        
- [16] withr_2.5.0            spatstat.random_3.1-3  colorspace_2.1-0      
- [19] progressr_0.13.0       highr_0.10             ROCR_1.0-11           
- [22] tensor_1.5             listenv_0.9.0          labeling_0.4.2        
- [25] GenomeInfoDbData_1.2.7 polyclip_1.10-4        bit64_4.0.5           
- [28] farver_2.1.1           parallelly_1.34.0      vctrs_0.5.2           
- [31] generics_0.1.3         xfun_0.37              timechange_0.2.0      
- [34] R6_2.5.1               ggbeeswarm_0.7.1       locfit_1.5-9.7        
- [37] bitops_1.0-7           spatstat.utils_3.0-1   cachem_1.0.6          
- [40] DelayedArray_0.20.0    assertthat_0.2.1       promises_1.2.0.1      
- [43] scales_1.2.1           googlesheets4_1.0.1    beeswarm_0.4.0        
- [46] gtable_0.3.1           globals_0.16.2         goftest_1.2-3         
- [49] rlang_1.0.6            genefilter_1.76.0      splines_4.1.2         
- [52] lazyeval_0.2.2         gargle_1.3.0           spatstat.geom_3.0-6   
- [55] broom_1.0.3            reshape2_1.4.4         abind_1.4-5           
- [58] modelr_0.1.10          backports_1.4.1        httpuv_1.6.8          
- [61] tools_4.1.2            ellipsis_0.3.2         RColorBrewer_1.1-3    
- [64] ggridges_0.5.4         plyr_1.8.8             zlibbioc_1.40.0       
- [67] RCurl_1.98-1.10        deldir_1.0-6           pbapply_1.7-0         
- [70] cowplot_1.1.1          zoo_1.8-11             haven_2.5.1           
- [73] ggrepel_0.9.3          cluster_2.1.4          fs_1.6.0              
- [76] magrittr_2.0.3         data.table_1.14.6      scattermore_0.8       
- [79] lmtest_0.9-40          reprex_2.0.2           RANN_2.6.1            
- [82] googledrive_2.0.0      fitdistrplus_1.1-8     hms_1.1.2             
- [85] patchwork_1.1.2        mime_0.12              evaluate_0.20         
- [88] xtable_1.8-4           XML_3.99-0.13          readxl_1.4.1          
- [91] gridExtra_2.3          compiler_4.1.2         KernSmooth_2.23-20    
- [94] crayon_1.5.2           htmltools_0.5.4        later_1.3.0           
- [97] tzdb_0.3.0             geneplotter_1.72.0     lubridate_1.9.1       
-[100] DBI_1.1.3              dbplyr_2.3.0           MASS_7.3-58.1         
-[103] Matrix_1.5-3           cli_3.4.1              parallel_4.1.2        
-[106] igraph_1.3.5           pkgconfig_2.0.3        sp_1.6-0              
-[109] plotly_4.10.1          spatstat.sparse_3.0-0  xml2_1.3.3            
-[112] annotate_1.72.0        vipor_0.4.5            XVector_0.34.0        
-[115] rvest_1.0.3            digest_0.6.31          sctransform_0.3.5     
-[118] RcppAnnoy_0.0.20       spatstat.data_3.0-0    Biostrings_2.62.0     
-[121] cellranger_1.1.0       leiden_0.4.3           uwot_0.1.14           
-[124] curl_4.3.3             shiny_1.7.4            rjson_0.2.21          
-[127] lifecycle_1.0.3        nlme_3.1-160           jsonlite_1.8.4        
-[130] limma_3.50.3           viridisLite_0.4.1      fansi_1.0.4           
-[133] pillar_1.8.1           lattice_0.20-45        ggrastr_1.0.1         
-[136] KEGGREST_1.34.0        fastmap_1.1.0          httr_1.4.4            
-[139] survival_3.4-0         glue_1.6.2             png_0.1-8             
-[142] bit_4.0.5              stringi_1.7.12         blob_1.2.3            
-[145] memoise_2.0.1.9000     irlba_2.3.5.1          future.apply_1.10.0   
+  [1] plyr_1.8.8             igraph_1.5.0.1         lazyeval_0.2.2        
+  [4] sp_2.0-0               splines_4.2.3          BiocParallel_1.32.6   
+  [7] listenv_0.9.0          scattermore_1.2        digest_0.6.33         
+ [10] htmltools_0.5.5        fansi_1.0.4            memoise_2.0.1         
+ [13] magrittr_2.0.3         tensor_1.5             cluster_2.1.4         
+ [16] ROCR_1.0-11            limma_3.54.2           tzdb_0.4.0            
+ [19] Biostrings_2.66.0      globals_0.16.2         annotate_1.76.0       
+ [22] timechange_0.2.0       spatstat.sparse_3.0-2  colorspace_2.1-0      
+ [25] blob_1.2.4             ggrepel_0.9.3          WriteXLS_6.4.0        
+ [28] xfun_0.39              crayon_1.5.2           RCurl_1.98-1.12       
+ [31] jsonlite_1.8.7         progressr_0.14.0       spatstat.data_3.0-1   
+ [34] survival_3.5-5         zoo_1.8-12             glue_1.6.2            
+ [37] polyclip_1.10-4        gtable_0.3.4           zlibbioc_1.44.0       
+ [40] XVector_0.38.0         leiden_0.4.3           DelayedArray_0.24.0   
+ [43] future.apply_1.11.0    abind_1.4-5            scales_1.2.1          
+ [46] DBI_1.1.3              spatstat.random_3.1-5  miniUI_0.1.1.1        
+ [49] viridisLite_0.4.2      xtable_1.8-4           reticulate_1.30       
+ [52] bit_4.0.5              htmlwidgets_1.6.2      httr_1.4.7            
+ [55] RColorBrewer_1.1-3     ellipsis_0.3.2         ica_1.0-3             
+ [58] farver_2.1.1           pkgconfig_2.0.3        XML_3.99-0.14         
+ [61] uwot_0.1.16            deldir_1.0-9           locfit_1.5-9.8        
+ [64] utf8_1.2.3             labeling_0.4.3         tidyselect_1.2.0      
+ [67] rlang_1.1.1            reshape2_1.4.4         later_1.3.1           
+ [70] AnnotationDbi_1.60.2   cachem_1.0.8           munsell_0.5.0         
+ [73] tools_4.2.3            cli_3.6.1              generics_0.1.3        
+ [76] RSQLite_2.3.1          ggridges_0.5.4         evaluate_0.21         
+ [79] fastmap_1.1.1          goftest_1.2-3          bit64_4.0.5           
+ [82] fitdistrplus_1.1-11    RANN_2.6.1             KEGGREST_1.38.0       
+ [85] pbapply_1.7-2          future_1.33.0          nlme_3.1-162          
+ [88] mime_0.12              compiler_4.2.3         curl_5.0.2            
+ [91] plotly_4.10.2          png_0.1-8              spatstat.utils_3.0-3  
+ [94] geneplotter_1.76.0     stringi_1.7.12         lattice_0.21-8        
+ [97] Matrix_1.6-0           vctrs_0.6.3            pillar_1.9.0          
+[100] lifecycle_1.0.3        spatstat.geom_3.2-4    lmtest_0.9-40         
+[103] RcppAnnoy_0.0.21       data.table_1.14.8      cowplot_1.1.1         
+[106] bitops_1.0-7           irlba_2.3.5.1          httpuv_1.6.11         
+[109] patchwork_1.1.3        R6_2.5.1               promises_1.2.0.1      
+[112] KernSmooth_2.23-22     gridExtra_2.3          parallelly_1.36.0     
+[115] codetools_0.2-19       MASS_7.3-60            rjson_0.2.21          
+[118] withr_2.5.0            sctransform_0.3.5      GenomeInfoDbData_1.2.9
+[121] parallel_4.2.3         hms_1.1.3              grid_4.2.3            
+[124] Rtsne_0.16             spatstat.explore_3.2-1 shiny_1.7.5           
 ~~~
 {: .output}

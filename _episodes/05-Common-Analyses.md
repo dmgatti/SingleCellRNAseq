@@ -138,7 +138,10 @@ LabelPoints(plot = plot1, points = top25, xnudge = 0,
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-05-var_features-1.png" alt="plot of chunk var_features" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-05-var_features-1.png" alt="plot of chunk var_features" width="612" />
+<p class="caption">plot of chunk var_features</p>
+</div>
 
 > Show what just changed in the Seurat Object.
 
@@ -226,7 +229,10 @@ DimPlot(liver, reduction = "pca")
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-05-pcplot-1.png" alt="plot of chunk pcplot" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-05-pcplot-1.png" alt="plot of chunk pcplot" width="612" />
+<p class="caption">plot of chunk pcplot</p>
+</div>
 
 Instead we will take some of the PCs and use them for a further
 summarization of the data. Namely, we will use the PCs as input to the
@@ -251,7 +257,10 @@ ElbowPlot(liver, ndims = 100)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-05-elbow-1.png" alt="plot of chunk elbow" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-05-elbow-1.png" alt="plot of chunk elbow" width="612" />
+<p class="caption">plot of chunk elbow</p>
+</div>
 
 Let's zoom in more and see what things like under 50 PCs.
 
@@ -260,7 +269,10 @@ ElbowPlot(liver, ndims = 50)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-05-elbow2-1.png" alt="plot of chunk elbow2" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-05-elbow2-1.png" alt="plot of chunk elbow2" width="612" />
+<p class="caption">plot of chunk elbow2</p>
+</div>
 
 We would say that the standard deviation in PCs really starts to stablize
 around N = 24 PCs. Let's use this value moving forward.
@@ -289,7 +301,10 @@ ElbowPlot(liver, ndims = 40) + geom_vline(xintercept = num_pc)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-05-elbow3-1.png" alt="plot of chunk elbow3" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-05-elbow3-1.png" alt="plot of chunk elbow3" width="612" />
+<p class="caption">plot of chunk elbow3</p>
+</div>
 
 <!-- Do we need to do batch correction with Harmony? The authors of the
 liver cell atlas did it ...
@@ -374,7 +389,10 @@ UMAPPlot(liver, label = TRUE, label.size = 6)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-05-plot_umap-1.png" alt="plot of chunk plot_umap" width="612" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-05-plot_umap-1.png" alt="plot of chunk plot_umap" width="612" />
+<p class="caption">plot of chunk plot_umap</p>
+</div>
 
 
 
@@ -401,68 +419,62 @@ sessionInfo()
 
 
 ~~~
-R version 4.1.2 (2021-11-01)
+R version 4.2.3 (2023-03-15 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19042)
+Running under: Windows 10 x64 (build 19045)
 
 Matrix products: default
 
 locale:
-[1] LC_COLLATE=English_United States.1252 
-[2] LC_CTYPE=English_United States.1252   
-[3] LC_MONETARY=English_United States.1252
+[1] LC_COLLATE=English_United States.utf8 
+[2] LC_CTYPE=en_US.UTF-8                  
+[3] LC_MONETARY=English_United States.utf8
 [4] LC_NUMERIC=C                          
-[5] LC_TIME=English_United States.1252    
+[5] LC_TIME=English_United States.utf8    
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] SeuratObject_4.1.3 Seurat_4.3.0       forcats_1.0.0      stringr_1.5.0     
- [5] dplyr_1.1.0        purrr_1.0.1        readr_2.1.3        tidyr_1.3.0       
- [9] tibble_3.1.8       ggplot2_3.4.0      tidyverse_1.3.2    knitr_1.42        
+ [1] SeuratObject_4.1.3 Seurat_4.3.0.1     lubridate_1.9.2    forcats_1.0.0     
+ [5] stringr_1.5.0      dplyr_1.1.2        purrr_1.0.1        readr_2.1.4       
+ [9] tidyr_1.3.0        tibble_3.2.1       ggplot2_3.4.3      tidyverse_2.0.0   
+[13] knitr_1.44        
 
 loaded via a namespace (and not attached):
-  [1] googledrive_2.0.0      Rtsne_0.16             colorspace_2.1-0      
-  [4] deldir_1.0-6           ellipsis_0.3.2         ggridges_0.5.4        
-  [7] fs_1.6.0               spatstat.data_3.0-0    farver_2.1.1          
- [10] leiden_0.4.3           listenv_0.9.0          ggrepel_0.9.3         
- [13] fansi_1.0.4            lubridate_1.9.1        xml2_1.3.3            
- [16] codetools_0.2-18       splines_4.1.2          polyclip_1.10-4       
- [19] jsonlite_1.8.4         broom_1.0.3            ica_1.0-3             
- [22] cluster_2.1.4          dbplyr_2.3.0           png_0.1-8             
- [25] uwot_0.1.14            spatstat.sparse_3.0-0  sctransform_0.3.5     
- [28] shiny_1.7.4            compiler_4.1.2         httr_1.4.4            
- [31] backports_1.4.1        lazyeval_0.2.2         assertthat_0.2.1      
- [34] Matrix_1.5-3           fastmap_1.1.0          gargle_1.3.0          
- [37] cli_3.4.1              later_1.3.0            htmltools_0.5.4       
- [40] tools_4.1.2            igraph_1.3.5           gtable_0.3.1          
- [43] glue_1.6.2             reshape2_1.4.4         RANN_2.6.1            
- [46] Rcpp_1.0.10            scattermore_0.8        cellranger_1.1.0      
- [49] vctrs_0.5.2            nlme_3.1-160           spatstat.explore_3.0-6
- [52] progressr_0.13.0       lmtest_0.9-40          spatstat.random_3.1-3 
- [55] xfun_0.37              globals_0.16.2         rvest_1.0.3           
- [58] timechange_0.2.0       mime_0.12              miniUI_0.1.1.1        
- [61] lifecycle_1.0.3        irlba_2.3.5.1          goftest_1.2-3         
- [64] googlesheets4_1.0.1    future_1.31.0          MASS_7.3-58.1         
- [67] zoo_1.8-11             scales_1.2.1           spatstat.utils_3.0-1  
- [70] hms_1.1.2              promises_1.2.0.1       parallel_4.1.2        
- [73] RColorBrewer_1.1-3     gridExtra_2.3          reticulate_1.28       
- [76] pbapply_1.7-0          stringi_1.7.12         highr_0.10            
- [79] rlang_1.0.6            pkgconfig_2.0.3        matrixStats_0.63.0    
- [82] evaluate_0.20          lattice_0.20-45        tensor_1.5            
- [85] ROCR_1.0-11            labeling_0.4.2         patchwork_1.1.2       
- [88] htmlwidgets_1.6.1      cowplot_1.1.1          tidyselect_1.2.0      
- [91] parallelly_1.34.0      RcppAnnoy_0.0.20       plyr_1.8.8            
- [94] magrittr_2.0.3         R6_2.5.1               generics_0.1.3        
- [97] DBI_1.1.3              pillar_1.8.1           haven_2.5.1           
-[100] withr_2.5.0            fitdistrplus_1.1-8     abind_1.4-5           
-[103] survival_3.4-0         sp_1.6-0               future.apply_1.10.0   
-[106] modelr_0.1.10          crayon_1.5.2           KernSmooth_2.23-20    
-[109] utf8_1.2.3             spatstat.geom_3.0-6    plotly_4.10.1         
-[112] tzdb_0.3.0             grid_4.1.2             readxl_1.4.1          
-[115] data.table_1.14.6      reprex_2.0.2           digest_0.6.31         
-[118] xtable_1.8-4           httpuv_1.6.8           munsell_0.5.0         
-[121] viridisLite_0.4.1     
+  [1] Rtsne_0.16             colorspace_2.1-0       deldir_1.0-9          
+  [4] ellipsis_0.3.2         ggridges_0.5.4         spatstat.data_3.0-1   
+  [7] farver_2.1.1           leiden_0.4.3           listenv_0.9.0         
+ [10] ggrepel_0.9.3          fansi_1.0.4            codetools_0.2-19      
+ [13] splines_4.2.3          polyclip_1.10-4        jsonlite_1.8.7        
+ [16] ica_1.0-3              cluster_2.1.4          png_0.1-8             
+ [19] uwot_0.1.16            shiny_1.7.5            sctransform_0.3.5     
+ [22] spatstat.sparse_3.0-2  compiler_4.2.3         httr_1.4.7            
+ [25] Matrix_1.6-0           fastmap_1.1.1          lazyeval_0.2.2        
+ [28] cli_3.6.1              later_1.3.1            htmltools_0.5.5       
+ [31] tools_4.2.3            igraph_1.5.0.1         gtable_0.3.4          
+ [34] glue_1.6.2             RANN_2.6.1             reshape2_1.4.4        
+ [37] Rcpp_1.0.11            scattermore_1.2        vctrs_0.6.3           
+ [40] nlme_3.1-162           spatstat.explore_3.2-1 progressr_0.14.0      
+ [43] lmtest_0.9-40          spatstat.random_3.1-5  xfun_0.39             
+ [46] globals_0.16.2         timechange_0.2.0       mime_0.12             
+ [49] miniUI_0.1.1.1         lifecycle_1.0.3        irlba_2.3.5.1         
+ [52] goftest_1.2-3          future_1.33.0          MASS_7.3-60           
+ [55] zoo_1.8-12             scales_1.2.1           hms_1.1.3             
+ [58] promises_1.2.0.1       spatstat.utils_3.0-3   parallel_4.2.3        
+ [61] RColorBrewer_1.1-3     reticulate_1.30        pbapply_1.7-2         
+ [64] gridExtra_2.3          stringi_1.7.12         rlang_1.1.1           
+ [67] pkgconfig_2.0.3        matrixStats_1.0.0      evaluate_0.21         
+ [70] lattice_0.21-8         ROCR_1.0-11            tensor_1.5            
+ [73] labeling_0.4.3         patchwork_1.1.3        htmlwidgets_1.6.2     
+ [76] cowplot_1.1.1          tidyselect_1.2.0       parallelly_1.36.0     
+ [79] RcppAnnoy_0.0.21       plyr_1.8.8             magrittr_2.0.3        
+ [82] R6_2.5.1               generics_0.1.3         pillar_1.9.0          
+ [85] withr_2.5.0            fitdistrplus_1.1-11    survival_3.5-5        
+ [88] abind_1.4-5            sp_2.0-0               future.apply_1.11.0   
+ [91] KernSmooth_2.23-22     utf8_1.2.3             spatstat.geom_3.2-4   
+ [94] plotly_4.10.2          tzdb_0.4.0             grid_4.2.3            
+ [97] data.table_1.14.8      digest_0.6.33          xtable_1.8-4          
+[100] httpuv_1.6.11          munsell_0.5.0          viridisLite_0.4.2     
 ~~~
 {: .output}
