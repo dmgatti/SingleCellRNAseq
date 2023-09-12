@@ -86,15 +86,15 @@ TBD: Users will download a subset of the counts and metadata from somewhere (Box
 Open the `scRNA.Rproj` project.
 
 ~~~
-download.file(url = 'https://thejacksonlaboratory.box.com/shared/static/vfe1bwyqtypxs6p5k4z0cw7z7jczyan1.zip', 
+download.file(url = 'https://thejacksonlaboratory.box.com/shared/static/ryxia3fm9zll20zsdzsd2nkfky4qd4ig.zip', 
               destfile = 'data/mouseStSt_exvivo.zip',
               method   = 'curl', 
               extra    = ' -L ')
-download.file(url = 'https://thejacksonlaboratory.box.com/shared/static/b153ueu2lie3st760maj4zr9u0vp7o2t.zip', 
+download.file(url = 'https://thejacksonlaboratory.box.com/shared/static/4ijw9rxhl7bh8jev2tuoazmv8kg1iz68.zip', 
               destfile = 'data/mouseStSt_invivo.zip',
               method   = 'curl', 
               extra    = ' -L ')
-download.file(url = 'https://thejacksonlaboratory.box.com/shared/static/yx64wion3etmbidtt4bm2nbl1yyceptn.txt',
+download.file(url = 'https://thejacksonlaboratory.box.com/shared/static/vary3n55dso5x7lofcysgnyamw66cb0v.txt',
               destfile = 'data/regev_lab_cell_cycle_genes_mm.fixed.txt',
               method   = 'curl', 
               extra    = ' -L ')
