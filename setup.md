@@ -14,7 +14,7 @@ that you have everything that you need.
 If you do not already have `R` and `RStudio` installed, 
 download and install the following software:
 
-1. [R/4.2.1](https://cran.r-project.org/): Select the installation for your 
+1. [R/4.3.1](https://cran.r-project.org/): Select the installation for your 
 operating system (Windows, Mac, or Linux).
 1. [RStudio](https://www.rstudio.com/products/rstudio/download/): Download the 
 free **Rstudio Desktop**. 
