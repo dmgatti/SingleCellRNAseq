@@ -114,7 +114,40 @@ may outperform the log normalization method. Two examples are:
 However, no normalization method has been demonstrated to be universally
 and unambiguously better than simple log normalization.
 
-> DMG: Show what just changed in the Seurat Object. Use str() function with max.level argument. Maybe give.attr = FALSE.
+> ## Challenge 1
+> Where is the log-normaliztion stored? Try using the str() command to look at 
+> the structure of the liver object (i.e. str(liver)).
+>
+> > ## Solution to Challenge 1
+> > 
+> > str(liver)
+> > Formal class 'Seurat' [package "SeuratObject"] with 13 slots
+> >   ..@ assays      :List of 1
+> >   ...
+> >   ...
+> >   ...
+> >   ..@ commands    :List of 1
+> >   .. ..$ NormalizeData.RNA:Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
+> >   .. .. .. ..@ name       : chr "NormalizeData.RNA"
+> >   .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-09-12 09:43:16"
+> >   .. .. .. ..@ assay.used : chr "RNA"
+> >   .. .. .. ..@ call.string: chr "NormalizeData(., normalization.method = \"LogNormalize\")"
+> >   .. .. .. ..@ params     :List of 5
+> >   .. .. .. .. ..$ assay               : chr "RNA"
+> >   .. .. .. .. ..$ normalization.method: chr "LogNormalize"
+> >   .. .. .. .. ..$ scale.factor        : num 10000
+> >   .. .. .. .. ..$ margin              : num 1
+> >   .. .. .. .. ..$ verbose             : logi TRUE
+> >   ..@ tools       : list()
+> >  
+> > This is a lot to absorb! Look for a line containing "@ commands" toward the 
+> > bottom of the object which you printed out. Notice that the next line 
+> > says "NomalizeData". Further down, you can see a line which says 
+> > "$ normalization.method: chr "LogNormalize". This is the line which tells
+> > you that the liver object has stored the log-normalized information.
+> {: .solution}
+{: .challenge}
+
 
 ### Finding Variable Features
 
@@ -143,9 +176,114 @@ LabelPoints(plot = plot1, points = top25, xnudge = 0,
 <p class="caption">plot of chunk var_features</p>
 </div>
 
-> Show what just changed in the Seurat Object.
+Once again, let's look at the Seurat liver object and see how it stores the variable
+genes.
 
-> DMG: Add challenge (somewhere) in which the students change the number of features selected. 
+
+~~~
+str(liver)
+~~~
+{: .language-r}
+
+
+
+~~~
+Formal class 'Seurat' [package "SeuratObject"] with 13 slots
+  ..@ assays      :List of 1
+  .. ..$ RNA:Formal class 'Assay' [package "SeuratObject"] with 8 slots
+  .. .. .. ..@ counts       :Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
+  .. .. .. .. .. ..@ i       : int [1:103377764] 10 14 28 30 32 49 52 53 56 67 ...
+  .. .. .. .. .. ..@ p       : int [1:44254] 0 3264 6449 9729 13445 16988 20052 23140 26417 29561 ...
+  .. .. .. .. .. ..@ Dim     : int [1:2] 20120 44253
+  .. .. .. .. .. ..@ Dimnames:List of 2
+  .. .. .. .. .. .. ..$ : chr [1:20120] "Xkr4" "Rp1" "Sox17" "Mrpl15" ...
+  .. .. .. .. .. .. ..$ : chr [1:44253] "AAACGAATCCACTTCG-2" "AAAGGTACAGGAAGTC-2" "AACTTCTGTCATGGCC-2" "AATGGCTCAACGGTAG-2" ...
+  .. .. .. .. .. ..@ x       : num [1:103377764] 1 1 1 2 1 6 1 1 2 1 ...
+  .. .. .. .. .. ..@ factors : list()
+  .. .. .. ..@ data         :Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
+  .. .. .. .. .. ..@ i       : int [1:103377764] 10 14 28 30 32 49 52 53 56 67 ...
+  .. .. .. .. .. ..@ p       : int [1:44254] 0 3264 6449 9729 13445 16988 20052 23140 26417 29561 ...
+  .. .. .. .. .. ..@ Dim     : int [1:2] 20120 44253
+  .. .. .. .. .. ..@ Dimnames:List of 2
+  .. .. .. .. .. .. ..$ : chr [1:20120] "Xkr4" "Rp1" "Sox17" "Mrpl15" ...
+  .. .. .. .. .. .. ..$ : chr [1:44253] "AAACGAATCCACTTCG-2" "AAAGGTACAGGAAGTC-2" "AACTTCTGTCATGGCC-2" "AATGGCTCAACGGTAG-2" ...
+  .. .. .. .. .. ..@ x       : num [1:103377764] 0.779 0.779 0.779 1.212 0.779 ...
+  .. .. .. .. .. ..@ factors : list()
+  .. .. .. ..@ scale.data   : num[0 , 0 ] 
+  .. .. .. ..@ key          : chr "rna_"
+  .. .. .. ..@ assay.orig   : NULL
+  .. .. .. ..@ var.features : chr [1:2000] "Spp1" "S100a9" "S100a8" "Slpi" ...
+  .. .. .. ..@ meta.features:'data.frame':	20120 obs. of  5 variables:
+  .. .. .. .. ..$ vst.mean                 : num [1:20120] 0.000136 0.000429 0.295528 0.547918 0.447337 ...
+  .. .. .. .. ..$ vst.variance             : num [1:20120] 0.000136 0.001062 0.749957 0.900155 0.549817 ...
+  .. .. .. .. ..$ vst.variance.expected    : num [1:20120] 0.000142 0.000476 0.412618 0.907597 0.689343 ...
+  .. .. .. .. ..$ vst.variance.standardized: num [1:20120] 0.955 2.045 1.818 0.992 0.798 ...
+  .. .. .. .. ..$ vst.variable             : logi [1:20120] FALSE TRUE TRUE FALSE FALSE FALSE ...
+  .. .. .. ..@ misc         : list()
+  ..@ meta.data   :'data.frame':	44253 obs. of  10 variables:
+  .. ..$ orig.ident  : Factor w/ 1 level "liver: scRNA-Seq": 1 1 1 1 1 1 1 1 1 1 ...
+  .. ..$ nCount_RNA  : num [1:44253] 8476 8150 8139 10083 9517 ...
+  .. ..$ nFeature_RNA: int [1:44253] 3264 3185 3280 3716 3543 3064 3088 3277 3144 3511 ...
+  .. ..$ sample      : chr [1:44253] "CS48" "CS48" "CS48" "CS48" ...
+  .. ..$ digest      : chr [1:44253] "inVivo" "inVivo" "inVivo" "inVivo" ...
+  .. ..$ typeSample  : chr [1:44253] "scRnaSeq" "scRnaSeq" "scRnaSeq" "scRnaSeq" ...
+  .. ..$ cxds_score  : num [1:44253] NA NA NA NA NA NA NA NA NA NA ...
+  .. ..$ bcds_score  : num [1:44253] NA NA NA NA NA NA NA NA NA NA ...
+  .. ..$ hybrid_score: num [1:44253] NA NA NA NA NA NA NA NA NA NA ...
+  .. ..$ percent.mt  : num [1:44253] 3.04 5.35 4.67 4.75 3.89 ...
+  ..@ active.assay: chr "RNA"
+  ..@ active.ident: Factor w/ 1 level "liver: scRNA-Seq": 1 1 1 1 1 1 1 1 1 1 ...
+  .. ..- attr(*, "names")= chr [1:44253] "AAACGAATCCACTTCG-2" "AAAGGTACAGGAAGTC-2" "AACTTCTGTCATGGCC-2" "AATGGCTCAACGGTAG-2" ...
+  ..@ graphs      : list()
+  ..@ neighbors   : list()
+  ..@ reductions  : list()
+  ..@ images      : list()
+  ..@ project.name: chr "liver: scRNA-Seq"
+  ..@ misc        : list()
+  ..@ version     :Classes 'package_version', 'numeric_version'  hidden list of 1
+  .. ..$ : int [1:3] 4 1 3
+  ..@ commands    :List of 2
+  .. ..$ NormalizeData.RNA       :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
+  .. .. .. ..@ name       : chr "NormalizeData.RNA"
+  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-09-12 17:15:06"
+  .. .. .. ..@ assay.used : chr "RNA"
+  .. .. .. ..@ call.string: chr "NormalizeData(., normalization.method = \"LogNormalize\")"
+  .. .. .. ..@ params     :List of 5
+  .. .. .. .. ..$ assay               : chr "RNA"
+  .. .. .. .. ..$ normalization.method: chr "LogNormalize"
+  .. .. .. .. ..$ scale.factor        : num 10000
+  .. .. .. .. ..$ margin              : num 1
+  .. .. .. .. ..$ verbose             : logi TRUE
+  .. ..$ FindVariableFeatures.RNA:Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
+  .. .. .. ..@ name       : chr "FindVariableFeatures.RNA"
+  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-09-12 17:15:14"
+  .. .. .. ..@ assay.used : chr "RNA"
+  .. .. .. ..@ call.string: chr "FindVariableFeatures(., nfeatures = 2000)"
+  .. .. .. ..@ params     :List of 12
+  .. .. .. .. ..$ assay              : chr "RNA"
+  .. .. .. .. ..$ selection.method   : chr "vst"
+  .. .. .. .. ..$ loess.span         : num 0.3
+  .. .. .. .. ..$ clip.max           : chr "auto"
+  .. .. .. .. ..$ mean.function      :function (mat, display_progress)  
+  .. .. .. .. ..$ dispersion.function:function (mat, display_progress)  
+  .. .. .. .. ..$ num.bin            : num 20
+  .. .. .. .. ..$ binning.method     : chr "equal_width"
+  .. .. .. .. ..$ nfeatures          : num 2000
+  .. .. .. .. ..$ mean.cutoff        : num [1:2] 0.1 8
+  .. .. .. .. ..$ dispersion.cutoff  : num [1:2] 1 Inf
+  .. .. .. .. ..$ verbose            : logi TRUE
+  ..@ tools       : list()
+~~~
+{: .output}
+
+Look in the "@ commands" section. You will notice that there are now two items in the 
+liver of commands. "$ NormalizeData.RNA" is the first item and "indVariableFeatures.RNA"
+is the second one. This is where the the information about the variable genes is stored.
+You can see this in the line which says:
+
+'''
+@ call.string: chr "FindVariableFeatures(., nfeatures = 2000)
+'''
 
 ## Cell Cycle Assignment 
 
@@ -172,8 +310,6 @@ Seurat will provide a quantitative estimate of the cell's chance of being
 in different phases of the cell cycle `S.Score` and `G2M.Score`, as well as
 a categorical prediction of which phase the cell is in 
 (`Phase` -- G1, G2M, S).
-
-> DMG or DAS: Maybe once we get to clustering, show cell cycle genes on clusters?
 
 ### Scale Data
 
@@ -371,14 +507,12 @@ liver <- RunUMAP(liver, reduction = 'pca', dims = 1:num_pc,
 ~~~
 {: .language-r}
 
-Note that we are using the principal components computed from 
-normalized gene expression to compute UMAP
-dimensionality reduction and we are also using the principal 
-components to compute a shared nearest neighbor graph and 
-find clusters. These two tasks are independent and could be done in
-either order. Very often the points that are near each other in
-UMAP space are also near neighbors and belong to the same cluster,
-but this is not always the case.
+Note that we are using the principal components computed from normalized gene 
+expression to compute UMAP dimensionality reduction and we are also using the 
+principal components to compute a shared nearest neighbor graph and find 
+clusters. These two tasks are independent and could be done in either order. 
+Very often the points that are near each other in UMAP space are also near 
+neighbors and belong to the same cluster, but this is not always the case.
 
 Finally, we plot the clusters which we found using the principal components in
 UMAP space.
@@ -394,6 +528,16 @@ UMAPPlot(liver, label = TRUE, label.size = 6)
 <p class="caption">plot of chunk plot_umap</p>
 </div>
 
+> DMG or DAS: Maybe once we get to clustering, show cell cycle genes on clusters?
+> DMG: This is my attempt which throws an error: "Error: Discrete value supplied 
+to continuous scale". Maybe we need to estimate the proportion of cell in each
+cluster in each cell cycle state?
+
+
+~~~
+# FeaturePlot(liver, features = 'Phase')
+~~~
+{: .language-r}
 
 
 ## Saving
@@ -437,7 +581,7 @@ attached base packages:
 
 other attached packages:
  [1] SeuratObject_4.1.3 Seurat_4.3.0.1     lubridate_1.9.2    forcats_1.0.0     
- [5] stringr_1.5.0      dplyr_1.1.2        purrr_1.0.1        readr_2.1.4       
+ [5] stringr_1.5.0      dplyr_1.1.3        purrr_1.0.2        readr_2.1.4       
  [9] tidyr_1.3.0        tibble_3.2.1       ggplot2_3.4.3      tidyverse_2.0.0   
 [13] knitr_1.44        
 
@@ -451,18 +595,18 @@ loaded via a namespace (and not attached):
  [19] uwot_0.1.16            shiny_1.7.5            sctransform_0.3.5     
  [22] spatstat.sparse_3.0-2  compiler_4.2.3         httr_1.4.7            
  [25] Matrix_1.6-0           fastmap_1.1.1          lazyeval_0.2.2        
- [28] cli_3.6.1              later_1.3.1            htmltools_0.5.5       
- [31] tools_4.2.3            igraph_1.5.0.1         gtable_0.3.4          
+ [28] cli_3.6.1              later_1.3.1            htmltools_0.5.6       
+ [31] tools_4.2.3            igraph_1.5.1           gtable_0.3.4          
  [34] glue_1.6.2             RANN_2.6.1             reshape2_1.4.4        
  [37] Rcpp_1.0.11            scattermore_1.2        vctrs_0.6.3           
- [40] nlme_3.1-162           spatstat.explore_3.2-1 progressr_0.14.0      
- [43] lmtest_0.9-40          spatstat.random_3.1-5  xfun_0.39             
+ [40] nlme_3.1-162           spatstat.explore_3.2-3 progressr_0.14.0      
+ [43] lmtest_0.9-40          spatstat.random_3.1-6  xfun_0.40             
  [46] globals_0.16.2         timechange_0.2.0       mime_0.12             
  [49] miniUI_0.1.1.1         lifecycle_1.0.3        irlba_2.3.5.1         
  [52] goftest_1.2-3          future_1.33.0          MASS_7.3-60           
  [55] zoo_1.8-12             scales_1.2.1           hms_1.1.3             
- [58] promises_1.2.0.1       spatstat.utils_3.0-3   parallel_4.2.3        
- [61] RColorBrewer_1.1-3     reticulate_1.30        pbapply_1.7-2         
+ [58] promises_1.2.1         spatstat.utils_3.0-3   parallel_4.2.3        
+ [61] RColorBrewer_1.1-3     reticulate_1.32.0      pbapply_1.7-2         
  [64] gridExtra_2.3          stringi_1.7.12         rlang_1.1.1           
  [67] pkgconfig_2.0.3        matrixStats_1.0.0      evaluate_0.21         
  [70] lattice_0.21-8         ROCR_1.0-11            tensor_1.5            
@@ -472,7 +616,7 @@ loaded via a namespace (and not attached):
  [82] R6_2.5.1               generics_0.1.3         pillar_1.9.0          
  [85] withr_2.5.0            fitdistrplus_1.1-11    survival_3.5-5        
  [88] abind_1.4-5            sp_2.0-0               future.apply_1.11.0   
- [91] KernSmooth_2.23-22     utf8_1.2.3             spatstat.geom_3.2-4   
+ [91] KernSmooth_2.23-22     utf8_1.2.3             spatstat.geom_3.2-5   
  [94] plotly_4.10.2          tzdb_0.4.0             grid_4.2.3            
  [97] data.table_1.14.8      digest_0.6.33          xtable_1.8-4          
 [100] httpuv_1.6.11          munsell_0.5.0          viridisLite_0.4.2     

@@ -166,9 +166,21 @@ LabelPoints(plot = plot1, points = top25, xnudge = 0,
             ynudge = 0, repel = TRUE)
 ```
 
-> Show what just changed in the Seurat Object.
+Once again, let's look at the Seurat liver object and see how it stores the variable
+genes.
 
-> DMG: Add challenge (somewhere) in which the students change the number of features selected. 
+```{r}
+str(liver)
+```
+
+Look in the "@ commands" section. You will notice that there are now two items in the 
+liver of commands. "$ NormalizeData.RNA" is the first item and "indVariableFeatures.RNA"
+is the second one. This is where the the information about the variable genes is stored.
+You can see this in the line which says:
+
+'''
+@ call.string: chr "FindVariableFeatures(., nfeatures = 2000)
+'''
 
 ## Cell Cycle Assignment 
 
@@ -193,8 +205,6 @@ Seurat will provide a quantitative estimate of the cell's chance of being
 in different phases of the cell cycle `S.Score` and `G2M.Score`, as well as
 a categorical prediction of which phase the cell is in 
 (`Phase` -- G1, G2M, S).
-
-> DMG or DAS: Maybe once we get to clustering, show cell cycle genes on clusters?
 
 ### Scale Data
 
@@ -356,14 +366,12 @@ liver <- RunUMAP(liver, reduction = 'pca', dims = 1:num_pc,
                  verbose = FALSE)
 ```
 
-Note that we are using the principal components computed from 
-normalized gene expression to compute UMAP
-dimensionality reduction and we are also using the principal 
-components to compute a shared nearest neighbor graph and 
-find clusters. These two tasks are independent and could be done in
-either order. Very often the points that are near each other in
-UMAP space are also near neighbors and belong to the same cluster,
-but this is not always the case.
+Note that we are using the principal components computed from normalized gene 
+expression to compute UMAP dimensionality reduction and we are also using the 
+principal components to compute a shared nearest neighbor graph and find 
+clusters. These two tasks are independent and could be done in either order. 
+Very often the points that are near each other in UMAP space are also near 
+neighbors and belong to the same cluster, but this is not always the case.
 
 Finally, we plot the clusters which we found using the principal components in
 UMAP space.
@@ -372,6 +380,14 @@ UMAP space.
 UMAPPlot(liver, label = TRUE, label.size = 6)
 ```
 
+> DMG or DAS: Maybe once we get to clustering, show cell cycle genes on clusters?
+> DMG: This is my attempt which throws an error: "Error: Discrete value supplied 
+to continuous scale". Maybe we need to estimate the proportion of cell in each
+cluster in each cell cycle state?
+
+```{r}
+# FeaturePlot(liver, features = 'Phase')
+```
 
 
 ## Saving

@@ -44,6 +44,9 @@ number of PCs, clustering resolution.
 
 > DMG & DAS: Change normalization method: log vs scTransform (neg binom). 
 
+> DMG & DAS: Add challenge in which the students change the number of features selected. 
+
+
 ## Points to keep in mind as you work with your data
 
  * You can find a high-level overview of the scRNA-Seq workflow by reviewing

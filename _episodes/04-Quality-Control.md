@@ -87,8 +87,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7293521  389.6   11719412  625.9  10647663  568.7
-Vcells 179824345 1372.0  434324494 3313.7 434323281 3313.7
+Ncells   7294064  389.6   11719432  625.9  10655036  569.1
+Vcells 179825093 1372.0  434325392 3313.7 434324029 3313.7
 ~~~
 {: .output}
 
@@ -365,8 +365,8 @@ gc()
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7416112  396.1   11719412  625.9  11719412  625.9
-Vcells 180414086 1376.5  521269392 3977.0 464844919 3546.5
+Ncells   7416655  396.1   11719432  625.9  11719432  625.9
+Vcells 180414834 1376.5  521270470 3977.0 464845667 3546.5
 ~~~
 {: .output}
 
@@ -876,8 +876,8 @@ other attached packages:
 [11] BiocGenerics_0.44.0         MatrixGenerics_1.10.0      
 [13] matrixStats_1.0.0           Matrix_1.6-0               
 [15] lubridate_1.9.2             forcats_1.0.0              
-[17] stringr_1.5.0               dplyr_1.1.2                
-[19] purrr_1.0.1                 readr_2.1.4                
+[17] stringr_1.5.0               dplyr_1.1.3                
+[19] purrr_1.0.2                 readr_2.1.4                
 [21] tidyr_1.3.0                 tibble_3.2.1               
 [23] ggplot2_3.4.3               tidyverse_2.0.0            
 [25] knitr_1.44                 
@@ -893,19 +893,19 @@ loaded via a namespace (and not attached):
  [22] spatstat.sparse_3.0-2  sctransform_0.3.5      shiny_1.7.5           
  [25] compiler_4.2.3         httr_1.4.7             lazyeval_0.2.2        
  [28] fastmap_1.1.1          cli_3.6.1              later_1.3.1           
- [31] htmltools_0.5.5        tools_4.2.3            igraph_1.5.0.1        
+ [31] htmltools_0.5.6        tools_4.2.3            igraph_1.5.1          
  [34] gtable_0.3.4           glue_1.6.2             GenomeInfoDbData_1.2.9
  [37] reshape2_1.4.4         RANN_2.6.1             Rcpp_1.0.11           
  [40] scattermore_1.2        vctrs_0.6.3            nlme_3.1-162          
- [43] spatstat.explore_3.2-1 progressr_0.14.0       lmtest_0.9-40         
- [46] spatstat.random_3.1-5  xfun_0.39              globals_0.16.2        
+ [43] spatstat.explore_3.2-3 progressr_0.14.0       lmtest_0.9-40         
+ [46] spatstat.random_3.1-6  xfun_0.40              globals_0.16.2        
  [49] timechange_0.2.0       mime_0.12              miniUI_0.1.1.1        
  [52] lifecycle_1.0.3        irlba_2.3.5.1          goftest_1.2-3         
  [55] future_1.33.0          zlibbioc_1.44.0        MASS_7.3-60           
  [58] zoo_1.8-12             scales_1.2.1           spatstat.utils_3.0-3  
- [61] hms_1.1.3              promises_1.2.0.1       parallel_4.2.3        
+ [61] hms_1.1.3              promises_1.2.1         parallel_4.2.3        
  [64] RColorBrewer_1.1-3     gridExtra_2.3          pbapply_1.7-2         
- [67] reticulate_1.30        stringi_1.7.12         rlang_1.1.1           
+ [67] reticulate_1.32.0      stringi_1.7.12         rlang_1.1.1           
  [70] pkgconfig_2.0.3        bitops_1.0-7           evaluate_0.21         
  [73] lattice_0.21-8         tensor_1.5             ROCR_1.0-11           
  [76] labeling_0.4.3         htmlwidgets_1.6.2      patchwork_1.1.3       
@@ -915,7 +915,7 @@ loaded via a namespace (and not attached):
  [88] pillar_1.9.0           withr_2.5.0            fitdistrplus_1.1-11   
  [91] abind_1.4-5            survival_3.5-5         RCurl_1.98-1.12       
  [94] sp_2.0-0               future.apply_1.11.0    xgboost_1.7.5.1       
- [97] KernSmooth_2.23-22     utf8_1.2.3             spatstat.geom_3.2-4   
+ [97] KernSmooth_2.23-22     utf8_1.2.3             spatstat.geom_3.2-5   
 [100] plotly_4.10.2          tzdb_0.4.0             grid_4.2.3            
 [103] data.table_1.14.8      digest_0.6.33          xtable_1.8-4          
 [106] httpuv_1.6.11          munsell_0.5.0          viridisLite_0.4.2     

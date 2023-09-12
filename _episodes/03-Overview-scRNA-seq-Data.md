@@ -700,7 +700,7 @@ attached base packages:
 
 other attached packages:
  [1] SeuratObject_4.1.3 Seurat_4.3.0.1     lubridate_1.9.2    forcats_1.0.0     
- [5] stringr_1.5.0      dplyr_1.1.2        purrr_1.0.1        readr_2.1.4       
+ [5] stringr_1.5.0      dplyr_1.1.3        purrr_1.0.2        readr_2.1.4       
  [9] tidyr_1.3.0        tibble_3.2.1       ggplot2_3.4.3      tidyverse_2.0.0   
 [13] knitr_1.44        
 
@@ -715,18 +715,18 @@ loaded via a namespace (and not attached):
  [22] sctransform_0.3.5      spatstat.sparse_3.0-2  compiler_4.2.3        
  [25] httr_1.4.7             Matrix_1.6-0           fastmap_1.1.1         
  [28] lazyeval_0.2.2         cli_3.6.1              later_1.3.1           
- [31] htmltools_0.5.5        tools_4.2.3            igraph_1.5.0.1        
+ [31] htmltools_0.5.6        tools_4.2.3            igraph_1.5.1          
  [34] gtable_0.3.4           glue_1.6.2             RANN_2.6.1            
  [37] reshape2_1.4.4         Rcpp_1.0.11            scattermore_1.2       
- [40] vctrs_0.6.3            nlme_3.1-162           spatstat.explore_3.2-1
- [43] progressr_0.14.0       lmtest_0.9-40          spatstat.random_3.1-5 
- [46] xfun_0.39              globals_0.16.2         timechange_0.2.0      
+ [40] vctrs_0.6.3            nlme_3.1-162           spatstat.explore_3.2-3
+ [43] progressr_0.14.0       lmtest_0.9-40          spatstat.random_3.1-6 
+ [46] xfun_0.40              globals_0.16.2         timechange_0.2.0      
  [49] mime_0.12              miniUI_0.1.1.1         lifecycle_1.0.3       
  [52] irlba_2.3.5.1          goftest_1.2-3          future_1.33.0         
  [55] MASS_7.3-60            zoo_1.8-12             scales_1.2.1          
- [58] vroom_1.6.3            hms_1.1.3              promises_1.2.0.1      
+ [58] vroom_1.6.3            hms_1.1.3              promises_1.2.1        
  [61] spatstat.utils_3.0-3   parallel_4.2.3         RColorBrewer_1.1-3    
- [64] reticulate_1.30        pbapply_1.7-2          gridExtra_2.3         
+ [64] reticulate_1.32.0      pbapply_1.7-2          gridExtra_2.3         
  [67] stringi_1.7.12         rlang_1.1.1            pkgconfig_2.0.3       
  [70] matrixStats_1.0.0      evaluate_0.21          lattice_0.21-8        
  [73] ROCR_1.0-11            tensor_1.5             labeling_0.4.3        
@@ -737,7 +737,7 @@ loaded via a namespace (and not attached):
  [88] withr_2.5.0            fitdistrplus_1.1-11    survival_3.5-5        
  [91] abind_1.4-5            sp_2.0-0               future.apply_1.11.0   
  [94] crayon_1.5.2           KernSmooth_2.23-22     utf8_1.2.3            
- [97] spatstat.geom_3.2-4    plotly_4.10.2          tzdb_0.4.0            
+ [97] spatstat.geom_3.2-5    plotly_4.10.2          tzdb_0.4.0            
 [100] grid_4.2.3             data.table_1.14.8      digest_0.6.33         
 [103] xtable_1.8-4           httpuv_1.6.11          munsell_0.5.0         
 [106] viridisLite_0.4.2     

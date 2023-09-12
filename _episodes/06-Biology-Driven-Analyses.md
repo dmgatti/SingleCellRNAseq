@@ -306,28 +306,28 @@ Computing SNN
 
 
 ~~~
-09:41:12 UMAP embedding parameters a = 0.9922 b = 1.112
+17:26:25 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-09:41:12 Read 44253 rows and found 24 numeric columns
+17:26:25 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-09:41:12 Using Annoy for neighbor search, n_neighbors = 30
+17:26:25 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-09:41:12 Building Annoy index with metric = cosine, n_trees = 50
+17:26:25 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -349,13 +349,13 @@ Computing SNN
 
 ~~~
 **************************************************|
-09:41:16 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpMByHt7\fileccd85c7e1cf6
-09:41:16 Searching Annoy index using 1 thread, search_k = 3000
-09:41:27 Annoy recall = 100%
-09:41:28 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-09:41:31 Initializing from normalized Laplacian + noise (using irlba)
-09:41:39 Commencing optimization for 200 epochs, with 1892644 positive edges
-09:42:26 Optimization finished
+17:26:29 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\Rtmpk9eNWJ\file106c8cb9919
+17:26:29 Searching Annoy index using 1 thread, search_k = 3000
+17:26:40 Annoy recall = 100%
+17:26:41 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+17:26:43 Initializing from normalized Laplacian + noise (using irlba)
+17:26:53 Commencing optimization for 200 epochs, with 1892644 positive edges
+17:27:29 Optimization finished
 ~~~
 {: .output}
 
@@ -531,12 +531,9 @@ and more scRNA-Seq datasets.
 
 ## Identifying cell types
 
-> DAS & DMG: Should we load in the original study metadata with cell type assignments and compare?
-
-Let's plot the expression of some of the major cell type
-markers. Look at the data.frame `markers` for a summary of the
-markers we found above. We'll massage the `markers` data.frame into a
-more tidy format:
+Let's plot the expression of some of the major cell type markers. Look at the 
+data.frame `markers` for a summary of the markers we found above. We'll massage 
+the `markers` data.frame into a more tidy format:
 
 
 ~~~
@@ -590,7 +587,8 @@ Dan Skelly has some code available
 [here](https://gist.github.com/daskelly/09c1d2ae8dc3b1de1fe2ec2dbd0dd44d)
 that implements such an approach in the Seurat framework, should you
 wish to try it.
-For this course we will not get into such a level of detail.
+
+In this course, we will not get into this level of detail.
 
 Let's look at the top 3 markers for each cluster:
 
@@ -642,9 +640,9 @@ generated.
 ~~~
 {: .output}
 
-Recognizing these genes might be a big challenge if you are not 
-used to looking at single cell gene expression. Let's check out expression of 
-the very top genes in each cell cluster:
+Recognizing these genes might be a big challenge if you are not used to looking 
+at single cell gene expression. Let's check out expression of the very top genes
+in each cell cluster:
 
 
 ~~~
@@ -660,11 +658,10 @@ VlnPlot(liver, features = top_markers, stack = TRUE, flip = TRUE)
 <p class="caption">plot of chunk top_markers2</p>
 </div>
 
-What does this tell us? Well, there are some genes here that are quite
-specific to one cluster (e.g. S100a9, Spp1, Ccl5, Siglech),
-but there are a few markers that are not very good markers at all
-(e.g. Fabp1, Cst3) and some that are not very specific 
-(e.g. Clec4f, Cd5l, Kdr, Clec4g).
+What does this tell us? Well, there are some genes here that are quite specific 
+to one cluster (e.g. S100a9, Spp1, Ccl5, Siglech), but there are a few markers 
+that are not very good markers at all (e.g. Fabp1, Cst3) and some that are not 
+very specific (e.g. Clec4f, Cd5l, Kdr, Clec4g).
 
 Let's look at one of these last kinds of markers -- *Kdr*. Our violin plot above
 shows that this gene is expressed in clusters c0, c6, c12, and c2.
@@ -864,23 +861,22 @@ VlnPlot(liver, c("Adgre1", "Fabp1"), idents = c('c3', 'c15', 'c1'), sort = T)
 <p class="caption">plot of chunk doublets</p>
 </div>
 
-
 Let's store our labels and look at what remains unidentified.
 
 
 ~~~
 labels <- tibble(cluster_num = unique(liver$renamed_clusters)) %>%
-  mutate(cluster_num = as.character(cluster_num)) %>%
-  mutate(cluster_name = case_when(
-         cluster_num %in% c('c0', 'c2', 'c6', 'c12') ~ 'ECs',   # endothelial cells
-         cluster_num == 'c1' ~ 'hepatocytes',
-         cluster_num %in% c('c3', 'c8') ~ 'Kupffer cells',
-         cluster_num == 'c4' ~ 'T cells',
-         cluster_num == 'c7' ~ 'B cells',
-         cluster_num == 'c9' ~ 'pDCs',               # plasmacytoid dendritic cells
-         cluster_num == 'c14' ~ 'neutrophils',
-         cluster_num == 'c15' ~ 'KH doub.',          # Kupffer-hepatocyte doublets
-         TRUE ~ cluster_num))
+          mutate(cluster_num = as.character(cluster_num)) %>%
+          mutate(cluster_name = case_when(
+                 cluster_num %in% c('c0', 'c2', 'c6', 'c12') ~ 'ECs',   # endothelial cells
+                 cluster_num == 'c1' ~ 'hepatocytes',
+                 cluster_num %in% c('c3', 'c8') ~ 'Kupffer cells',
+                 cluster_num == 'c4'  ~ 'T cells',
+                 cluster_num == 'c7'  ~ 'B cells',
+                 cluster_num == 'c9'  ~ 'pDCs',               # plasmacytoid dendritic cells
+                 cluster_num == 'c14' ~ 'neutrophils',
+                 cluster_num == 'c15' ~ 'KH doub.',          # Kupffer-hepatocyte doublets
+                 TRUE ~ cluster_num))
 
 liver$labels <- deframe(labels)[as.character(liver$renamed_clusters)]
 UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
@@ -922,6 +918,84 @@ UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 > {: .solution}
 {: .challenge}
 
+Make sure that you update the `liver` object with the cell cluster 
+annotations in the solution to the challenge above.
+
+
+
+## Comparing cell types to original paper
+
+The research group that generated this data published cell type annotation for 
+each cell. We will read in this annotation an compare it with ours.
+
+Read in the author's metadata.
+
+
+~~~
+metadata <- read_csv(file.path(data_dir, 'mouseStSt_invivo', 'annot_metadata.csv'),
+                    show_col_types = FALSE)
+~~~
+{: .language-r}
+
+Next, extract the cell-types from the `liver` object.
+
+
+~~~
+labels <- data.frame(cell  = names(liver$labels),
+                     label = liver$labels)
+~~~
+{: .language-r}
+
+And finally, join the author's annotation with our annotation.
+
+
+~~~
+annot <- left_join(labels, metadata, by = 'cell') %>% 
+           dplyr::rename(our_annot = label)
+~~~
+{: .language-r}
+
+Next, we will count the number of times that each pair of cell types occurs in
+the author's annotation and our annotation.
+
+
+~~~
+annot %>% 
+  dplyr::count(our_annot, annot) %>% 
+  pivot_wider(names_from = our_annot, values_from = n)
+~~~
+{: .language-r}
+
+
+
+~~~
+# A tibble: 17 × 13
+   annot              `B cells`   ECs `KH doub.` `Kupffer cells` `T cells`  cCD1
+   <chr>                  <int> <int>      <int>           <int>     <int> <int>
+ 1 B cells                  966     1         NA              NA        NA    NA
+ 2 Endothelial cells          7 20205          1               8         9    NA
+ 3 Basophils                 NA     1         NA              NA        NA    NA
+ 4 Hepatocytes               NA    30         NA               1        NA    NA
+ 5 HsPCs                     NA     1         NA              NA        NA    NA
+ 6 ILC1s                     NA     1         NA               1       386    NA
+ 7 Kupffer cells             NA    46        170            7916        NA    NA
+ 8 Mig. cDCs                 NA     1         NA              NA        NA    NA
+ 9 Monocytes & Monoc…        NA     3          2               7        NA    NA
+10 T cells                   NA     1         NA              NA      1221    NA
+11 cDC1s                     NA    NA         NA              16        NA   397
+12 NK cells                  NA    NA         NA              NA       214    NA
+13 cDC2s                     NA    NA         NA              NA         1     1
+14 Cholangiocytes            NA    NA         NA              NA        NA    NA
+15 Fibroblasts               NA    NA         NA              NA        NA    NA
+16 Neutrophils               NA    NA         NA              NA        NA    NA
+17 pDCs                      NA    NA         NA              NA        NA    NA
+# ℹ 6 more variables: cholangiocytes <int>, `fibroblast/stellate` <int>,
+#   hepatocytes <int>, monocytes <int>, neutrophils <int>, pDCs <int>
+~~~
+{: .output}
+
+Many of the annotations that we found match what the authors found! This is
+encouraging and provides a measure of reproducibility in the analysis.
 
 ## Differential expression 
 
@@ -1279,53 +1353,54 @@ other attached packages:
 [13] Rcpp_1.0.11                 SeuratObject_4.1.3         
 [15] Seurat_4.3.0.1              lubridate_1.9.2            
 [17] forcats_1.0.0               stringr_1.5.0              
-[19] dplyr_1.1.2                 purrr_1.0.1                
+[19] dplyr_1.1.3                 purrr_1.0.2                
 [21] readr_2.1.4                 tidyr_1.3.0                
 [23] tibble_3.2.1                ggplot2_3.4.3              
 [25] tidyverse_2.0.0             knitr_1.44                 
 
 loaded via a namespace (and not attached):
-  [1] plyr_1.8.8             igraph_1.5.0.1         lazyeval_0.2.2        
+  [1] plyr_1.8.8             igraph_1.5.1           lazyeval_0.2.2        
   [4] sp_2.0-0               splines_4.2.3          BiocParallel_1.32.6   
   [7] listenv_0.9.0          scattermore_1.2        digest_0.6.33         
- [10] htmltools_0.5.5        fansi_1.0.4            memoise_2.0.1         
+ [10] htmltools_0.5.6        fansi_1.0.4            memoise_2.0.1         
  [13] magrittr_2.0.3         tensor_1.5             cluster_2.1.4         
  [16] ROCR_1.0-11            limma_3.54.2           tzdb_0.4.0            
  [19] Biostrings_2.66.0      globals_0.16.2         annotate_1.76.0       
- [22] timechange_0.2.0       spatstat.sparse_3.0-2  colorspace_2.1-0      
- [25] blob_1.2.4             ggrepel_0.9.3          WriteXLS_6.4.0        
- [28] xfun_0.39              crayon_1.5.2           RCurl_1.98-1.12       
- [31] jsonlite_1.8.7         progressr_0.14.0       spatstat.data_3.0-1   
- [34] survival_3.5-5         zoo_1.8-12             glue_1.6.2            
- [37] polyclip_1.10-4        gtable_0.3.4           zlibbioc_1.44.0       
- [40] XVector_0.38.0         leiden_0.4.3           DelayedArray_0.24.0   
- [43] future.apply_1.11.0    abind_1.4-5            scales_1.2.1          
- [46] DBI_1.1.3              spatstat.random_3.1-5  miniUI_0.1.1.1        
- [49] viridisLite_0.4.2      xtable_1.8-4           reticulate_1.30       
- [52] bit_4.0.5              htmlwidgets_1.6.2      httr_1.4.7            
- [55] RColorBrewer_1.1-3     ellipsis_0.3.2         ica_1.0-3             
- [58] farver_2.1.1           pkgconfig_2.0.3        XML_3.99-0.14         
- [61] uwot_0.1.16            deldir_1.0-9           locfit_1.5-9.8        
- [64] utf8_1.2.3             labeling_0.4.3         tidyselect_1.2.0      
- [67] rlang_1.1.1            reshape2_1.4.4         later_1.3.1           
- [70] AnnotationDbi_1.60.2   cachem_1.0.8           munsell_0.5.0         
- [73] tools_4.2.3            cli_3.6.1              generics_0.1.3        
- [76] RSQLite_2.3.1          ggridges_0.5.4         evaluate_0.21         
- [79] fastmap_1.1.1          goftest_1.2-3          bit64_4.0.5           
- [82] fitdistrplus_1.1-11    RANN_2.6.1             KEGGREST_1.38.0       
- [85] pbapply_1.7-2          future_1.33.0          nlme_3.1-162          
- [88] mime_0.12              compiler_4.2.3         curl_5.0.2            
- [91] plotly_4.10.2          png_0.1-8              spatstat.utils_3.0-3  
- [94] geneplotter_1.76.0     stringi_1.7.12         lattice_0.21-8        
- [97] Matrix_1.6-0           vctrs_0.6.3            pillar_1.9.0          
-[100] lifecycle_1.0.3        spatstat.geom_3.2-4    lmtest_0.9-40         
-[103] RcppAnnoy_0.0.21       data.table_1.14.8      cowplot_1.1.1         
-[106] bitops_1.0-7           irlba_2.3.5.1          httpuv_1.6.11         
-[109] patchwork_1.1.3        R6_2.5.1               promises_1.2.0.1      
-[112] KernSmooth_2.23-22     gridExtra_2.3          parallelly_1.36.0     
-[115] codetools_0.2-19       MASS_7.3-60            rjson_0.2.21          
-[118] withr_2.5.0            sctransform_0.3.5      GenomeInfoDbData_1.2.9
-[121] parallel_4.2.3         hms_1.1.3              grid_4.2.3            
-[124] Rtsne_0.16             spatstat.explore_3.2-1 shiny_1.7.5           
+ [22] vroom_1.6.3            timechange_0.2.0       spatstat.sparse_3.0-2 
+ [25] colorspace_2.1-0       blob_1.2.4             ggrepel_0.9.3         
+ [28] WriteXLS_6.4.0         xfun_0.40              crayon_1.5.2          
+ [31] RCurl_1.98-1.12        jsonlite_1.8.7         progressr_0.14.0      
+ [34] spatstat.data_3.0-1    survival_3.5-5         zoo_1.8-12            
+ [37] glue_1.6.2             polyclip_1.10-4        gtable_0.3.4          
+ [40] zlibbioc_1.44.0        XVector_0.38.0         leiden_0.4.3          
+ [43] DelayedArray_0.24.0    future.apply_1.11.0    abind_1.4-5           
+ [46] scales_1.2.1           DBI_1.1.3              spatstat.random_3.1-6 
+ [49] miniUI_0.1.1.1         viridisLite_0.4.2      xtable_1.8-4          
+ [52] reticulate_1.32.0      bit_4.0.5              htmlwidgets_1.6.2     
+ [55] httr_1.4.7             RColorBrewer_1.1-3     ellipsis_0.3.2        
+ [58] ica_1.0-3              farver_2.1.1           pkgconfig_2.0.3       
+ [61] XML_3.99-0.14          uwot_0.1.16            deldir_1.0-9          
+ [64] locfit_1.5-9.8         utf8_1.2.3             labeling_0.4.3        
+ [67] tidyselect_1.2.0       rlang_1.1.1            reshape2_1.4.4        
+ [70] later_1.3.1            AnnotationDbi_1.60.2   cachem_1.0.8          
+ [73] munsell_0.5.0          tools_4.2.3            cli_3.6.1             
+ [76] generics_0.1.3         RSQLite_2.3.1          ggridges_0.5.4        
+ [79] evaluate_0.21          fastmap_1.1.1          goftest_1.2-3         
+ [82] bit64_4.0.5            fitdistrplus_1.1-11    RANN_2.6.1            
+ [85] KEGGREST_1.38.0        pbapply_1.7-2          future_1.33.0         
+ [88] nlme_3.1-162           mime_0.12              compiler_4.2.3        
+ [91] curl_5.0.2             plotly_4.10.2          png_0.1-8             
+ [94] spatstat.utils_3.0-3   geneplotter_1.76.0     stringi_1.7.12        
+ [97] lattice_0.21-8         Matrix_1.6-0           vctrs_0.6.3           
+[100] pillar_1.9.0           lifecycle_1.0.3        spatstat.geom_3.2-5   
+[103] lmtest_0.9-40          RcppAnnoy_0.0.21       data.table_1.14.8     
+[106] cowplot_1.1.1          bitops_1.0-7           irlba_2.3.5.1         
+[109] httpuv_1.6.11          patchwork_1.1.3        R6_2.5.1              
+[112] promises_1.2.1         KernSmooth_2.23-22     gridExtra_2.3         
+[115] parallelly_1.36.0      codetools_0.2-19       MASS_7.3-60           
+[118] rjson_0.2.21           withr_2.5.0            sctransform_0.3.5     
+[121] GenomeInfoDbData_1.2.9 parallel_4.2.3         hms_1.1.3             
+[124] grid_4.2.3             Rtsne_0.16             spatstat.explore_3.2-3
+[127] shiny_1.7.5           
 ~~~
 {: .output}

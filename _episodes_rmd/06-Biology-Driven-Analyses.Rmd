@@ -344,12 +344,9 @@ and more scRNA-Seq datasets.
 
 ## Identifying cell types
 
-> DAS & DMG: Should we load in the original study metadata with cell type assignments and compare?
-
-Let's plot the expression of some of the major cell type
-markers. Look at the data.frame `markers` for a summary of the
-markers we found above. We'll massage the `markers` data.frame into a
-more tidy format:
+Let's plot the expression of some of the major cell type markers. Look at the 
+data.frame `markers` for a summary of the markers we found above. We'll massage 
+the `markers` data.frame into a more tidy format:
 
 ```{r markers_massage}
 old_markers <- markers
@@ -386,7 +383,8 @@ Dan Skelly has some code available
 [here](https://gist.github.com/daskelly/09c1d2ae8dc3b1de1fe2ec2dbd0dd44d)
 that implements such an approach in the Seurat framework, should you
 wish to try it.
-For this course we will not get into such a level of detail.
+
+In this course, we will not get into this level of detail.
 
 Let's look at the top 3 markers for each cluster:
 
@@ -399,9 +397,9 @@ group_by(markers, cluster) %>%
   arrange(cluster)
 ```
 
-Recognizing these genes might be a big challenge if you are not 
-used to looking at single cell gene expression. Let's check out expression of 
-the very top genes in each cell cluster:
+Recognizing these genes might be a big challenge if you are not used to looking 
+at single cell gene expression. Let's check out expression of the very top genes
+in each cell cluster:
 
 ```{r top_markers2, fig.width = 8, fig.height = 10}
 top_markers <- group_by(markers, cluster) %>% 
@@ -410,11 +408,10 @@ top_markers <- group_by(markers, cluster) %>%
 VlnPlot(liver, features = top_markers, stack = TRUE, flip = TRUE)
 ```
 
-What does this tell us? Well, there are some genes here that are quite
-specific to one cluster (e.g. S100a9, Spp1, Ccl5, Siglech),
-but there are a few markers that are not very good markers at all
-(e.g. Fabp1, Cst3) and some that are not very specific 
-(e.g. Clec4f, Cd5l, Kdr, Clec4g).
+What does this tell us? Well, there are some genes here that are quite specific 
+to one cluster (e.g. S100a9, Spp1, Ccl5, Siglech), but there are a few markers 
+that are not very good markers at all (e.g. Fabp1, Cst3) and some that are not 
+very specific (e.g. Clec4f, Cd5l, Kdr, Clec4g).
 
 Let's look at one of these last kinds of markers -- *Kdr*. Our violin plot above
 shows that this gene is expressed in clusters c0, c6, c12, and c2.
@@ -558,22 +555,21 @@ of Kupffer cell-specific *Adgre1* and hepatocyte-specific *Fabp1*.
 VlnPlot(liver, c("Adgre1", "Fabp1"), idents = c('c3', 'c15', 'c1'), sort = T)
 ```
 
-
 Let's store our labels and look at what remains unidentified.
 
 ```{r labelling}
 labels <- tibble(cluster_num = unique(liver$renamed_clusters)) %>%
-  mutate(cluster_num = as.character(cluster_num)) %>%
-  mutate(cluster_name = case_when(
-         cluster_num %in% c('c0', 'c2', 'c6', 'c12') ~ 'ECs',   # endothelial cells
-         cluster_num == 'c1' ~ 'hepatocytes',
-         cluster_num %in% c('c3', 'c8') ~ 'Kupffer cells',
-         cluster_num == 'c4' ~ 'T cells',
-         cluster_num == 'c7' ~ 'B cells',
-         cluster_num == 'c9' ~ 'pDCs',               # plasmacytoid dendritic cells
-         cluster_num == 'c14' ~ 'neutrophils',
-         cluster_num == 'c15' ~ 'KH doub.',          # Kupffer-hepatocyte doublets
-         TRUE ~ cluster_num))
+          mutate(cluster_num = as.character(cluster_num)) %>%
+          mutate(cluster_name = case_when(
+                 cluster_num %in% c('c0', 'c2', 'c6', 'c12') ~ 'ECs',   # endothelial cells
+                 cluster_num == 'c1' ~ 'hepatocytes',
+                 cluster_num %in% c('c3', 'c8') ~ 'Kupffer cells',
+                 cluster_num == 'c4'  ~ 'T cells',
+                 cluster_num == 'c7'  ~ 'B cells',
+                 cluster_num == 'c9'  ~ 'pDCs',               # plasmacytoid dendritic cells
+                 cluster_num == 'c14' ~ 'neutrophils',
+                 cluster_num == 'c15' ~ 'KH doub.',          # Kupffer-hepatocyte doublets
+                 TRUE ~ cluster_num))
 
 liver$labels <- deframe(labels)[as.character(liver$renamed_clusters)]
 UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
@@ -609,6 +605,60 @@ UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 > {: .solution}
 {: .challenge}
 
+Make sure that you update the `liver` object with the cell cluster 
+annotations in the solution to the challenge above.
+
+```{r labelling2,echo=FALSE}
+# We need this block to fill in the cell types from the challenge above.
+labels <- tibble(cluster_num = unique(liver$labels)) %>%
+          mutate(cluster_num = as.character(cluster_num)) %>%
+          mutate(cluster_name = case_when(
+                 cluster_num == 'c5'  ~ 'monocytes',
+                 cluster_num == 'c10' ~ 'fibroblast/stellate',
+                 cluster_num == 'c11' ~ 'cCD1',
+                 cluster_num == 'c13' ~ 'cholangiocytes',
+                 TRUE ~ cluster_num))
+
+liver$labels <- deframe(labels)[as.character(liver$labels)]
+```
+
+## Comparing cell types to original paper
+
+The research group that generated this data published cell type annotation for 
+each cell. We will read in this annotation an compare it with ours.
+
+Read in the author's metadata.
+
+```{r read_original_cell_annot}
+metadata <- read_csv(file.path(data_dir, 'mouseStSt_invivo', 'annot_metadata.csv'),
+                    show_col_types = FALSE)
+```
+
+Next, extract the cell-types from the `liver` object.
+
+```{r}
+labels <- data.frame(cell  = names(liver$labels),
+                     label = liver$labels)
+```
+
+And finally, join the author's annotation with our annotation.
+
+```{r}
+annot <- left_join(labels, metadata, by = 'cell') %>% 
+           dplyr::rename(our_annot = label)
+```
+
+Next, we will count the number of times that each pair of cell types occurs in
+the author's annotation and our annotation.
+
+```{r}
+annot %>% 
+  dplyr::count(our_annot, annot) %>% 
+  pivot_wider(names_from = our_annot, values_from = n)
+```
+
+Many of the annotations that we found match what the authors found! This is
+encouraging and provides a measure of reproducibility in the analysis.
 
 ## Differential expression 
 
