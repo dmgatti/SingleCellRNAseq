@@ -380,12 +380,14 @@ UMAP space.
 UMAPPlot(liver, label = TRUE, label.size = 6)
 ```
 
+
 > DMG or DAS: Maybe once we get to clustering, show cell cycle genes on clusters?
 > DMG: This is my attempt which throws an error: "Error: Discrete value supplied 
 to continuous scale". Maybe we need to estimate the proportion of cell in each
 cluster in each cell cycle state?
 
 ```{r}
+UMAPPlot(liver, group.by = 'Phase')
 # FeaturePlot(liver, features = 'Phase')
 ```
 
