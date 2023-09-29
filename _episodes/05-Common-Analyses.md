@@ -220,7 +220,7 @@ Formal class 'Seurat' [package "SeuratObject"] with 13 slots
   .. .. .. .. ..$ vst.variance.standardized: num [1:20120] 0.955 2.045 1.818 0.992 0.798 ...
   .. .. .. .. ..$ vst.variable             : logi [1:20120] FALSE TRUE TRUE FALSE FALSE FALSE ...
   .. .. .. ..@ misc         : list()
-  ..@ meta.data   :'data.frame':	44253 obs. of  10 variables:
+  ..@ meta.data   :'data.frame':	44253 obs. of  11 variables:
   .. ..$ orig.ident  : Factor w/ 1 level "liver: scRNA-Seq": 1 1 1 1 1 1 1 1 1 1 ...
   .. ..$ nCount_RNA  : num [1:44253] 8476 8150 8139 10083 9517 ...
   .. ..$ nFeature_RNA: int [1:44253] 3264 3185 3280 3716 3543 3064 3088 3277 3144 3511 ...
@@ -231,6 +231,7 @@ Formal class 'Seurat' [package "SeuratObject"] with 13 slots
   .. ..$ bcds_score  : num [1:44253] NA NA NA NA NA NA NA NA NA NA ...
   .. ..$ hybrid_score: num [1:44253] NA NA NA NA NA NA NA NA NA NA ...
   .. ..$ percent.mt  : num [1:44253] 3.04 5.35 4.67 4.75 3.89 ...
+  .. ..$ keep        : logi [1:44253] TRUE TRUE TRUE TRUE TRUE TRUE ...
   ..@ active.assay: chr "RNA"
   ..@ active.ident: Factor w/ 1 level "liver: scRNA-Seq": 1 1 1 1 1 1 1 1 1 1 ...
   .. ..- attr(*, "names")= chr [1:44253] "AAACGAATCCACTTCG-2" "AAAGGTACAGGAAGTC-2" "AACTTCTGTCATGGCC-2" "AATGGCTCAACGGTAG-2" ...
@@ -245,7 +246,7 @@ Formal class 'Seurat' [package "SeuratObject"] with 13 slots
   ..@ commands    :List of 2
   .. ..$ NormalizeData.RNA       :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
   .. .. .. ..@ name       : chr "NormalizeData.RNA"
-  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-09-29 08:24:26"
+  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-09-29 13:13:23"
   .. .. .. ..@ assay.used : chr "RNA"
   .. .. .. ..@ call.string: chr "NormalizeData(., normalization.method = \"LogNormalize\")"
   .. .. .. ..@ params     :List of 5
@@ -256,7 +257,7 @@ Formal class 'Seurat' [package "SeuratObject"] with 13 slots
   .. .. .. .. ..$ verbose             : logi TRUE
   .. ..$ FindVariableFeatures.RNA:Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
   .. .. .. ..@ name       : chr "FindVariableFeatures.RNA"
-  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-09-29 08:24:32"
+  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-09-29 13:13:29"
   .. .. .. ..@ assay.used : chr "RNA"
   .. .. .. ..@ call.string: chr "FindVariableFeatures(., nfeatures = 2000)"
   .. .. .. ..@ params     :List of 12
@@ -477,7 +478,6 @@ liver <- FindNeighbors(liver, reduction = 'pca',
 ~~~
 {: .language-r}
 
-> Show what just changed in the Seurat Object.
 
 ## Dimensionality reduction (UMAP, tSNE, etc) 
 
@@ -528,11 +528,7 @@ UMAPPlot(liver, label = TRUE, label.size = 6)
 <p class="caption">plot of chunk plot_umap</p>
 </div>
 
-
-> DMG or DAS: Maybe once we get to clustering, show cell cycle genes on clusters?
-> DMG: This is my attempt which throws an error: "Error: Discrete value supplied 
-to continuous scale". Maybe we need to estimate the proportion of cell in each
-cluster in each cell cycle state?
+Let's color the cells in each cluster by cell cycle phase using `UMAPPlot()`.
 
 
 ~~~
@@ -544,12 +540,6 @@ UMAPPlot(liver, group.by = 'Phase')
 <img src="../fig/rmd-05-unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2" width="612" />
 <p class="caption">plot of chunk unnamed-chunk-2</p>
 </div>
-
-~~~
-# FeaturePlot(liver, features = 'Phase')
-~~~
-{: .language-r}
-
 
 ## Saving
 
@@ -591,7 +581,7 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] SeuratObject_4.1.4 Seurat_4.4.0       lubridate_1.9.2    forcats_1.0.0     
+ [1] SeuratObject_4.1.4 Seurat_4.4.0       lubridate_1.9.3    forcats_1.0.0     
  [5] stringr_1.5.0      dplyr_1.1.3        purrr_1.0.2        readr_2.1.4       
  [9] tidyr_1.3.0        tibble_3.2.1       ggplot2_3.4.3      tidyverse_2.0.0   
 [13] knitr_1.44        

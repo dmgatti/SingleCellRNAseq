@@ -510,9 +510,12 @@ hist(Matrix::colSums(counts))
 </div>
 
 ~~~
-Matrix::colSums(counts) %>% enframe() %>%
-  ggplot(aes(value)) + geom_histogram(bins = 30) + 
-  theme_bw(base_size = 16) + scale_x_log10()
+Matrix::colSums(counts) %>% 
+  enframe() %>%
+  ggplot(aes(value)) + 
+  geom_histogram(bins = 30) + 
+  scale_x_log10() +
+  theme_bw(base_size = 16)
 ~~~
 {: .language-r}
 
@@ -699,7 +702,7 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] SeuratObject_4.1.4 Seurat_4.4.0       lubridate_1.9.2    forcats_1.0.0     
+ [1] SeuratObject_4.1.4 Seurat_4.4.0       lubridate_1.9.3    forcats_1.0.0     
  [5] stringr_1.5.0      dplyr_1.1.3        purrr_1.0.2        readr_2.1.4       
  [9] tidyr_1.3.0        tibble_3.2.1       ggplot2_3.4.3      tidyverse_2.0.0   
 [13] knitr_1.44        

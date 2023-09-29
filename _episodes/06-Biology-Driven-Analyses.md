@@ -306,28 +306,28 @@ Computing SNN
 
 
 ~~~
-08:34:02 UMAP embedding parameters a = 0.9922 b = 1.112
+13:23:24 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-08:34:02 Read 44253 rows and found 24 numeric columns
+13:23:24 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-08:34:02 Using Annoy for neighbor search, n_neighbors = 30
+13:23:24 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-08:34:02 Building Annoy index with metric = cosine, n_trees = 50
+13:23:24 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -349,13 +349,13 @@ Computing SNN
 
 ~~~
 **************************************************|
-08:34:06 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpOIVInV\fileb68034cb94e
-08:34:06 Searching Annoy index using 1 thread, search_k = 3000
-08:34:16 Annoy recall = 100%
-08:34:17 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-08:34:19 Initializing from normalized Laplacian + noise (using irlba)
-08:34:29 Commencing optimization for 200 epochs, with 1888866 positive edges
-08:35:06 Optimization finished
+13:23:28 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpmwfYwG\file428448a2835
+13:23:28 Searching Annoy index using 1 thread, search_k = 3000
+13:23:38 Annoy recall = 100%
+13:23:39 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+13:23:42 Initializing from normalized Laplacian + noise (using irlba)
+13:23:52 Commencing optimization for 200 epochs, with 1888866 positive edges
+13:24:43 Optimization finished
 ~~~
 {: .output}
 
@@ -597,22 +597,11 @@ Let's look at the top 3 markers for each cluster:
 group_by(markers, cluster) %>% 
   top_n(3, avg_log2FC) %>%
   mutate(rank = 1:n()) %>%
-  pivot_wider(-c(avg_log2FC, pct.1, pct.2, p_val_adj), 
+  pivot_wider(id_cols = -c(avg_log2FC, pct.1, pct.2, p_val_adj), 
               names_from = 'rank', values_from = 'gene') %>%
   arrange(cluster)
 ~~~
 {: .language-r}
-
-
-
-~~~
-Warning: Specifying the `id_cols` argument by position was deprecated in tidyr 1.3.0.
-ℹ Please explicitly name `id_cols`, like `id_cols = -c(avg_log2FC, pct.1,
-  pct.2, p_val_adj)`.
-Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-generated.
-~~~
-{: .warning}
 
 
 
@@ -960,38 +949,32 @@ the author's annotation and our annotation.
 ~~~
 annot %>% 
   dplyr::count(our_annot, annot) %>% 
-  pivot_wider(names_from = our_annot, values_from = n)
+  pivot_wider(names_from = our_annot, values_from = n, values_fill = 0) %>%
+  kable()
 ~~~
 {: .language-r}
 
 
 
-~~~
-# A tibble: 17 × 14
-   annot              `B cells`   ECs `KH doub.` `Kupffer cells` `T cells`  cCD1
-   <chr>                  <int> <int>      <int>           <int>     <int> <int>
- 1 B cells                  966     1         NA              NA        NA    NA
- 2 cDC2s                      1    NA         NA               1        NA     1
- 3 Basophils                 NA     1         NA              NA        NA    NA
- 4 Endothelial cells         NA 13199       7024               5         1    NA
- 5 Kupffer cells             NA    50          3            8019         1    NA
- 6 Hepatocytes               NA    NA         33               1        NA    NA
- 7 T cells                   NA    NA          1              NA      1221    NA
- 8 ILC1s                     NA    NA         NA               1       386    NA
- 9 Monocytes & Monoc…        NA    NA         NA              11        NA    NA
-10 cDC1s                     NA    NA         NA              17        NA   397
-11 NK cells                  NA    NA         NA              NA       214    NA
-12 Cholangiocytes            NA    NA         NA              NA        NA    NA
-13 HsPCs                     NA    NA         NA              NA        NA    NA
-14 Fibroblasts               NA    NA         NA              NA        NA    NA
-15 Mig. cDCs                 NA    NA         NA              NA        NA    NA
-16 Neutrophils               NA    NA         NA              NA        NA    NA
-17 pDCs                      NA    NA         NA              NA        NA    NA
-# ℹ 7 more variables: cholangiocytes <int>, `fibroblast/stellate` <int>,
-#   hepatocytes <int>, monocytes <int>, neutrophils <int>, pDCs <int>,
-#   `NA` <int>
-~~~
-{: .output}
+|annot                              | B cells|   ECs| KH doub.| Kupffer cells| T cells| cCD1| cholangiocytes| fibroblast/stellate| hepatocytes| monocytes| neutrophils| pDCs| NA|
+|:----------------------------------|-------:|-----:|--------:|-------------:|-------:|----:|--------------:|-------------------:|-----------:|---------:|-----------:|----:|--:|
+|B cells                            |     966|     1|        0|             0|       0|    0|              0|                   0|           0|         0|           0|    0|  0|
+|cDC2s                              |       1|     0|        0|             1|       0|    1|              0|                   0|           0|       370|           0|    0|  0|
+|Basophils                          |       0|     1|        0|             0|       0|    0|              0|                   0|           0|         0|          23|    0|  0|
+|Endothelial cells                  |       0| 13199|     7024|             5|       1|    0|              0|                   0|          11|         1|           0|    0|  0|
+|Kupffer cells                      |       0|    50|        3|          8019|       1|    0|              0|                   0|         184|        15|           0|    0|  0|
+|Hepatocytes                        |       0|     0|       33|             1|       0|    0|              0|                   0|        8548|         0|           0|    0|  0|
+|T cells                            |       0|     0|        1|             0|    1221|    0|              0|                   0|           0|         3|           0|    0|  0|
+|ILC1s                              |       0|     0|        0|             1|     386|    0|              0|                   0|           2|         0|           0|    0|  0|
+|Monocytes & Monocyte-derived cells |       0|     0|        0|            11|       0|    0|              0|                   0|           3|      1057|           0|    0|  0|
+|cDC1s                              |       0|     0|        0|            17|       0|  397|              0|                   0|           5|         6|           0|    0|  0|
+|NK cells                           |       0|     0|        0|             0|     214|    0|              0|                   0|           0|         0|           0|    0|  0|
+|Cholangiocytes                     |       0|     0|        0|             0|       0|    0|            326|                   0|           2|         1|           0|    0|  0|
+|HsPCs                              |       0|     0|        0|             0|       0|    0|              1|                   0|           0|         2|           0|    0|  0|
+|Fibroblasts                        |       0|     0|        0|             0|       0|    0|              0|                 735|           1|         0|           0|    0| 96|
+|Mig. cDCs                          |       0|     0|        0|             0|       0|    0|              0|                   0|           3|        59|           0|    0|  0|
+|Neutrophils                        |       0|     0|        0|             0|       0|    0|              0|                   0|           0|         0|         293|    0|  0|
+|pDCs                               |       0|     0|        0|             0|       0|    0|              0|                   0|           0|         0|           0|  951|  0|
 
 Many of the annotations that we found match what the authors found! This is
 encouraging and provides a measure of reproducibility in the analysis.
@@ -1350,7 +1333,7 @@ other attached packages:
  [9] IRanges_2.32.0              S4Vectors_0.36.2           
 [11] BiocGenerics_0.44.0         harmony_1.0.1              
 [13] Rcpp_1.0.11                 SeuratObject_4.1.4         
-[15] Seurat_4.4.0                lubridate_1.9.2            
+[15] Seurat_4.4.0                lubridate_1.9.3            
 [17] forcats_1.0.0               stringr_1.5.0              
 [19] dplyr_1.1.3                 purrr_1.0.2                
 [21] readr_2.1.4                 tidyr_1.3.0                

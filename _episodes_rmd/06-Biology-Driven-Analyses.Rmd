@@ -392,7 +392,7 @@ Let's look at the top 3 markers for each cluster:
 group_by(markers, cluster) %>% 
   top_n(3, avg_log2FC) %>%
   mutate(rank = 1:n()) %>%
-  pivot_wider(-c(avg_log2FC, pct.1, pct.2, p_val_adj), 
+  pivot_wider(id_cols = -c(avg_log2FC, pct.1, pct.2, p_val_adj), 
               names_from = 'rank', values_from = 'gene') %>%
   arrange(cluster)
 ```
@@ -654,7 +654,8 @@ the author's annotation and our annotation.
 ```{r}
 annot %>% 
   dplyr::count(our_annot, annot) %>% 
-  pivot_wider(names_from = our_annot, values_from = n)
+  pivot_wider(names_from = our_annot, values_from = n, values_fill = 0) %>%
+  kable()
 ```
 
 Many of the annotations that we found match what the authors found! This is

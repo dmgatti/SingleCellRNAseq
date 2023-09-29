@@ -34,7 +34,7 @@ data_dir <- '../data'
 
 
 
-<img src="../fig/single_cell_flowchart_3.png" width="800px" alt="Single Cell Flowchart" >
+<img src="../fig/single_cell_flowchart_0.png" width="800px" alt="Single Cell Flowchart" >
 
 ## Quality control in scRNA-seq
 
@@ -86,8 +86,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7228904  386.1   11674745  623.5  10333453  551.9
-Vcells 179726300 1371.3  434206977 3312.8 434206405 3312.8
+Ncells   7228800  386.1   11674654  623.5  10333374  551.9
+Vcells 179726013 1371.3  434206632 3312.8 434206118 3312.8
 ~~~
 {: .output}
 
@@ -176,7 +176,7 @@ gene_counts %>%
 {: .language-r}
 
 <div class="figure" style="text-align: center">
-<img src="../fig/rmd-04-gene_count_hist-1.png" alt="plot of chunk gene_count_hist" width="612" />
+<img src="../fig/rmd-04-gene_count_hist-1.png" width="612" />
 <p class="caption">plot of chunk gene_count_hist</p>
 </div>
 
@@ -217,7 +217,7 @@ Warning: Removed 2 rows containing missing values (`geom_bar()`).
 {: .warning}
 
 <div class="figure" style="text-align: center">
-<img src="../fig/rmd-04-gene_count_hist_2-1.png" alt="plot of chunk gene_count_hist_2" width="612" />
+<img src="../fig/rmd-04-gene_count_hist_2-1.png" width="612" />
 <p class="caption">plot of chunk gene_count_hist_2</p>
 </div>
 
@@ -298,7 +298,7 @@ tibble(counts  = Matrix::colSums(counts > 0)) %>%
 {: .language-r}
 
 <div class="figure" style="text-align: center">
-<img src="../fig/rmd-04-sum_cell_counts-1.png" alt="plot of chunk sum_cell_counts" width="612" />
+<img src="../fig/rmd-04-sum_cell_counts-1.png" width="612" />
 <p class="caption">plot of chunk sum_cell_counts</p>
 </div>
 
@@ -364,8 +364,8 @@ gc()
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7351495  392.7   11674745  623.5  11674745  623.5
-Vcells 180316041 1375.8  521128372 3975.9 464746868 3545.8
+Ncells   7351391  392.7   11674654  623.5  11674654  623.5
+Vcells 180315733 1375.7  521127958 3975.9 464746560 3545.8
 ~~~
 {: .output}
 
@@ -636,7 +636,7 @@ except one (the copies we throw out are called "PCR duplicates").
 
 ![UMI](../fig/lexogen.png)
 
-> Note, not sure about permissions for this figure ...
+[Image credit](https://www.lexogen.com/rna-lexicon-what-are-unique-molecular-identifiers-umis-and-why-do-we-need-them/)
 
 Several papers (e.g. [Islam et al](https://doi.org/10.1038/nmeth.2772))
 have demonstrated that UMIs reduce amplification noise in single cell
@@ -664,7 +664,7 @@ ggplot(liver@meta.data, aes(x = nCount_RNA, y = nFeature_RNA)) +
 {: .language-r}
 
 <div class="figure" style="text-align: center">
-<img src="../fig/rmd-04-genes_umi-1.png" alt="plot of chunk genes_umi" width="612" />
+<img src="../fig/rmd-04-genes_umi-1.png" width="612" />
 <p class="caption">plot of chunk genes_umi</p>
 </div>
 
@@ -689,7 +689,7 @@ Adding another scale for y, which will replace the existing scale.
 {: .output}
 
 <div class="figure" style="text-align: center">
-<img src="../fig/rmd-04-filter_umi-1.png" alt="plot of chunk filter_umi" width="432" />
+<img src="../fig/rmd-04-filter_umi-1.png" width="432" />
 <p class="caption">plot of chunk filter_umi</p>
 </div>
 
@@ -732,17 +732,13 @@ by scds?
 
 
 ~~~
-liver$keep <- with(liver, percent.mt < 14 & nFeature_RNA > 600 &
-  nFeature_RNA < 5000 & nCount_RNA > 900 & nCount_RNA < 25000)
+liver$keep <- liver$percent.mt   < 14 & 
+              liver$nFeature_RNA > 600 &
+              liver$nFeature_RNA < 5000 & 
+              liver$nCount_RNA   > 900 & 
+              liver$nCount_RNA   < 25000
 ~~~
 {: .language-r}
-
-
-
-~~~
-Error in eval(substitute(expr), data, enclos = parent.frame()): object 'percent.mt' not found
-~~~
-{: .error}
 
 Using the scds hybrid_score method, the scores range between 0 and 2.
 Higher scores should be more likely to be doublets.
@@ -751,20 +747,24 @@ Higher scores should be more likely to be doublets.
 ~~~
 ggplot(mutate(liver[[]], class = ifelse(keep, 'QC singlet', 'QC doublet')),
   aes(x = class, y = hybrid_score)) + 
-  geom_violin() + theme_bw(base_size = 18) +
-  xlab("") + ylab("SCDS hybrid score")
+  geom_violin() + 
+  theme_bw(base_size = 18) +
+  xlab("") + 
+  ylab("SCDS hybrid score")
 ~~~
 {: .language-r}
 
 
 
 ~~~
-Error in `mutate()`:
-ℹ In argument: `class = ifelse(keep, "QC singlet", "QC doublet")`.
-Caused by error in `as.logical()`:
-! cannot coerce type 'closure' to vector of type 'logical'
+Warning: Removed 42388 rows containing non-finite values (`stat_ydensity()`).
 ~~~
-{: .error}
+{: .warning}
+
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-04-doublet_plot-1.png" width="612" />
+<p class="caption">plot of chunk doublet_plot</p>
+</div>
 
 Somewhat unsatisfyingly, the scds hybrid scores aren't wildly
 different between the cells we've used QC thresholds to call as doublets
@@ -799,40 +799,11 @@ liver <- subset(liver, subset = percent.mt   < 14 &
 
 We might want to correct for batch effects. This can be difficult
 to do because batch effects are complicated (in general), and may 
-affect different cell types in different ways. One tool that performs
-well and is integrated nicely into Seurat is 
-[`harmony`](https://portals.broadinstitute.org/harmony/).
-Harmony uses an iterative approach to learn batch and cell type-specific
-correction factors (see [Korsunsky et al.
-2019)(https://www.nature.com/articles/s41592-019-0619-0) 
-for more information). 
-In this case we have info on metadata for these samples.
-Unfortunately we don't have good metadata on the batch or on variables
-areas might demonstrate a batch effect.
-Nevertheless, correcting for batch with harmony might look something like this:
+affect different cell types in different ways. Although correcting
+for batch effects is an important aspect of
+quality control, we will discuss this procedure in lesson 06 with
+some biological context.
 
-
-~~~
-liver <- RunHarmony(liver, 'Strain', 
-    theta = 1, dims.use = 1:30, max.iter.harmony = 100) %>%
-    FindNeighbors(reduction = 'harmony', dims=  1:30) %>%
-    FindClusters(verbose = FALSE, resolution = 0.8) %>%
-    RunUMAP(dims = 1:30, reduction = 'harmony')
-~~~
-{: .language-r}
-
-
-
-~~~
-Error in RunHarmony(liver, "Strain", theta = 1, dims.use = 1:30, max.iter.harmony = 100): could not find function "RunHarmony"
-~~~
-{: .error}
-
-
-<!-- Discuss batch correction here? -->
-<!-- it might be interesting to do batch correction across in vivo + nuc seq -->
-<!-- DAS recommends using harmony if we want to do batch correction -->
-<!-- Should probably do batch correction across sample -->
 
 
 
@@ -864,7 +835,7 @@ Create plots of the proportion of features, cells, and mitochondrial genes.
 Filter the Seurat object by mitochondrial gene expression.
 >
 > > ## Solution to Challenge 4  
-> > `liver_2 = liver_2 %>%`  
+> > `liver_2 = liver_2 %>%`  data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAWElEQVR42mNgGPTAxsZmJsVqQApgmGw1yApwKcQiT7phRBuCzzCSDSHGMKINIeDNmWQlA2IigKJwIssQkHdINgxfmBBtGDEBS3KCxBc7pMQgMYE5c/AXPwAwSX4lV3pTWwAAAABJRU5ErkJggg==
 > > `            PercentageFeatureSet(pattern = "^mt-", col.name = "percent.mt")`  
 > > `VlnPlot(liver_2, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)`  
 > > `liver_2 = subset(liver_2, subset = percent.mt < 10)`  
@@ -908,7 +879,7 @@ other attached packages:
  [9] IRanges_2.32.0              S4Vectors_0.36.2           
 [11] BiocGenerics_0.44.0         MatrixGenerics_1.10.0      
 [13] matrixStats_1.0.0           Matrix_1.6-1.1             
-[15] lubridate_1.9.2             forcats_1.0.0              
+[15] lubridate_1.9.3             forcats_1.0.0              
 [17] stringr_1.5.0               dplyr_1.1.3                
 [19] purrr_1.0.2                 readr_2.1.4                
 [21] tidyr_1.3.0                 tibble_3.2.1               
