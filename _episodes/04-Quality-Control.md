@@ -53,7 +53,6 @@ Some technical questions that you might ask include:
 1. What is a unique molecular identifier (UMI), and why do we check numbers of UMI?
 1. What happens to make gene counts low in a cell?
 
-<!-- DASremoved ribosomal point here. Often we don't filter based on ribo, not clearly associated with poor quality cells -->
 
 ## Doublet detection 
 
@@ -87,8 +86,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7294064  389.6   11719432  625.9  10655036  569.1
-Vcells 179825093 1372.0  434325392 3313.7 434324029 3313.7
+Ncells   7228904  386.1   11674745  623.5  10333453  551.9
+Vcells 179726300 1371.3  434206977 3312.8 434206405 3312.8
 ~~~
 {: .output}
 
@@ -365,8 +364,8 @@ gc()
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7416655  396.1   11719432  625.9  11719432  625.9
-Vcells 180414834 1376.5  521270470 3977.0 464845667 3546.5
+Ncells   7351495  392.7   11674745  623.5  11674745  623.5
+Vcells 180316041 1375.8  521128372 3975.9 464746868 3545.8
 ~~~
 {: .output}
 
@@ -796,6 +795,40 @@ liver <- subset(liver, subset = percent.mt   < 14 &
 {: .language-r}
 
 
+## Batch correction
+
+We might want to correct for batch effects. This can be difficult
+to do because batch effects are complicated (in general), and may 
+affect different cell types in different ways. One tool that performs
+well and is integrated nicely into Seurat is 
+[`harmony`](https://portals.broadinstitute.org/harmony/).
+Harmony uses an iterative approach to learn batch and cell type-specific
+correction factors (see [Korsunsky et al.
+2019)(https://www.nature.com/articles/s41592-019-0619-0) 
+for more information). 
+In this case we have info on metadata for these samples.
+Unfortunately we don't have good metadata on the batch or on variables
+areas might demonstrate a batch effect.
+Nevertheless, correcting for batch with harmony might look something like this:
+
+
+~~~
+liver <- RunHarmony(liver, 'Strain', 
+    theta = 1, dims.use = 1:30, max.iter.harmony = 100) %>%
+    FindNeighbors(reduction = 'harmony', dims=  1:30) %>%
+    FindClusters(verbose = FALSE, resolution = 0.8) %>%
+    RunUMAP(dims = 1:30, reduction = 'harmony')
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in RunHarmony(liver, "Strain", theta = 1, dims.use = 1:30, max.iter.harmony = 100): could not find function "RunHarmony"
+~~~
+{: .error}
+
+
 <!-- Discuss batch correction here? -->
 <!-- it might be interesting to do batch correction across in vivo + nuc seq -->
 <!-- DAS recommends using harmony if we want to do batch correction -->
@@ -868,13 +901,13 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] SeuratObject_4.1.3          Seurat_4.3.0.1             
+ [1] SeuratObject_4.1.4          Seurat_4.4.0               
  [3] scds_1.14.0                 SingleCellExperiment_1.20.1
  [5] SummarizedExperiment_1.28.0 Biobase_2.58.0             
  [7] GenomicRanges_1.50.2        GenomeInfoDb_1.34.9        
  [9] IRanges_2.32.0              S4Vectors_0.36.2           
 [11] BiocGenerics_0.44.0         MatrixGenerics_1.10.0      
-[13] matrixStats_1.0.0           Matrix_1.6-0               
+[13] matrixStats_1.0.0           Matrix_1.6-1.1             
 [15] lubridate_1.9.2             forcats_1.0.0              
 [17] stringr_1.5.0               dplyr_1.1.3                
 [19] purrr_1.0.2                 readr_2.1.4                
@@ -887,10 +920,10 @@ loaded via a namespace (and not attached):
   [4] ellipsis_0.3.2         ggridges_0.5.4         XVector_0.38.0        
   [7] spatstat.data_3.0-1    farver_2.1.1           leiden_0.4.3          
  [10] listenv_0.9.0          ggrepel_0.9.3          fansi_1.0.4           
- [13] codetools_0.2-19       splines_4.2.3          polyclip_1.10-4       
+ [13] codetools_0.2-19       splines_4.2.3          polyclip_1.10-6       
  [16] jsonlite_1.8.7         pROC_1.18.4            ica_1.0-3             
  [19] cluster_2.1.4          png_0.1-8              uwot_0.1.16           
- [22] spatstat.sparse_3.0-2  sctransform_0.3.5      shiny_1.7.5           
+ [22] spatstat.sparse_3.0-2  sctransform_0.4.0      shiny_1.7.5           
  [25] compiler_4.2.3         httr_1.4.7             lazyeval_0.2.2        
  [28] fastmap_1.1.1          cli_3.6.1              later_1.3.1           
  [31] htmltools_0.5.6        tools_4.2.3            igraph_1.5.1          
@@ -906,13 +939,13 @@ loaded via a namespace (and not attached):
  [61] hms_1.1.3              promises_1.2.1         parallel_4.2.3        
  [64] RColorBrewer_1.1-3     gridExtra_2.3          pbapply_1.7-2         
  [67] reticulate_1.32.0      stringi_1.7.12         rlang_1.1.1           
- [70] pkgconfig_2.0.3        bitops_1.0-7           evaluate_0.21         
+ [70] pkgconfig_2.0.3        bitops_1.0-7           evaluate_0.22         
  [73] lattice_0.21-8         tensor_1.5             ROCR_1.0-11           
  [76] labeling_0.4.3         htmlwidgets_1.6.2      patchwork_1.1.3       
  [79] cowplot_1.1.1          tidyselect_1.2.0       parallelly_1.36.0     
  [82] RcppAnnoy_0.0.21       plyr_1.8.8             magrittr_2.0.3        
  [85] R6_2.5.1               generics_0.1.3         DelayedArray_0.24.0   
- [88] pillar_1.9.0           withr_2.5.0            fitdistrplus_1.1-11   
+ [88] pillar_1.9.0           withr_2.5.1            fitdistrplus_1.1-11   
  [91] abind_1.4-5            survival_3.5-5         RCurl_1.98-1.12       
  [94] sp_2.0-0               future.apply_1.11.0    xgboost_1.7.5.1       
  [97] KernSmooth_2.23-22     utf8_1.2.3             spatstat.geom_3.2-5   

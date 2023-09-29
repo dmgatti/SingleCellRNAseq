@@ -241,11 +241,11 @@ Formal class 'Seurat' [package "SeuratObject"] with 13 slots
   ..@ project.name: chr "liver: scRNA-Seq"
   ..@ misc        : list()
   ..@ version     :Classes 'package_version', 'numeric_version'  hidden list of 1
-  .. ..$ : int [1:3] 4 1 3
+  .. ..$ : int [1:3] 4 1 4
   ..@ commands    :List of 2
   .. ..$ NormalizeData.RNA       :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
   .. .. .. ..@ name       : chr "NormalizeData.RNA"
-  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-09-12 17:15:06"
+  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-09-29 08:24:26"
   .. .. .. ..@ assay.used : chr "RNA"
   .. .. .. ..@ call.string: chr "NormalizeData(., normalization.method = \"LogNormalize\")"
   .. .. .. ..@ params     :List of 5
@@ -256,7 +256,7 @@ Formal class 'Seurat' [package "SeuratObject"] with 13 slots
   .. .. .. .. ..$ verbose             : logi TRUE
   .. ..$ FindVariableFeatures.RNA:Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
   .. .. .. ..@ name       : chr "FindVariableFeatures.RNA"
-  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-09-12 17:15:14"
+  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-09-29 08:24:32"
   .. .. .. ..@ assay.used : chr "RNA"
   .. .. .. ..@ call.string: chr "FindVariableFeatures(., nfeatures = 2000)"
   .. .. .. ..@ params     :List of 12
@@ -528,11 +528,22 @@ UMAPPlot(liver, label = TRUE, label.size = 6)
 <p class="caption">plot of chunk plot_umap</p>
 </div>
 
+
 > DMG or DAS: Maybe once we get to clustering, show cell cycle genes on clusters?
 > DMG: This is my attempt which throws an error: "Error: Discrete value supplied 
 to continuous scale". Maybe we need to estimate the proportion of cell in each
 cluster in each cell cycle state?
 
+
+~~~
+UMAPPlot(liver, group.by = 'Phase')
+~~~
+{: .language-r}
+
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-05-unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2" width="612" />
+<p class="caption">plot of chunk unnamed-chunk-2</p>
+</div>
 
 ~~~
 # FeaturePlot(liver, features = 'Phase')
@@ -580,7 +591,7 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] SeuratObject_4.1.3 Seurat_4.3.0.1     lubridate_1.9.2    forcats_1.0.0     
+ [1] SeuratObject_4.1.4 Seurat_4.4.0       lubridate_1.9.2    forcats_1.0.0     
  [5] stringr_1.5.0      dplyr_1.1.3        purrr_1.0.2        readr_2.1.4       
  [9] tidyr_1.3.0        tibble_3.2.1       ggplot2_3.4.3      tidyverse_2.0.0   
 [13] knitr_1.44        
@@ -590,11 +601,11 @@ loaded via a namespace (and not attached):
   [4] ellipsis_0.3.2         ggridges_0.5.4         spatstat.data_3.0-1   
   [7] farver_2.1.1           leiden_0.4.3           listenv_0.9.0         
  [10] ggrepel_0.9.3          fansi_1.0.4            codetools_0.2-19      
- [13] splines_4.2.3          polyclip_1.10-4        jsonlite_1.8.7        
+ [13] splines_4.2.3          polyclip_1.10-6        jsonlite_1.8.7        
  [16] ica_1.0-3              cluster_2.1.4          png_0.1-8             
- [19] uwot_0.1.16            shiny_1.7.5            sctransform_0.3.5     
+ [19] uwot_0.1.16            shiny_1.7.5            sctransform_0.4.0     
  [22] spatstat.sparse_3.0-2  compiler_4.2.3         httr_1.4.7            
- [25] Matrix_1.6-0           fastmap_1.1.1          lazyeval_0.2.2        
+ [25] Matrix_1.6-1.1         fastmap_1.1.1          lazyeval_0.2.2        
  [28] cli_3.6.1              later_1.3.1            htmltools_0.5.6       
  [31] tools_4.2.3            igraph_1.5.1           gtable_0.3.4          
  [34] glue_1.6.2             RANN_2.6.1             reshape2_1.4.4        
@@ -608,13 +619,13 @@ loaded via a namespace (and not attached):
  [58] promises_1.2.1         spatstat.utils_3.0-3   parallel_4.2.3        
  [61] RColorBrewer_1.1-3     reticulate_1.32.0      pbapply_1.7-2         
  [64] gridExtra_2.3          stringi_1.7.12         rlang_1.1.1           
- [67] pkgconfig_2.0.3        matrixStats_1.0.0      evaluate_0.21         
+ [67] pkgconfig_2.0.3        matrixStats_1.0.0      evaluate_0.22         
  [70] lattice_0.21-8         ROCR_1.0-11            tensor_1.5            
  [73] labeling_0.4.3         patchwork_1.1.3        htmlwidgets_1.6.2     
  [76] cowplot_1.1.1          tidyselect_1.2.0       parallelly_1.36.0     
  [79] RcppAnnoy_0.0.21       plyr_1.8.8             magrittr_2.0.3        
  [82] R6_2.5.1               generics_0.1.3         pillar_1.9.0          
- [85] withr_2.5.0            fitdistrplus_1.1-11    survival_3.5-5        
+ [85] withr_2.5.1            fitdistrplus_1.1-11    survival_3.5-5        
  [88] abind_1.4-5            sp_2.0-0               future.apply_1.11.0   
  [91] KernSmooth_2.23-22     utf8_1.2.3             spatstat.geom_3.2-5   
  [94] plotly_4.10.2          tzdb_0.4.0             grid_4.2.3            
