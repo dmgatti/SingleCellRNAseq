@@ -56,7 +56,6 @@ Some technical questions that you might ask include:
 1. What is a unique molecular identifier (UMI), and why do we check numbers of UMI?
 1. What happens to make gene counts low in a cell?
 
-<!-- DASremoved ribosomal point here. Often we don't filter based on ribo, not clearly associated with poor quality cells -->
 
 ## Doublet detection 
 
@@ -601,6 +600,31 @@ liver <- subset(liver, subset = percent.mt   < 14 &
                                 nFeature_RNA < 5000 & 
                                 nCount_RNA   > 900 & 
                                 nCount_RNA   < 25000)
+```
+
+
+## Batch correction
+
+We might want to correct for batch effects. This can be difficult
+to do because batch effects are complicated (in general), and may 
+affect different cell types in different ways. One tool that performs
+well and is integrated nicely into Seurat is 
+[`harmony`](https://portals.broadinstitute.org/harmony/).
+Harmony uses an iterative approach to learn batch and cell type-specific
+correction factors (see [Korsunsky et al.
+2019)(https://www.nature.com/articles/s41592-019-0619-0) 
+for more information). 
+In this case we have info on metadata for these samples.
+Unfortunately we don't have good metadata on the batch or on variables
+areas might demonstrate a batch effect.
+Nevertheless, correcting for batch with harmony might look something like this:
+
+```{r}
+liver <- RunHarmony(liver, 'Strain', 
+    theta = 1, dims.use = 1:30, max.iter.harmony = 100) %>%
+    FindNeighbors(reduction = 'harmony', dims=  1:30) %>%
+    FindClusters(verbose = FALSE, resolution = 0.8) %>%
+    RunUMAP(dims = 1:30, reduction = 'harmony')
 ```
 
 
