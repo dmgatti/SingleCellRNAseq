@@ -306,28 +306,28 @@ Computing SNN
 
 
 ~~~
-17:26:25 UMAP embedding parameters a = 0.9922 b = 1.112
+08:34:02 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-17:26:25 Read 44253 rows and found 24 numeric columns
+08:34:02 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-17:26:25 Using Annoy for neighbor search, n_neighbors = 30
+08:34:02 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-17:26:25 Building Annoy index with metric = cosine, n_trees = 50
+08:34:02 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -349,13 +349,13 @@ Computing SNN
 
 ~~~
 **************************************************|
-17:26:29 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\Rtmpk9eNWJ\file106c8cb9919
-17:26:29 Searching Annoy index using 1 thread, search_k = 3000
-17:26:40 Annoy recall = 100%
-17:26:41 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-17:26:43 Initializing from normalized Laplacian + noise (using irlba)
-17:26:53 Commencing optimization for 200 epochs, with 1892644 positive edges
-17:27:29 Optimization finished
+08:34:06 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpOIVInV\fileb68034cb94e
+08:34:06 Searching Annoy index using 1 thread, search_k = 3000
+08:34:16 Annoy recall = 100%
+08:34:17 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+08:34:19 Initializing from normalized Laplacian + noise (using irlba)
+08:34:29 Commencing optimization for 200 epochs, with 1888866 positive edges
+08:35:06 Optimization finished
 ~~~
 {: .output}
 
@@ -380,9 +380,9 @@ table(liver$before_harmony_clusters,
 
 ~~~
     
-       0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
-  13   0   0   0   0   0   0   0 656   0   0   0   0   0   0   0   0
-  21   0   0   0   0   0   1   0 310   0   0   0   0   0   0   0   0
+       0   1   2   3   4   5   6   7   8   9  10  11  12  13  14
+  13   0   0   0   0   0   0 656   0   0   0   0   0   0   0   0
+  21   0   0   0   0   0   0 311   0   0   0   0   0   0   0   0
 ~~~
 {: .output}
 
@@ -550,12 +550,12 @@ head(markers, 6)
 # A tibble: 6 × 6
   cluster gene    avg_log2FC pct.1 pct.2 p_val_adj
   <fct>   <chr>        <dbl> <dbl> <dbl>     <dbl>
-1 c0      Oit3          2.28 0.983 0.18  1.17e-251
-2 c0      Flt4          2.15 0.963 0.176 6.81e-246
-3 c0      Cldn5         2.24 0.983 0.173 5.80e-243
-4 c0      Adam23        2.20 0.917 0.155 1.90e-237
-5 c0      Fam167b       2.41 0.98  0.205 1.43e-234
-6 c0      Stab2         2.43 0.963 0.205 2.53e-230
+1 c0      Stab2         2.40 0.987 0.218 2.21e-222
+2 c0      Oit3          2.20 0.98  0.202 3.36e-218
+3 c0      Flt4          2.12 0.967 0.202 2.86e-213
+4 c0      Cyp4b1        2.16 0.953 0.197 1.43e-210
+5 c0      Adam23        2.07 0.93  0.176 7.22e-210
+6 c0      Fam167b       2.24 0.98  0.225 2.53e-205
 ~~~
 {: .output}
 
@@ -617,26 +617,24 @@ generated.
 
 
 ~~~
-# A tibble: 16 × 4
-# Groups:   cluster [16]
+# A tibble: 14 × 4
+# Groups:   cluster [14]
    cluster `1`     `2`      `3`   
    <fct>   <chr>   <chr>    <chr> 
- 1 c0      Clec4g  Dnase1l3 Fcgr2b
- 2 c6      Efnb1   Tm4sf1   Ly6a  
- 3 c12     Rspo3   Vwf      Fabp4 
- 4 c2      Kdr     Clec4g   Fcgr2b
+ 1 c0      Bmp2    Clec4g   Fcgr2b
+ 2 c15     Kdr     Dnase1l3 Clec4g
+ 3 c6      Ednrb   Efnb1    Ly6a  
+ 4 c12     Rspo3   Fabp4    Vwf   
  5 c1      Gnmt    Aldob    Fabp1 
  6 c13     Spp1    Tm4sf4   Clu   
  7 c10     Dcn     Colec11  Ecm1  
  8 c4      Ccl5    Nkg7     Gzma  
- 9 c8      Vsig4   Cd5l     Lgmn  
+ 9 c5      S100a4  Chil3    Lyz2  
 10 c7      Igkc    Cd79a    Cd79b 
-11 c5      S100a4  Lyz2     H2-Eb1
-12 c9      Siglech Klk1     Ccr9  
-13 c3      Clec4f  Cd5l     C1qb  
-14 c11     Naaa    H2-Ab1   Cst3  
-15 c15     Cd5l    C1qa     Clec4f
-16 c14     S100a9  S100a8   Il1b  
+11 c9      Siglech Klk1     Ccr9  
+12 c3      Cd5l    Clec4f   C1qa  
+13 c11     Naaa    H2-Ab1   Cst3  
+14 c14     S100a9  S100a8   Il1b  
 ~~~
 {: .output}
 
@@ -969,28 +967,29 @@ annot %>%
 
 
 ~~~
-# A tibble: 17 × 13
+# A tibble: 17 × 14
    annot              `B cells`   ECs `KH doub.` `Kupffer cells` `T cells`  cCD1
    <chr>                  <int> <int>      <int>           <int>     <int> <int>
  1 B cells                  966     1         NA              NA        NA    NA
- 2 Endothelial cells          7 20205          1               8         9    NA
+ 2 cDC2s                      1    NA         NA               1        NA     1
  3 Basophils                 NA     1         NA              NA        NA    NA
- 4 Hepatocytes               NA    30         NA               1        NA    NA
- 5 HsPCs                     NA     1         NA              NA        NA    NA
- 6 ILC1s                     NA     1         NA               1       386    NA
- 7 Kupffer cells             NA    46        170            7916        NA    NA
- 8 Mig. cDCs                 NA     1         NA              NA        NA    NA
- 9 Monocytes & Monoc…        NA     3          2               7        NA    NA
-10 T cells                   NA     1         NA              NA      1221    NA
-11 cDC1s                     NA    NA         NA              16        NA   397
-12 NK cells                  NA    NA         NA              NA       214    NA
-13 cDC2s                     NA    NA         NA              NA         1     1
-14 Cholangiocytes            NA    NA         NA              NA        NA    NA
-15 Fibroblasts               NA    NA         NA              NA        NA    NA
+ 4 Endothelial cells         NA 13199       7024               5         1    NA
+ 5 Kupffer cells             NA    50          3            8019         1    NA
+ 6 Hepatocytes               NA    NA         33               1        NA    NA
+ 7 T cells                   NA    NA          1              NA      1221    NA
+ 8 ILC1s                     NA    NA         NA               1       386    NA
+ 9 Monocytes & Monoc…        NA    NA         NA              11        NA    NA
+10 cDC1s                     NA    NA         NA              17        NA   397
+11 NK cells                  NA    NA         NA              NA       214    NA
+12 Cholangiocytes            NA    NA         NA              NA        NA    NA
+13 HsPCs                     NA    NA         NA              NA        NA    NA
+14 Fibroblasts               NA    NA         NA              NA        NA    NA
+15 Mig. cDCs                 NA    NA         NA              NA        NA    NA
 16 Neutrophils               NA    NA         NA              NA        NA    NA
 17 pDCs                      NA    NA         NA              NA        NA    NA
-# ℹ 6 more variables: cholangiocytes <int>, `fibroblast/stellate` <int>,
-#   hepatocytes <int>, monocytes <int>, neutrophils <int>, pDCs <int>
+# ℹ 7 more variables: cholangiocytes <int>, `fibroblast/stellate` <int>,
+#   hepatocytes <int>, monocytes <int>, neutrophils <int>, pDCs <int>,
+#   `NA` <int>
 ~~~
 {: .output}
 
@@ -1076,16 +1075,16 @@ head(deg1, 10)
 
 ~~~
                  p_val avg_log2FC pct.1 pct.2     p_val_adj
-Uox       0.000000e+00 -0.8524468 0.954 0.980  0.000000e+00
-Cyp3a11   0.000000e+00 -2.4043269 0.278 0.642  0.000000e+00
-Rpl36al   0.000000e+00 -0.8477666 0.702 0.897  0.000000e+00
-Gm42418   0.000000e+00  1.7065876 0.979 0.974  0.000000e+00
-AY036118  0.000000e+00  1.5523341 0.811 0.421  0.000000e+00
-Malat1    0.000000e+00  1.3280833 0.750 0.342  0.000000e+00
-Gstm1    2.584267e-289 -0.8136483 0.952 0.977 5.199544e-285
-Car3     4.780180e-267 -0.7217111 0.978 0.994 9.617723e-263
-Nme2     9.466530e-261 -1.0548824 0.046 0.337 1.904666e-256
-C3       1.296036e-251  0.8992912 0.909 0.717 2.607623e-247
+Uox       0.000000e+00 -0.8652363 0.945 0.979  0.000000e+00
+Cyp3a11   0.000000e+00 -2.4008095 0.277 0.639  0.000000e+00
+Rpl36al   0.000000e+00 -0.8525591 0.694 0.894  0.000000e+00
+Gm42418   0.000000e+00  1.7124392 0.979 0.974  0.000000e+00
+AY036118  0.000000e+00  1.5352999 0.802 0.420  0.000000e+00
+Malat1    0.000000e+00  1.5791718 0.754 0.345  0.000000e+00
+Gstm1    8.364152e-296 -0.8261183 0.942 0.974 1.682867e-291
+Car3     5.461599e-274 -0.7365477 0.970 0.993 1.098874e-269
+Nme2     8.273329e-265 -1.0541126 0.045 0.336 1.664594e-260
+C3       2.847997e-250  0.8925926 0.908 0.718 5.730171e-246
 ~~~
 {: .output}
 
@@ -1141,8 +1140,8 @@ head(pseudobulk, 6)
 Xkr4        0    0    0    0    0    0    0    0    0
 Rp1         0    0    0    0    0    0    0    0    0
 Sox17      11    1    5    0   11    2    7   34    0
-Mrpl15    811 3054 1480   11 1595  229 1367 2752  203
-Lypla1    456 2157  826    3  622  165  536 1067  209
+Mrpl15    814 3063 1480   11 1595  230 1367 2752  208
+Lypla1    461 2157  826    3  622  168  536 1067  221
 Gm37988     1    8    8    0    1    0    2    3    1
 ~~~
 {: .output}
@@ -1236,10 +1235,10 @@ DataFrame with 6 rows and 6 columns
         <numeric>      <numeric> <numeric> <numeric> <numeric> <numeric>
 Xkr4      0.00000             NA        NA        NA        NA        NA
 Rp1       0.00000             NA        NA        NA        NA        NA
-Sox17     3.90706      0.8969566   1.27239  0.688918  0.406533  0.998906
-Mrpl15  622.46298      0.0666814   0.25994  0.138222  0.710055  1.000000
-Lypla1  336.74696     -0.0315108   0.28632  0.191887  0.661351  1.000000
-Gm37988   1.21441     -0.8309801   1.59849  0.114956  0.734570  1.000000
+Sox17     3.81366      0.8261690  1.356465 0.5676508  0.451194         1
+Mrpl15  621.75572      0.0187515  0.251184 0.0516965  0.820137         1
+Lypla1  332.75953     -0.0731363  0.258894 0.3508414  0.553637         1
+Gm37988   1.17811     -0.9242890  1.756322 0.0606601  0.805456         1
 ~~~
 {: .output}
 
@@ -1349,9 +1348,9 @@ other attached packages:
  [5] MatrixGenerics_1.10.0       matrixStats_1.0.0          
  [7] GenomicRanges_1.50.2        GenomeInfoDb_1.34.9        
  [9] IRanges_2.32.0              S4Vectors_0.36.2           
-[11] BiocGenerics_0.44.0         harmony_0.1.1              
-[13] Rcpp_1.0.11                 SeuratObject_4.1.3         
-[15] Seurat_4.3.0.1              lubridate_1.9.2            
+[11] BiocGenerics_0.44.0         harmony_1.0.1              
+[13] Rcpp_1.0.11                 SeuratObject_4.1.4         
+[15] Seurat_4.4.0                lubridate_1.9.2            
 [17] forcats_1.0.0               stringr_1.5.0              
 [19] dplyr_1.1.3                 purrr_1.0.2                
 [21] readr_2.1.4                 tidyr_1.3.0                
@@ -1371,7 +1370,7 @@ loaded via a namespace (and not attached):
  [28] WriteXLS_6.4.0         xfun_0.40              crayon_1.5.2          
  [31] RCurl_1.98-1.12        jsonlite_1.8.7         progressr_0.14.0      
  [34] spatstat.data_3.0-1    survival_3.5-5         zoo_1.8-12            
- [37] glue_1.6.2             polyclip_1.10-4        gtable_0.3.4          
+ [37] glue_1.6.2             polyclip_1.10-6        gtable_0.3.4          
  [40] zlibbioc_1.44.0        XVector_0.38.0         leiden_0.4.3          
  [43] DelayedArray_0.24.0    future.apply_1.11.0    abind_1.4-5           
  [46] scales_1.2.1           DBI_1.1.3              spatstat.random_3.1-6 
@@ -1385,22 +1384,22 @@ loaded via a namespace (and not attached):
  [70] later_1.3.1            AnnotationDbi_1.60.2   cachem_1.0.8          
  [73] munsell_0.5.0          tools_4.2.3            cli_3.6.1             
  [76] generics_0.1.3         RSQLite_2.3.1          ggridges_0.5.4        
- [79] evaluate_0.21          fastmap_1.1.1          goftest_1.2-3         
- [82] bit64_4.0.5            fitdistrplus_1.1-11    RANN_2.6.1            
- [85] KEGGREST_1.38.0        pbapply_1.7-2          future_1.33.0         
- [88] nlme_3.1-162           mime_0.12              compiler_4.2.3        
- [91] curl_5.0.2             plotly_4.10.2          png_0.1-8             
- [94] spatstat.utils_3.0-3   geneplotter_1.76.0     stringi_1.7.12        
- [97] lattice_0.21-8         Matrix_1.6-0           vctrs_0.6.3           
-[100] pillar_1.9.0           lifecycle_1.0.3        spatstat.geom_3.2-5   
-[103] lmtest_0.9-40          RcppAnnoy_0.0.21       data.table_1.14.8     
-[106] cowplot_1.1.1          bitops_1.0-7           irlba_2.3.5.1         
-[109] httpuv_1.6.11          patchwork_1.1.3        R6_2.5.1              
-[112] promises_1.2.1         KernSmooth_2.23-22     gridExtra_2.3         
-[115] parallelly_1.36.0      codetools_0.2-19       MASS_7.3-60           
-[118] rjson_0.2.21           withr_2.5.0            sctransform_0.3.5     
-[121] GenomeInfoDbData_1.2.9 parallel_4.2.3         hms_1.1.3             
-[124] grid_4.2.3             Rtsne_0.16             spatstat.explore_3.2-3
-[127] shiny_1.7.5           
+ [79] evaluate_0.22          fastmap_1.1.1          goftest_1.2-3         
+ [82] RhpcBLASctl_0.23-42    bit64_4.0.5            fitdistrplus_1.1-11   
+ [85] RANN_2.6.1             KEGGREST_1.38.0        pbapply_1.7-2         
+ [88] future_1.33.0          nlme_3.1-162           mime_0.12             
+ [91] compiler_4.2.3         curl_5.0.2             plotly_4.10.2         
+ [94] png_0.1-8              spatstat.utils_3.0-3   geneplotter_1.76.0    
+ [97] stringi_1.7.12         lattice_0.21-8         Matrix_1.6-1.1        
+[100] vctrs_0.6.3            pillar_1.9.0           lifecycle_1.0.3       
+[103] spatstat.geom_3.2-5    lmtest_0.9-40          RcppAnnoy_0.0.21      
+[106] data.table_1.14.8      cowplot_1.1.1          bitops_1.0-7          
+[109] irlba_2.3.5.1          httpuv_1.6.11          patchwork_1.1.3       
+[112] R6_2.5.1               promises_1.2.1         KernSmooth_2.23-22    
+[115] gridExtra_2.3          parallelly_1.36.0      codetools_0.2-19      
+[118] MASS_7.3-60            rjson_0.2.21           withr_2.5.1           
+[121] sctransform_0.4.0      GenomeInfoDbData_1.2.9 parallel_4.2.3        
+[124] hms_1.1.3              grid_4.2.3             Rtsne_0.16            
+[127] spatstat.explore_3.2-3 shiny_1.7.5           
 ~~~
 {: .output}

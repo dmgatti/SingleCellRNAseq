@@ -46,12 +46,37 @@ single cells! However, due to the nature of the cell loading of droplets (which
 can be modeled accurately using Poisson statistics), even in a perfect 
 experiment it is inevitable that some droplets will contain more than one cell. 
 These are called *multiplets* -- or doublets, since the vast majority of 
-multiple-cell droplets contain two cells. The initial paper describing the 
+multiple-cell droplets contain two cells. 
+Contrast with *singlets*, which contain only one cell.
+
+There are two considerations we might keep in mind when thinking about
+singlets vs. doublets. First, not every droplet contains exactly one
+gel bead. The initial paper describing the 
 10X technology, published in 2017, showed the following histogram:
 
 ![Histogram showing the number of gel beads per droplet](../fig/Zhang_etal_2017_NatComm_Fig1_poisson.jpg)
 
-> DAS: Is this a doublet figure or a figure of beads per droplet?
+Therefore the large majority of droplets contain zero or one gel beads.
+This is good. If a droplet contained, say, two gel beads, then even if a
+single cell was captured in that droplet it would appear to be two cells
+because the transcripts from that cell would be tagged with one of two
+cell barcodes.
+
+The second consideration we might keep in mind when thinking about
+singlets vs. doublets is that it can be hard to obtain a ground truth.
+If, say, two cells of the same cell type were captured in a single droplet,
+how would we know there were two? It might be easier if two cells of 
+very different cell types were together, since those cells would likely
+express very different genes. One way we can look for doublets is to run 
+a so-called "barnyard" experiment where we mix cells from multiple
+species. For example, Sathyamurthy et al. 2018 
+[link](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5849084/) used
+single nucleus transcriptomics to explore the cellular heterogeneity of the
+mouse spinal cord. They loaded mouse and human cells together and showed
+that only a small number of droplets appeared to contain both a human and 
+a mouse cell.
+
+![Figure showing a barnyard experiment](../fig/Sathyamurthy_Fig1.jpeg)
 
 It is important to realize that the doublet rate is not fixed but rather 
 depends on the number of cells *loaded* into the 10X Chromium machine. 
@@ -298,6 +323,6 @@ other attached packages:
 loaded via a namespace (and not attached):
  [1] compiler_4.2.3  magrittr_2.0.3  cli_3.6.1       tools_4.2.3    
  [5] glue_1.6.2      vctrs_0.6.3     stringi_1.7.12  stringr_1.5.0  
- [9] xfun_0.40       lifecycle_1.0.3 rlang_1.1.1     evaluate_0.21  
+ [9] xfun_0.40       lifecycle_1.0.3 rlang_1.1.1     evaluate_0.22  
 ~~~
 {: .output}
