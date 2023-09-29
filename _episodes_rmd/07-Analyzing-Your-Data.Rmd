@@ -33,19 +33,6 @@ cell clusters. If you are working with data from a publication, you might
 try to reproduce -- as best you can -- one of the main figures from the
 paper.
 
-> DAS take a crack at writing this up.
-
-> DMG will then go over it with a less details-embedded perspective
-
-> DMG & DAS: Change filtering parameters based on mito content & num reads.
-
-> DMG & DAS: Add text to tell students to adjust number of variable genes,
-number of PCs, clustering resolution.
-
-> DMG & DAS: Change normalization method: log vs scTransform (neg binom). 
-
-> DMG & DAS: Add challenge in which the students change the number of features selected. 
-
 
 ## Points to keep in mind as you work with your data
 
@@ -93,7 +80,7 @@ obj <- FindNeighbors(obj, reduction = 'pca', dims = 1:X, verbose = FALSE) %>%
     RunUMAP(reduction = 'pca', dims = 1:X, verbose = FALSE)
 ```
 
-## Integration and Label Transfer
+## Working With Your Own Data: Integration and Label Transfer
 
 When analyzing your own data, you may find it useful to 
 obtain someone else's previously published data (or your lab's
@@ -114,4 +101,18 @@ the Seurat
 helpful.
 
 
+## If You Don't Have Your Own Data: Further Explorations of Our Liver Data
+
+If you don't have your own data you might choose to do some further
+exploration of the liver data we have been working with throughout
+the course. You can do anything you like - be creative and try to 
+investigate any aspect that you are curious about!
+Here are a few suggestions of things that you could try:
+
+ * Change filtering parameters (e.g. `percent.mt` or number of reads) and see how it affects your analysis.
+ * Adjust the number of variable genes that you choose. Try varying across a wide range (e.g. 100 vs 10,000).
+ * Adjust the number of PCs you select.
+ * Adjust the clustering resolution.
+ * Subcluster some cells that you might be interested in to see if there is any "hidden" heterogeneity that was not apparent when viewing all cells.
+ * Change the normalization method you use. The `sctransform` method is a statistical modeling approach that uses the negative binomial distribution. For a vignette on using it within Seurat, see [this link](https://satijalab.org/seurat/articles/sctransform_vignette.html).
 
