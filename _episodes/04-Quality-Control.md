@@ -86,8 +86,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7227842  386.1   11674654  623.5  10366827  553.7
-Vcells 179723670 1371.2  434203821 3312.8 434203775 3312.8
+Ncells   7227813  386.1   11674568  623.5  10366686  553.7
+Vcells 179723581 1371.2  434203714 3312.8 434203686 3312.8
 ~~~
 {: .output}
 
@@ -161,43 +161,27 @@ stored as 0 and so the matrix would still be sparse. The `Matrix` package has
 an implementation of 'rowSums()' that is efficient, but you may have to specify 
 that you want to used the `Matrix` version of 'rowSums()' explicitly.
 
-
-~~~
-gene_counts <- tibble(counts  = Matrix::rowSums(counts > 0))
-
-gene_counts %>% 
-  ggplot(aes(counts)) +
-    geom_histogram(bins = 1000) +
-    labs(title = 'Histogram of Number of Cells in which Gene was Detected',
-         x     = 'Number of Genes',
-         y     = 'Number of Cells in which Gene was Detected') +
-  theme_bw(base_size = 14)
-~~~
-{: .language-r}
-
-<div class="figure" style="text-align: center">
-<img src="../fig/rmd-04-gene_count_hist-1.png" width="612" />
-<p class="caption">plot of chunk gene_count_hist</p>
-</div>
-
-As you can see, the number of cells in which each gene is detected spans several 
+The number of cells in which each gene is detected spans several 
 orders of magnitude and this makes it difficult to interpret the plot. Some 
 genes are detected in all cells while others are detected in only one cell. 
 Let's zoom in on the part with lower gene counts.
 
 
 ~~~
-gene_counts %>%
-  ggplot(aes(counts)) +
-    geom_histogram(bins = 1000) +
+gene_counts <- tibble(counts  = Matrix::rowSums(counts > 0))
+
+gene_counts %>% 
+  dplyr::count(counts) %>%
+  ggplot(aes(counts, n)) +
+    geom_col() +
     labs(title = 'Histogram of Number of Cells in which Gene was Detected',
          x     = 'Number of Genes',
          y     = 'Number of Cells in which Gene was Detected') +
     lims(x = c(0, 50)) +
     theme_bw(base_size = 14) +
-    annotate('text', x = 2, y = 1500, hjust = 0,
+    annotate('text', x = 2, y = 1596, hjust = 0,
              label = str_c(sum(gene_counts == 1), ' genes were detected in only one cell')) +
-    annotate('text', x = 3, y = 900, hjust = 0,
+    annotate('text', x = 3, y = 924, hjust = 0,
              label = str_c(sum(gene_counts == 2), ' genes were detected in two cells'))
 ~~~
 {: .language-r}
@@ -205,14 +189,14 @@ gene_counts %>%
 
 
 ~~~
-Warning: Removed 15823 rows containing non-finite values (`stat_bin()`).
+Warning: Removed 9334 rows containing missing values (`position_stack()`).
 ~~~
 {: .warning}
 
 
 
 ~~~
-Warning: Removed 2 rows containing missing values (`geom_bar()`).
+Warning: Removed 1 rows containing missing values (`geom_col()`).
 ~~~
 {: .warning}
 
@@ -364,8 +348,8 @@ gc()
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7350433  392.6   11674654  623.5  11674654  623.5
-Vcells 180313398 1375.7  521124585 3975.9 464744217 3545.8
+Ncells   7359484  393.1   11674568  623.5  11537299  616.2
+Vcells 180333720 1375.9  521124456 3975.9 464764542 3545.9
 ~~~
 {: .output}
 

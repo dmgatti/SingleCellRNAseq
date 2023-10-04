@@ -148,35 +148,26 @@ stored as 0 and so the matrix would still be sparse. The `Matrix` package has
 an implementation of 'rowSums()' that is efficient, but you may have to specify 
 that you want to used the `Matrix` version of 'rowSums()' explicitly.
 
-```{r gene_count_hist,fig.alt=""}
-gene_counts <- tibble(counts  = Matrix::rowSums(counts > 0))
-
-gene_counts %>% 
-  ggplot(aes(counts)) +
-    geom_histogram(bins = 1000) +
-    labs(title = 'Histogram of Number of Cells in which Gene was Detected',
-         x     = 'Number of Genes',
-         y     = 'Number of Cells in which Gene was Detected') +
-  theme_bw(base_size = 14)
-```
-
-As you can see, the number of cells in which each gene is detected spans several 
+The number of cells in which each gene is detected spans several 
 orders of magnitude and this makes it difficult to interpret the plot. Some 
 genes are detected in all cells while others are detected in only one cell. 
 Let's zoom in on the part with lower gene counts.
 
 ```{r gene_count_hist_2,fig.alt=""}
-gene_counts %>%
-  ggplot(aes(counts)) +
-    geom_histogram(bins = 1000) +
+gene_counts <- tibble(counts  = Matrix::rowSums(counts > 0))
+
+gene_counts %>% 
+  dplyr::count(counts) %>%
+  ggplot(aes(counts, n)) +
+    geom_col() +
     labs(title = 'Histogram of Number of Cells in which Gene was Detected',
          x     = 'Number of Genes',
          y     = 'Number of Cells in which Gene was Detected') +
     lims(x = c(0, 50)) +
     theme_bw(base_size = 14) +
-    annotate('text', x = 2, y = 1500, hjust = 0,
+    annotate('text', x = 2, y = 1596, hjust = 0,
              label = str_c(sum(gene_counts == 1), ' genes were detected in only one cell')) +
-    annotate('text', x = 3, y = 900, hjust = 0,
+    annotate('text', x = 3, y = 924, hjust = 0,
              label = str_c(sum(gene_counts == 2), ' genes were detected in two cells'))
 ```
 
