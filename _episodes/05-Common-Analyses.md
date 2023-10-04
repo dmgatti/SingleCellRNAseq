@@ -246,7 +246,7 @@ Formal class 'Seurat' [package "SeuratObject"] with 13 slots
   ..@ commands    :List of 2
   .. ..$ NormalizeData.RNA       :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
   .. .. .. ..@ name       : chr "NormalizeData.RNA"
-  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-09-29 13:13:23"
+  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-10-04 07:27:30"
   .. .. .. ..@ assay.used : chr "RNA"
   .. .. .. ..@ call.string: chr "NormalizeData(., normalization.method = \"LogNormalize\")"
   .. .. .. ..@ params     :List of 5
@@ -257,7 +257,7 @@ Formal class 'Seurat' [package "SeuratObject"] with 13 slots
   .. .. .. .. ..$ verbose             : logi TRUE
   .. ..$ FindVariableFeatures.RNA:Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
   .. .. .. ..@ name       : chr "FindVariableFeatures.RNA"
-  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-09-29 13:13:29"
+  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-10-04 07:27:37"
   .. .. .. ..@ assay.used : chr "RNA"
   .. .. .. ..@ call.string: chr "FindVariableFeatures(., nfeatures = 2000)"
   .. .. .. ..@ params     :List of 12
@@ -600,7 +600,7 @@ loaded via a namespace (and not attached):
  [31] tools_4.2.3            igraph_1.5.1           gtable_0.3.4          
  [34] glue_1.6.2             RANN_2.6.1             reshape2_1.4.4        
  [37] Rcpp_1.0.11            scattermore_1.2        vctrs_0.6.3           
- [40] nlme_3.1-162           spatstat.explore_3.2-3 progressr_0.14.0      
+ [40] nlme_3.1-163           spatstat.explore_3.2-3 progressr_0.14.0      
  [43] lmtest_0.9-40          spatstat.random_3.1-6  xfun_0.40             
  [46] globals_0.16.2         timechange_0.2.0       mime_0.12             
  [49] miniUI_0.1.1.1         lifecycle_1.0.3        irlba_2.3.5.1         
@@ -610,13 +610,13 @@ loaded via a namespace (and not attached):
  [61] RColorBrewer_1.1-3     reticulate_1.32.0      pbapply_1.7-2         
  [64] gridExtra_2.3          stringi_1.7.12         rlang_1.1.1           
  [67] pkgconfig_2.0.3        matrixStats_1.0.0      evaluate_0.22         
- [70] lattice_0.21-8         ROCR_1.0-11            tensor_1.5            
+ [70] lattice_0.21-9         ROCR_1.0-11            tensor_1.5            
  [73] labeling_0.4.3         patchwork_1.1.3        htmlwidgets_1.6.2     
  [76] cowplot_1.1.1          tidyselect_1.2.0       parallelly_1.36.0     
- [79] RcppAnnoy_0.0.21       plyr_1.8.8             magrittr_2.0.3        
+ [79] RcppAnnoy_0.0.21       plyr_1.8.9             magrittr_2.0.3        
  [82] R6_2.5.1               generics_0.1.3         pillar_1.9.0          
  [85] withr_2.5.1            fitdistrplus_1.1-11    survival_3.5-5        
- [88] abind_1.4-5            sp_2.0-0               future.apply_1.11.0   
+ [88] abind_1.4-5            sp_2.1-0               future.apply_1.11.0   
  [91] KernSmooth_2.23-22     utf8_1.2.3             spatstat.geom_3.2-5   
  [94] plotly_4.10.2          tzdb_0.4.0             grid_4.2.3            
  [97] data.table_1.14.8      digest_0.6.33          xtable_1.8-4          
