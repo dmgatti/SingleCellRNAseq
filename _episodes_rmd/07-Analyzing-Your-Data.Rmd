@@ -185,3 +185,8 @@ Here are a few suggestions of things that you could try:
  * Subcluster some cells that you might be interested in to see if there is any "hidden" heterogeneity that was not apparent when viewing all cells.
  * Change the normalization method you use. The `sctransform` method is a statistical modeling approach that uses the negative binomial distribution. For a vignette on using it within Seurat, see [this link](https://satijalab.org/seurat/articles/sctransform_vignette.html).
 
+### Session Info
+
+```{r session_info,collapse=TRUE}
+sessionInfo()
+```

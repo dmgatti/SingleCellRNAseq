@@ -184,3 +184,44 @@ Here are a few suggestions of things that you could try:
  * Subcluster some cells that you might be interested in to see if there is any "hidden" heterogeneity that was not apparent when viewing all cells.
  * Change the normalization method you use. The `sctransform` method is a statistical modeling approach that uses the negative binomial distribution. For a vignette on using it within Seurat, see [this link](https://satijalab.org/seurat/articles/sctransform_vignette.html).
 
+### Session Info
+
+
+~~~
+sessionInfo()
+~~~
+{: .language-r}
+
+
+
+~~~
+R version 4.4.0 (2024-04-24 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 10 x64 (build 19045)
+
+Matrix products: default
+
+
+locale:
+[1] LC_COLLATE=English_United States.utf8 
+[2] LC_CTYPE=English_United States.utf8   
+[3] LC_MONETARY=English_United States.utf8
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.utf8    
+
+time zone: America/New_York
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] knitr_1.48
+
+loaded via a namespace (and not attached):
+ [1] compiler_4.4.0    magrittr_2.0.3    cli_3.6.3         tools_4.4.0      
+ [5] glue_1.8.0        rstudioapi_0.16.0 vctrs_0.6.5       stringi_1.8.4    
+ [9] stringr_1.5.1     xfun_0.44         lifecycle_1.0.4   rlang_1.1.4      
+[13] evaluate_1.0.0   
+~~~
+{: .output}
