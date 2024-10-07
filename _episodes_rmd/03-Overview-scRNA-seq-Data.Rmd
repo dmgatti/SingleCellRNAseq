@@ -383,9 +383,12 @@ Next, let's look at the number of counts in each cell.
 ```{r cell_counts}
 hist(Matrix::colSums(counts))
 
-Matrix::colSums(counts) %>% enframe() %>%
-  ggplot(aes(value)) + geom_histogram(bins = 30) + 
-  theme_bw(base_size = 16) + scale_x_log10()
+Matrix::colSums(counts) %>% 
+  enframe() %>%
+  ggplot(aes(value)) + 
+  geom_histogram(bins = 30) + 
+  scale_x_log10() +
+  theme_bw(base_size = 16)
 ```
 
 The range of counts covers several orders of magnitude, from 

@@ -34,7 +34,7 @@ data_dir <- '../data'
 
 
 
-<img src="../fig/single_cell_flowchart_3.png" width="800px" alt="Single Cell Flowchart" >
+<img src="../fig/single_cell_flowchart_0.png" width="800px" alt="Single Cell Flowchart" >
 
 ## Quality control in scRNA-seq
 
@@ -86,8 +86,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7228904  386.1   11674745  623.5  10333453  551.9
-Vcells 179726300 1371.3  434206977 3312.8 434206405 3312.8
+Ncells   7227842  386.1   11674654  623.5  10366827  553.7
+Vcells 179723670 1371.2  434203821 3312.8 434203775 3312.8
 ~~~
 {: .output}
 
@@ -176,7 +176,7 @@ gene_counts %>%
 {: .language-r}
 
 <div class="figure" style="text-align: center">
-<img src="../fig/rmd-04-gene_count_hist-1.png" alt="plot of chunk gene_count_hist" width="612" />
+<img src="../fig/rmd-04-gene_count_hist-1.png" width="612" />
 <p class="caption">plot of chunk gene_count_hist</p>
 </div>
 
@@ -217,7 +217,7 @@ Warning: Removed 2 rows containing missing values (`geom_bar()`).
 {: .warning}
 
 <div class="figure" style="text-align: center">
-<img src="../fig/rmd-04-gene_count_hist_2-1.png" alt="plot of chunk gene_count_hist_2" width="612" />
+<img src="../fig/rmd-04-gene_count_hist_2-1.png" width="612" />
 <p class="caption">plot of chunk gene_count_hist_2</p>
 </div>
 
@@ -298,7 +298,7 @@ tibble(counts  = Matrix::colSums(counts > 0)) %>%
 {: .language-r}
 
 <div class="figure" style="text-align: center">
-<img src="../fig/rmd-04-sum_cell_counts-1.png" alt="plot of chunk sum_cell_counts" width="612" />
+<img src="../fig/rmd-04-sum_cell_counts-1.png" width="612" />
 <p class="caption">plot of chunk sum_cell_counts</p>
 </div>
 
@@ -364,8 +364,8 @@ gc()
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7351495  392.7   11674745  623.5  11674745  623.5
-Vcells 180316041 1375.8  521128372 3975.9 464746868 3545.8
+Ncells   7350433  392.6   11674654  623.5  11674654  623.5
+Vcells 180313398 1375.7  521124585 3975.9 464744217 3545.8
 ~~~
 {: .output}
 
@@ -636,7 +636,7 @@ except one (the copies we throw out are called "PCR duplicates").
 
 ![UMI](../fig/lexogen.png)
 
-> Note, not sure about permissions for this figure ...
+[Image credit](https://www.lexogen.com/rna-lexicon-what-are-unique-molecular-identifiers-umis-and-why-do-we-need-them/)
 
 Several papers (e.g. [Islam et al](https://doi.org/10.1038/nmeth.2772))
 have demonstrated that UMIs reduce amplification noise in single cell
@@ -664,7 +664,7 @@ ggplot(liver@meta.data, aes(x = nCount_RNA, y = nFeature_RNA)) +
 {: .language-r}
 
 <div class="figure" style="text-align: center">
-<img src="../fig/rmd-04-genes_umi-1.png" alt="plot of chunk genes_umi" width="612" />
+<img src="../fig/rmd-04-genes_umi-1.png" width="612" />
 <p class="caption">plot of chunk genes_umi</p>
 </div>
 
@@ -689,7 +689,7 @@ Adding another scale for y, which will replace the existing scale.
 {: .output}
 
 <div class="figure" style="text-align: center">
-<img src="../fig/rmd-04-filter_umi-1.png" alt="plot of chunk filter_umi" width="432" />
+<img src="../fig/rmd-04-filter_umi-1.png" width="432" />
 <p class="caption">plot of chunk filter_umi</p>
 </div>
 
@@ -732,17 +732,13 @@ by scds?
 
 
 ~~~
-liver$keep <- with(liver, percent.mt < 14 & nFeature_RNA > 600 &
-  nFeature_RNA < 5000 & nCount_RNA > 900 & nCount_RNA < 25000)
+liver$keep <- liver$percent.mt   < 14 & 
+              liver$nFeature_RNA > 600 &
+              liver$nFeature_RNA < 5000 & 
+              liver$nCount_RNA   > 900 & 
+              liver$nCount_RNA   < 25000
 ~~~
 {: .language-r}
-
-
-
-~~~
-Error in eval(substitute(expr), data, enclos = parent.frame()): object 'percent.mt' not found
-~~~
-{: .error}
 
 Using the scds hybrid_score method, the scores range between 0 and 2.
 Higher scores should be more likely to be doublets.
@@ -751,20 +747,24 @@ Higher scores should be more likely to be doublets.
 ~~~
 ggplot(mutate(liver[[]], class = ifelse(keep, 'QC singlet', 'QC doublet')),
   aes(x = class, y = hybrid_score)) + 
-  geom_violin() + theme_bw(base_size = 18) +
-  xlab("") + ylab("SCDS hybrid score")
+  geom_violin() + 
+  theme_bw(base_size = 18) +
+  xlab("") + 
+  ylab("SCDS hybrid score")
 ~~~
 {: .language-r}
 
 
 
 ~~~
-Error in `mutate()`:
-ℹ In argument: `class = ifelse(keep, "QC singlet", "QC doublet")`.
-Caused by error in `as.logical()`:
-! cannot coerce type 'closure' to vector of type 'logical'
+Warning: Removed 42388 rows containing non-finite values (`stat_ydensity()`).
 ~~~
-{: .error}
+{: .warning}
+
+<div class="figure" style="text-align: center">
+<img src="../fig/rmd-04-doublet_plot-1.png" width="612" />
+<p class="caption">plot of chunk doublet_plot</p>
+</div>
 
 Somewhat unsatisfyingly, the scds hybrid scores aren't wildly
 different between the cells we've used QC thresholds to call as doublets
@@ -799,40 +799,11 @@ liver <- subset(liver, subset = percent.mt   < 14 &
 
 We might want to correct for batch effects. This can be difficult
 to do because batch effects are complicated (in general), and may 
-affect different cell types in different ways. One tool that performs
-well and is integrated nicely into Seurat is 
-[`harmony`](https://portals.broadinstitute.org/harmony/).
-Harmony uses an iterative approach to learn batch and cell type-specific
-correction factors (see [Korsunsky et al.
-2019)(https://www.nature.com/articles/s41592-019-0619-0) 
-for more information). 
-In this case we have info on metadata for these samples.
-Unfortunately we don't have good metadata on the batch or on variables
-areas might demonstrate a batch effect.
-Nevertheless, correcting for batch with harmony might look something like this:
+affect different cell types in different ways. Although correcting
+for batch effects is an important aspect of
+quality control, we will discuss this procedure in lesson 06 with
+some biological context.
 
-
-~~~
-liver <- RunHarmony(liver, 'Strain', 
-    theta = 1, dims.use = 1:30, max.iter.harmony = 100) %>%
-    FindNeighbors(reduction = 'harmony', dims=  1:30) %>%
-    FindClusters(verbose = FALSE, resolution = 0.8) %>%
-    RunUMAP(dims = 1:30, reduction = 'harmony')
-~~~
-{: .language-r}
-
-
-
-~~~
-Error in RunHarmony(liver, "Strain", theta = 1, dims.use = 1:30, max.iter.harmony = 100): could not find function "RunHarmony"
-~~~
-{: .error}
-
-
-<!-- Discuss batch correction here? -->
-<!-- it might be interesting to do batch correction across in vivo + nuc seq -->
-<!-- DAS recommends using harmony if we want to do batch correction -->
-<!-- Should probably do batch correction across sample -->
 
 
 
@@ -864,7 +835,7 @@ Create plots of the proportion of features, cells, and mitochondrial genes.
 Filter the Seurat object by mitochondrial gene expression.
 >
 > > ## Solution to Challenge 4  
-> > `liver_2 = liver_2 %>%`  
+> > `liver_2 = liver_2 %>%`  data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAWElEQVR42mNgGPTAxsZmJsVqQApgmGw1yApwKcQiT7phRBuCzzCSDSHGMKINIeDNmWQlA2IigKJwIssQkHdINgxfmBBtGDEBS3KCxBc7pMQgMYE5c/AXPwAwSX4lV3pTWwAAAABJRU5ErkJggg==
 > > `            PercentageFeatureSet(pattern = "^mt-", col.name = "percent.mt")`  
 > > `VlnPlot(liver_2, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)`  
 > > `liver_2 = subset(liver_2, subset = percent.mt < 10)`  
@@ -908,7 +879,7 @@ other attached packages:
  [9] IRanges_2.32.0              S4Vectors_0.36.2           
 [11] BiocGenerics_0.44.0         MatrixGenerics_1.10.0      
 [13] matrixStats_1.0.0           Matrix_1.6-1.1             
-[15] lubridate_1.9.2             forcats_1.0.0              
+[15] lubridate_1.9.3             forcats_1.0.0              
 [17] stringr_1.5.0               dplyr_1.1.3                
 [19] purrr_1.0.2                 readr_2.1.4                
 [21] tidyr_1.3.0                 tibble_3.2.1               
@@ -916,41 +887,43 @@ other attached packages:
 [25] knitr_1.44                 
 
 loaded via a namespace (and not attached):
-  [1] Rtsne_0.16             colorspace_2.1-0       deldir_1.0-9          
-  [4] ellipsis_0.3.2         ggridges_0.5.4         XVector_0.38.0        
-  [7] spatstat.data_3.0-1    farver_2.1.1           leiden_0.4.3          
- [10] listenv_0.9.0          ggrepel_0.9.3          fansi_1.0.4           
- [13] codetools_0.2-19       splines_4.2.3          polyclip_1.10-6       
- [16] jsonlite_1.8.7         pROC_1.18.4            ica_1.0-3             
- [19] cluster_2.1.4          png_0.1-8              uwot_0.1.16           
- [22] spatstat.sparse_3.0-2  sctransform_0.4.0      shiny_1.7.5           
- [25] compiler_4.2.3         httr_1.4.7             lazyeval_0.2.2        
- [28] fastmap_1.1.1          cli_3.6.1              later_1.3.1           
- [31] htmltools_0.5.6        tools_4.2.3            igraph_1.5.1          
- [34] gtable_0.3.4           glue_1.6.2             GenomeInfoDbData_1.2.9
- [37] reshape2_1.4.4         RANN_2.6.1             Rcpp_1.0.11           
- [40] scattermore_1.2        vctrs_0.6.3            nlme_3.1-162          
- [43] spatstat.explore_3.2-3 progressr_0.14.0       lmtest_0.9-40         
- [46] spatstat.random_3.1-6  xfun_0.40              globals_0.16.2        
- [49] timechange_0.2.0       mime_0.12              miniUI_0.1.1.1        
- [52] lifecycle_1.0.3        irlba_2.3.5.1          goftest_1.2-3         
- [55] future_1.33.0          zlibbioc_1.44.0        MASS_7.3-60           
- [58] zoo_1.8-12             scales_1.2.1           spatstat.utils_3.0-3  
- [61] hms_1.1.3              promises_1.2.1         parallel_4.2.3        
- [64] RColorBrewer_1.1-3     gridExtra_2.3          pbapply_1.7-2         
- [67] reticulate_1.32.0      stringi_1.7.12         rlang_1.1.1           
- [70] pkgconfig_2.0.3        bitops_1.0-7           evaluate_0.22         
- [73] lattice_0.21-8         tensor_1.5             ROCR_1.0-11           
- [76] labeling_0.4.3         htmlwidgets_1.6.2      patchwork_1.1.3       
- [79] cowplot_1.1.1          tidyselect_1.2.0       parallelly_1.36.0     
- [82] RcppAnnoy_0.0.21       plyr_1.8.8             magrittr_2.0.3        
- [85] R6_2.5.1               generics_0.1.3         DelayedArray_0.24.0   
- [88] pillar_1.9.0           withr_2.5.1            fitdistrplus_1.1-11   
- [91] abind_1.4-5            survival_3.5-5         RCurl_1.98-1.12       
- [94] sp_2.0-0               future.apply_1.11.0    xgboost_1.7.5.1       
- [97] KernSmooth_2.23-22     utf8_1.2.3             spatstat.geom_3.2-5   
-[100] plotly_4.10.2          tzdb_0.4.0             grid_4.2.3            
-[103] data.table_1.14.8      digest_0.6.33          xtable_1.8-4          
-[106] httpuv_1.6.11          munsell_0.5.0          viridisLite_0.4.2     
+  [1] plyr_1.8.9             igraph_1.5.1           lazyeval_0.2.2        
+  [4] sp_2.1-0               splines_4.2.3          listenv_0.9.0         
+  [7] scattermore_1.2        digest_0.6.33          htmltools_0.5.6       
+ [10] fansi_1.0.4            magrittr_2.0.3         tensor_1.5            
+ [13] cluster_2.1.4          ROCR_1.0-11            tzdb_0.4.0            
+ [16] globals_0.16.2         timechange_0.2.0       spatstat.sparse_3.0-2 
+ [19] colorspace_2.1-0       ggrepel_0.9.3          xfun_0.40             
+ [22] RCurl_1.98-1.12        jsonlite_1.8.7         progressr_0.14.0      
+ [25] spatstat.data_3.0-1    survival_3.5-5         zoo_1.8-12            
+ [28] glue_1.6.2             polyclip_1.10-6        gtable_0.3.4          
+ [31] zlibbioc_1.44.0        XVector_0.38.0         leiden_0.4.3          
+ [34] DelayedArray_0.24.0    future.apply_1.11.0    abind_1.4-5           
+ [37] scales_1.2.1           spatstat.random_3.1-6  miniUI_0.1.1.1        
+ [40] Rcpp_1.0.11            viridisLite_0.4.2      xtable_1.8-4          
+ [43] reticulate_1.32.0      htmlwidgets_1.6.2      httr_1.4.7            
+ [46] RColorBrewer_1.1-3     ellipsis_0.3.2         ica_1.0-3             
+ [49] pkgconfig_2.0.3        farver_2.1.1           uwot_0.1.16           
+ [52] deldir_1.0-9           utf8_1.2.3             tidyselect_1.2.0      
+ [55] labeling_0.4.3         rlang_1.1.1            reshape2_1.4.4        
+ [58] later_1.3.1            munsell_0.5.0          tools_4.2.3           
+ [61] xgboost_1.7.5.1        cli_3.6.1              generics_0.1.3        
+ [64] ggridges_0.5.4         evaluate_0.22          fastmap_1.1.1         
+ [67] goftest_1.2-3          fitdistrplus_1.1-11    RANN_2.6.1            
+ [70] pbapply_1.7-2          future_1.33.0          nlme_3.1-163          
+ [73] mime_0.12              ggrastr_1.0.2          compiler_4.2.3        
+ [76] beeswarm_0.4.0         plotly_4.10.2          png_0.1-8             
+ [79] spatstat.utils_3.0-3   stringi_1.7.12         lattice_0.21-9        
+ [82] vctrs_0.6.3            pillar_1.9.0           lifecycle_1.0.3       
+ [85] spatstat.geom_3.2-5    lmtest_0.9-40          RcppAnnoy_0.0.21      
+ [88] data.table_1.14.8      cowplot_1.1.1          bitops_1.0-7          
+ [91] irlba_2.3.5.1          httpuv_1.6.11          patchwork_1.1.3       
+ [94] R6_2.5.1               promises_1.2.1         KernSmooth_2.23-22    
+ [97] gridExtra_2.3          vipor_0.4.5            parallelly_1.36.0     
+[100] codetools_0.2-19       MASS_7.3-60            withr_2.5.1           
+[103] sctransform_0.4.0      GenomeInfoDbData_1.2.9 parallel_4.2.3        
+[106] hms_1.1.3              grid_4.2.3             Rtsne_0.16            
+[109] spatstat.explore_3.2-3 pROC_1.18.4            shiny_1.7.5           
+[112] ggbeeswarm_0.7.2      
 ~~~
 {: .output}

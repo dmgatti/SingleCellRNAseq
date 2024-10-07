@@ -338,7 +338,6 @@ liver <- FindNeighbors(liver, reduction = 'pca',
          FindClusters(verbose = FALSE, resolution = 0.3)
 ```
 
-> Show what just changed in the Seurat Object.
 
 ## Dimensionality reduction (UMAP, tSNE, etc) 
 
@@ -380,17 +379,11 @@ UMAP space.
 UMAPPlot(liver, label = TRUE, label.size = 6)
 ```
 
-
-> DMG or DAS: Maybe once we get to clustering, show cell cycle genes on clusters?
-> DMG: This is my attempt which throws an error: "Error: Discrete value supplied 
-to continuous scale". Maybe we need to estimate the proportion of cell in each
-cluster in each cell cycle state?
+Let's color the cells in each cluster by cell cycle phase using `UMAPPlot()`.
 
 ```{r}
 UMAPPlot(liver, group.by = 'Phase')
-# FeaturePlot(liver, features = 'Phase')
 ```
-
 
 ## Saving
 

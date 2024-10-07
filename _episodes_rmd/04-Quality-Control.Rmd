@@ -37,7 +37,7 @@ data_dir <- '../data'
 load(file.path(data_dir, 'lesson03.Rdata'))
 ```
 
-<img src="../fig/single_cell_flowchart_3.png" width="800px" alt="Single Cell Flowchart" >
+<img src="../fig/single_cell_flowchart_0.png" width="800px" alt="Single Cell Flowchart" >
 
 ## Quality control in scRNA-seq
 
@@ -148,7 +148,7 @@ stored as 0 and so the matrix would still be sparse. The `Matrix` package has
 an implementation of 'rowSums()' that is efficient, but you may have to specify 
 that you want to used the `Matrix` version of 'rowSums()' explicitly.
 
-```{r gene_count_hist}
+```{r gene_count_hist,fig.alt=""}
 gene_counts <- tibble(counts  = Matrix::rowSums(counts > 0))
 
 gene_counts %>% 
@@ -165,7 +165,7 @@ orders of magnitude and this makes it difficult to interpret the plot. Some
 genes are detected in all cells while others are detected in only one cell. 
 Let's zoom in on the part with lower gene counts.
 
-```{r gene_count_hist_2}
+```{r gene_count_hist_2,fig.alt=""}
 gene_counts %>%
   ggplot(aes(counts)) +
     geom_histogram(bins = 1000) +
@@ -245,7 +245,7 @@ should improve your final results.
 
 We will explicitly use the `Matrix` package's implementation of 'colSums()'.
 
-```{r sum_cell_counts}
+```{r sum_cell_counts,fig.alt=""}
 tibble(counts  = Matrix::colSums(counts > 0)) %>%
   ggplot(aes(counts)) +
     geom_histogram(bins = 500) +
@@ -482,7 +482,7 @@ except one (the copies we throw out are called "PCR duplicates").
 
 ![UMI](../fig/lexogen.png)
 
-> Note, not sure about permissions for this figure ...
+[Image credit](https://www.lexogen.com/rna-lexicon-what-are-unique-molecular-identifiers-umis-and-why-do-we-need-them/)
 
 Several papers (e.g. [Islam et al](https://doi.org/10.1038/nmeth.2772))
 have demonstrated that UMIs reduce amplification noise in single cell
@@ -499,7 +499,7 @@ each cell.
 
 Typically the number of genes and number of UMI are highly correlated
 and this is mostly the case in our liver dataset:
-```{r genes_umi}
+```{r genes_umi,fig.alt=""}
 ggplot(liver@meta.data, aes(x = nCount_RNA, y = nFeature_RNA)) +
   geom_point() +
   theme_bw(base_size = 16) +
@@ -510,7 +510,7 @@ ggplot(liver@meta.data, aes(x = nCount_RNA, y = nFeature_RNA)) +
 
 
 
-```{r filter_umi,fig.height=4,fig.width=6}
+```{r filter_umi,fig.height=4,fig.width=6,fig.alt=""}
 VlnPlot(liver, 'nCount_RNA', group.by = 'sample', pt.size = 0) +
   scale_y_log10() + 
   geom_hline(yintercept = 900) + 
@@ -562,18 +562,23 @@ are going to be filtered out of our data were predicted to be doublets
 by scds?
 
 ```{r filtering}
-liver$keep <- with(liver, percent.mt < 14 & nFeature_RNA > 600 &
-  nFeature_RNA < 5000 & nCount_RNA > 900 & nCount_RNA < 25000)
+liver$keep <- liver$percent.mt   < 14 & 
+              liver$nFeature_RNA > 600 &
+              liver$nFeature_RNA < 5000 & 
+              liver$nCount_RNA   > 900 & 
+              liver$nCount_RNA   < 25000
 ```
 
 Using the scds hybrid_score method, the scores range between 0 and 2.
 Higher scores should be more likely to be doublets.
 
-```{r doublet_plot}
+```{r doublet_plot,fig.alt=""}
 ggplot(mutate(liver[[]], class = ifelse(keep, 'QC singlet', 'QC doublet')),
   aes(x = class, y = hybrid_score)) + 
-  geom_violin() + theme_bw(base_size = 18) +
-  xlab("") + ylab("SCDS hybrid score")
+  geom_violin() + 
+  theme_bw(base_size = 18) +
+  xlab("") + 
+  ylab("SCDS hybrid score")
 ```
 
 Somewhat unsatisfyingly, the scds hybrid scores aren't wildly
@@ -607,31 +612,11 @@ liver <- subset(liver, subset = percent.mt   < 14 &
 
 We might want to correct for batch effects. This can be difficult
 to do because batch effects are complicated (in general), and may 
-affect different cell types in different ways. One tool that performs
-well and is integrated nicely into Seurat is 
-[`harmony`](https://portals.broadinstitute.org/harmony/).
-Harmony uses an iterative approach to learn batch and cell type-specific
-correction factors (see [Korsunsky et al.
-2019)(https://www.nature.com/articles/s41592-019-0619-0) 
-for more information). 
-In this case we have info on metadata for these samples.
-Unfortunately we don't have good metadata on the batch or on variables
-areas might demonstrate a batch effect.
-Nevertheless, correcting for batch with harmony might look something like this:
+affect different cell types in different ways. Although correcting
+for batch effects is an important aspect of
+quality control, we will discuss this procedure in lesson 06 with
+some biological context.
 
-```{r}
-liver <- RunHarmony(liver, 'Strain', 
-    theta = 1, dims.use = 1:30, max.iter.harmony = 100) %>%
-    FindNeighbors(reduction = 'harmony', dims=  1:30) %>%
-    FindClusters(verbose = FALSE, resolution = 0.8) %>%
-    RunUMAP(dims = 1:30, reduction = 'harmony')
-```
-
-
-<!-- Discuss batch correction here? -->
-<!-- it might be interesting to do batch correction across in vivo + nuc seq -->
-<!-- DAS recommends using harmony if we want to do batch correction -->
-<!-- Should probably do batch correction across sample -->
 
 ```{r save_seurat,include=FALSE}
 # Only needed to build lessons.
@@ -667,7 +652,7 @@ Create plots of the proportion of features, cells, and mitochondrial genes.
 Filter the Seurat object by mitochondrial gene expression.
 >
 > > ## Solution to Challenge 4  
-> > `liver_2 = liver_2 %>%`  
+> > `liver_2 = liver_2 %>%`  data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAWElEQVR42mNgGPTAxsZmJsVqQApgmGw1yApwKcQiT7phRBuCzzCSDSHGMKINIeDNmWQlA2IigKJwIssQkHdINgxfmBBtGDEBS3KCxBc7pMQgMYE5c/AXPwAwSX4lV3pTWwAAAABJRU5ErkJggg==
 > > `            PercentageFeatureSet(pattern = "^mt-", col.name = "percent.mt")`  
 > > `VlnPlot(liver_2, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)`  
 > > `liver_2 = subset(liver_2, subset = percent.mt < 10)`  

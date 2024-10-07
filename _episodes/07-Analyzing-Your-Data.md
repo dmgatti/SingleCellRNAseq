@@ -5,9 +5,10 @@ lesson is an opportunity to see how some of these issues play out in a
 set of diverse datasets that have different characteristics.
 
 If you have your own data, you might set a goal of completing quality
-control, normalization, basic clustering, and identifying major cell
-clusters. If you are working with data from a publication, you might try
-to reproduce – as best you can – one of the main figures from the paper.
+control, normalization, basic clustering, and identifying major
+cell clusters. If you are working with data from a publication, you might
+try to reproduce -- as best you can -- one of the main figures from the
+paper.
 
 ## Points to keep in mind as you work with your data
 
@@ -164,3 +165,4 @@ suggestions of things that you could try:
     a statistical modeling approach that uses the negative binomial
     distribution. For a vignette on using it within Seurat, see [this
     link](https://satijalab.org/seurat/articles/sctransform_vignette.html).
+
