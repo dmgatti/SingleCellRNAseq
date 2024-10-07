@@ -8,6 +8,7 @@ questions:
 objectives:
 - "Identify a workflow for analyzing your data."
 - "Be aware of key decision points where your choices influence analysis outcomes."
+- "Understand that there are specific approaches that can be used to analyze very large datasets."
 - "Know how to seek help with your work."
 keypoints:
 - "There are excellent tools for helping you analyze your scRNA-Seq data."
@@ -79,6 +80,74 @@ obj <- FindNeighbors(obj, reduction = 'pca', dims = 1:X, verbose = FALSE) %>%
     FindClusters(verbose = FALSE, resolution = 0.7) %>%
     RunUMAP(reduction = 'pca', dims = 1:X, verbose = FALSE)
 ```
+
+## Computational efficiency for very large datasets
+
+In this section of the workshop, everyone will have the chance to work with
+a dataset of their choice. You may end up choosing to work with a dataset
+that is much larger than the example data we have been working with.
+For the purposes of this workshop, we will consider a "very large" dataset
+to be one with at least hundreds of thousands, if not millions, of cells.
+
+Not long ago it was very impressive to profile thousands of cells.
+Today larger labs and/or consortia are fairly routinely profiling 
+millions of cells!
+From an analytical perspective, these very large datasets must be thought 
+of differently than smaller datasets. Very large datasets may often
+cause memory or disk space errors if one tries to use conventional methods
+to analyze them (e.g. the methods we have shown earlier in this course).
+
+Here we will mention a few possible solutions for working with very large
+datasets. This is not an exhaustive list but we think it is a reasonable
+menu of options:
+
+ <!-- * Be clever in your analysis. Reduce dimensionality of subunits of your data -->
+ <!-- (e.g. samples) using something like PCA, and integrate in this  -->
+ <!-- reduced-dimensional subspace, which will be less computationally intensive -->
+ <!-- than trying to operate on all data simultaneously. For example, see the  -->
+ <!-- section on reciprocal PCA at  -->
+ <!-- [this link](https://satijalab.org/seurat/archive/v3.2/integration.html) -->
+ 
+ * Downsample your data by randomly sub-sampling so that you can work with
+ a smaller dataset of (say) 100k cells. While this ameliorates issues of
+ computational efficiency, it is highly undesireable to discard a 
+ significant fraction of your data and we do not recommend this approach 
+ unless you are doing a rough preliminary analysis of your data.
+ * Combine very similar cells into mini-bulk samples in order to 
+ drastically reduce the number of cells. Methods available to do this include
+ Metacells [Ben-Kiki et al. 2022](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-022-02667-1) 
+ and SuperCell [Bilous et al. 2022](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-022-04861-1).
+ This is an appealing approach as scRNA-Seq data is sparse so it seems
+ natural to form mini-bulks of similar cells. However, analyzing data
+ processed in this manner can be challenging because it can be difficult to
+ interpret differences between "metacells" that are formed from varying
+ numbers of real cells.
+ * Use the `BPCells` package which leverages dramatic improvements in 
+ low-level handling of the data (storing data using bitpacked compressed
+ binary files and disk-backed analysis capabilities) to increase speed. This
+ package is directly integrated with `Seurat` (see a vignette demonstrating
+ this integration at [this link](https://satijalab.org/seurat/articles/seurat5_bpcells_interaction_vignette))
+ and [benchmarks](https://bnprks.github.io/BPCells/articles/web-only/benchmarks.html)
+ indicate vastly improved workflow efficiency particularly
+ with respect to RAM usage. There should be no downside to using this approach
+ other than the need for disk space to write the additional binary files.
+ * Take advantage of `Seurat`'s "sketch-based" analysis methods. This is a 
+ method that is a bit like smart subsampling of your data but with several 
+ added bonuses. The idea of sketching was introduced in
+ [Hie et al. 2019](https://doi.org/10.1016/j.cels.2019.05.003) and seeks to
+ subsample from a large scRNA-Seq dataset with the goal of preserving both
+ common and rare cell types. This is a much better approach than random
+ subsampling because rare cells could turn out to be among the most interesting
+ cells in your data! The real game-changer when it comes to `Seurat` is
+ the introduction in `Seurat` version 5 of built-in methods for sketch 
+ analysis. This means that you can do the sketch-based sampling within 
+ Seurat, carry out a typical workflow (finding variable features, 
+ running PCA, clustering), and then *extend* these back to *ALL* cells. 
+ There is an excellent `Seurat` vignette on the sketch-based analysis 
+ approach [here](https://satijalab.org/seurat/articles/seurat5_sketch_analysis).
+ The only caveat with this approach is that some `Seurat` functions 
+ have not yet (fall 2024) been modified to support the sketch-based approach.
+
 
 ## Working With Your Own Data: Integration and Label Transfer
 

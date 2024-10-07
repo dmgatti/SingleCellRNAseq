@@ -105,7 +105,11 @@ package:
 Another option is [CellChat](http://www.cellchat.org/),
 published by 
 [Jin et al. 2021](https://www.nature.com/articles/s41467-021-21246-9)
-which has an accompanying R package.
+and updated recently in a
+[preprint](https://www.biorxiv.org/content/10.1101/2023.11.05.565674v1)
+and a [published protocol](https://www.nature.com/articles/s41596-024-01045-4).
+This method has an accompanying R package and an easy-to-use 
+standalone `Shiny` app [here](https://github.com/sqjin/CellChatShiny).
 
 
 ### Pseudotime and RNA velocity
@@ -176,28 +180,6 @@ automatically infer a direction. In contrast, RNA velocity also deals with
 transitions between cellular states, but explicitly considers the
 directionality of the transitions.
 
-## Very large datasets
-
-Not long ago it was very impressive to profile thousands of cells.
-Today larger labs are fairly routinely profiling around a million cells!
-From an analytical perspective, these very large datasets must be thought 
-of differently than smaller datasets. Very large datasets may often
-cause memory or disk space errors if one tries to use conventional methods
-to analyze them (e.g. the methods we have shown earlier in this course).
-
-Here are two possible solutions:
-
- 1. Be clever in your analysis. Reduce dimensionality of subunits of your data
- (e.g. samples) using something like PCA, and integrate in this 
- reduced-dimensional subspace, which will be less computationally intensive
- than trying to operate on all data simultaneously. For example, see the 
- section on reciprocal PCA at 
- [this link](https://satijalab.org/seurat/archive/v3.2/integration.html)
- 2. Combine very similar cells into mini-bulk samples in order to 
- drastically reduce the number of cells. Methods available to do this include
- Metacells [Ben-Kiki et al. 2022](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-022-02667-1) 
- and SuperCell [Bilous et al. 2022](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-022-04861-1).
-
 
 ## Multimodal molecular profiling
 
@@ -214,6 +196,16 @@ common examples of multimodal profiling include:
 
 (Image courtesy of 10X Genomics webpage)
 
+Some of these approaches provide multiple modes of data from the same 
+biological specimen but different individual cells, while others
+collect data from the same individual cells. Obviously, all else equal,
+the latter approach is preferred when it is possible. For example, the 10X 
+"Multiome" [product](https://www.10xgenomics.com/products/single-cell-multiome-atac-plus-gene-expression)
+obtains chromatin accessibility and gene expression on every cell, which
+provides a more detailed portrait of how changes in chromatin perturb
+gene expression compared to having paired chromatin accessibility and
+gene expression data on different sets of cells.
+
 There is already a large literature on these topics. 
 [Zhu et al. 2020](https://www.nature.com/articles/s41592-019-0691-5)
 wrote a nice commentary piece discussing methods and tools
@@ -222,6 +214,34 @@ available for multimodel analysis in single cell genomics
 published a landmark paper that developed methods for integrating across
 different data modalities and implementing these methods in version
 4 of the Seurat package.
+
+## Fixed cell profiling options and probe-based methods
+
+In recent years it has become possible to profile the transcriptome
+of fixed single cells. The most widely used product for fixed cell
+profiling is 10X Genomics' FLEX, which allows the profiling of RNA from 
+preserved (fixed) tissues. 
+FLEX uses specialized chemistry to reverse cross-linking in 
+formaldehyde-fixed samples, enabling efficient RNA capture while 
+preserving spatial and cellular context. This opens the door to studying 
+archived samples as well as offering flexibility in experimental design. 
+Such approaches may be particularly useful for retrospective studies and 
+clinical samples, where immediate processing is not possible.
+
+The FLEX product uses a probe-based system to assay gene expression.
+More broadly, there has recently been a growing interest in probe-based 
+methods for transcriptome profiling. This shift is partly due to 
+several advantages of this approach:
+
+ * Target specificity: Probes provide precise targeting of specific genes or 
+ regions of interest, enhancing sensitivity and signal-to-noise ratio.
+ * Cost efficiency: Probe-based approaches can be less expensive for 
+ targeted panels compared to whole transcriptome sequencing, especially for 
+ large-scale studies.
+ * Compatibility with degraded samples: As alluded to above, probe-based
+ profiling can perform well with formalin-fixed paraffin-embedded (FFPE) 
+ tissues.
+
 
 ## Spatial profiling 
 
@@ -237,21 +257,30 @@ holds promise for increasingly more accurate and powerful technologies.
 
 10X Genomics offers the 
 [Visium platform](https://www.10xgenomics.com/products/spatial-gene-expression).
-This platform currently profiles
+The original Visium protocol profiles
 a slice of tissue that is 6.5mm square using 5,000 spots each 50um in diameter.
 These spots are large enough that they are not truly single cell, 
 rather each spot typically captures between 1-10 cells. Thus in some
 ways the data from each spot can be thought of as a "mini" bulk RNA-Seq.
 Nevertheless it can be very useful to assay gene expression in this spatially
-resolved manner. 10X also will soon (end of 2022) offer the 
+resolved manner. More recently 10X has released the
+[Visium HD](https://www.10xgenomics.com/products/visium-hd-spatial-gene-expression)
+product which profiles tissues of the same size (6.5mm square) but across
+millions of 2um square spots with no gaps, achieving true single cell
+resolution.
+
+10X also offers the 
 [Xenium In Situ platform](https://www.10xgenomics.com/platforms/xenium)
-which can profile hundreds of RNA targets with subcellular resolution.
+which can profile up to 5,000 RNA targets with subcellular resolution.
 
 Another spatial profiling option is 
 [Nanostring's GeoMx Digital Spatial Profiler](https://nanostring.com/products/geomx-digital-spatial-profiler/geomx-dsp-overview/).
 This is a high-plex protein and RNA platform that uses indexing
 oligonucleotides assigned to targets of interest. This allows measuring
-hundreds of potential protein and RNA biomarkers.
+hundreds of potential protein and RNA biomarkers. 
+A new Nanostring product is [CosMx](https://nanostring.com/products/cosmx-spatial-molecular-imager/)
+which can profile at subcellular resolution (while GeoMx profiles
+with coarser resolution -- groups of cells).
 
 A final spatial profiling option is the 
 [PhenoCycler system from Akoya Biosciences](https://www.akoyabio.com/phenocycler/).
@@ -271,3 +300,11 @@ of ways. In many cases the techology is moving towards profiling of
 Formalin-Fixed Paraffin-Embedded (FFPE) samples. The technological
 landscape is sure to change quickly and the future is bright for 
 spatial profiling!
+
+As you can see above, the landscape is complex. Getting help from AI
+can be a fun and informative way to learn more about your choices,
+including familiarizing yourself with the specific properties of
+each method and the tradeoffs you must weigh. Here is an example
+of the type of inquiry we have found useful:
+<img src="../fig/chatgpt_spatial.jpg" alt="ChatGPT spatial biology chat" width="600px">
+
