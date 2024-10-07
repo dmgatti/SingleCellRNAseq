@@ -73,9 +73,9 @@ and clustering:
 
 ```{}
 ElbowPlot(obj, ndims = 100)
-# let's use X PCs
-obj <- FindNeighbors(obj, reduction = 'pca', dims = 1:X, verbose = FALSE) %>%
-    FindClusters(verbose = FALSE, resolution = 0.7) %>%
+# let's use 24 PCs
+obj <- FindNeighbors(obj, reduction = 'pca', dims = 1:24, verbose = FALSE) %>%
+    FindClusters(verbose = FALSE, resolution = 0.3) %>%
     RunUMAP(reduction = 'pca', dims = 1:X, verbose = FALSE)
 ```
 
