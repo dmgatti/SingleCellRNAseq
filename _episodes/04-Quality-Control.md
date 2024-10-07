@@ -86,8 +86,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7227813  386.1   11674568  623.5  10366686  553.7
-Vcells 179723581 1371.2  434203714 3312.8 434203686 3312.8
+Ncells   8109954  433.2   14164697  756.5  11250314  600.9
+Vcells 181805351 1387.1  436709205 3331.9 436706427 3331.9
 ~~~
 {: .output}
 
@@ -189,14 +189,8 @@ gene_counts %>%
 
 
 ~~~
-Warning: Removed 9334 rows containing missing values (`position_stack()`).
-~~~
-{: .warning}
-
-
-
-~~~
-Warning: Removed 1 rows containing missing values (`geom_col()`).
+Warning: Removed 9335 rows containing missing values or values outside the
+scale range (`geom_col()`).
 ~~~
 {: .warning}
 
@@ -332,7 +326,7 @@ liver <- CreateSeuratObject(counts    = counts,
 ~~~
 {: .language-r}
 
-We now have a Seurat object with 20120 genes and 47743 cells.
+We now have a Seurat object with 2.012 &times; 10<sup>4</sup> genes and 4.7743 &times; 10<sup>4</sup> cells.
 
 We will remove the counts object to save some memory because it is now stored 
 inside of the Seurat object.
@@ -348,8 +342,8 @@ gc()
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   7359484  393.1   11674568  623.5  11537299  616.2
-Vcells 180333720 1375.9  521124456 3975.9 464764542 3545.9
+Ncells   8267614  441.6   14164697  756.5  12308177  657.4
+Vcells 182525841 1392.6  596756533 4552.9 629549203 4803.1
 ~~~
 {: .output}
 
@@ -383,6 +377,29 @@ The output of this function tells us that we have data in an "RNA assay. We can 
 
 ~~~
 tmp = GetAssayData(object = liver, slot = 'data')
+~~~
+{: .language-r}
+
+
+
+~~~
+Warning: The `slot` argument of `GetAssayData()` is deprecated as of SeuratObject 5.0.0.
+ℹ Please use the `layer` argument instead.
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: Layer 'data' is empty
+~~~
+{: .warning}
+
+
+
+~~~
 tmp[1:5,1:5]
 ~~~
 {: .language-r}
@@ -390,21 +407,9 @@ tmp[1:5,1:5]
 
 
 ~~~
-5 x 5 sparse Matrix of class "dgCMatrix"
-       AAACGAATCCACTTCG-2 AAAGGTACAGGAAGTC-2 AACTTCTGTCATGGCC-2
-Xkr4                    .                  .                  .
-Rp1                     .                  .                  .
-Sox17                   .                  .                  2
-Mrpl15                  .                  .                  .
-Lypla1                  .                  .                  2
-       AATGGCTCAACGGTAG-2 ACACTGAAGTGCAGGT-2
-Xkr4                    .                  .
-Rp1                     .                  .
-Sox17                   4                  .
-Mrpl15                  1                  1
-Lypla1                  1                  .
+Error in .subscript.2ary(x, i, j, drop = TRUE): subscript out of bounds
 ~~~
-{: .output}
+{: .error}
 
 As you can see the data that we retrieved is a sparse matrix, just like the counts that we provided to the Seurat object.
 
@@ -492,6 +497,14 @@ VlnPlot(liver, features = "percent.mt", group.by = 'sample')
 ~~~
 {: .language-r}
 
+
+
+~~~
+Warning: Default search for "data" layer in "RNA" assay yielded no results;
+utilizing "counts" layer instead.
+~~~
+{: .warning}
+
 <div class="figure" style="text-align: center">
 <img src="../fig/rmd-04-seurat_counts_plots-1.png" alt="plot of chunk seurat_counts_plots" width="612" />
 <p class="caption">plot of chunk seurat_counts_plots</p>
@@ -505,6 +518,14 @@ plot the violins:
 VlnPlot(liver, features = "percent.mt", group.by = 'sample', pt.size = 0)
 ~~~
 {: .language-r}
+
+
+
+~~~
+Warning: Default search for "data" layer in "RNA" assay yielded no results;
+utilizing "counts" layer instead.
+~~~
+{: .warning}
 
 <div class="figure" style="text-align: center">
 <img src="../fig/rmd-04-seurat_counts_plots2-1.png" alt="plot of chunk seurat_counts_plots2" width="432" />
@@ -553,6 +574,14 @@ VlnPlot(liver, 'nFeature_RNA', group.by = 'sample', pt.size = 0)
 ~~~
 {: .language-r}
 
+
+
+~~~
+Warning: Default search for "data" layer in "RNA" assay yielded no results;
+utilizing "counts" layer instead.
+~~~
+{: .warning}
+
 <div class="figure" style="text-align: center">
 <img src="../fig/rmd-04-filter_gene_counts-1.png" alt="plot of chunk filter_gene_counts" width="432" />
 <p class="caption">plot of chunk filter_gene_counts</p>
@@ -581,6 +610,14 @@ VlnPlot(liver, 'nFeature_RNA', group.by = 'sample', pt.size = 0) +
   geom_hline(yintercept = 5000)
 ~~~
 {: .language-r}
+
+
+
+~~~
+Warning: Default search for "data" layer in "RNA" assay yielded no results;
+utilizing "counts" layer instead.
+~~~
+{: .warning}
 
 
 
@@ -667,6 +704,14 @@ VlnPlot(liver, 'nCount_RNA', group.by = 'sample', pt.size = 0) +
 
 
 ~~~
+Warning: Default search for "data" layer in "RNA" assay yielded no results;
+utilizing "counts" layer instead.
+~~~
+{: .warning}
+
+
+
+~~~
 Scale for y is already present.
 Adding another scale for y, which will replace the existing scale.
 ~~~
@@ -741,7 +786,8 @@ ggplot(mutate(liver[[]], class = ifelse(keep, 'QC singlet', 'QC doublet')),
 
 
 ~~~
-Warning: Removed 42388 rows containing non-finite values (`stat_ydensity()`).
+Warning: Removed 42388 rows containing non-finite outside the scale range
+(`stat_ydensity()`).
 ~~~
 {: .warning}
 
@@ -838,76 +884,82 @@ sessionInfo()
 
 
 ~~~
-R version 4.2.3 (2023-03-15 ucrt)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
+R version 4.4.0 (2024-04-24 ucrt)
+Platform: x86_64-w64-mingw32/x64
 Running under: Windows 10 x64 (build 19045)
 
 Matrix products: default
 
+
 locale:
 [1] LC_COLLATE=English_United States.utf8 
-[2] LC_CTYPE=en_US.UTF-8                  
+[2] LC_CTYPE=English_United States.utf8   
 [3] LC_MONETARY=English_United States.utf8
 [4] LC_NUMERIC=C                          
 [5] LC_TIME=English_United States.utf8    
+
+time zone: America/New_York
+tzcode source: internal
 
 attached base packages:
 [1] stats4    stats     graphics  grDevices utils     datasets  methods  
 [8] base     
 
 other attached packages:
- [1] SeuratObject_4.1.4          Seurat_4.4.0               
- [3] scds_1.14.0                 SingleCellExperiment_1.20.1
- [5] SummarizedExperiment_1.28.0 Biobase_2.58.0             
- [7] GenomicRanges_1.50.2        GenomeInfoDb_1.34.9        
- [9] IRanges_2.32.0              S4Vectors_0.36.2           
-[11] BiocGenerics_0.44.0         MatrixGenerics_1.10.0      
-[13] matrixStats_1.0.0           Matrix_1.6-1.1             
-[15] lubridate_1.9.3             forcats_1.0.0              
-[17] stringr_1.5.0               dplyr_1.1.3                
-[19] purrr_1.0.2                 readr_2.1.4                
-[21] tidyr_1.3.0                 tibble_3.2.1               
-[23] ggplot2_3.4.3               tidyverse_2.0.0            
-[25] knitr_1.44                 
+ [1] Seurat_5.1.0                SeuratObject_5.0.2         
+ [3] sp_2.1-4                    scds_1.20.0                
+ [5] SingleCellExperiment_1.26.0 SummarizedExperiment_1.34.0
+ [7] Biobase_2.64.0              GenomicRanges_1.56.1       
+ [9] GenomeInfoDb_1.40.1         IRanges_2.38.1             
+[11] S4Vectors_0.42.1            BiocGenerics_0.50.0        
+[13] MatrixGenerics_1.16.0       matrixStats_1.4.1          
+[15] Matrix_1.7-0                lubridate_1.9.3            
+[17] forcats_1.0.0               stringr_1.5.1              
+[19] dplyr_1.1.4                 purrr_1.0.2                
+[21] readr_2.1.5                 tidyr_1.3.1                
+[23] tibble_3.2.1                ggplot2_3.5.1              
+[25] tidyverse_2.0.0             knitr_1.48                 
 
 loaded via a namespace (and not attached):
-  [1] plyr_1.8.9             igraph_1.5.1           lazyeval_0.2.2        
-  [4] sp_2.1-0               splines_4.2.3          listenv_0.9.0         
-  [7] scattermore_1.2        digest_0.6.33          htmltools_0.5.6       
- [10] fansi_1.0.4            magrittr_2.0.3         tensor_1.5            
- [13] cluster_2.1.4          ROCR_1.0-11            tzdb_0.4.0            
- [16] globals_0.16.2         timechange_0.2.0       spatstat.sparse_3.0-2 
- [19] colorspace_2.1-0       ggrepel_0.9.3          xfun_0.40             
- [22] RCurl_1.98-1.12        jsonlite_1.8.7         progressr_0.14.0      
- [25] spatstat.data_3.0-1    survival_3.5-5         zoo_1.8-12            
- [28] glue_1.6.2             polyclip_1.10-6        gtable_0.3.4          
- [31] zlibbioc_1.44.0        XVector_0.38.0         leiden_0.4.3          
- [34] DelayedArray_0.24.0    future.apply_1.11.0    abind_1.4-5           
- [37] scales_1.2.1           spatstat.random_3.1-6  miniUI_0.1.1.1        
- [40] Rcpp_1.0.11            viridisLite_0.4.2      xtable_1.8-4          
- [43] reticulate_1.32.0      htmlwidgets_1.6.2      httr_1.4.7            
- [46] RColorBrewer_1.1-3     ellipsis_0.3.2         ica_1.0-3             
- [49] pkgconfig_2.0.3        farver_2.1.1           uwot_0.1.16           
- [52] deldir_1.0-9           utf8_1.2.3             tidyselect_1.2.0      
- [55] labeling_0.4.3         rlang_1.1.1            reshape2_1.4.4        
- [58] later_1.3.1            munsell_0.5.0          tools_4.2.3           
- [61] xgboost_1.7.5.1        cli_3.6.1              generics_0.1.3        
- [64] ggridges_0.5.4         evaluate_0.22          fastmap_1.1.1         
- [67] goftest_1.2-3          fitdistrplus_1.1-11    RANN_2.6.1            
- [70] pbapply_1.7-2          future_1.33.0          nlme_3.1-163          
- [73] mime_0.12              ggrastr_1.0.2          compiler_4.2.3        
- [76] beeswarm_0.4.0         plotly_4.10.2          png_0.1-8             
- [79] spatstat.utils_3.0-3   stringi_1.7.12         lattice_0.21-9        
- [82] vctrs_0.6.3            pillar_1.9.0           lifecycle_1.0.3       
- [85] spatstat.geom_3.2-5    lmtest_0.9-40          RcppAnnoy_0.0.21      
- [88] data.table_1.14.8      cowplot_1.1.1          bitops_1.0-7          
- [91] irlba_2.3.5.1          httpuv_1.6.11          patchwork_1.1.3       
- [94] R6_2.5.1               promises_1.2.1         KernSmooth_2.23-22    
- [97] gridExtra_2.3          vipor_0.4.5            parallelly_1.36.0     
-[100] codetools_0.2-19       MASS_7.3-60            withr_2.5.1           
-[103] sctransform_0.4.0      GenomeInfoDbData_1.2.9 parallel_4.2.3        
-[106] hms_1.1.3              grid_4.2.3             Rtsne_0.16            
-[109] spatstat.explore_3.2-3 pROC_1.18.4            shiny_1.7.5           
-[112] ggbeeswarm_0.7.2      
+  [1] RColorBrewer_1.1-3      rstudioapi_0.16.0       jsonlite_1.8.9         
+  [4] magrittr_2.0.3          ggbeeswarm_0.7.2        spatstat.utils_3.1-0   
+  [7] farver_2.1.2            zlibbioc_1.50.0         vctrs_0.6.5            
+ [10] ROCR_1.0-11             spatstat.explore_3.3-2  htmltools_0.5.8.1      
+ [13] S4Arrays_1.4.1          xgboost_1.7.8.1         SparseArray_1.4.8      
+ [16] pROC_1.18.5             sctransform_0.4.1       parallelly_1.38.0      
+ [19] KernSmooth_2.23-24      htmlwidgets_1.6.4       ica_1.0-3              
+ [22] plyr_1.8.9              plotly_4.10.4           zoo_1.8-12             
+ [25] igraph_2.0.3            mime_0.12               lifecycle_1.0.4        
+ [28] pkgconfig_2.0.3         R6_2.5.1                fastmap_1.2.0          
+ [31] GenomeInfoDbData_1.2.12 fitdistrplus_1.2-1      future_1.34.0          
+ [34] shiny_1.9.1             digest_0.6.35           colorspace_2.1-1       
+ [37] patchwork_1.3.0         tensor_1.5              RSpectra_0.16-2        
+ [40] irlba_2.3.5.1           labeling_0.4.3          progressr_0.14.0       
+ [43] spatstat.sparse_3.1-0   fansi_1.0.6             timechange_0.3.0       
+ [46] polyclip_1.10-7         httr_1.4.7              abind_1.4-8            
+ [49] compiler_4.4.0          withr_3.0.1             fastDummies_1.7.4      
+ [52] highr_0.11              MASS_7.3-61             DelayedArray_0.30.1    
+ [55] tools_4.4.0             vipor_0.4.7             lmtest_0.9-40          
+ [58] beeswarm_0.4.0          httpuv_1.6.15           future.apply_1.11.2    
+ [61] goftest_1.2-3           glue_1.8.0              nlme_3.1-165           
+ [64] promises_1.3.0          grid_4.4.0              Rtsne_0.17             
+ [67] cluster_2.1.6           reshape2_1.4.4          generics_0.1.3         
+ [70] spatstat.data_3.1-2     gtable_0.3.5            tzdb_0.4.0             
+ [73] data.table_1.16.0       hms_1.1.3               utf8_1.2.4             
+ [76] XVector_0.44.0          spatstat.geom_3.3-3     RcppAnnoy_0.0.22       
+ [79] ggrepel_0.9.6           RANN_2.6.2              pillar_1.9.0           
+ [82] spam_2.11-0             RcppHNSW_0.6.0          later_1.3.2            
+ [85] splines_4.4.0           lattice_0.22-6          deldir_2.0-4           
+ [88] survival_3.7-0          tidyselect_1.2.1        miniUI_0.1.1.1         
+ [91] pbapply_1.7-2           gridExtra_2.3           scattermore_1.2        
+ [94] xfun_0.44               stringi_1.8.4           UCSC.utils_1.0.0       
+ [97] lazyeval_0.2.2          evaluate_1.0.0          codetools_0.2-20       
+[100] cli_3.6.3               uwot_0.2.2              xtable_1.8-4           
+[103] reticulate_1.39.0       munsell_0.5.1           Rcpp_1.0.13            
+[106] spatstat.random_3.3-2   globals_0.16.3          png_0.1-8              
+[109] ggrastr_1.0.2           spatstat.univar_3.0-1   parallel_4.4.0         
+[112] dotCall64_1.2           listenv_0.9.1           viridisLite_0.4.2      
+[115] scales_1.3.0            ggridges_0.5.6          leiden_0.4.3.1         
+[118] crayon_1.5.3            rlang_1.1.4             cowplot_1.1.3          
 ~~~
 {: .output}

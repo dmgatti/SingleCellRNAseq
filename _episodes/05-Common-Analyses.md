@@ -190,36 +190,57 @@ str(liver)
 ~~~
 Formal class 'Seurat' [package "SeuratObject"] with 13 slots
   ..@ assays      :List of 1
-  .. ..$ RNA:Formal class 'Assay' [package "SeuratObject"] with 8 slots
-  .. .. .. ..@ counts       :Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
-  .. .. .. .. .. ..@ i       : int [1:103377764] 10 14 28 30 32 49 52 53 56 67 ...
-  .. .. .. .. .. ..@ p       : int [1:44254] 0 3264 6449 9729 13445 16988 20052 23140 26417 29561 ...
-  .. .. .. .. .. ..@ Dim     : int [1:2] 20120 44253
-  .. .. .. .. .. ..@ Dimnames:List of 2
-  .. .. .. .. .. .. ..$ : chr [1:20120] "Xkr4" "Rp1" "Sox17" "Mrpl15" ...
+  .. ..$ RNA:Formal class 'Assay5' [package "SeuratObject"] with 8 slots
+  .. .. .. ..@ layers    :List of 2
+  .. .. .. .. ..$ counts:Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
+  .. .. .. .. .. .. ..@ i       : int [1:103377764] 10 14 28 30 32 49 52 53 56 67 ...
+  .. .. .. .. .. .. ..@ p       : int [1:44254] 0 3264 6449 9729 13445 16988 20052 23140 26417 29561 ...
+  .. .. .. .. .. .. ..@ Dim     : int [1:2] 20120 44253
+  .. .. .. .. .. .. ..@ Dimnames:List of 2
+  .. .. .. .. .. .. .. ..$ : NULL
+  .. .. .. .. .. .. .. ..$ : NULL
+  .. .. .. .. .. .. ..@ x       : num [1:103377764] 1 1 1 2 1 6 1 1 2 1 ...
+  .. .. .. .. .. .. ..@ factors : list()
+  .. .. .. .. ..$ data  :Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
+  .. .. .. .. .. .. ..@ i       : int [1:103377764] 10 14 28 30 32 49 52 53 56 67 ...
+  .. .. .. .. .. .. ..@ p       : int [1:44254] 0 3264 6449 9729 13445 16988 20052 23140 26417 29561 ...
+  .. .. .. .. .. .. ..@ Dim     : int [1:2] 20120 44253
+  .. .. .. .. .. .. ..@ Dimnames:List of 2
+  .. .. .. .. .. .. .. ..$ : NULL
+  .. .. .. .. .. .. .. ..$ : NULL
+  .. .. .. .. .. .. ..@ x       : num [1:103377764] 0.779 0.779 0.779 1.212 0.779 ...
+  .. .. .. .. .. .. ..@ factors : list()
+  .. .. .. ..@ cells     :Formal class 'LogMap' [package "SeuratObject"] with 1 slot
+  .. .. .. .. .. ..@ .Data: logi [1:44253, 1:2] TRUE TRUE TRUE TRUE TRUE TRUE ...
+  .. .. .. .. .. .. ..- attr(*, "dimnames")=List of 2
+  .. .. .. .. .. .. .. ..$ : chr [1:44253] "AAACGAATCCACTTCG-2" "AAAGGTACAGGAAGTC-2" "AACTTCTGTCATGGCC-2" "AATGGCTCAACGGTAG-2" ...
+  .. .. .. .. .. .. .. ..$ : chr [1:2] "counts" "data"
+  .. .. .. .. .. ..$ dim     : int [1:2] 44253 2
+  .. .. .. .. .. ..$ dimnames:List of 2
   .. .. .. .. .. .. ..$ : chr [1:44253] "AAACGAATCCACTTCG-2" "AAAGGTACAGGAAGTC-2" "AACTTCTGTCATGGCC-2" "AATGGCTCAACGGTAG-2" ...
-  .. .. .. .. .. ..@ x       : num [1:103377764] 1 1 1 2 1 6 1 1 2 1 ...
-  .. .. .. .. .. ..@ factors : list()
-  .. .. .. ..@ data         :Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
-  .. .. .. .. .. ..@ i       : int [1:103377764] 10 14 28 30 32 49 52 53 56 67 ...
-  .. .. .. .. .. ..@ p       : int [1:44254] 0 3264 6449 9729 13445 16988 20052 23140 26417 29561 ...
-  .. .. .. .. .. ..@ Dim     : int [1:2] 20120 44253
-  .. .. .. .. .. ..@ Dimnames:List of 2
+  .. .. .. .. .. .. ..$ : chr [1:2] "counts" "data"
+  .. .. .. ..@ features  :Formal class 'LogMap' [package "SeuratObject"] with 1 slot
+  .. .. .. .. .. ..@ .Data: logi [1:20120, 1:2] TRUE TRUE TRUE TRUE TRUE TRUE ...
+  .. .. .. .. .. .. ..- attr(*, "dimnames")=List of 2
+  .. .. .. .. .. .. .. ..$ : chr [1:20120] "Xkr4" "Rp1" "Sox17" "Mrpl15" ...
+  .. .. .. .. .. .. .. ..$ : chr [1:2] "counts" "data"
+  .. .. .. .. .. ..$ dim     : int [1:2] 20120 2
+  .. .. .. .. .. ..$ dimnames:List of 2
   .. .. .. .. .. .. ..$ : chr [1:20120] "Xkr4" "Rp1" "Sox17" "Mrpl15" ...
-  .. .. .. .. .. .. ..$ : chr [1:44253] "AAACGAATCCACTTCG-2" "AAAGGTACAGGAAGTC-2" "AACTTCTGTCATGGCC-2" "AATGGCTCAACGGTAG-2" ...
-  .. .. .. .. .. ..@ x       : num [1:103377764] 0.779 0.779 0.779 1.212 0.779 ...
-  .. .. .. .. .. ..@ factors : list()
-  .. .. .. ..@ scale.data   : num[0 , 0 ] 
-  .. .. .. ..@ key          : chr "rna_"
-  .. .. .. ..@ assay.orig   : NULL
-  .. .. .. ..@ var.features : chr [1:2000] "Spp1" "S100a9" "S100a8" "Slpi" ...
-  .. .. .. ..@ meta.features:'data.frame':	20120 obs. of  5 variables:
-  .. .. .. .. ..$ vst.mean                 : num [1:20120] 0.000136 0.000429 0.295528 0.547918 0.447337 ...
-  .. .. .. .. ..$ vst.variance             : num [1:20120] 0.000136 0.001062 0.749957 0.900155 0.549817 ...
-  .. .. .. .. ..$ vst.variance.expected    : num [1:20120] 0.000142 0.000476 0.412618 0.907597 0.689343 ...
-  .. .. .. .. ..$ vst.variance.standardized: num [1:20120] 0.955 2.045 1.818 0.992 0.798 ...
-  .. .. .. .. ..$ vst.variable             : logi [1:20120] FALSE TRUE TRUE FALSE FALSE FALSE ...
-  .. .. .. ..@ misc         : list()
+  .. .. .. .. .. .. ..$ : chr [1:2] "counts" "data"
+  .. .. .. ..@ default   : int 1
+  .. .. .. ..@ assay.orig: chr(0) 
+  .. .. .. ..@ meta.data :'data.frame':	20120 obs. of  8 variables:
+  .. .. .. .. ..$ vf_vst_counts_mean                 : num [1:20120] 0.000136 0.000429 0.295528 0.547918 0.447337 ...
+  .. .. .. .. ..$ vf_vst_counts_variance             : num [1:20120] 0.000136 0.001062 0.749957 0.900155 0.549817 ...
+  .. .. .. .. ..$ vf_vst_counts_variance.expected    : num [1:20120] 0.000142 0.000476 0.412618 0.907597 0.689343 ...
+  .. .. .. .. ..$ vf_vst_counts_variance.standardized: num [1:20120] 0.955 2.045 1.818 0.992 0.798 ...
+  .. .. .. .. ..$ vf_vst_counts_variable             : logi [1:20120] FALSE TRUE TRUE FALSE FALSE FALSE ...
+  .. .. .. .. ..$ vf_vst_counts_rank                 : int [1:20120] NA 999 1228 NA NA NA NA NA NA 1428 ...
+  .. .. .. .. ..$ var.features                       : chr [1:20120] NA "Rp1" "Sox17" NA ...
+  .. .. .. .. ..$ var.features.rank                  : int [1:20120] NA 999 1228 NA NA NA NA NA NA 1428 ...
+  .. .. .. ..@ misc      : Named list()
+  .. .. .. ..@ key       : chr "rna_"
   ..@ meta.data   :'data.frame':	44253 obs. of  11 variables:
   .. ..$ orig.ident  : Factor w/ 1 level "liver: scRNA-Seq": 1 1 1 1 1 1 1 1 1 1 ...
   .. ..$ nCount_RNA  : num [1:44253] 8476 8150 8139 10083 9517 ...
@@ -242,11 +263,11 @@ Formal class 'Seurat' [package "SeuratObject"] with 13 slots
   ..@ project.name: chr "liver: scRNA-Seq"
   ..@ misc        : list()
   ..@ version     :Classes 'package_version', 'numeric_version'  hidden list of 1
-  .. ..$ : int [1:3] 4 1 4
+  .. ..$ : int [1:3] 5 0 2
   ..@ commands    :List of 2
   .. ..$ NormalizeData.RNA       :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
   .. .. .. ..@ name       : chr "NormalizeData.RNA"
-  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-10-04 14:29:33"
+  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2024-10-07 10:52:32"
   .. .. .. ..@ assay.used : chr "RNA"
   .. .. .. ..@ call.string: chr "NormalizeData(., normalization.method = \"LogNormalize\")"
   .. .. .. ..@ params     :List of 5
@@ -257,7 +278,7 @@ Formal class 'Seurat' [package "SeuratObject"] with 13 slots
   .. .. .. .. ..$ verbose             : logi TRUE
   .. ..$ FindVariableFeatures.RNA:Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
   .. .. .. ..@ name       : chr "FindVariableFeatures.RNA"
-  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2023-10-04 14:29:39"
+  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2024-10-07 10:52:40"
   .. .. .. ..@ assay.used : chr "RNA"
   .. .. .. ..@ call.string: chr "FindVariableFeatures(., nfeatures = 2000)"
   .. .. .. ..@ params     :List of 12
@@ -564,62 +585,68 @@ sessionInfo()
 
 
 ~~~
-R version 4.2.3 (2023-03-15 ucrt)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
+R version 4.4.0 (2024-04-24 ucrt)
+Platform: x86_64-w64-mingw32/x64
 Running under: Windows 10 x64 (build 19045)
 
 Matrix products: default
 
+
 locale:
 [1] LC_COLLATE=English_United States.utf8 
-[2] LC_CTYPE=en_US.UTF-8                  
+[2] LC_CTYPE=English_United States.utf8   
 [3] LC_MONETARY=English_United States.utf8
 [4] LC_NUMERIC=C                          
 [5] LC_TIME=English_United States.utf8    
+
+time zone: America/New_York
+tzcode source: internal
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] SeuratObject_4.1.4 Seurat_4.4.0       lubridate_1.9.3    forcats_1.0.0     
- [5] stringr_1.5.0      dplyr_1.1.3        purrr_1.0.2        readr_2.1.4       
- [9] tidyr_1.3.0        tibble_3.2.1       ggplot2_3.4.3      tidyverse_2.0.0   
-[13] knitr_1.44        
+ [1] Seurat_5.1.0       SeuratObject_5.0.2 sp_2.1-4           lubridate_1.9.3   
+ [5] forcats_1.0.0      stringr_1.5.1      dplyr_1.1.4        purrr_1.0.2       
+ [9] readr_2.1.5        tidyr_1.3.1        tibble_3.2.1       ggplot2_3.5.1     
+[13] tidyverse_2.0.0    knitr_1.48        
 
 loaded via a namespace (and not attached):
-  [1] Rtsne_0.16             colorspace_2.1-0       deldir_1.0-9          
-  [4] ellipsis_0.3.2         ggridges_0.5.4         spatstat.data_3.0-1   
-  [7] farver_2.1.1           leiden_0.4.3           listenv_0.9.0         
- [10] ggrepel_0.9.3          fansi_1.0.4            codetools_0.2-19      
- [13] splines_4.2.3          polyclip_1.10-6        jsonlite_1.8.7        
- [16] ica_1.0-3              cluster_2.1.4          png_0.1-8             
- [19] uwot_0.1.16            shiny_1.7.5            sctransform_0.4.0     
- [22] spatstat.sparse_3.0-2  compiler_4.2.3         httr_1.4.7            
- [25] Matrix_1.6-1.1         fastmap_1.1.1          lazyeval_0.2.2        
- [28] cli_3.6.1              later_1.3.1            htmltools_0.5.6       
- [31] tools_4.2.3            igraph_1.5.1           gtable_0.3.4          
- [34] glue_1.6.2             RANN_2.6.1             reshape2_1.4.4        
- [37] Rcpp_1.0.11            scattermore_1.2        vctrs_0.6.3           
- [40] nlme_3.1-163           spatstat.explore_3.2-3 progressr_0.14.0      
- [43] lmtest_0.9-40          spatstat.random_3.1-6  xfun_0.40             
- [46] globals_0.16.2         timechange_0.2.0       mime_0.12             
- [49] miniUI_0.1.1.1         lifecycle_1.0.3        irlba_2.3.5.1         
- [52] goftest_1.2-3          future_1.33.0          MASS_7.3-60           
- [55] zoo_1.8-12             scales_1.2.1           hms_1.1.3             
- [58] promises_1.2.1         spatstat.utils_3.0-3   parallel_4.2.3        
- [61] RColorBrewer_1.1-3     reticulate_1.32.0      pbapply_1.7-2         
- [64] gridExtra_2.3          stringi_1.7.12         rlang_1.1.1           
- [67] pkgconfig_2.0.3        matrixStats_1.0.0      evaluate_0.22         
- [70] lattice_0.21-9         ROCR_1.0-11            tensor_1.5            
- [73] labeling_0.4.3         patchwork_1.1.3        htmlwidgets_1.6.2     
- [76] cowplot_1.1.1          tidyselect_1.2.0       parallelly_1.36.0     
- [79] RcppAnnoy_0.0.21       plyr_1.8.9             magrittr_2.0.3        
- [82] R6_2.5.1               generics_0.1.3         pillar_1.9.0          
- [85] withr_2.5.1            fitdistrplus_1.1-11    survival_3.5-5        
- [88] abind_1.4-5            sp_2.1-0               future.apply_1.11.0   
- [91] KernSmooth_2.23-22     utf8_1.2.3             spatstat.geom_3.2-5   
- [94] plotly_4.10.2          tzdb_0.4.0             grid_4.2.3            
- [97] data.table_1.14.8      digest_0.6.33          xtable_1.8-4          
-[100] httpuv_1.6.11          munsell_0.5.0          viridisLite_0.4.2     
+  [1] deldir_2.0-4           pbapply_1.7-2          gridExtra_2.3         
+  [4] rlang_1.1.4            magrittr_2.0.3         RcppAnnoy_0.0.22      
+  [7] spatstat.geom_3.3-3    matrixStats_1.4.1      ggridges_0.5.6        
+ [10] compiler_4.4.0         png_0.1-8              vctrs_0.6.5           
+ [13] reshape2_1.4.4         pkgconfig_2.0.3        fastmap_1.2.0         
+ [16] labeling_0.4.3         utf8_1.2.4             promises_1.3.0        
+ [19] tzdb_0.4.0             xfun_0.44              jsonlite_1.8.9        
+ [22] goftest_1.2-3          highr_0.11             later_1.3.2           
+ [25] spatstat.utils_3.1-0   irlba_2.3.5.1          parallel_4.4.0        
+ [28] cluster_2.1.6          R6_2.5.1               ica_1.0-3             
+ [31] spatstat.data_3.1-2    stringi_1.8.4          RColorBrewer_1.1-3    
+ [34] reticulate_1.39.0      spatstat.univar_3.0-1  parallelly_1.38.0     
+ [37] lmtest_0.9-40          scattermore_1.2        Rcpp_1.0.13           
+ [40] tensor_1.5             future.apply_1.11.2    zoo_1.8-12            
+ [43] sctransform_0.4.1      httpuv_1.6.15          Matrix_1.7-0          
+ [46] splines_4.4.0          igraph_2.0.3           timechange_0.3.0      
+ [49] tidyselect_1.2.1       abind_1.4-8            rstudioapi_0.16.0     
+ [52] spatstat.random_3.3-2  codetools_0.2-20       miniUI_0.1.1.1        
+ [55] spatstat.explore_3.3-2 listenv_0.9.1          lattice_0.22-6        
+ [58] plyr_1.8.9             shiny_1.9.1            withr_3.0.1           
+ [61] ROCR_1.0-11            evaluate_1.0.0         Rtsne_0.17            
+ [64] future_1.34.0          fastDummies_1.7.4      survival_3.7-0        
+ [67] polyclip_1.10-7        fitdistrplus_1.2-1     pillar_1.9.0          
+ [70] KernSmooth_2.23-24     plotly_4.10.4          generics_0.1.3        
+ [73] RcppHNSW_0.6.0         hms_1.1.3              munsell_0.5.1         
+ [76] scales_1.3.0           globals_0.16.3         xtable_1.8-4          
+ [79] glue_1.8.0             lazyeval_0.2.2         tools_4.4.0           
+ [82] data.table_1.16.0      RSpectra_0.16-2        RANN_2.6.2            
+ [85] leiden_0.4.3.1         dotCall64_1.2          cowplot_1.1.3         
+ [88] grid_4.4.0             colorspace_2.1-1       nlme_3.1-165          
+ [91] patchwork_1.3.0        cli_3.6.3              spatstat.sparse_3.1-0 
+ [94] spam_2.11-0            fansi_1.0.6            viridisLite_0.4.2     
+ [97] uwot_0.2.2             gtable_0.3.5           digest_0.6.35         
+[100] progressr_0.14.0       ggrepel_0.9.6          htmlwidgets_1.6.4     
+[103] farver_2.1.2           htmltools_0.5.8.1      lifecycle_1.0.4       
+[106] httr_1.4.7             mime_0.12              MASS_7.3-61           
 ~~~
 {: .output}

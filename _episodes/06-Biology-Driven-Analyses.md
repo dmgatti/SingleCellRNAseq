@@ -143,12 +143,12 @@ head(markers13, 6)
 
 ~~~
               p_val avg_log2FC pct.1 pct.2     p_val_adj
-Cd79a 1.522138e-182   4.872144 0.998 0.011 3.062541e-178
-Ighm  9.697775e-180   4.590252 0.998 0.088 1.951192e-175
-Cd79b 4.198563e-177   4.266849 0.989 0.060 8.447508e-173
-Ebf1  2.315879e-175   3.988742 0.968 0.010 4.659549e-171
-Igkc  1.606549e-172   6.285070 0.974 0.058 3.232376e-168
-Iglc2 3.423234e-164   4.173284 0.939 0.015 6.887546e-160
+Cd79a 1.522138e-182   7.370387 0.998 0.011 3.062541e-178
+Ighm  9.697775e-180   5.805552 0.998 0.088 1.951192e-175
+Cd79b 4.198563e-177   6.551524 0.989 0.060 8.447508e-173
+Ebf1  2.315879e-175   7.085958 0.968 0.010 4.659549e-171
+Igkc  1.606549e-172   7.293541 0.974 0.058 3.232376e-168
+Iglc2 3.423234e-164   6.956922 0.939 0.015 6.887546e-160
 ~~~
 {: .output}
 
@@ -306,28 +306,28 @@ Computing SNN
 
 
 ~~~
-14:39:16 UMAP embedding parameters a = 0.9922 b = 1.112
+11:04:51 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-14:39:16 Read 44253 rows and found 24 numeric columns
+11:04:51 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-14:39:16 Using Annoy for neighbor search, n_neighbors = 30
+11:04:51 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-14:39:16 Building Annoy index with metric = cosine, n_trees = 50
+11:04:51 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -349,13 +349,13 @@ Computing SNN
 
 ~~~
 **************************************************|
-14:39:20 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\Rtmpgpr49B\filef1c7ec13561
-14:39:20 Searching Annoy index using 1 thread, search_k = 3000
-14:39:31 Annoy recall = 100%
-14:39:32 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-14:39:35 Initializing from normalized Laplacian + noise (using irlba)
-14:39:45 Commencing optimization for 200 epochs, with 1888866 positive edges
-14:40:27 Optimization finished
+11:04:55 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpmmfnZW\file6a1034082258
+11:04:55 Searching Annoy index using 1 thread, search_k = 3000
+11:05:07 Annoy recall = 100%
+11:05:08 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+11:05:11 Initializing from normalized Laplacian + noise (using RSpectra)
+11:05:22 Commencing optimization for 200 epochs, with 1888044 positive edges
+11:06:03 Optimization finished
 ~~~
 {: .output}
 
@@ -380,9 +380,9 @@ table(liver$before_harmony_clusters,
 
 ~~~
     
-       0   1   2   3   4   5   6   7   8   9  10  11  12  13  14
-  13   0   0   0   0   0   0 656   0   0   0   0   0   0   0   0
-  21   0   0   0   0   0   0 311   0   0   0   0   0   0   0   0
+       0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
+  13   0   0   0   0   0   0   0 656   0   0   0   0   0   0   0   0
+  21   0   0   0   1   0   0   0 310   0   0   0   0   0   0   0   0
 ~~~
 {: .output}
 
@@ -440,6 +440,21 @@ genes <- c('Socs3', 'Gnmt', 'Timd4', 'Ms4a4b', 'S100a4',
            'Wdfy4', 'Vwf', 'Spp1', 'Hdc')
 Idents(liver) <- 'after_harmony_clusters'
 a <- AverageExpression(liver, features = genes)[['RNA']]
+~~~
+{: .language-r}
+
+
+
+~~~
+As of Seurat v5, we recommend using AggregateExpression to perform pseudo-bulk analysis.
+First group.by variable `ident` starts with a number, appending `g` to ensure valid variable names
+This message is displayed once per session.
+~~~
+{: .output}
+
+
+
+~~~
 highest_clu <- unname(colnames(a))[apply(a, 1, which.max)]
 
 cluster_converter <- setNames(paste0('c', c(0:1, 3:14)), highest_clu)
@@ -451,6 +466,19 @@ highest_clu <- unname(colnames(a))[apply(a, 1, which.max)]
 cluster_converter[highest_clu] <- c('c2', 'c15')
 
 liver$renamed_clusters <- cluster_converter[as.character(liver$after_harmony_clusters)]
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in if (length(x = value) == ncol(x = x) && all(names(x = value) == : missing value where TRUE/FALSE needed
+~~~
+{: .error}
+
+
+
+~~~
 Idents(liver) <- 'renamed_clusters'
 ~~~
 {: .language-r}
@@ -473,6 +501,28 @@ markers <- FindAllMarkers(liver_mini, only.pos = TRUE,
                           logfc.threshold	= log2(1.25), min.pct = 0.2) 
 ~~~
 {: .language-r}
+
+
+
+~~~
+Warning: No DE genes identified
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: The following tests were not performed:
+~~~
+{: .warning}
+
+
+
+~~~
+Warning: When testing renamed_clusters versus all:
+	Cells in one or both identity groups are not present in the data requested
+~~~
+{: .warning}
 
 These cluster marker genes are very useful. By definition, the 
 marker genes vary in expression between the cells in our dataset.
@@ -540,6 +590,21 @@ the `markers` data.frame into a more tidy format:
 old_markers <- markers
 markers <- as_tibble(markers) %>% 
               select(cluster, gene, avg_log2FC, pct.1, pct.2, p_val_adj)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in `select()`:
+! Can't select columns that don't exist.
+✖ Column `cluster` doesn't exist.
+~~~
+{: .error}
+
+
+
+~~~
 head(markers, 6)
 ~~~
 {: .language-r}
@@ -547,15 +612,7 @@ head(markers, 6)
 
 
 ~~~
-# A tibble: 6 × 6
-  cluster gene    avg_log2FC pct.1 pct.2 p_val_adj
-  <fct>   <chr>        <dbl> <dbl> <dbl>     <dbl>
-1 c0      Stab2         2.40 0.987 0.218 2.21e-222
-2 c0      Oit3          2.20 0.98  0.202 3.36e-218
-3 c0      Flt4          2.12 0.967 0.202 2.86e-213
-4 c0      Cyp4b1        2.16 0.953 0.197 1.43e-210
-5 c0      Adam23        2.07 0.93  0.176 7.22e-210
-6 c0      Fam167b       2.24 0.98  0.225 2.53e-205
+data frame with 0 columns and 0 rows
 ~~~
 {: .output}
 
@@ -606,26 +663,11 @@ group_by(markers, cluster) %>%
 
 
 ~~~
-# A tibble: 14 × 4
-# Groups:   cluster [14]
-   cluster `1`     `2`      `3`   
-   <fct>   <chr>   <chr>    <chr> 
- 1 c0      Bmp2    Clec4g   Fcgr2b
- 2 c15     Kdr     Dnase1l3 Clec4g
- 3 c6      Ednrb   Efnb1    Ly6a  
- 4 c12     Rspo3   Fabp4    Vwf   
- 5 c1      Gnmt    Aldob    Fabp1 
- 6 c13     Spp1    Tm4sf4   Clu   
- 7 c10     Dcn     Colec11  Ecm1  
- 8 c4      Ccl5    Nkg7     Gzma  
- 9 c5      S100a4  Chil3    Lyz2  
-10 c7      Igkc    Cd79a    Cd79b 
-11 c9      Siglech Klk1     Ccr9  
-12 c3      Cd5l    Clec4f   C1qa  
-13 c11     Naaa    H2-Ab1   Cst3  
-14 c14     S100a9  S100a8   Il1b  
+Error in `group_by()`:
+! Must group by variables found in `.data`.
+✖ Column `cluster` is not found.
 ~~~
-{: .output}
+{: .error}
 
 Recognizing these genes might be a big challenge if you are not used to looking 
 at single cell gene expression. Let's check out expression of the very top genes
@@ -636,14 +678,31 @@ in each cell cluster:
 top_markers <- group_by(markers, cluster) %>% 
                  arrange(desc(avg_log2FC)) %>%
                  top_n(1, avg_log2FC) %>% pull(gene)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in `group_by()`:
+! Must group by variables found in `.data`.
+✖ Column `cluster` is not found.
+~~~
+{: .error}
+
+
+
+~~~
 VlnPlot(liver, features = top_markers, stack = TRUE, flip = TRUE)
 ~~~
 {: .language-r}
 
-<div class="figure" style="text-align: center">
-<img src="../fig/rmd-06-top_markers2-1.png" alt="plot of chunk top_markers2" width="576" />
-<p class="caption">plot of chunk top_markers2</p>
-</div>
+
+
+~~~
+Error: object 'top_markers' not found
+~~~
+{: .error}
 
 What does this tell us? Well, there are some genes here that are quite specific 
 to one cluster (e.g. S100a9, Spp1, Ccl5, Siglech), but there are a few markers 
@@ -774,14 +833,31 @@ specific_markers <- group_by(markers, cluster) %>%
   filter(pct.2 < 0.2) %>%
   arrange(cluster) %>%
   top_n(1, avg_log2FC) %>% pull(gene)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in `group_by()`:
+! Must group by variables found in `.data`.
+✖ Column `cluster` is not found.
+~~~
+{: .error}
+
+
+
+~~~
 VlnPlot(liver, features = specific_markers, stack = TRUE, flip = TRUE)
 ~~~
 {: .language-r}
 
-<div class="figure" style="text-align: center">
-<img src="../fig/rmd-06-sp_markers-1.png" alt="plot of chunk sp_markers" width="576" />
-<p class="caption">plot of chunk sp_markers</p>
-</div>
+
+
+~~~
+Error: object 'specific_markers' not found
+~~~
+{: .error}
 
 This looks better -- the markers are more specific.
 We do have a marker for the hepatocytes (cluster c1) that looks better
@@ -843,10 +919,13 @@ VlnPlot(liver, c("Adgre1", "Fabp1"), idents = c('c3', 'c15', 'c1'), sort = T)
 ~~~
 {: .language-r}
 
-<div class="figure" style="text-align: center">
-<img src="../fig/rmd-06-doublets-1.png" alt="plot of chunk doublets" width="576" />
-<p class="caption">plot of chunk doublets</p>
-</div>
+
+
+~~~
+Error in `FetchData()`:
+! None of the cells requested found in this assay
+~~~
+{: .error}
 
 Let's store our labels and look at what remains unidentified.
 
@@ -864,16 +943,51 @@ labels <- tibble(cluster_num = unique(liver$renamed_clusters)) %>%
                  cluster_num == 'c14' ~ 'neutrophils',
                  cluster_num == 'c15' ~ 'KH doub.',          # Kupffer-hepatocyte doublets
                  TRUE ~ cluster_num))
+~~~
+{: .language-r}
 
+
+
+~~~
+Error in (function (cond) : error in evaluating the argument 'x' in selecting a method for function 'unique': 'renamed_clusters' not found in this Seurat object
+ Did you mean "seurat_clusters"?
+~~~
+{: .error}
+
+
+
+~~~
 liver$labels <- deframe(labels)[as.character(liver$renamed_clusters)]
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in x[[1]]: object of type 'closure' is not subsettable
+~~~
+{: .error}
+
+
+
+~~~
 UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 ~~~
 {: .language-r}
 
-<div class="figure" style="text-align: center">
-<img src="../fig/rmd-06-labelling-1.png" alt="plot of chunk labelling" width="612" />
-<p class="caption">plot of chunk labelling</p>
-</div>
+
+
+~~~
+Warning: The following requested variables were not found: labels
+~~~
+{: .warning}
+
+
+
+~~~
+Error in `[.data.frame`(data, , group): undefined columns selected
+~~~
+{: .error}
 
 
 > ## Challenge 1
@@ -909,6 +1023,18 @@ Make sure that you update the `liver` object with the cell cluster
 annotations in the solution to the challenge above.
 
 
+~~~
+Error in (function (cond) : error in evaluating the argument 'x' in selecting a method for function 'unique': 'labels' not found in this Seurat object
+ 
+~~~
+{: .error}
+
+
+
+~~~
+Error in x[[1]]: object of type 'closure' is not subsettable
+~~~
+{: .error}
 
 ## Comparing cell types to original paper
 
@@ -933,6 +1059,15 @@ labels <- data.frame(cell  = names(liver$labels),
 ~~~
 {: .language-r}
 
+
+
+~~~
+Error in `x[[i, drop = TRUE]]`:
+! 'labels' not found in this Seurat object
+ 
+~~~
+{: .error}
+
 And finally, join the author's annotation with our annotation.
 
 
@@ -941,6 +1076,13 @@ annot <- left_join(labels, metadata, by = 'cell') %>%
            dplyr::rename(our_annot = label)
 ~~~
 {: .language-r}
+
+
+
+~~~
+Error in UseMethod("left_join"): no applicable method for 'left_join' applied to an object of class "function"
+~~~
+{: .error}
 
 Next, we will count the number of times that each pair of cell types occurs in
 the author's annotation and our annotation.
@@ -956,25 +1098,10 @@ annot %>%
 
 
 
-|annot                              | B cells|   ECs| KH doub.| Kupffer cells| T cells| cCD1| cholangiocytes| fibroblast/stellate| hepatocytes| monocytes| neutrophils| pDCs| NA|
-|:----------------------------------|-------:|-----:|--------:|-------------:|-------:|----:|--------------:|-------------------:|-----------:|---------:|-----------:|----:|--:|
-|B cells                            |     966|     1|        0|             0|       0|    0|              0|                   0|           0|         0|           0|    0|  0|
-|cDC2s                              |       1|     0|        0|             1|       0|    1|              0|                   0|           0|       370|           0|    0|  0|
-|Basophils                          |       0|     1|        0|             0|       0|    0|              0|                   0|           0|         0|          23|    0|  0|
-|Endothelial cells                  |       0| 13199|     7024|             5|       1|    0|              0|                   0|          11|         1|           0|    0|  0|
-|Kupffer cells                      |       0|    50|        3|          8019|       1|    0|              0|                   0|         184|        15|           0|    0|  0|
-|Hepatocytes                        |       0|     0|       33|             1|       0|    0|              0|                   0|        8548|         0|           0|    0|  0|
-|T cells                            |       0|     0|        1|             0|    1221|    0|              0|                   0|           0|         3|           0|    0|  0|
-|ILC1s                              |       0|     0|        0|             1|     386|    0|              0|                   0|           2|         0|           0|    0|  0|
-|Monocytes & Monocyte-derived cells |       0|     0|        0|            11|       0|    0|              0|                   0|           3|      1057|           0|    0|  0|
-|cDC1s                              |       0|     0|        0|            17|       0|  397|              0|                   0|           5|         6|           0|    0|  0|
-|NK cells                           |       0|     0|        0|             0|     214|    0|              0|                   0|           0|         0|           0|    0|  0|
-|Cholangiocytes                     |       0|     0|        0|             0|       0|    0|            326|                   0|           2|         1|           0|    0|  0|
-|HsPCs                              |       0|     0|        0|             0|       0|    0|              1|                   0|           0|         2|           0|    0|  0|
-|Fibroblasts                        |       0|     0|        0|             0|       0|    0|              0|                 735|           1|         0|           0|    0| 96|
-|Mig. cDCs                          |       0|     0|        0|             0|       0|    0|              0|                   0|           3|        59|           0|    0|  0|
-|Neutrophils                        |       0|     0|        0|             0|       0|    0|              0|                   0|           0|         0|         293|    0|  0|
-|pDCs                               |       0|     0|        0|             0|       0|    0|              0|                   0|           0|         0|           0|  951|  0|
+~~~
+Error: object 'annot' not found
+~~~
+{: .error}
 
 Many of the annotations that we found match what the authors found! This is
 encouraging and provides a measure of reproducibility in the analysis.
@@ -1005,18 +1132,59 @@ test could look by making up a fake experimental factor.
 libraries <- unique(liver$sample)
 treatment_group <- setNames(c(rep('control', 5), rep('drug', 4)), libraries)
 liver$trt <- treatment_group[liver$sample]
+~~~
+{: .language-r}
 
+
+
+~~~
+Error: No cell overlap between new meta data and Seurat object
+~~~
+{: .error}
+
+
+
+~~~
 hepatocytes <- subset(liver, labels == "hepatocytes")
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in `FetchData()`:
+! None of the requested variables were found: 
+~~~
+{: .error}
+
+
+
+~~~
 Idents(hepatocytes) <- "trt"
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in eval(ei, envir): object 'hepatocytes' not found
+~~~
+{: .error}
+
+
+
+~~~
 UMAPPlot(hepatocytes, split.by = 'trt', group.by = 'labels', label = T,
          label.size = 6)
 ~~~
 {: .language-r}
 
-<div class="figure" style="text-align: center">
-<img src="../fig/rmd-06-fake-1.png" alt="plot of chunk fake" width="720" />
-<p class="caption">plot of chunk fake</p>
-</div>
+
+
+~~~
+Error: object 'hepatocytes' not found
+~~~
+{: .error}
 
 We will look for differential expression between the 
 control and drug administration groups defined
@@ -1034,6 +1202,13 @@ deg1 <- FindMarkers(hepatocytes, ident.1 = 'drug', ident.2 = 'control',
                     logfc.threshold = 0.2, only.pos = FALSE)
 ~~~
 {: .language-r}
+
+
+
+~~~
+Error: object 'hepatocytes' not found
+~~~
+{: .error}
 
 However this approach is not ideal. It may work OK if we only have on
 mouse sample from each treatment group, with thousands of cells profiled
@@ -1057,19 +1232,9 @@ head(deg1, 10)
 
 
 ~~~
-                 p_val avg_log2FC pct.1 pct.2     p_val_adj
-Uox       0.000000e+00 -0.8652363 0.945 0.979  0.000000e+00
-Cyp3a11   0.000000e+00 -2.4008095 0.277 0.639  0.000000e+00
-Rpl36al   0.000000e+00 -0.8525591 0.694 0.894  0.000000e+00
-Gm42418   0.000000e+00  1.7124392 0.979 0.974  0.000000e+00
-AY036118  0.000000e+00  1.5352999 0.802 0.420  0.000000e+00
-Malat1    0.000000e+00  1.5791718 0.754 0.345  0.000000e+00
-Gstm1    8.364152e-296 -0.8261183 0.942 0.974 1.682867e-291
-Car3     5.461599e-274 -0.7365477 0.970 0.993 1.098874e-269
-Nme2     8.273329e-265 -1.0541126 0.045 0.336 1.664594e-260
-C3       2.847997e-250  0.8925926 0.908 0.718 5.730171e-246
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'head': object 'deg1' not found
 ~~~
-{: .output}
+{: .error}
 
 Wow! We have a lot of genes with apparently very strong statistically
 significant differences between the control and drug administered
@@ -1098,6 +1263,19 @@ This could look like the following:
 # Make pseudobulks.
 pseudobulk <- AggregateExpression(hepatocytes, slot = 'counts', 
                                   group.by = 'sample', assays = 'RNA')[['RNA']]
+~~~
+{: .language-r}
+
+
+
+~~~
+Error: object 'hepatocytes' not found
+~~~
+{: .error}
+
+
+
+~~~
 dim(pseudobulk)
 ~~~
 {: .language-r}
@@ -1105,9 +1283,9 @@ dim(pseudobulk)
 
 
 ~~~
-[1] 20120     9
+Error: object 'pseudobulk' not found
 ~~~
-{: .output}
+{: .error}
 
 
 
@@ -1119,15 +1297,9 @@ head(pseudobulk, 6)
 
 
 ~~~
-        CS144 CS48 CS52 CS53 CS88 CS89 CS92 CS96 CS97
-Xkr4        0    0    0    0    0    0    0    0    0
-Rp1         0    0    0    0    0    0    0    0    0
-Sox17      11    1    5    0   11    2    7   34    0
-Mrpl15    814 3063 1480   11 1595  230 1367 2752  208
-Lypla1    461 2157  826    3  622  168  536 1067  221
-Gm37988     1    8    8    0    1    0    2    3    1
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'head': object 'pseudobulk' not found
 ~~~
-{: .output}
+{: .error}
 
 
 
@@ -1137,7 +1309,33 @@ pseudobulk_metadata <- hepatocytes[[c("sample", "trt")]] %>%
   as_tibble() %>% distinct() %>% as.data.frame() %>%
   column_to_rownames('sample') %>%
   mutate(trt = as.factor(trt))
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'as.data.frame': object 'hepatocytes' not found
+~~~
+{: .error}
+
+
+
+~~~
 pseudobulk_metadata <- pseudobulk_metadata[colnames(pseudobulk), , drop = F]
+~~~
+{: .language-r}
+
+
+
+~~~
+Error: object 'pseudobulk_metadata' not found
+~~~
+{: .error}
+
+
+
+~~~
 dds <- DESeqDataSetFromMatrix(pseudobulk, 
                               colData = pseudobulk_metadata, 
                               design = ~ trt)
@@ -1147,9 +1345,9 @@ dds <- DESeqDataSetFromMatrix(pseudobulk,
 
 
 ~~~
-converting counts to integer mode
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'ncol': object 'pseudobulk' not found
 ~~~
-{: .output}
+{: .error}
 
 
 
@@ -1161,49 +1359,27 @@ trt <- DESeq(dds, test = "LRT", reduced = ~ 1)
 
 
 ~~~
-estimating size factors
+Error: object 'dds' not found
 ~~~
-{: .output}
-
-
-
-~~~
-estimating dispersions
-~~~
-{: .output}
-
-
-
-~~~
-gene-wise dispersion estimates
-~~~
-{: .output}
-
-
-
-~~~
-mean-dispersion relationship
-~~~
-{: .output}
-
-
-
-~~~
-final dispersion estimates
-~~~
-{: .output}
-
-
-
-~~~
-fitting model and testing
-~~~
-{: .output}
+{: .error}
 
 
 
 ~~~
 res1 <- results(trt)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error: object 'trt' not found
+~~~
+{: .error}
+
+
+
+~~~
 head(res1)
 ~~~
 {: .language-r}
@@ -1211,19 +1387,9 @@ head(res1)
 
 
 ~~~
-log2 fold change (MLE): trt drug vs control 
-LRT p-value: '~ trt' vs '~ 1' 
-DataFrame with 6 rows and 6 columns
-         baseMean log2FoldChange     lfcSE      stat    pvalue      padj
-        <numeric>      <numeric> <numeric> <numeric> <numeric> <numeric>
-Xkr4      0.00000             NA        NA        NA        NA        NA
-Rp1       0.00000             NA        NA        NA        NA        NA
-Sox17     3.81366      0.8261690  1.356465 0.5676508  0.451194         1
-Mrpl15  621.75572      0.0187515  0.251184 0.0516965  0.820137         1
-Lypla1  332.75953     -0.0731363  0.258894 0.3508414  0.553637         1
-Gm37988   1.17811     -0.9242890  1.756322 0.0606601  0.805456         1
+Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'head': object 'res1' not found
 ~~~
-{: .output}
+{: .error}
 
 
 
@@ -1235,9 +1401,9 @@ sum(!is.na(res1$padj) & res1$padj < 0.05)
 
 
 ~~~
-[1] 0
+Error: object 'res1' not found
 ~~~
-{: .output}
+{: .error}
 
 No genes are significantly differentially expressed using this 
 pseudobulk + DESeq2 approach.
@@ -1264,6 +1430,22 @@ db_names <- c("KEGG"='KEGG_2019_Mouse',
               "MsigDB"='MSigDB_Hallmark_2020')
 genes <- filter(markers, cluster == 'c14') %>%
   top_n(100, avg_log2FC) %>% pull(gene)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in `filter()`:
+ℹ In argument: `cluster == "c14"`.
+Caused by error:
+! object 'cluster' not found
+~~~
+{: .error}
+
+
+
+~~~
 enrich_genes <- enrichr(genes, databases = db_names)
 ~~~
 {: .language-r}
@@ -1308,82 +1490,87 @@ sessionInfo()
 
 
 ~~~
-R version 4.2.3 (2023-03-15 ucrt)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
+R version 4.4.0 (2024-04-24 ucrt)
+Platform: x86_64-w64-mingw32/x64
 Running under: Windows 10 x64 (build 19045)
 
 Matrix products: default
 
+
 locale:
 [1] LC_COLLATE=English_United States.utf8 
-[2] LC_CTYPE=en_US.UTF-8                  
+[2] LC_CTYPE=English_United States.utf8   
 [3] LC_MONETARY=English_United States.utf8
 [4] LC_NUMERIC=C                          
 [5] LC_TIME=English_United States.utf8    
+
+time zone: America/New_York
+tzcode source: internal
 
 attached base packages:
 [1] stats4    stats     graphics  grDevices utils     datasets  methods  
 [8] base     
 
 other attached packages:
- [1] enrichR_3.2                 DESeq2_1.38.3              
- [3] SummarizedExperiment_1.28.0 Biobase_2.58.0             
- [5] MatrixGenerics_1.10.0       matrixStats_1.0.0          
- [7] GenomicRanges_1.50.2        GenomeInfoDb_1.34.9        
- [9] IRanges_2.32.0              S4Vectors_0.36.2           
-[11] BiocGenerics_0.44.0         harmony_1.0.3              
-[13] Rcpp_1.0.11                 SeuratObject_4.1.4         
-[15] Seurat_4.4.0                lubridate_1.9.3            
-[17] forcats_1.0.0               stringr_1.5.0              
-[19] dplyr_1.1.3                 purrr_1.0.2                
-[21] readr_2.1.4                 tidyr_1.3.0                
-[23] tibble_3.2.1                ggplot2_3.4.3              
-[25] tidyverse_2.0.0             knitr_1.44                 
+ [1] enrichR_3.2                 DESeq2_1.44.0              
+ [3] SummarizedExperiment_1.34.0 Biobase_2.64.0             
+ [5] MatrixGenerics_1.16.0       matrixStats_1.4.1          
+ [7] GenomicRanges_1.56.1        GenomeInfoDb_1.40.1        
+ [9] IRanges_2.38.1              S4Vectors_0.42.1           
+[11] BiocGenerics_0.50.0         harmony_1.2.0              
+[13] Rcpp_1.0.13                 Seurat_5.1.0               
+[15] SeuratObject_5.0.2          sp_2.1-4                   
+[17] lubridate_1.9.3             forcats_1.0.0              
+[19] stringr_1.5.1               dplyr_1.1.4                
+[21] purrr_1.0.2                 readr_2.1.5                
+[23] tidyr_1.3.1                 tibble_3.2.1               
+[25] ggplot2_3.5.1               tidyverse_2.0.0            
+[27] knitr_1.48                 
 
 loaded via a namespace (and not attached):
-  [1] plyr_1.8.9             igraph_1.5.1           lazyeval_0.2.2        
-  [4] sp_2.1-0               splines_4.2.3          BiocParallel_1.32.6   
-  [7] listenv_0.9.0          scattermore_1.2        digest_0.6.33         
- [10] htmltools_0.5.6        fansi_1.0.4            memoise_2.0.1         
- [13] magrittr_2.0.3         tensor_1.5             cluster_2.1.4         
- [16] ROCR_1.0-11            limma_3.54.2           tzdb_0.4.0            
- [19] Biostrings_2.66.0      globals_0.16.2         annotate_1.76.0       
- [22] vroom_1.6.4            timechange_0.2.0       spatstat.sparse_3.0-2 
- [25] colorspace_2.1-0       blob_1.2.4             ggrepel_0.9.3         
- [28] WriteXLS_6.4.0         xfun_0.40              crayon_1.5.2          
- [31] RCurl_1.98-1.12        jsonlite_1.8.7         progressr_0.14.0      
- [34] spatstat.data_3.0-1    survival_3.5-5         zoo_1.8-12            
- [37] glue_1.6.2             polyclip_1.10-6        gtable_0.3.4          
- [40] zlibbioc_1.44.0        XVector_0.38.0         leiden_0.4.3          
- [43] DelayedArray_0.24.0    future.apply_1.11.0    abind_1.4-5           
- [46] scales_1.2.1           DBI_1.1.3              spatstat.random_3.1-6 
- [49] miniUI_0.1.1.1         viridisLite_0.4.2      xtable_1.8-4          
- [52] reticulate_1.32.0      bit_4.0.5              htmlwidgets_1.6.2     
- [55] httr_1.4.7             RColorBrewer_1.1-3     ellipsis_0.3.2        
- [58] ica_1.0-3              farver_2.1.1           pkgconfig_2.0.3       
- [61] XML_3.99-0.14          uwot_0.1.16            deldir_1.0-9          
- [64] locfit_1.5-9.8         utf8_1.2.3             labeling_0.4.3        
- [67] tidyselect_1.2.0       rlang_1.1.1            reshape2_1.4.4        
- [70] later_1.3.1            AnnotationDbi_1.60.2   cachem_1.0.8          
- [73] munsell_0.5.0          tools_4.2.3            cli_3.6.1             
- [76] generics_0.1.3         RSQLite_2.3.1          ggridges_0.5.4        
- [79] evaluate_0.22          fastmap_1.1.1          goftest_1.2-3         
- [82] RhpcBLASctl_0.23-42    bit64_4.0.5            fitdistrplus_1.1-11   
- [85] RANN_2.6.1             KEGGREST_1.38.0        pbapply_1.7-2         
- [88] future_1.33.0          nlme_3.1-163           mime_0.12             
- [91] ggrastr_1.0.2          compiler_4.2.3         beeswarm_0.4.0        
- [94] curl_5.1.0             plotly_4.10.2          png_0.1-8             
- [97] spatstat.utils_3.0-3   geneplotter_1.76.0     stringi_1.7.12        
-[100] lattice_0.21-9         Matrix_1.6-1.1         vctrs_0.6.3           
-[103] pillar_1.9.0           lifecycle_1.0.3        spatstat.geom_3.2-5   
-[106] lmtest_0.9-40          RcppAnnoy_0.0.21       data.table_1.14.8     
-[109] cowplot_1.1.1          bitops_1.0-7           irlba_2.3.5.1         
-[112] httpuv_1.6.11          patchwork_1.1.3        R6_2.5.1              
-[115] promises_1.2.1         KernSmooth_2.23-22     gridExtra_2.3         
-[118] vipor_0.4.5            parallelly_1.36.0      codetools_0.2-19      
-[121] MASS_7.3-60            rjson_0.2.21           withr_2.5.1           
-[124] sctransform_0.4.0      GenomeInfoDbData_1.2.9 parallel_4.2.3        
-[127] hms_1.1.3              grid_4.2.3             Rtsne_0.16            
-[130] spatstat.explore_3.2-3 shiny_1.7.5            ggbeeswarm_0.7.2      
+  [1] RcppAnnoy_0.0.22        splines_4.4.0           later_1.3.2            
+  [4] polyclip_1.10-7         fastDummies_1.7.4       lifecycle_1.0.4        
+  [7] globals_0.16.3          lattice_0.22-6          vroom_1.6.5            
+ [10] MASS_7.3-61             magrittr_2.0.3          limma_3.60.4           
+ [13] plotly_4.10.4           httpuv_1.6.15           sctransform_0.4.1      
+ [16] spam_2.11-0             spatstat.sparse_3.1-0   reticulate_1.39.0      
+ [19] cowplot_1.1.3           pbapply_1.7-2           RColorBrewer_1.1-3     
+ [22] abind_1.4-8             zlibbioc_1.50.0         Rtsne_0.17             
+ [25] presto_1.0.0            WriteXLS_6.7.0          GenomeInfoDbData_1.2.12
+ [28] ggrepel_0.9.6           irlba_2.3.5.1           listenv_0.9.1          
+ [31] spatstat.utils_3.1-0    goftest_1.2-3           RSpectra_0.16-2        
+ [34] spatstat.random_3.3-2   fitdistrplus_1.2-1      parallelly_1.38.0      
+ [37] leiden_0.4.3.1          codetools_0.2-20        DelayedArray_0.30.1    
+ [40] tidyselect_1.2.1        UCSC.utils_1.0.0        farver_2.1.2           
+ [43] spatstat.explore_3.3-2  jsonlite_1.8.9          progressr_0.14.0       
+ [46] ggridges_0.5.6          survival_3.7-0          tools_4.4.0            
+ [49] ica_1.0-3               glue_1.8.0              gridExtra_2.3          
+ [52] SparseArray_1.4.8       xfun_0.44               withr_3.0.1            
+ [55] fastmap_1.2.0           fansi_1.0.6             digest_0.6.35          
+ [58] timechange_0.3.0        R6_2.5.1                mime_0.12              
+ [61] colorspace_2.1-1        scattermore_1.2         tensor_1.5             
+ [64] spatstat.data_3.1-2     RhpcBLASctl_0.23-42     utf8_1.2.4             
+ [67] generics_0.1.3          data.table_1.16.0       httr_1.4.7             
+ [70] htmlwidgets_1.6.4       S4Arrays_1.4.1          uwot_0.2.2             
+ [73] pkgconfig_2.0.3         gtable_0.3.5            lmtest_0.9-40          
+ [76] XVector_0.44.0          htmltools_0.5.8.1       dotCall64_1.2          
+ [79] scales_1.3.0            png_0.1-8               spatstat.univar_3.0-1  
+ [82] rstudioapi_0.16.0       tzdb_0.4.0              reshape2_1.4.4         
+ [85] rjson_0.2.23            nlme_3.1-165            curl_5.2.1             
+ [88] zoo_1.8-12              KernSmooth_2.23-24      parallel_4.4.0         
+ [91] miniUI_0.1.1.1          vipor_0.4.7             ggrastr_1.0.2          
+ [94] pillar_1.9.0            grid_4.4.0              vctrs_0.6.5            
+ [97] RANN_2.6.2              promises_1.3.0          xtable_1.8-4           
+[100] cluster_2.1.6           beeswarm_0.4.0          evaluate_1.0.0         
+[103] cli_3.6.3               locfit_1.5-9.10         compiler_4.4.0         
+[106] rlang_1.1.4             crayon_1.5.3            future.apply_1.11.2    
+[109] labeling_0.4.3          plyr_1.8.9              ggbeeswarm_0.7.2       
+[112] stringi_1.8.4           viridisLite_0.4.2       deldir_2.0-4           
+[115] BiocParallel_1.38.0     munsell_0.5.1           lazyeval_0.2.2         
+[118] spatstat.geom_3.3-3     Matrix_1.7-0            RcppHNSW_0.6.0         
+[121] hms_1.1.3               patchwork_1.3.0         bit64_4.5.2            
+[124] future_1.34.0           statmod_1.5.0           shiny_1.9.1            
+[127] highr_0.11              ROCR_1.0-11             igraph_2.0.3           
+[130] bit_4.5.0              
 ~~~
 {: .output}
