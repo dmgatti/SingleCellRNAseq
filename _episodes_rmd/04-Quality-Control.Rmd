@@ -26,14 +26,13 @@ suppressPackageStartupMessages(library(Matrix))
 suppressPackageStartupMessages(library(SingleCellExperiment))
 suppressPackageStartupMessages(library(scds))
 suppressPackageStartupMessages(library(Seurat))
-
-data_dir <- '../data'
 ```
 
 
 ```{r load_data,include=FALSE}
 # Only needed to build lessons.
 # Don't use in course.
+data_dir <- '../data'
 load(file.path(data_dir, 'lesson03.Rdata'))
 ```
 
@@ -208,7 +207,7 @@ therefore eliminating our ability to clearly distinguish between cell types.
 
 > ## Challenge 2
 > What total count threshold would you choose to filter genes? Remember that 
-there are `r ncol(counts)` cells.
+there are `r format(ncol(counts), big.mark = ',')` cells.
 >
 > > ## Solution to Challenge 2
 > >
@@ -287,7 +286,7 @@ liver <- CreateSeuratObject(counts    = counts,
                             min.cells = 5)
 ```
 
-We now have a Seurat object with `r nrow(liver)` genes and `r ncol(liver)` cells.
+We now have a Seurat object with `r format(nrow(liver), big.mark = ',')` genes and `r format(ncol(liver), big.mark = ',')` cells.
 
 We will remove the counts object to save some memory because it is now stored 
 inside of the Seurat object.
@@ -314,16 +313,16 @@ Seurat::Assays(liver)
 The output of this function tells us that we have data in an "RNA assay. We can access this using the [GetAssayData](https://mojaveazure.github.io/seurat-object/reference/AssayData.html) function.
 
 ```{r get_assay_data}
-tmp = GetAssayData(object = liver, slot = 'data')
+tmp <- GetAssayData(object = liver, layer = 'counts')
 tmp[1:5,1:5]
 ```
 
 As you can see the data that we retrieved is a sparse matrix, just like the counts that we provided to the Seurat object.
 
-What about the metadata? We can access the metadata to using somewhat confusing double square bracket syntax.
+What about the metadata? We can access the metadata as follows:
 
 ```{r show_meta}
-head(liver[[]])
+head(liver)
 ```
 
 Notice that there are some columns that were not in our original metadata file; 
@@ -415,6 +414,7 @@ but we likely would not want to go down to 5%, which would
 remove around half the cells.
 
 ```{r subset_by mito}
+# Don't run yet, we will filter based on several criteria below
 #liver <- subset(liver, subset = percent.mt < 14)
 ```
 
@@ -506,6 +506,7 @@ VlnPlot(liver, 'nCount_RNA', group.by = 'sample', pt.size = 0) +
   scale_y_log10() + 
   geom_hline(yintercept = 900) + 
   geom_hline(yintercept = 25000)
+# Don't run yet, we will filter based on several criteria below
 #liver <- subset(liver, nCount_RNA > 900 & nCount_RNA < 25000)
 ```
 
@@ -643,7 +644,7 @@ Create plots of the proportion of features, cells, and mitochondrial genes.
 Filter the Seurat object by mitochondrial gene expression.
 >
 > > ## Solution to Challenge 4  
-> > `liver_2 = liver_2 %>%`  data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAWElEQVR42mNgGPTAxsZmJsVqQApgmGw1yApwKcQiT7phRBuCzzCSDSHGMKINIeDNmWQlA2IigKJwIssQkHdINgxfmBBtGDEBS3KCxBc7pMQgMYE5c/AXPwAwSX4lV3pTWwAAAABJRU5ErkJggg==
+> > `liver_2 = liver_2 %>%`
 > > `            PercentageFeatureSet(pattern = "^mt-", col.name = "percent.mt")`  
 > > `VlnPlot(liver_2, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)`  
 > > `liver_2 = subset(liver_2, subset = percent.mt < 10)`  
