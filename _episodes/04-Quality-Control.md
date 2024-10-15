@@ -26,8 +26,6 @@ suppressPackageStartupMessages(library(Matrix))
 suppressPackageStartupMessages(library(SingleCellExperiment))
 suppressPackageStartupMessages(library(scds))
 suppressPackageStartupMessages(library(Seurat))
-
-data_dir <- '../data'
 ~~~
 {: .language-r}
 
@@ -86,8 +84,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   8109954  433.2   14164697  756.5  11250290  600.9
-Vcells 181805351 1387.1  436709214 3331.9 436706435 3331.9
+Ncells   8111336  433.2   14166618  756.6  11252338  601.0
+Vcells 181808776 1387.1  436713339 3331.9 436709872 3331.9
 ~~~
 {: .output}
 
@@ -236,7 +234,7 @@ therefore eliminating our ability to clearly distinguish between cell types.
 
 > ## Challenge 2
 > What total count threshold would you choose to filter genes? Remember that 
-there are 47743 cells.
+there are 47,743 cells.
 >
 > > ## Solution to Challenge 2
 > >
@@ -326,7 +324,7 @@ liver <- CreateSeuratObject(counts    = counts,
 ~~~
 {: .language-r}
 
-We now have a Seurat object with 2.012 &times; 10<sup>4</sup> genes and 4.7743 &times; 10<sup>4</sup> cells.
+We now have a Seurat object with 20,120 genes and 47,743 cells.
 
 We will remove the counts object to save some memory because it is now stored 
 inside of the Seurat object.
@@ -342,8 +340,8 @@ gc()
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   8267634  441.6   14164697  756.5  12308197  657.4
-Vcells 182525849 1392.6  596756543 4552.9 629549219 4803.1
+Ncells   8269300  441.7   14166618  756.6  12309983  657.5
+Vcells 182529951 1392.6  596761557 4553.0 629553006 4803.2
 ~~~
 {: .output}
 
@@ -376,30 +374,7 @@ The output of this function tells us that we have data in an "RNA assay. We can 
 
 
 ~~~
-tmp = GetAssayData(object = liver, slot = 'data')
-~~~
-{: .language-r}
-
-
-
-~~~
-Warning: The `slot` argument of `GetAssayData()` is deprecated as of SeuratObject 5.0.0.
-ℹ Please use the `layer` argument instead.
-This warning is displayed once every 8 hours.
-Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
-~~~
-{: .warning}
-
-
-
-~~~
-Warning: Layer 'data' is empty
-~~~
-{: .warning}
-
-
-
-~~~
+tmp <- GetAssayData(object = liver, layer = 'counts')
 tmp[1:5,1:5]
 ~~~
 {: .language-r}
@@ -407,17 +382,29 @@ tmp[1:5,1:5]
 
 
 ~~~
-Error in .subscript.2ary(x, i, j, drop = TRUE): subscript out of bounds
+5 x 5 sparse Matrix of class "dgCMatrix"
+       AAACGAATCCACTTCG-2 AAAGGTACAGGAAGTC-2 AACTTCTGTCATGGCC-2
+Xkr4                    .                  .                  .
+Rp1                     .                  .                  .
+Sox17                   .                  .                  2
+Mrpl15                  .                  .                  .
+Lypla1                  .                  .                  2
+       AATGGCTCAACGGTAG-2 ACACTGAAGTGCAGGT-2
+Xkr4                    .                  .
+Rp1                     .                  .
+Sox17                   4                  .
+Mrpl15                  1                  1
+Lypla1                  1                  .
 ~~~
-{: .error}
+{: .output}
 
 As you can see the data that we retrieved is a sparse matrix, just like the counts that we provided to the Seurat object.
 
-What about the metadata? We can access the metadata to using somewhat confusing double square bracket syntax.
+What about the metadata? We can access the metadata as follows:
 
 
 ~~~
-head(liver[[]])
+head(liver)
 ~~~
 {: .language-r}
 
@@ -431,6 +418,10 @@ AACTTCTGTCATGGCC-2 liver: scRNA-Seq       8139         3280   CS48 inVivo
 AATGGCTCAACGGTAG-2 liver: scRNA-Seq      10083         3716   CS48 inVivo
 ACACTGAAGTGCAGGT-2 liver: scRNA-Seq       9517         3543   CS48 inVivo
 ACCACAACAGTCTCTC-2 liver: scRNA-Seq       7189         3064   CS48 inVivo
+ACGATGTAGTGGTTCT-2 liver: scRNA-Seq       7437         3088   CS48 inVivo
+ACGCACGCACTAACCA-2 liver: scRNA-Seq       8162         3277   CS48 inVivo
+ACTGCAATCAACTCTT-2 liver: scRNA-Seq       7278         3144   CS48 inVivo
+ACTGCAATCGTCACCT-2 liver: scRNA-Seq       9584         3511   CS48 inVivo
                    typeSample cxds_score bcds_score hybrid_score
 AAACGAATCCACTTCG-2   scRnaSeq         NA         NA           NA
 AAAGGTACAGGAAGTC-2   scRnaSeq         NA         NA           NA
@@ -438,6 +429,10 @@ AACTTCTGTCATGGCC-2   scRnaSeq         NA         NA           NA
 AATGGCTCAACGGTAG-2   scRnaSeq         NA         NA           NA
 ACACTGAAGTGCAGGT-2   scRnaSeq         NA         NA           NA
 ACCACAACAGTCTCTC-2   scRnaSeq         NA         NA           NA
+ACGATGTAGTGGTTCT-2   scRnaSeq         NA         NA           NA
+ACGCACGCACTAACCA-2   scRnaSeq         NA         NA           NA
+ACTGCAATCAACTCTT-2   scRnaSeq         NA         NA           NA
+ACTGCAATCGTCACCT-2   scRnaSeq         NA         NA           NA
 ~~~
 {: .output}
 
@@ -556,6 +551,7 @@ remove around half the cells.
 
 
 ~~~
+# Don't run yet, we will filter based on several criteria below
 #liver <- subset(liver, subset = percent.mt < 14)
 ~~~
 {: .language-r}
@@ -723,6 +719,7 @@ Adding another scale for y, which will replace the existing scale.
 </div>
 
 ~~~
+# Don't run yet, we will filter based on several criteria below
 #liver <- subset(liver, nCount_RNA > 900 & nCount_RNA < 25000)
 ~~~
 {: .language-r}
@@ -865,7 +862,7 @@ Create plots of the proportion of features, cells, and mitochondrial genes.
 Filter the Seurat object by mitochondrial gene expression.
 >
 > > ## Solution to Challenge 4  
-> > `liver_2 = liver_2 %>%`  data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAWElEQVR42mNgGPTAxsZmJsVqQApgmGw1yApwKcQiT7phRBuCzzCSDSHGMKINIeDNmWQlA2IigKJwIssQkHdINgxfmBBtGDEBS3KCxBc7pMQgMYE5c/AXPwAwSX4lV3pTWwAAAABJRU5ErkJggg==
+> > `liver_2 = liver_2 %>%`
 > > `            PercentageFeatureSet(pattern = "^mt-", col.name = "percent.mt")`  
 > > `VlnPlot(liver_2, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)`  
 > > `liver_2 = subset(liver_2, subset = percent.mt < 10)`  
@@ -909,7 +906,7 @@ other attached packages:
  [1] Seurat_5.1.0                SeuratObject_5.0.2         
  [3] sp_2.1-4                    scds_1.20.0                
  [5] SingleCellExperiment_1.26.0 SummarizedExperiment_1.34.0
- [7] Biobase_2.64.0              GenomicRanges_1.56.1       
+ [7] Biobase_2.64.0              GenomicRanges_1.56.2       
  [9] GenomeInfoDb_1.40.1         IRanges_2.38.1             
 [11] S4Vectors_0.42.1            BiocGenerics_0.50.0        
 [13] MatrixGenerics_1.16.0       matrixStats_1.4.1          
@@ -945,7 +942,7 @@ loaded via a namespace (and not attached):
  [64] promises_1.3.0          grid_4.4.0              Rtsne_0.17             
  [67] cluster_2.1.6           reshape2_1.4.4          generics_0.1.3         
  [70] spatstat.data_3.1-2     gtable_0.3.5            tzdb_0.4.0             
- [73] data.table_1.16.0       hms_1.1.3               utf8_1.2.4             
+ [73] data.table_1.16.2       hms_1.1.3               utf8_1.2.4             
  [76] XVector_0.44.0          spatstat.geom_3.3-3     RcppAnnoy_0.0.22       
  [79] ggrepel_0.9.6           RANN_2.6.2              pillar_1.9.0           
  [82] spam_2.11-0             RcppHNSW_0.6.0          later_1.3.2            
@@ -953,7 +950,7 @@ loaded via a namespace (and not attached):
  [88] survival_3.7-0          tidyselect_1.2.1        miniUI_0.1.1.1         
  [91] pbapply_1.7-2           gridExtra_2.3           scattermore_1.2        
  [94] xfun_0.44               stringi_1.8.4           UCSC.utils_1.0.0       
- [97] lazyeval_0.2.2          evaluate_1.0.0          codetools_0.2-20       
+ [97] lazyeval_0.2.2          evaluate_1.0.1          codetools_0.2-20       
 [100] cli_3.6.3               uwot_0.2.2              xtable_1.8-4           
 [103] reticulate_1.39.0       munsell_0.5.1           Rcpp_1.0.13            
 [106] spatstat.random_3.3-2   globals_0.16.3          png_0.1-8              

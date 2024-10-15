@@ -8,22 +8,19 @@ exercises: 10
 questions:
 - "What are the most common single cell RNA-Seq analyses?"
 objectives:
-- "Explain how to use RMarkdown with the new lesson template."
-- "Demonstrate how to include pieces of code, figures, and challenges."
+- "Understand the form of common Seurat commands and how to chain them together."
+- "Learn how to normalize, find variable features, reduce dimensionality, and cluster your scRNA-Seq data."
 keypoints:
-- "Edit the .Rmd files not the .md files"
-- "Run `make serve` to knit documents and preview lesson website locally"
+- "Seurat has flexible functionality to normalize, process, and visualize your scRNA-Seq data."
 ---
 
 
-~~~
-source("../bin/chunk-options.R")
-knitr_fig_path("05-")
 
+~~~
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Seurat))
 
-data_dir <- '../data'
+data_dir <- 'data'
 ~~~
 {: .language-r}
 
@@ -66,6 +63,12 @@ we are calling only one function:
 liver <- liver %>%
            DoSomething(param1 = TRUE, param2 = 0.3)
 ```
+
+Recently, base `R` added its own pipe operator `|>`. This does essentially the
+same operation, with different behavior only in a few somewhat rare 
+instances. You can read more about the differences between
+`%>%` and `|>` at the 
+[this link](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/).
 
 In this lesson (and elsewhere in the course) we may alternate between
 these slightly different coding styles. Please ask us for clarification
@@ -267,7 +270,7 @@ Formal class 'Seurat' [package "SeuratObject"] with 13 slots
   ..@ commands    :List of 2
   .. ..$ NormalizeData.RNA       :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
   .. .. .. ..@ name       : chr "NormalizeData.RNA"
-  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2024-10-07 13:06:30"
+  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2024-10-15 12:24:50"
   .. .. .. ..@ assay.used : chr "RNA"
   .. .. .. ..@ call.string: chr "NormalizeData(., normalization.method = \"LogNormalize\")"
   .. .. .. ..@ params     :List of 5
@@ -278,7 +281,7 @@ Formal class 'Seurat' [package "SeuratObject"] with 13 slots
   .. .. .. .. ..$ verbose             : logi TRUE
   .. ..$ FindVariableFeatures.RNA:Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
   .. .. .. ..@ name       : chr "FindVariableFeatures.RNA"
-  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2024-10-07 13:06:37"
+  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2024-10-15 12:24:58"
   .. .. .. ..@ assay.used : chr "RNA"
   .. .. .. ..@ call.string: chr "FindVariableFeatures(., nfeatures = 2000)"
   .. .. .. ..@ params     :List of 12
@@ -632,14 +635,14 @@ loaded via a namespace (and not attached):
  [52] spatstat.random_3.3-2  codetools_0.2-20       miniUI_0.1.1.1        
  [55] spatstat.explore_3.3-2 listenv_0.9.1          lattice_0.22-6        
  [58] plyr_1.8.9             shiny_1.9.1            withr_3.0.1           
- [61] ROCR_1.0-11            evaluate_1.0.0         Rtsne_0.17            
+ [61] ROCR_1.0-11            evaluate_1.0.1         Rtsne_0.17            
  [64] future_1.34.0          fastDummies_1.7.4      survival_3.7-0        
  [67] polyclip_1.10-7        fitdistrplus_1.2-1     pillar_1.9.0          
  [70] KernSmooth_2.23-24     plotly_4.10.4          generics_0.1.3        
  [73] RcppHNSW_0.6.0         hms_1.1.3              munsell_0.5.1         
  [76] scales_1.3.0           globals_0.16.3         xtable_1.8-4          
  [79] glue_1.8.0             lazyeval_0.2.2         tools_4.4.0           
- [82] data.table_1.16.0      RSpectra_0.16-2        RANN_2.6.2            
+ [82] data.table_1.16.2      RSpectra_0.16-2        RANN_2.6.2            
  [85] leiden_0.4.3.1         dotCall64_1.2          cowplot_1.1.3         
  [88] grid_4.4.0             colorspace_2.1-1       nlme_3.1-165          
  [91] patchwork_1.3.0        cli_3.6.3              spatstat.sparse_3.1-0 

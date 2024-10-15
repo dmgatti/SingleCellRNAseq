@@ -20,13 +20,6 @@ keypoints:
 
 
 
-~~~
-suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(Seurat))
-
-data_dir <- '../data'
-~~~
-{: .language-r}
 
 ## Overview of Single Cell Analysis Process
 
@@ -252,6 +245,13 @@ In order to read these files into memory, we will use the
 This function searches for the three files mentioned above in the directory that
 you pass in. Once it verifies that all three files are present, it reads them 
 in to create a counts matrix with genes in rows and cells in columns.
+
+
+~~~
+library(Seurat)
+data_dir <- 'data'
+~~~
+{: .language-r}
 
 We will use the `gene.column = 1` argument to tell Seurat to use the first 
 column in 'features.tsv.gz' as the gene identifier.
@@ -551,7 +551,7 @@ metadata <- read_csv(file.path(data_dir, 'mouseStSt_invivo', 'annot_metadata_fir
 
 ~~~
 Rows: 47743 Columns: 4
-── Column specification ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: ","
 chr (4): sample, cell, digest, typeSample
 
@@ -646,12 +646,15 @@ together.
 
 ### Save Data for Next Lesson
 
-We will use the *in-vivo* data in the next lesson. Save it now and we will 
-load it at the beginning of the next lesson. We will use R's [save](https://stat.ethz.ch/R-manual/R-devel/library/base/html/save.html) 
-command to save the objects in compressed, binary format. The `save` command is 
-useful when you want to save multiple objects in one file.
+We will use the *in-vivo* data in the next lesson. 
+If you plan to keep your RStudio open, we will simply continue to the next
+lesson. If you wanted to save the data you could execute a command like:
 
 
+~~~
+save(counts, metadata, file = file.path(data_dir, 'lesson03.Rdata'))
+~~~
+{: .language-r}
 
 > ## Challenge 5
 > In the lesson above, you read in the scRNASeq data. There is 
@@ -733,14 +736,14 @@ loaded via a namespace (and not attached):
  [55] spatstat.random_3.3-2  codetools_0.2-20       miniUI_0.1.1.1        
  [58] spatstat.explore_3.3-2 listenv_0.9.1          lattice_0.22-6        
  [61] plyr_1.8.9             shiny_1.9.1            withr_3.0.1           
- [64] ROCR_1.0-11            evaluate_1.0.0         Rtsne_0.17            
+ [64] ROCR_1.0-11            evaluate_1.0.1         Rtsne_0.17            
  [67] future_1.34.0          fastDummies_1.7.4      survival_3.7-0        
  [70] polyclip_1.10-7        fitdistrplus_1.2-1     pillar_1.9.0          
  [73] KernSmooth_2.23-24     plotly_4.10.4          generics_0.1.3        
  [76] vroom_1.6.5            RcppHNSW_0.6.0         hms_1.1.3             
  [79] munsell_0.5.1          scales_1.3.0           globals_0.16.3        
  [82] xtable_1.8-4           glue_1.8.0             lazyeval_0.2.2        
- [85] tools_4.4.0            data.table_1.16.0      RSpectra_0.16-2       
+ [85] tools_4.4.0            data.table_1.16.2      RSpectra_0.16-2       
  [88] RANN_2.6.2             leiden_0.4.3.1         dotCall64_1.2         
  [91] cowplot_1.1.3          grid_4.4.0             colorspace_2.1-1      
  [94] nlme_3.1-165           patchwork_1.3.0        cli_3.6.3             
