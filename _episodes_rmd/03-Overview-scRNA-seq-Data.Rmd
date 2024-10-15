@@ -20,7 +20,7 @@ source("../bin/chunk-options.R")
 knitr_fig_path("03-")
 ```
 
-```{r libs,warning=FALSE}
+```{r libs,warning=FALSE, include = FALSE}
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Seurat))
 
@@ -252,6 +252,11 @@ This function searches for the three files mentioned above in the directory that
 you pass in. Once it verifies that all three files are present, it reads them 
 in to create a counts matrix with genes in rows and cells in columns.
 
+```{r set_up_r, eval = FALSE}
+library(Seurat)
+data_dir <- 'data'
+```
+
 We will use the `gene.column = 1` argument to tell Seurat to use the first 
 column in 'features.tsv.gz' as the gene identifier.
 
@@ -469,12 +474,11 @@ together.
 
 ### Save Data for Next Lesson
 
-We will use the *in-vivo* data in the next lesson. Save it now and we will 
-load it at the beginning of the next lesson. We will use R's [save](https://stat.ethz.ch/R-manual/R-devel/library/base/html/save.html) 
-command to save the objects in compressed, binary format. The `save` command is 
-useful when you want to save multiple objects in one file.
+We will use the *in-vivo* data in the next lesson. 
+If you plan to keep your RStudio open, we will simply continue to the next
+lesson. If you wanted to save the data you could execute a command like:
 
-```{r save_data,include=FALSE}
+```{r save_data,include=TRUE}
 save(counts, metadata, file = file.path(data_dir, 'lesson03.Rdata'))
 ```
 
