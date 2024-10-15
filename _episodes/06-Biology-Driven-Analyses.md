@@ -306,28 +306,28 @@ Computing SNN
 
 
 ~~~
-13:17:04 UMAP embedding parameters a = 0.9922 b = 1.112
+17:28:15 UMAP embedding parameters a = 0.9922 b = 1.112
 ~~~
 {: .output}
 
 
 
 ~~~
-13:17:04 Read 44253 rows and found 24 numeric columns
+17:28:15 Read 44253 rows and found 24 numeric columns
 ~~~
 {: .output}
 
 
 
 ~~~
-13:17:04 Using Annoy for neighbor search, n_neighbors = 30
+17:28:15 Using Annoy for neighbor search, n_neighbors = 30
 ~~~
 {: .output}
 
 
 
 ~~~
-13:17:04 Building Annoy index with metric = cosine, n_trees = 50
+17:28:15 Building Annoy index with metric = cosine, n_trees = 50
 ~~~
 {: .output}
 
@@ -349,13 +349,13 @@ Computing SNN
 
 ~~~
 **************************************************|
-13:17:08 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\RtmpoNYDmW\file3d6064652ac4
-13:17:08 Searching Annoy index using 1 thread, search_k = 3000
-13:17:20 Annoy recall = 100%
-13:17:21 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-13:17:24 Initializing from normalized Laplacian + noise (using RSpectra)
-13:17:35 Commencing optimization for 200 epochs, with 1888044 positive edges
-13:18:13 Optimization finished
+17:28:20 Writing NN index file to temp file C:\Users\c-dgatti\AppData\Local\Temp\Rtmp0etH6m\file1d103ffd4bf3
+17:28:20 Searching Annoy index using 1 thread, search_k = 3000
+17:28:32 Annoy recall = 100%
+17:28:33 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+17:28:36 Initializing from normalized Laplacian + noise (using RSpectra)
+17:28:47 Commencing optimization for 200 epochs, with 1888044 positive edges
+17:29:31 Optimization finished
 ~~~
 {: .output}
 
@@ -1515,9 +1515,9 @@ other attached packages:
  [1] enrichR_3.2                 DESeq2_1.44.0              
  [3] SummarizedExperiment_1.34.0 Biobase_2.64.0             
  [5] MatrixGenerics_1.16.0       matrixStats_1.4.1          
- [7] GenomicRanges_1.56.1        GenomeInfoDb_1.40.1        
+ [7] GenomicRanges_1.56.2        GenomeInfoDb_1.40.1        
  [9] IRanges_2.38.1              S4Vectors_0.42.1           
-[11] BiocGenerics_0.50.0         harmony_1.2.0              
+[11] BiocGenerics_0.50.0         harmony_1.2.1              
 [13] Rcpp_1.0.13                 Seurat_5.1.0               
 [15] SeuratObject_5.0.2          sp_2.1-4                   
 [17] lubridate_1.9.3             forcats_1.0.0              
@@ -1550,18 +1550,18 @@ loaded via a namespace (and not attached):
  [58] timechange_0.3.0        R6_2.5.1                mime_0.12              
  [61] colorspace_2.1-1        scattermore_1.2         tensor_1.5             
  [64] spatstat.data_3.1-2     RhpcBLASctl_0.23-42     utf8_1.2.4             
- [67] generics_0.1.3          data.table_1.16.0       httr_1.4.7             
+ [67] generics_0.1.3          data.table_1.16.2       httr_1.4.7             
  [70] htmlwidgets_1.6.4       S4Arrays_1.4.1          uwot_0.2.2             
  [73] pkgconfig_2.0.3         gtable_0.3.5            lmtest_0.9-40          
  [76] XVector_0.44.0          htmltools_0.5.8.1       dotCall64_1.2          
  [79] scales_1.3.0            png_0.1-8               spatstat.univar_3.0-1  
  [82] rstudioapi_0.16.0       tzdb_0.4.0              reshape2_1.4.4         
- [85] rjson_0.2.23            nlme_3.1-165            curl_5.2.1             
+ [85] rjson_0.2.23            nlme_3.1-165            curl_5.2.3             
  [88] zoo_1.8-12              KernSmooth_2.23-24      parallel_4.4.0         
  [91] miniUI_0.1.1.1          vipor_0.4.7             ggrastr_1.0.2          
  [94] pillar_1.9.0            grid_4.4.0              vctrs_0.6.5            
  [97] RANN_2.6.2              promises_1.3.0          xtable_1.8-4           
-[100] cluster_2.1.6           beeswarm_0.4.0          evaluate_1.0.0         
+[100] cluster_2.1.6           beeswarm_0.4.0          evaluate_1.0.1         
 [103] cli_3.6.3               locfit_1.5-9.10         compiler_4.4.0         
 [106] rlang_1.1.4             crayon_1.5.3            future.apply_1.11.2    
 [109] labeling_0.4.3          plyr_1.8.9              ggbeeswarm_0.7.2       
