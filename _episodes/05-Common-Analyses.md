@@ -270,7 +270,7 @@ Formal class 'Seurat' [package "SeuratObject"] with 13 slots
   ..@ commands    :List of 2
   .. ..$ NormalizeData.RNA       :Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
   .. .. .. ..@ name       : chr "NormalizeData.RNA"
-  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2024-10-15 17:17:30"
+  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2024-10-15 18:26:24"
   .. .. .. ..@ assay.used : chr "RNA"
   .. .. .. ..@ call.string: chr "NormalizeData(., normalization.method = \"LogNormalize\")"
   .. .. .. ..@ params     :List of 5
@@ -281,7 +281,7 @@ Formal class 'Seurat' [package "SeuratObject"] with 13 slots
   .. .. .. .. ..$ verbose             : logi TRUE
   .. ..$ FindVariableFeatures.RNA:Formal class 'SeuratCommand' [package "SeuratObject"] with 5 slots
   .. .. .. ..@ name       : chr "FindVariableFeatures.RNA"
-  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2024-10-15 17:17:39"
+  .. .. .. ..@ time.stamp : POSIXct[1:1], format: "2024-10-15 18:26:32"
   .. .. .. ..@ assay.used : chr "RNA"
   .. .. .. ..@ call.string: chr "FindVariableFeatures(., nfeatures = 2000)"
   .. .. .. ..@ params     :List of 12

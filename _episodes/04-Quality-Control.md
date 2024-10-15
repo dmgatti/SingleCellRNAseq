@@ -26,6 +26,7 @@ suppressPackageStartupMessages(library(Matrix))
 suppressPackageStartupMessages(library(SingleCellExperiment))
 suppressPackageStartupMessages(library(scds))
 suppressPackageStartupMessages(library(Seurat))
+data_dir <- '../data'
 ~~~
 {: .language-r}
 
@@ -84,8 +85,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   8111351  433.2   14166661  756.6  11252338  601.0
-Vcells 181808806 1387.1  436713384 3331.9 436709910 3331.9
+Ncells   8111351  433.2   14166592  756.6  11252368  601.0
+Vcells 181808817 1387.1  436713388 3331.9 436709913 3331.9
 ~~~
 {: .output}
 
@@ -340,8 +341,8 @@ gc()
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   8269315  441.7   14166661  756.6  12309998  657.5
-Vcells 182529989 1392.6  596761610 4553.0 629553052 4803.2
+Ncells   8269315  441.7   14166592  756.6  12309998  657.5
+Vcells 182529984 1392.6  596761613 4553.0 629553039 4803.2
 ~~~
 {: .output}
 
