@@ -6,21 +6,21 @@ exercises: 10
 questions:
 - "What are the most common single cell RNA-Seq analyses?"
 objectives:
-- "Explain how to use RMarkdown with the new lesson template."
-- "Demonstrate how to include pieces of code, figures, and challenges."
+- "Understand the form of common Seurat commands and how to chain them together."
+- "Learn how to normalize, find variable features, reduce dimensionality, and cluster your scRNA-Seq data."
 keypoints:
-- "Edit the .Rmd files not the .md files"
-- "Run `make serve` to knit documents and preview lesson website locally"
+- "Seurat has flexible functionality to normalize, process, and visualize your scRNA-Seq data."
 ---
 
-```{r libraries,warning=FALSE}
+```{r libraries,warning=FALSE, include=FALSE}
 source("../bin/chunk-options.R")
 knitr_fig_path("05-")
-
+```
+```{r libraries2,warning=FALSE, include=TRUE}
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(Seurat))
 
-data_dir <- '../data'
+data_dir <- 'data'
 ```
 
 ```{r seed}
@@ -33,6 +33,7 @@ set.seed(1418)
 # Read in data from previous lesson.
 # Only needed for lesson building.
 # Don't run in class.
+data_dir <- '../data'
 liver <- readRDS(file.path(data_dir, 'lesson04.rds'))
 ```
 
@@ -65,6 +66,12 @@ we are calling only one function:
 liver <- liver %>%
            DoSomething(param1 = TRUE, param2 = 0.3)
 ```
+
+Recently, base `R` added its own pipe operator `|>`. This does essentially the
+same operation, with different behavior only in a few somewhat rare 
+instances. You can read more about the differences between
+`%>%` and `|>` at the 
+[this link](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/).
 
 In this lesson (and elsewhere in the course) we may alternate between
 these slightly different coding styles. Please ask us for clarification
