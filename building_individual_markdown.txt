@@ -2,3 +2,6 @@ Enter an R session
 
 > library(rmarkdown)
 > rmarkdown::render("filename", output_format = md_document(), output_dir = '_episodes')
+
+To make a lesson and convert form Rmd to md:
+From terminal: make lesson-md
