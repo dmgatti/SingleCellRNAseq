@@ -33,6 +33,20 @@ data_dir <- '../data'
 
 
 
+
+~~~
+ls()
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] "args"     "counts"   "data_dir" "dest_md"  "metadata" "op"       "src_rmd" 
+~~~
+{: .output}
+
+
 <img src="../fig/single_cell_flowchart_0.png" width="800px" alt="Single Cell Flowchart" >
 
 ## Quality control in scRNA-seq
@@ -85,8 +99,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   8111351  433.2   14166592  756.6  11252368  601.0
-Vcells 181808817 1387.1  436713388 3331.9 436709913 3331.9
+Ncells   8111920  433.3   14166630  756.6  11252414  601.0
+Vcells 181810083 1387.2  436714908 3331.9 436711180 3331.9
 ~~~
 {: .output}
 
@@ -341,8 +355,8 @@ gc()
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   8269315  441.7   14166592  756.6  12309998  657.5
-Vcells 182529984 1392.6  596761613 4553.0 629553039 4803.2
+Ncells   8269347  441.7   14166630  756.6  12310030  657.5
+Vcells 182530067 1392.6  596761709 4553.0 629553095 4803.2
 ~~~
 {: .output}
 
