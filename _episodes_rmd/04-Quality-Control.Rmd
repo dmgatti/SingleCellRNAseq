@@ -26,13 +26,13 @@ suppressPackageStartupMessages(library(Matrix))
 suppressPackageStartupMessages(library(SingleCellExperiment))
 suppressPackageStartupMessages(library(scds))
 suppressPackageStartupMessages(library(Seurat))
+data_dir <- '../data'
 ```
 
 
 ```{r load_data,include=FALSE}
 # Only needed to build lessons.
 # Don't use in course.
-data_dir <- '../data'
 load(file.path(data_dir, 'lesson03.Rdata'))
 ```
 
