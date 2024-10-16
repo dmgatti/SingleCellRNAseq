@@ -29,6 +29,10 @@ suppressPackageStartupMessages(library(Seurat))
 data_dir <- '../data'
 ```
 
+```{r test_chunk}
+dir(data_dir)
+```
+
 
 ```{r load_data,include=FALSE}
 # Only needed to build lessons.

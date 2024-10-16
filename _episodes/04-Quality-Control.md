@@ -31,6 +31,29 @@ data_dir <- '../data'
 {: .language-r}
 
 
+~~~
+dir(data_dir)
+~~~
+{: .language-r}
+
+
+
+~~~
+ [1] "lesson03.Rdata"                                
+ [2] "lesson03_challenge.Rdata"                      
+ [3] "lesson04.rds"                                  
+ [4] "lesson05.Rdata"                                
+ [5] "lesson05.rds"                                  
+ [6] "mouseStSt_exvivo"                              
+ [7] "mouseStSt_exvivo.zip"                          
+ [8] "mouseStSt_invivo"                              
+ [9] "mouseStSt_invivo.zip"                          
+[10] "regev_lab_cell_cycle_genes_mm.fixed.txt"       
+[11] "regev_lab_cell_cycle_genes_mm.fixed.txt_README"
+~~~
+{: .output}
+
+
 
 
 <img src="../fig/single_cell_flowchart_0.png" width="800px" alt="Single Cell Flowchart" >
@@ -85,8 +108,8 @@ doublet_preds <- colData(sce)
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   8111351  433.2   14166592  756.6  11252362  601.0
-Vcells 181808817 1387.1  436713378 3331.9 436709905 3331.9
+Ncells   8111953  433.3   14168290  756.7  11252398  601.0
+Vcells 181810210 1387.2  436715070 3331.9 436711315 3331.9
 ~~~
 {: .output}
 
@@ -341,8 +364,8 @@ gc()
 
 ~~~
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells   8269310  441.7   14166592  756.6  12309993  657.5
-Vcells 182529992 1392.6  596761613 4553.0 629553055 4803.2
+Ncells   8269380  441.7   14168290  756.7  12310063  657.5
+Vcells 182530194 1392.6  596761865 4553.0 629553222 4803.2
 ~~~
 {: .output}
 
