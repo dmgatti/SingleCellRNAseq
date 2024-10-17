@@ -1,0 +1,9 @@
+`make commands` prints all the make commands you can run
+
+I changed bin/knit_lessons.sh so that `make lesson-md`
+(and `make site`) only re-knit markdowns for which the RMD file
+has changed since last knit (i.e. RMD newer than MD).
+
+Could add `--verbose --incremental`
+after `${JEKYLL} serve` and `${JEKYLL} build`
+but I don't think this is needed after my knit_lessons.sh modification.
