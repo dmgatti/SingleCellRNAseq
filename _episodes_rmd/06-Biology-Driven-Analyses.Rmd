@@ -15,7 +15,7 @@ keypoints:
 
 ---
 
-```{r, include=FALSE}
+```{r libs1, include=FALSE}
 source("../bin/chunk-options.R")
 knitr_fig_path("06-")
 
@@ -27,6 +27,23 @@ suppressPackageStartupMessages(library(enrichR))
 
 data_dir <- '../data'
 ```
+```{r libs2, include=TRUE, eval=FALSE}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(Seurat))
+suppressPackageStartupMessages(library(harmony))
+suppressPackageStartupMessages(library(DESeq2))
+suppressPackageStartupMessages(library(enrichR))
+
+data_dir <- 'data'
+```
+
+If you want, install the `presto` package to speed up looking for 
+marker genes:
+```{r presto, eval=FALSE}
+install.packages('remotes')
+remotes::install_github("immunogenomics/presto")
+```
+
 
 ```{r seed}
 # set a seed for reproducibility in case any randomness used below
@@ -217,7 +234,7 @@ table(liver$before_harmony_clusters,
       liver$after_harmony_clusters)[c('13', '21'), ]
 ```
 
-These cells are nearly *all* in one new cluster. This cluster
+These cells are nearly *all* in one new cluster, cluster 7. This cluster
 exclusively expresses the B cell gene Cd79a, suggesting that the
 harmony batch correction has accomplished the task that we had hoped.
 
@@ -252,22 +269,28 @@ Don't worry about how we got this list of genes for now.
 
 ```{r renaming_clusters}
 genes <- c('Socs3', 'Gnmt', 'Timd4', 'Ms4a4b', 'S100a4',
-           'Adgrg6', 'Cd79a', 'Dck', 'Siglech', 'Dcn', 
+           'Adgrg6', 'Cd79a', 'Siglech', 'Dcn', 
            'Wdfy4', 'Vwf', 'Spp1', 'Hdc')
 Idents(liver) <- 'after_harmony_clusters'
 a <- AverageExpression(liver, features = genes)[['RNA']]
-highest_clu <- unname(colnames(a))[apply(a, 1, which.max)]
+highest_clu <- colnames(a)[apply(a[genes, ], 1, which.max)]
 
-cluster_converter <- setNames(paste0('c', c(0:1, 3:14)), highest_clu)
-remaining_clusters <- setdiff(as.character(unique(Idents(liver))),
+cluster_converter <- setNames(paste0('c', c(0:1, 3:7, 9:14)), highest_clu)
+remaining_clusters <- setdiff(paste0('g', as.character(unique(Idents(liver)))),
                               highest_clu)
-a <- AverageExpression(subset(liver, idents = remaining_clusters),
-                       features = c("Lyve1", "Cd5l"))[['RNA']]
+a <- AverageExpression(subset(liver, 
+                              idents = gsub("g", '', remaining_clusters)),
+                       features = c("Lyve1", "Cd5l", 'Igfbp6'))[['RNA']]
 highest_clu <- unname(colnames(a))[apply(a, 1, which.max)]
-cluster_converter[highest_clu] <- c('c2', 'c15')
+cluster_converter[highest_clu] <- c('c15', 'c2', 'c8')
 
-liver$renamed_clusters <- cluster_converter[as.character(liver$after_harmony_clusters)]
+liver$renamed_clusters <- unname(cluster_converter[paste0('g', as.character(liver$after_harmony_clusters))])
 Idents(liver) <- 'renamed_clusters'
+```
+```{r, include = FALSE}
+# g14 = c15
+# g3 = c2
+# g15 = is a new pop, but label as c8.
 ```
 
 ## Finding marker genes 
@@ -398,13 +421,19 @@ group_by(markers, cluster) %>%
 ```
 
 Recognizing these genes might be a big challenge if you are not used to looking 
-at single cell gene expression. Let's check out expression of the very top genes
-in each cell cluster:
+at single cell gene expression. Let's check out expression of some top genes
+in each cell cluster. These genes were previously identified as the top
+marker for similar clusters in a previous version of Seurat. The list of
+genes is no longer identical, however all of these genes are among
+the top markers:
 
 ```{r top_markers2, fig.width = 8, fig.height = 10}
-top_markers <- group_by(markers, cluster) %>% 
-                 arrange(desc(avg_log2FC)) %>%
-                 top_n(1, avg_log2FC) %>% pull(gene)
+# top_markers <- group_by(markers, cluster) %>% 
+#                  arrange(desc(avg_log2FC)) %>%
+#                  top_n(1, avg_log2FC) %>% pull(gene)
+top_markers <- c("S100a9", "Dcn", "Spp1", "Igkc", "Ccl5", "Rspo3", "Siglech", 
+               "Fabp1", "Cst3", "Lyz2", "Ly6a", "Clec4f", "Cd5l", "Kdr", "Clec4g")
+
 VlnPlot(liver, features = top_markers, stack = TRUE, flip = TRUE)
 ```
 
@@ -512,25 +541,19 @@ VlnPlot(liver, features = specific_markers, stack = TRUE, flip = TRUE)
 ```
 
 This looks better -- the markers are more specific.
-We do have a marker for the hepatocytes (cluster c1) that looks better
-than before. However, this gene -- *Inmt* -- does not seem to be a very
-good hepatocyte marker according to the literature. Thus our filter
-to remove non-specific markers may have gotten rid of most of the 
-strongly hepatocyte-specific gene expression. 
 
 In this violin plot we do have
 some instances where a marker seems to be specific to two or three cell
-clusters (e.g. Vsig4, Stab2, etc).
+clusters (e.g. Vsig4).
 
-Stab2 is marking the endothelial cells we already identified (or at least
-some of them). Let's look at Vsig4:
+Let's try to figure out what is going on with Vsig4:
 
 ```{r vsig4}
 FeaturePlot(liver, "Vsig4", cols = c('lightgrey', 'red'), label = TRUE,
             label.size = 6)
 ```
 
-This is marking clusters c3, c8, and c15.
+This is marking clusters c3 and c15.
 Clusters c3 and c8 are very near each other. Vsig4 is an immune
 protein (V-set and immunoglobulin domain containing 4).
 The protein
@@ -571,7 +594,8 @@ labels <- tibble(cluster_num = unique(liver$renamed_clusters)) %>%
                  cluster_num == 'c15' ~ 'KH doub.',          # Kupffer-hepatocyte doublets
                  TRUE ~ cluster_num))
 
-liver$labels <- deframe(labels)[as.character(liver$renamed_clusters)]
+liver$labels <- data.frame(label = deframe(labels)[as.character(liver$renamed_clusters)],
+                           row.names = Cells(liver))
 UMAPPlot(liver, label = TRUE, label.size = 6, group.by = 'labels') + NoLegend()
 ```
 
@@ -619,7 +643,9 @@ labels <- tibble(cluster_num = unique(liver$labels)) %>%
                  cluster_num == 'c13' ~ 'cholangiocytes',
                  TRUE ~ cluster_num))
 
-liver$labels <- deframe(labels)[as.character(liver$labels)]
+liver$labels <- data.frame(label = deframe(labels)[as.character(liver$labels)],
+                           row.names = Cells(liver))
+  
 ```
 
 ## Comparing cell types to original paper
@@ -655,7 +681,7 @@ the author's annotation and our annotation.
 annot %>% 
   dplyr::count(our_annot, annot) %>% 
   pivot_wider(names_from = our_annot, values_from = n, values_fill = 0) %>%
-  kable()
+  knitr::kable()
 ```
 
 Many of the annotations that we found match what the authors found! This is
@@ -685,7 +711,7 @@ test could look by making up a fake experimental factor.
 ```{r fake, fig.height = 4.5, fig.width = 10}
 libraries <- unique(liver$sample)
 treatment_group <- setNames(c(rep('control', 5), rep('drug', 4)), libraries)
-liver$trt <- treatment_group[liver$sample]
+liver$trt <- data.frame(grp = treatment_group[liver$sample], row.names = Cells(liver))
 
 hepatocytes <- subset(liver, labels == "hepatocytes")
 Idents(hepatocytes) <- "trt"
