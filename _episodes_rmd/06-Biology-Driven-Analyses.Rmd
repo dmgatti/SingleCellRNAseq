@@ -544,22 +544,25 @@ This looks better -- the markers are more specific.
 
 In this violin plot we do have
 some instances where a marker seems to be specific to two or three cell
-clusters (e.g. Vsig4).
+clusters (e.g. Lyve1).
 
-Let's try to figure out what is going on with Vsig4:
+In an older version of Seurat the gene Vsig4 was
+also picked out. Let's try to figure out what is going on with Vsig4:
 
 ```{r vsig4}
 FeaturePlot(liver, "Vsig4", cols = c('lightgrey', 'red'), label = TRUE,
             label.size = 6)
 ```
 
-This is marking clusters c3 and c15.
-Clusters c3 and c8 are very near each other. Vsig4 is an immune
+This is marking clusters c3 and a small cluster 
+that may be labeled as c15
+(or may be part of c11).
+Vsig4 is an immune
 protein (V-set and immunoglobulin domain containing 4).
 The protein
 [is expressed](https://www.proteinatlas.org/ENSG00000155659-VSIG4/tissue)
 selectively in -- among other cell types -- Kupffer cells,
-which are the resident macrophages in the liver. Clusters c3 and c8 may be
+which are the resident macrophages in the liver. Cluster c3 may be
 Kupffer cells. Let's check a famous macrophage marker,
 F4/80 (gene name Adgre1):
 
@@ -568,14 +571,16 @@ FeaturePlot(liver, "Adgre1", cols = c('lightgrey', 'red'), label = TRUE,
             label.size = 6)
 ```
 
-Cluster c15 expresses *Adgre1* but is near the hepatocyte cluster
+Cluster c15 (if it exists)
+expresses *Adgre1* but is near the hepatocyte cluster
 we just discussed. In fact it is located between the hepatocyte and
 Kupffer cell clusters. Cluster c15 might represent hepatocyte-Kupffer cell
 doublets. Consistent with this theory, cluster c15 has intermediate expression
 of Kupffer cell-specific *Adgre1* and hepatocyte-specific *Fabp1*.
 
 ```{r doublets, fig.width = 8, fig.height = 4}
-VlnPlot(liver, c("Adgre1", "Fabp1"), idents = c('c3', 'c15', 'c1'), sort = T)
+VlnPlot(liver, c("Adgre1", "Fabp1"), idents = c('c3', 'c15', 'c11', 'c1'), 
+        sort = T, pt.size = 0)
 ```
 
 Let's store our labels and look at what remains unidentified.
